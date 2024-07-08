@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
 
 const Background = ({ children }: { children?: React.ReactNode; }) => {
-    const [pointerPos, setPointerPos] = useState({ x: window.innerWidth / 2, y: window.innerWidth / 2 });
+    const [pointerPos, setPointerPos] = useState({ x: 0, y: 0 });
 
     const handleMouseMove = (e) => {
         setPointerPos({
@@ -14,7 +14,10 @@ const Background = ({ children }: { children?: React.ReactNode; }) => {
 
     useEffect(() => {
         window.addEventListener("mousemove", handleMouseMove);
-
+        setPointerPos({
+            x: window.innerWidth / 2,
+            y: window.innerHeight / 2,
+        });
         return () => {
             window.removeEventListener("mousemove", handleMouseMove);
         };
@@ -29,11 +32,6 @@ const Background = ({ children }: { children?: React.ReactNode; }) => {
 
             <motion.div
                 className='absolute pointer-events-none w-[200vw] h-[200vw] dark:bg-black bg-white -translate-x-1/2 -translate-y-1/2 [mask-image:radial-gradient(ellipse_at_center,transparent_5%,black_30%,black)]'
-                initial={{
-                    opacity: 0,
-                }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1 }}
                 style={{
                     left: `${pointerPos.x}px`,
                     top: `${pointerPos.y}px`,
