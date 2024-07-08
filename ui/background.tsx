@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 const Background = ({ children }: { children?: React.ReactNode; }) => {
     const [pointerPos, setPointerPos] = useState({ x: 0, y: 0 });
 
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: { clientX: any; clientY: any; }) => {
         setPointerPos({
             x: e.clientX,
             y: e.clientY,
