@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cn } from "@/utils/cn";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -16,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className + ' dark'}>{children}</body>
+      <body className={cn(inter.className, 'dark')}>{children}</body>
     </html>
   );
 }

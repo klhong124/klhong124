@@ -8,7 +8,6 @@ export const Background = ({
 }: {
     children: React.ReactNode;
     className?: string;
-    containerClassName?: string;
 }) => {
 
     function handleMouseMove({
@@ -31,14 +30,14 @@ export const Background = ({
 
     const maskImageStyle = useMotionTemplate`
         radial-gradient(
-            200px circle at ${mouseX}px ${mouseY}px,
+            300px circle at ${mouseX}px ${mouseY}px,
             black 0%,
             transparent 100%
         )
     `;
 
     return (
-        <div
+        <section
             className=
             "relative h-screen flex items-center bg-white dark:bg-black justify-center w-full group"
             onMouseMove={handleMouseMove}
@@ -49,7 +48,7 @@ export const Background = ({
 
             {/* Highlight */}
             <motion.div
-                className="pointer-events-none bg-dot-indigo-500 dark:bg-dot-emerald-700   absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100"
+                className="pointer-events-none bg-dot-indigo-300 dark:bg-dot-emerald-900 absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100"
                 style={{
                     WebkitMaskImage: maskImageStyle,
                     maskImage: maskImageStyle,
@@ -67,7 +66,7 @@ export const Background = ({
             />
 
             <div className={cn("relative z-20", className)}>{children}</div>
-        </div>
+        </section>
     );
 };
 

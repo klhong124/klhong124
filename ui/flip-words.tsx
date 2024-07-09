@@ -41,7 +41,7 @@ export default function FlipWords({
         setIsAnimating(false);
       }}
     >
-      <motion.span
+      <motion.div
         initial={{
           opacity: 0,
         }}
@@ -57,11 +57,9 @@ export default function FlipWords({
         exit={{
           opacity: 0,
           filter: "blur(12px)",
-          scale: 1.5,
-          position: "absolute",
         }}
         className={cn(
-          "z-10 inline-block relative text-left",
+          "inline-block text-left absolute ml-2",
           className
         )}
         key={currentWord}
@@ -71,8 +69,8 @@ export default function FlipWords({
 
           // ease out the animation
           const reverseIndex = currentWord.length - index - 1;
-          const opacity = [0.6, 0.7, 0.8, 0.9]
-          const blur = [2, 1.5, 1, 0.5]
+          const opacity = [0.7, 0.75, 0.8, 0.85, 0.9]
+          const blur = [1, 0.8, 0.6, 0.4, 0.2]
           const blurAmount = blur[reverseIndex] || 0;
           const opacityAmount = opacity[reverseIndex] || 1;
 
@@ -95,13 +93,14 @@ export default function FlipWords({
                 delay: index * 0.05,
                 duration: 0.3,
               }}
-              className="inline-block"
+              className="inline-block "
             >
               {letter}
             </motion.span>
           );
         })}
-      </motion.span>
+      </motion.div>
+
     </AnimatePresence>
   );
 };
