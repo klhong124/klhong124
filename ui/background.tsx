@@ -1,44 +1,72 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import { motion } from "framer-motion";
+import { cn } from "@/utils/cn";
+import { motion, useMotionTemplate, useSpring } from "framer-motion";
 
-const Background = ({ children }: { children?: React.ReactNode; }) => {
-    const [pointerPos, setPointerPos] = useState({ x: 0, y: 0 });
+export const Background = ({
+    children,
+    className,
+}: {
+    children: React.ReactNode;
+    className?: string;
+    containerClassName?: string;
+}) => {
 
-    const handleMouseMove = (e: { clientX: any; clientY: any; }) => {
-        setPointerPos({
-            x: e.clientX,
-            y: e.clientY,
-        });
+    function handleMouseMove({
+        currentTarget,
+        clientX,
+        clientY,
+    }: React.MouseEvent<HTMLDivElement>) {
+        if (!currentTarget) return;
+        let { left, top } = currentTarget.getBoundingClientRect();
+
+        mouseX.set(clientX - left);
+        mouseY.set(clientY - top);
+    }
+    const useSpringConfig = {
+        stiffness: 400,
+        damping: 20,
     };
+    const mouseX = useSpring(window.innerWidth / 2, useSpringConfig);
+    const mouseY = useSpring(window.innerHeight / 2, useSpringConfig);
 
-    useEffect(() => {
-        window.addEventListener("mousemove", handleMouseMove);
-        setPointerPos({
-            x: window.innerWidth / 2,
-            y: window.innerHeight / 2,
-        });
-        return () => {
-            window.removeEventListener("mousemove", handleMouseMove);
-        };
-    }, []);
+    const maskImageStyle = useMotionTemplate`
+        radial-gradient(
+            200px circle at ${mouseX}px ${mouseY}px,
+            black 0%,
+            transparent 100%
+        )
+    `;
 
     return (
-        <div className="h-screen w-full dark:bg-black bg-white  dark:bg-dot-white/[0.3] bg-dot-black/[0.3] relative flex items-center justify-center overflow-hidden"
+        <div
+            className=
+            "relative h-screen flex items-center bg-white dark:bg-black justify-center w-full group"
+            onMouseMove={handleMouseMove}
         >
-            <div className="z-10">
-                {children}
-            </div>
+            <div className="absolute inset-0 bg-dot-thick-neutral-300 dark:bg-dot-thick-neutral-800  pointer-events-none" />
+            {/* Radial gradient for the container to give a faded look */}
+            <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
 
+            {/* Highlight */}
             <motion.div
-                className='absolute pointer-events-none w-[200vw] h-[200vw] dark:bg-black bg-white -translate-x-1/2 -translate-y-1/2 [mask-image:radial-gradient(ellipse_at_center,transparent_5%,black_30%,black)]'
+                className="pointer-events-none bg-dot-indigo-500 dark:bg-dot-emerald-700   absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100"
                 style={{
-                    left: `${pointerPos.x}px`,
-                    top: `${pointerPos.y}px`,
+                    WebkitMaskImage: maskImageStyle,
+                    maskImage: maskImageStyle,
                 }}
+                initial={{
+                    opacity: 0,
+                }}
+                animate={{
+                    opacity: 1,
+                }}
+                transition={{
+                    duration: 1,
+                }}
+
             />
 
-
+            <div className={cn("relative z-20", className)}>{children}</div>
         </div>
     );
 };
