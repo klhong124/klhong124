@@ -1,6 +1,7 @@
 "use client";
 import { cn } from "@/utils/cn";
 import { motion, useMotionTemplate, useSpring } from "framer-motion";
+import { useEffect } from "react";
 
 export const Background = ({
     children,
@@ -25,8 +26,8 @@ export const Background = ({
         stiffness: 400,
         damping: 20,
     };
-    const mouseX = useSpring(window.innerWidth / 2, useSpringConfig);
-    const mouseY = useSpring(window.innerHeight / 2, useSpringConfig);
+    const mouseX = useSpring(0, useSpringConfig);
+    const mouseY = useSpring(0, useSpringConfig);
 
     const maskImageStyle = useMotionTemplate`
         radial-gradient(
@@ -35,6 +36,11 @@ export const Background = ({
             transparent 100%
         )
     `;
+
+    useEffect(() => {
+        mouseX.set(window.innerWidth / 2);
+        mouseY.set(window.innerHeight / 2);
+    }, []);
 
     return (
         <section
