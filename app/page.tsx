@@ -18,37 +18,37 @@ export default function Home() {
         </div>
       </Background >
       <BentoGrid className="-mt-24">
-        <BentoGridItem span={[2, 4]}>
+        <BentoGridItem id={1}>
           INCREASED PERFORMANCE 146%
         </BentoGridItem>
-        <BentoGridItem span={[2, 2]}>
+        <BentoGridItem id={2}>
           AVAILABLE NOW!
         </BentoGridItem>
-        <BentoGridItem span={[1, 3]}>
+        <BentoGridItem id={3}>
           HI!
         </BentoGridItem>
-        <BentoGridItem span={[1, 3]}>
+        <BentoGridItem id={4}>
           BEST IN CLASS
         </BentoGridItem>
-        <BentoGridItem span={[2, 6]}>
+        <BentoGridItem id={5}>
           100% VECTOR
         </BentoGridItem>
-        <BentoGridItem span={[2, 3]}>
+        <BentoGridItem id={6}>
           DASHBOARD
         </BentoGridItem>
-        <BentoGridItem span={[1, 3]}>
+        <BentoGridItem id={7}>
           NEW!
         </BentoGridItem>
-        <BentoGridItem span={[1, 4]}>
+        <BentoGridItem id={8}>
           DUO TONE COLOR
         </BentoGridItem>
-        <BentoGridItem span={[2, 4]}>
+        <BentoGridItem id={9}>
           ADD TO FAVORITES
         </BentoGridItem>
-        <BentoGridItem span={[1, 3]}>
+        <BentoGridItem id={10}>
           FACE
         </BentoGridItem>
-        <BentoGridItem span={[3, 2]}>
+        <BentoGridItem id={11}>
           PLACE FOR YOUR TEXT
         </BentoGridItem>
       </BentoGrid>

@@ -3,6 +3,19 @@ import React, { useState } from "react";
 import { cn } from "@/utils/cn";
 import { motion } from "framer-motion";
 
+const bentoConfig: { [key: number]: string } = {
+    1: "lg:col-span-2 lg:row-span-4 lg:order-1 md:order-3 md:col-span-4 md:row-span-3 order-3 col-span-4 row-span-1",
+    2: "lg:col-span-2 lg:row-span-2 lg:order-2 md:order-5 md:col-span-4 md:row-span-2 order-5 col-span-6 row-span-1",
+    3: "lg:col-span-1 lg:row-span-3 lg:order-3 md:order-7 md:col-span-3 md:row-span-2 order-8 col-span-3 row-span-1",
+    4: "lg:col-span-1 lg:row-span-3 lg:order-4 md:order-8 md:col-span-3 md:row-span-2 order-9 col-span-3 row-span-1",
+    5: "lg:col-span-2 lg:row-span-6 lg:order-5 md:order-4 md:col-span-6 md:row-span-4 order-6 col-span-6 row-span-2",
+    6: "lg:col-span-2 lg:row-span-3 lg:order-6 md:order-9 md:col-span-5 md:row-span-2 order-7 col-span-6 row-span-1",
+    7: "lg:col-span-1 lg:row-span-3 lg:order-7 md:order-2 md:col-span-3 md:row-span-2 order-2 col-span-3 row-span-1",
+    8: "lg:col-span-1 lg:row-span-4 lg:order-8 md:order-6 md:col-span-4 md:row-span-3 order-4 col-span-2 row-span-1",
+    9: "lg:col-span-2 lg:row-span-4 lg:order-9 md:order-10 md:col-span-5 md:row-span-2 order-10 col-span-6 row-span-1",
+    10: "lg:col-span-1 lg:row-span-3 lg:order-10 md:order-1 md:col-span-3 md:row-span-2 order-1 col-span-3 row-span-1",
+    11: "lg:col-span-3 lg:row-span-2 lg:order-11 md:order-11 md:col-span-10 md:row-span-2 order-11 col-span-6 row-span-1",
+};
 export const BentoGrid = ({
     className,
     children,
@@ -13,7 +26,10 @@ export const BentoGrid = ({
     return (
         <div
             className={cn(
-                "grid grid-cols-6 grid-rows-10 gap-4 container mx-auto",
+                "grid gap-4 container mx-auto",
+                "lg:grid-cols-6 lg:grid-rows-8",
+                "md:grid-cols-10 md:grid-rows-12 md:px-0",
+                "grid-cols-6 grid-rows-12 px-2",
                 className
             )}
         >
@@ -25,11 +41,11 @@ export const BentoGrid = ({
 export const BentoGridItem = ({
     children,
     className,
-    span,
+    id
 }: {
     children: React.ReactNode;
     className?: string;
-    span: number[];
+    id: number;
 }) => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [isHovering, setIsHovering] = useState(false);
@@ -57,7 +73,7 @@ export const BentoGridItem = ({
             }}
             className={cn(
                 "mx-auto w-full bg-indigo-800  relative rounded-2xl overflow-hidden",
-                `col-span-${span[0]} row-span-${span[1]}`,
+                bentoConfig[id],
                 className
             )}
         >
