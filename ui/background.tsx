@@ -23,8 +23,8 @@ export const Background = ({
         mouseY.set(clientY - top);
     }
     const useSpringConfig = {
-        stiffness: 400,
-        damping: 20,
+        stiffness: 200,
+        damping: 10,
     };
     const mouseX = useSpring(0, useSpringConfig);
     const mouseY = useSpring(0, useSpringConfig);
