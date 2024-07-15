@@ -1,8 +1,10 @@
 import FlipWords from "@/ui/flip-words";
 import Background from "@/ui/background";
 import Highlight from "@/ui/highlight";
-import BentoGrid, { BentoGridItem } from "@/ui/bento-grid";
-import { CardDemo } from "@/ui/card";
+import BentoGrid, { BentoGridItem as GridItem } from "@/ui/bento/grid";
+import { CardDemo } from "@/ui/bento/items/card";
+import TechBoard from "@/ui/bento/items/tech-board";
+import ComingSoon from "@/ui/bento/items/coming-soon";
 export default function Home() {
 
   return (
@@ -19,38 +21,39 @@ export default function Home() {
         </div>
       </Background >
       <BentoGrid className="-mt-24">
-        <BentoGridItem id={1}>
-          COMING SOON... 1
-        </BentoGridItem>
-        <BentoGridItem id={2}>
-          COMING SOON... 2
-        </BentoGridItem>
-        <BentoGridItem id={3}>
-          COMING SOON...3
-        </BentoGridItem>
-        <BentoGridItem id={4}>
+        <GridItem id={1}>
+          <ComingSoon/>
+        </GridItem>
+        <GridItem id={2}>
+          <ComingSoon/>
+        </GridItem>
+        <GridItem id={3}>
+          <ComingSoon/>
+        </GridItem>
+        <GridItem id={4}>
           <CardDemo />
-        </BentoGridItem>
-        <BentoGridItem id={5}>
-          COMING SOON...5
-        </BentoGridItem>
-        <BentoGridItem id={6}>
-          COMING SOON...6
-        </BentoGridItem>
-        <BentoGridItem id={7}>
-          COMING SOON...   7     </BentoGridItem>
-        <BentoGridItem id={8}>
-          COMING SOON...8
-        </BentoGridItem>
-        <BentoGridItem id={9}>
-          COMING SOON...9
-        </BentoGridItem>
-        <BentoGridItem id={10}>
-          COMING SOON...10
-        </BentoGridItem>
-        <BentoGridItem id={11}>
-          COMING SOON...11
-        </BentoGridItem>
+        </GridItem>
+        <GridItem id={5}>
+          <TechBoard />
+        </GridItem>
+        <GridItem id={6}>
+          <ComingSoon/>
+        </GridItem>
+        <GridItem id={7}>
+          <ComingSoon/>
+        </GridItem>
+        <GridItem id={8}>
+          <ComingSoon/>
+        </GridItem>
+        <GridItem id={9}>
+          <ComingSoon/>
+        </GridItem>
+        <GridItem id={10}>
+          <ComingSoon/>
+        </GridItem>
+        <GridItem id={11}>
+          <ComingSoon/>
+        </GridItem>
       </BentoGrid>
     </>
   );

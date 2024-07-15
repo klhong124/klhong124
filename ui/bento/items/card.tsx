@@ -147,7 +147,7 @@ export const Card = ({
     return (
         <div
             className={cn(
-                "h-full max-w-sm w-full mx-auto rounded-xl",
+                "h-full max-w-sm w-full mx-auto rounded-xl p-6",
                 className
             )}
         >
