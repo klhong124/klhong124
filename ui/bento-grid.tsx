@@ -16,6 +16,7 @@ const bentoConfig: { [key: number]: string } = {
     10: "lg:col-span-1 lg:row-span-3 lg:order-10 md:order-1 md:col-span-3 md:row-span-2 order-1 col-span-3 row-span-1",
     11: "lg:col-span-3 lg:row-span-2 lg:order-11 md:order-11 md:col-span-10 md:row-span-2 order-11 col-span-6 row-span-1",
 };
+
 export const BentoGrid = ({
     className,
     children,
@@ -26,10 +27,10 @@ export const BentoGrid = ({
     return (
         <div
             className={cn(
-                "grid gap-4 container mx-auto",
-                "lg:grid-cols-6 lg:grid-rows-8",
-                "md:grid-cols-10 md:grid-rows-12 md:px-0",
-                "grid-cols-6 grid-rows-12 px-2",
+                "grid gap-4 mx-auto p-8",
+                "lg:grid-cols-6 lg:grid-rows-10 lg:h-screen",
+                "md:grid-cols-10 md:grid-rows-12 md:p-4",
+                "grid-cols-6 grid-rows-12 p-2",
                 className
             )}
         >
@@ -72,7 +73,7 @@ export const BentoGridItem = ({
                 transition: "transform 0.3s ease-out",
             }}
             className={cn(
-                "mx-auto w-full bg-indigo-800  relative rounded-2xl overflow-hidden",
+                "mx-auto w-full bg-black  relative rounded-2xl overflow-hidden",
                 bentoConfig[id],
                 className
             )}
@@ -91,7 +92,9 @@ export const BentoGridItem = ({
                             : "translate3d(0px, 0px, 0) scale3d(1, 1, 1)",
                         transition: "transform 0.3s ease-out",
                     }}
-                    className={cn("h-full px-4 py-20 sm:px-10")}
+                    className={cn(
+                        "h-full p-6 border border-[rgba(255,255,255,0.10)] dark:bg-[rgba(40,40,40,0.70)] bg-gray-100 shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] group",
+                    )}
                 >
                     {children}
                 </motion.div>

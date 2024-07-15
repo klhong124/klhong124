@@ -1,4 +1,4 @@
-import { sm, md, lg, xl, _2xl, generateClass } from '@/utils/cn';
+import { sm, md, lg, xl, _2xl, dark, generateClass } from '@/utils/cn';
 
 describe('Utility class generator functions', () => {
   test('sm function should prepend "sm:" to class names', () => {
@@ -17,8 +17,12 @@ describe('Utility class generator functions', () => {
     expect(xl('col-span-2', 'order-1')).toBe('xl:col-span-2 xl:order-1');
   });
 
-  test('_2xl function should prepend "_2xl:" to class names', () => {
-    expect(_2xl('col-span-2', 'order-1')).toBe('_2xl:col-span-2 _2xl:order-1');
+  test('_2xl function should prepend "2xl:" to class names', () => {
+    expect(_2xl('col-span-2', 'order-1')).toBe('2xl:col-span-2 2xl:order-1');
+  });
+
+  test('dark function should prepend "dark:" to class names', () => {
+    expect(dark('col-span-2', 'order-1')).toBe('dark:col-span-2 dark:order-1');
   });
 
   describe('generateClass function', () => {

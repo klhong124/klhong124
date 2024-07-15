@@ -2,6 +2,7 @@ import FlipWords from "@/ui/flip-words";
 import Background from "@/ui/background";
 import Highlight from "@/ui/highlight";
 import BentoGrid, { BentoGridItem } from "@/ui/bento-grid";
+import { CardDemo } from "@/ui/card";
 export default function Home() {
 
   return (
@@ -19,37 +20,36 @@ export default function Home() {
       </Background >
       <BentoGrid className="-mt-24">
         <BentoGridItem id={1}>
-          INCREASED PERFORMANCE 146%
+          COMING SOON... 1
         </BentoGridItem>
         <BentoGridItem id={2}>
-          AVAILABLE NOW!
+          COMING SOON... 2
         </BentoGridItem>
         <BentoGridItem id={3}>
-          HI!
+          COMING SOON...3
         </BentoGridItem>
         <BentoGridItem id={4}>
-          BEST IN CLASS
+          <CardDemo />
         </BentoGridItem>
         <BentoGridItem id={5}>
-          100% VECTOR
+          COMING SOON...5
         </BentoGridItem>
         <BentoGridItem id={6}>
-          DASHBOARD
+          COMING SOON...6
         </BentoGridItem>
         <BentoGridItem id={7}>
-          NEW!
-        </BentoGridItem>
+          COMING SOON...   7     </BentoGridItem>
         <BentoGridItem id={8}>
-          DUO TONE COLOR
+          COMING SOON...8
         </BentoGridItem>
         <BentoGridItem id={9}>
-          ADD TO FAVORITES
+          COMING SOON...9
         </BentoGridItem>
         <BentoGridItem id={10}>
-          FACE
+          COMING SOON...10
         </BentoGridItem>
         <BentoGridItem id={11}>
-          PLACE FOR YOUR TEXT
+          COMING SOON...11
         </BentoGridItem>
       </BentoGrid>
     </>

@@ -3,6 +3,22 @@ import { animate, motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { cn } from "@/utils/cn";
 
+
+export function CardDemo() {
+    return (
+        <Card>
+            <CardSkeletonContainer>
+                <Skeleton />
+            </CardSkeletonContainer>
+            <CardTitle>Damn good card</CardTitle>
+            <CardDescription>
+                A card that showcases a set of tools that you use to create your
+                product.
+            </CardDescription>
+        </Card>
+    );
+}
+
 const Skeleton = () => {
     const scale = [1, 1.1, 1];
     const transform = ["translateY(0px)", "translateY(-4px)", "translateY(0px)"];
@@ -57,13 +73,13 @@ const Skeleton = () => {
         });
     }, []);
     return (
-        <div className="p-8 overflow-hidden h-full relative flex items-center justify-center">
+        <div className="overflow-hidden h-full relative flex items-center justify-center">
             <div className="flex flex-row flex-shrink-0 justify-center items-center gap-2">
                 <Container className="h-8 w-8 circle-1">
                     <ClaudeLogo className="h-4 w-4 " />
                 </Container>
                 <Container className="h-12 w-12 circle-2">
-                    <GeminiLogo className="h-4 w-4 " />
+                    <OpenAILogo className="h-8 w-8 dark:text-white" />
                 </Container>
                 <Container className="circle-3">
                     <OpenAILogo className="h-8 w-8 dark:text-white" />
@@ -84,6 +100,7 @@ const Skeleton = () => {
         </div>
     );
 };
+
 const Sparkles = () => {
     const randomMove = () => Math.random() * 2 - 1;
     const randomOpacity = () => Math.random();
@@ -130,7 +147,7 @@ export const Card = ({
     return (
         <div
             className={cn(
-                "max-w-sm w-full mx-auto p-8 rounded-xl border border-[rgba(255,255,255,0.10)] dark:bg-[rgba(40,40,40,0.70)] bg-gray-100 shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] group",
+                "h-full max-w-sm w-full mx-auto rounded-xl",
                 className
             )}
         >
@@ -189,7 +206,7 @@ export const CardSkeletonContainer = ({
     return (
         <div
             className={cn(
-                "h-[15rem] md:h-[20rem] rounded-xl z-40",
+                "h-2/3 rounded-xl z-40",
                 className,
                 showGradient &&
                 "bg-neutral-300 dark:bg-[rgba(40,40,40,0.70)] [mask-image:radial-gradient(50%_50%_at_50%_50%,white_0%,transparent_100%)]"
@@ -259,6 +276,7 @@ export const OpenAILogo = ({ className }: { className?: string }) => {
         </svg>
     );
 };
+
 export const GeminiLogo = ({ className }: { className?: string }) => {
     return (
         <svg
@@ -280,9 +298,9 @@ export const GeminiLogo = ({ className }: { className?: string }) => {
                     gradientUnits="userSpaceOnUse"
                     gradientTransform="matrix(16.1326 5.4553 -43.70045 129.2322 1.588 6.503)"
                 >
-                    <stop offset=".067" stop-color="#9168C0" />
-                    <stop offset=".343" stop-color="#5684D1" />
-                    <stop offset=".672" stop-color="#1BA1E3" />
+                    <stop offset=".067" stopColor="#9168C0" />
+                    <stop offset=".343" stopColor="#5684D1" />
+                    <stop offset=".672" stopColor="#1BA1E3" />
                 </radialGradient>
             </defs>
         </svg>
@@ -308,10 +326,10 @@ export const MetaIconOutline = ({ className }: { className?: string }) => {
                     gradientTransform="matrix(1, 0, 0, -1, 0, 192)"
                     gradientUnits="userSpaceOnUse"
                 >
-                    <stop offset="0" stop-color="#0064e1" />
-                    <stop offset="0.4" stop-color="#0064e1" />
-                    <stop offset="0.83" stop-color="#0073ee" />
-                    <stop offset="1" stop-color="#0082fb" />
+                    <stop offset="0" stopColor="#0064e1" />
+                    <stop offset="0.4" stopColor="#0064e1" />
+                    <stop offset="0.83" stopColor="#0073ee" />
+                    <stop offset="1" stopColor="#0082fb" />
                 </linearGradient>
                 <linearGradient
                     id="linear-gradient-2"
@@ -322,8 +340,8 @@ export const MetaIconOutline = ({ className }: { className?: string }) => {
                     gradientTransform="matrix(1, 0, 0, -1, 0, 192)"
                     gradientUnits="userSpaceOnUse"
                 >
-                    <stop offset="0" stop-color="#0082fb" />
-                    <stop offset="1" stop-color="#0064e0" />
+                    <stop offset="0" stopColor="#0082fb" />
+                    <stop offset="1" stopColor="#0064e0" />
                 </linearGradient>
             </defs>
             <path
