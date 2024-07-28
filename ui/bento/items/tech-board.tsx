@@ -54,7 +54,7 @@ export function TechBoard() {
                 }}
             >
                 <motion.div
-                    className="h-full w-full absolute top-0 left-0 "
+                    className="h-full w-full absolute top-0 left-0 border-2 border-dashed border-gray-400"
                     variants={{
                         rest: { opacity: 0 },
                         hover: { opacity: 1 }
@@ -97,7 +97,7 @@ export function Shapes({ isHover, isPress, mouseX, mouseY }: {
 
     return (
         <Canvas shadows dpr={[1, 2]} resize={{ scroll: false, offsetSize: true }}>
-            <ambientLight />
+            <Lights />
 
             <Camera mouseX={mouseX} mouseY={mouseY} />
             <MotionConfig transition={{
@@ -123,14 +123,7 @@ export function Shapes({ isHover, isPress, mouseX, mouseY }: {
 
 export function Lights() {
     return (
-        <>
-            <spotLight color="#61dafb" position={[-10, -10, -10]} intensity={0.2} />
-            <spotLight color="#61dafb" position={[-10, 0, 15]} intensity={0.8} />
-            <spotLight color="#61dafb" position={[-5, 20, 2]} intensity={0.5} />
-            <spotLight color="#f2056f" position={[15, 10, -2]} intensity={2} />
-            <spotLight color="#f2056f" position={[15, 10, 5]} intensity={1} />
-            <spotLight color="#b107db" position={[5, -10, 5]} intensity={0.8} />
-        </>
+        <ambientLight intensity={Math.PI / 2} />
     );
 }
 
@@ -139,9 +132,8 @@ export function Lights() {
 export function Cone() {
     return (
         <motion3d.mesh
-            position={[-0.8, 0.4, 0]}
+            position={[0, 0, 0]}
             rotation={[-0.5, 0, -0.3]}
-
         >
             <coneGeometry args={[0.3, 0.6, 20]} />
             <Material />

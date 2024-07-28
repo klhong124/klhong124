@@ -16,7 +16,7 @@ export default function Home() {
             with <FlipWords className="text-white" />
           </div>
           <div className="mt-2 sm:mt-4">
-            By the power of <Highlight>React</Highlight> <Highlight>Vue</Highlight> <Highlight>GraphQL</Highlight> or more
+            With the power of <Highlight>React</Highlight> <Highlight>Vue</Highlight> <Highlight>GraphQL</Highlight> and more
           </div>
         </div>
       </Background >
