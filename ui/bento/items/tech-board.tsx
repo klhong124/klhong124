@@ -4,6 +4,7 @@ import { cn } from "@/utils/cn";
 import { motion, MotionConfig, useMotionValue, useTransform, useSpring, MotionValue, SpringOptions } from "framer-motion";
 import useMeasure from "react-use-measure";
 import { Canvas, useThree } from "@react-three/fiber";
+import { useGLTF } from '@react-three/drei';
 import { motion as motion3d } from "framer-motion-3d";
 
 
@@ -113,6 +114,7 @@ export function Shapes({ isHover, isPress, mouseX, mouseY }: {
                     }}
                 >
                     <Cone />
+                    <Model />
                 </motion3d.group>
             </MotionConfig>
         </Canvas>
@@ -139,14 +141,7 @@ export function Cone() {
         <motion3d.mesh
             position={[-0.8, 0.4, 0]}
             rotation={[-0.5, 0, -0.3]}
-            variants={{
-                hover: {
-                    z: 1.1,
-                    x: -1.5,
-                    rotateX: -0.2,
-                    rotateZ: 0.4
-                }
-            }}
+
         >
             <coneGeometry args={[0.3, 0.6, 20]} />
             <Material />
@@ -154,6 +149,20 @@ export function Cone() {
     );
 }
 
+export function Model() {
+    const { scene } = useGLTF('/model/vue.gltf');
+
+    return (
+        <motion3d.mesh
+            position={[0, 0, 0]}
+            rotation={[90, 0, 0]}
+        >
+            <primitive object={scene} />
+            <Material />
+
+        </motion3d.mesh>
+    );
+}
 
 export function Material() {
     return <meshPhongMaterial color="#fff" specular="#61dafb" shininess={10} />;
