@@ -1,5 +1,5 @@
 "use client";
-import React, {  useRef, useLayoutEffect } from "react";
+import React, { useRef, useLayoutEffect } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
 import { useGLTF } from '@react-three/drei';
 import { motion } from "framer-motion-3d";
@@ -26,7 +26,7 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
             <MotionConfig transition={{
                 type: "spring",
                 duration: 0.7,
-                bounce: 0.2
+                bounce: 0.5
             }}>
                 <motion.group
                     initial={false}
@@ -36,9 +36,24 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
                         hover: { z: isPress ? -0.9 : 0 }
                     }}
                 >
-                    <Vue />
-                    <ReactIcon />
-                    <GraphQL />
+                    <Icons
+                        gltf="vue"
+                        position={[-1.2, 0.4, 0]}
+                        rotation={[1.5, 0.2, 0]}
+                        animate={{ rotateZ: Math.PI, transition: { duration: 3, repeat: Infinity, repeatType: "loop" } }}
+
+                    />
+                    <Icons
+                        gltf="react"
+                        position={[1.5, 1.5, 1.5]}
+                        rotation={[1.3, 1.2, 0.3]}
+
+                    />
+                    <Icons
+                        gltf="graphql"
+                        position={[-1.5, 1.7, 1.2]}
+                        rotation={[1.6, 0.8, -0.1]}
+                    />
                 </motion.group>
             </MotionConfig>
         </Canvas>
@@ -101,34 +116,12 @@ function Camera({ mouseX, mouseY, ...props }: {
 const spring = { stiffness: 600, damping: 30 };
 
 
-export function Vue() {
-    const { scene } = useGLTF('/model/vue.gltf');
+
+export function Icons({ gltf, ...props }: any) {
+    const { scene } = useGLTF(`/model/${gltf}.gltf`);
     return (
         <motion.mesh
-            position={[-1.2, 0.4, 0]}
-            rotation={[1.5, 0.2, -0.4]}
-        >
-            <motion.primitive object={scene} />
-        </motion.mesh>
-    );
-}
-export function ReactIcon() {
-    const { scene } = useGLTF('/model/react.gltf');
-    return (
-        <motion.mesh
-            position={[1.5, 1.5, 1.5]}
-            rotation={[1.3, 1.2, 0.3]}
-        >
-            <motion.primitive object={scene} />
-        </motion.mesh>
-    );
-}
-export function GraphQL() {
-    const { scene } = useGLTF('/model/graphql.gltf');
-    return (
-        <motion.mesh
-            position={[-1.5, 1.7, 1.2]}
-            rotation={[1.6, 0.8, -0.1]}
+            {...props}
         >
             <motion.primitive object={scene} />
         </motion.mesh>

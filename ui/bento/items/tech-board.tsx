@@ -52,7 +52,7 @@ export function TechBoard() {
                 }}
             >
                 <motion.div
-                    className="h-full w-full absolute top-0 left-0 border-2 border-dashed border-gray-400"
+                    className={cn("h-full w-full absolute top-0 left-0", "border-2 border-dashed border-gray-400")}
                     variants={{
                         rest: { opacity: 0 },
                         hover: { opacity: 1 }
