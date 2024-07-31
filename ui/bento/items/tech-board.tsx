@@ -22,7 +22,7 @@ export function TechBoard() {
         <MotionConfig transition={{
             type: "spring",
             duration: 0.7,
-            bounce: 0.2
+            bounce: 0.2,
         }}>
             <motion.button
                 className={cn("h-full w-full overflow-visible")}
@@ -32,8 +32,8 @@ export function TechBoard() {
                 whileTap="press"
                 variants={{
                     rest: { scale: 1 },
-                    hover: { scale: 1.5 },
-                    press: { scale: 1.4 }
+                    hover: { scale: 1.3 },
+                    press: { scale: 1.2 }
                 }}
                 onHoverStart={() => {
                     resetMousePosition();
@@ -41,7 +41,7 @@ export function TechBoard() {
                 }}
                 onHoverEnd={() => {
                     resetMousePosition();
-                    setIsHover(true);
+                    setIsHover(false);
                 }}
                 onTapStart={() => setIsPress(true)}
                 onTap={() => setIsPress(false)}
@@ -52,7 +52,10 @@ export function TechBoard() {
                 }}
             >
                 <motion.div
-                    className={cn("h-full w-full absolute top-0 left-0", "border-2 border-dashed border-gray-400")}
+                    className={
+                        cn("h-full w-full absolute top-0 left-0",
+                            "")
+                    }
                     variants={{
                         rest: { opacity: 0 },
                         hover: { opacity: 1 }
@@ -68,6 +71,7 @@ export function TechBoard() {
                     </Suspense>
                 </motion.div>
                 <motion.div
+                    className="text-white text-7xl"
                     variants={{ hover: { scale: 0.85 }, press: { scale: 1.1 } }}
                 >
                     Tech
@@ -77,7 +81,6 @@ export function TechBoard() {
     );
 }
 
-const spring = { stiffness: 600, damping: 30 };
 
 
 
