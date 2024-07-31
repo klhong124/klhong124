@@ -121,15 +121,6 @@ const Sparkles = () => {
                         repeat: Infinity,
                         ease: "linear",
                     }}
-                    style={{
-                        position: "absolute",
-                        top: `${random() * 100}%`,
-                        left: `${random() * 100}%`,
-                        width: `2px`,
-                        height: `2px`,
-                        borderRadius: "50%",
-                        zIndex: 1,
-                    }}
                     className="inline-block bg-black dark:bg-white"
                 ></motion.span>
             ))}

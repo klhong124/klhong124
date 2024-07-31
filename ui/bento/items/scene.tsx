@@ -3,9 +3,8 @@ import React, { useRef, useLayoutEffect } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
 import { useGLTF } from '@react-three/drei';
 import { motion } from "framer-motion-3d";
-import { MotionConfig, useTransform, useSpring, MotionValue, SpringOptions } from "framer-motion";
-
-
+import { MotionConfig, useTransform, useSpring, MotionValue, SpringOptions, delay } from "framer-motion";
+import { transform } from "next/dist/build/swc";
 
 function useSmoothTransform(value: MotionValue<number>, springOptions: SpringOptions | undefined, transformer: { (v: any): number; (v: any): number; (x: any): number; (y: any): number; (input: unknown): any; }) {
     return useSpring(useTransform(value, transformer), springOptions);
@@ -38,21 +37,59 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
                 >
                     <Icons
                         gltf="vue"
-                        position={[-1.2, 0.4, 0]}
-                        rotation={[1.5, 0.2, 0]}
-                        animate={{ rotateZ: Math.PI, transition: { duration: 3, repeat: Infinity, repeatType: "loop" } }}
+                        position={[-0.5, -0.4, 3]}
+                        rotation={[Math.PI / 2, Math.PI / 20, -0.8]}
+                        whileHover={{
+                            scale: 1.1,
+                            rotateZ: Math.PI  - 0.8, // Math.PI * number of rounds - the initial rotation degree
+                        }}
+                        transition={{
+                            duration: 0.5,
+                        }}
 
                     />
                     <Icons
                         gltf="react"
                         position={[1.5, 1.5, 1.5]}
-                        rotation={[1.3, 1.2, 0.3]}
+                        rotation={[Math.PI / 2, 0, 0.3]}
+                        whileHover={{
+                            rotateY: Math.PI * 2 * 2,
+                        }}
+                        transition={{
+                            duration: 1,
+                            repeat: Infinity,
+                            repeatType: "loop",
+                            repeatDelay: 3,
+                            delay: 1
+                        }}
+                    />
+                    <Icons
+                        gltf="next"
+                        position={[0.5, -0.5, 3]}
+                        rotation={[Math.PI / 2.5, 0, Math.PI / 6]}
+
+                        whileHover={{
+                            scale: 1.1,
+                            rotateY: -Math.PI / 10,
+
+                        }}
+                        transition={{
+                            duration: 1,
+                            type: "spring",
+                            stiffness: 100,
+                        }}
 
                     />
                     <Icons
                         gltf="graphql"
                         position={[-1.5, 1.7, 1.2]}
-                        rotation={[1.6, 0.8, -0.1]}
+                        rotation={[Math.PI / 2, 0, -0.1]}
+                        whileHover={{
+                            rotateY:1,
+                        }}
+                        transition={{
+                            duration: 1,
+                        }}
                     />
                 </motion.group>
             </MotionConfig>
@@ -107,8 +144,8 @@ function Camera({ mouseX, mouseY, ...props }: {
     return (
         <motion.perspectiveCamera
             ref={cameraRef}
-            fov={90}
-            position={[cameraX, cameraY, 3.8]}
+            fov={0}
+            position={[cameraX, cameraY, 5]}
         />
     );
 }

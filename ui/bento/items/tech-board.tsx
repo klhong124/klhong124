@@ -41,7 +41,7 @@ export function TechBoard() {
                 }}
                 onHoverEnd={() => {
                     resetMousePosition();
-                    setIsHover(false);
+                    setIsHover(true);
                 }}
                 onTapStart={() => setIsPress(true)}
                 onTap={() => setIsPress(false)}
