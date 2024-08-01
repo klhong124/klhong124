@@ -75,6 +75,11 @@ export function TechBoard() {
                     </div>
                 </motion.div>
                 <motion.div
+                    variants={{
+                        hover: {
+                            paddingBottom: "8px",
+                        }
+                    }}
                     className={cn(
                         "w-full px-8",
                         "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",

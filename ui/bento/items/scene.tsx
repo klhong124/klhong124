@@ -47,7 +47,7 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
                         rotation={[Math.PI, -Math.PI / 15, -0.2]}
                         variants={{
                             hover: {
-                                scale: 0.5,
+                                scale: 0.6,
                                 rotateX: Math.PI / 2,
                             },
                         }}
