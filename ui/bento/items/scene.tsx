@@ -55,7 +55,7 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
                     />
                     <Icons
                         gltf="vue"
-                        position={[-1.3, -1.6, 1.5]}
+                        position={[-1.3, -1.8, 1.6]}
                         rotation={[Math.PI / 2, Math.PI / 20, -0.8]}
                         scale={0.5}
                         variants={{
@@ -144,7 +144,7 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
                     <Icons
                         gltf="mongodb"
                         scale={0.5}
-                        position={[-1.1, 2, 0.5]}
+                        position={[-1.2, 1.8, 0]}
                         rotation={[Math.PI / 1.3, Math.PI / 3, Math.PI]}
                         variants={{
                             hover: {
@@ -154,10 +154,10 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
                         }}
                     />
                     <Icons
-                        gltf="framer"
+                        gltf="framer-motion"
                         scale={0.5}
-                        position={[-2.8, 3.1, -1]}
-                        rotation={[Math.PI / 2, Math.PI * 2, 0]}
+                        position={[-0.9, 2.6, 0.7]}
+                        rotation={[Math.PI / 2.1, Math.PI * 2.2, Math.PI]}
                         variants={{
                             hover: {
                                 scale: 1,
@@ -231,7 +231,7 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
                     <Icons
                         gltf="cloud-run"
                         scale={0.5}
-                        position={[-1.5, -1.3, -2]}
+                        position={[-1.5, -1.5, -2]}
                         rotation={[-Math.PI / 1.1, -Math.PI / 3, -Math.PI / 5]}
                         variants={{
                             hover: {
@@ -244,7 +244,7 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
                     <Icons
                         gltf="firebase"
                         scale={0.6}
-                        position={[-2.6, -0.8, -3]}
+                        position={[-2.6, -1, -3]}
                         rotation={[Math.PI / 2.2, -Math.PI / 18, 2]}
                         variants={{
                             hover: {
@@ -256,7 +256,7 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
                     <Icons
                         gltf="illustrator"
                         scale={0.5}
-                        position={[2, -0.5, -3]}
+                        position={[2.5, -0.5, -3]}
                         rotation={[Math.PI, Math.PI / 3, -Math.PI / 6]}
                         variants={{
                             hover: {
@@ -269,7 +269,7 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
                     <Icons
                         gltf="photoshop"
                         scale={0.5}
-                        position={[3, -0.6, -3]}
+                        position={[3.5, -0.6, -3]}
                         rotation={[Math.PI / 1.2, -Math.PI / 4, Math.PI / 5]}
                         variants={{
                             hover: {

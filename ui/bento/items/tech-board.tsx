@@ -25,7 +25,7 @@ export function TechBoard() {
             stiffness: 100,
         }}>
             <motion.button
-                className={cn("h-full w-full overflow-visible relative")}
+                className={cn("h-full w-full overflow-visible relative cursor-default")}
                 ref={ref}
                 animate={isHover ? "hover" : "rest"}
 
@@ -75,13 +75,26 @@ export function TechBoard() {
                     </div>
                 </motion.div>
                 <motion.div
-                    className="w-full px-8 text-white text-5xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                    className={cn(
+                        "w-full px-8",
+                        "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+                        "bg-clip-text text-transparent text-6xl text-center ",
+                    )}
                 >
-                    <span className="text-xl text-gray-300">
+                    <span className={cn(
+                        "text-xl",
+                        "bg-clip-text bg-gradient-to-t from-neutral-300 to-stone-500",
+                    )}>
 
                         Modern Development
-                    </span><br />
-                    TechStack
+                    </span>
+                    <h1 className={cn(
+                        "bg-clip-text bg-gradient-to-b from-slate-300 to-slate-500",
+                        "font-medium tracking-wide",
+                    )}>
+                        TechStack
+                    </h1>
+
                 </motion.div>
             </motion.button>
         </MotionConfig>
