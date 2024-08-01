@@ -191,6 +191,19 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
                         }}
                     />
                     <Icons
+                        gltf="jest"
+                        scale={0.5}
+                        position={[-2.7, -1.3, 1]}
+                        rotation={[Math.PI, 0, 0.2]}
+                        variants={{
+                            hover: {
+                                scale: 1,
+                                rotateY: -Math.PI / 4,
+                                rotateX: Math.PI / 2.1,
+                            },
+                        }}
+                    />
+                    <Icons
                         gltf="python"
                         scale={0.5}
                         position={[-2.8, 0.2, 0]}
@@ -231,7 +244,7 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
                     <Icons
                         gltf="illustrator"
                         scale={0.5}
-                        position={[2, -0.5, -4]}
+                        position={[2, -0.5, -3]}
                         rotation={[Math.PI, Math.PI / 3, -Math.PI / 6]}
                         variants={{
                             hover: {
@@ -244,7 +257,7 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
                     <Icons
                         gltf="photoshop"
                         scale={0.5}
-                        position={[3, -0.6, -4]}
+                        position={[3, -0.6, -3]}
                         rotation={[Math.PI / 1.2, -Math.PI / 4, Math.PI / 5]}
                         variants={{
                             hover: {
@@ -262,7 +275,7 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
 
 export function Lights() {
     return (
-        <motion.ambientLight intensity={Math.PI / 4} />
+        <motion.ambientLight intensity={Math.PI / 3} />
     );
 }
 
