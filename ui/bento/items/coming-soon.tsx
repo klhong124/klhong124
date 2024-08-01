@@ -8,7 +8,7 @@ export function ComingSoon() {
                 className="h-full w-full"
             >
                 <div>
-                    Coming Soon...
+
                 </div>
             </button>
 

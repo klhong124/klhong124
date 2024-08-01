@@ -75,9 +75,13 @@ export function TechBoard() {
                     </div>
                 </motion.div>
                 <motion.div
-                    className="text-white text-7xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                    className="w-full px-8 text-white text-5xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                 >
-                    Tech
+                    <span className="text-xl text-gray-300">
+
+                        Modern Development
+                    </span><br />
+                    TechStack
                 </motion.div>
             </motion.button>
         </MotionConfig>

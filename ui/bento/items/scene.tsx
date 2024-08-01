@@ -44,7 +44,7 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
                         gltf="nuxt"
                         scale={0.2}
                         position={[0.1, 0.5, 3.6]}
-                        rotation={[0, -Math.PI / 15, -0.2]}
+                        rotation={[Math.PI, -Math.PI / 15, -0.2]}
                         variants={{
                             hover: {
                                 scale: 0.5,
@@ -79,10 +79,10 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
                         }}
                     />
                     <Icons
-                        gltf="nodejs"
+                        gltf="typescript"
                         scale={0.5}
                         position={[4.8, 0.5, -3]}
-                        rotation={[Math.PI / 5, -Math.PI / 2, 0.5]}
+                        rotation={[Math.PI / 5, -Math.PI / 2, 1]}
                         variants={{
                             hover: {
                                 scale: 2,
@@ -144,12 +144,24 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
                     <Icons
                         gltf="mongodb"
                         scale={0.5}
-                        position={[-0.9, 1.8, 0.5]}
+                        position={[-1.1, 2, 0.5]}
                         rotation={[Math.PI / 1.3, Math.PI / 3, Math.PI]}
                         variants={{
                             hover: {
                                 scale: 1,
                                 rotateY: Math.PI * 2,
+                            },
+                        }}
+                    />
+                    <Icons
+                        gltf="framer"
+                        scale={0.5}
+                        position={[-2.8, 3.1, -1]}
+                        rotation={[Math.PI / 2, Math.PI * 2, 0]}
+                        variants={{
+                            hover: {
+                                scale: 1,
+                                rotateZ: Math.PI * 2
                             },
                         }}
                     />
@@ -193,7 +205,7 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
                     <Icons
                         gltf="jest"
                         scale={0.5}
-                        position={[-2.7, -1.3, 1]}
+                        position={[-2.6, -1.3, 1]}
                         rotation={[Math.PI, 0, 0.2]}
                         variants={{
                             hover: {
