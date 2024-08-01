@@ -8,7 +8,7 @@ import Scene from "@/ui/bento/items/scene";
 
 export function TechBoard() {
     const [ref, bounds] = useMeasure({ scroll: false });
-    const [isHover, setIsHover] = useState<boolean>(true);
+    const [isHover, setIsHover] = useState<boolean>(false);
     const [isPress, setIsPress] = useState<boolean>(false);
     const mouseX: MotionValue<number> = useMotionValue(0);
     const mouseY: MotionValue<number> = useMotionValue(0);
@@ -25,16 +25,11 @@ export function TechBoard() {
             bounce: 0.2,
         }}>
             <motion.button
-                className={cn("h-full w-full overflow-visible")}
+                className={cn("h-full w-full overflow-visible relative")}
                 ref={ref}
                 initial={false}
                 animate={isHover ? "hover" : "rest"}
-                whileTap="press"
-                variants={{
-                    rest: { scale: 1 },
-                    hover: { scale: 1.3 },
-                    press: { scale: 1.2 }
-                }}
+
                 onHoverStart={() => {
                     resetMousePosition();
                     setIsHover(true);
@@ -53,26 +48,34 @@ export function TechBoard() {
             >
                 <motion.div
                     className={
-                        cn("h-full w-full absolute top-0 left-0",
-                            "")
+                        cn("top-0 bottom-0 left-0 right-0")
                     }
                     variants={{
                         rest: { opacity: 0 },
                         hover: { opacity: 1 }
                     }}
                 >
-                    <Suspense fallback={null}>
-                        <Scene
-                            isHover={isHover}
-                            isPress={isPress}
-                            mouseX={mouseX}
-                            mouseY={mouseY}
-                        />
-                    </Suspense>
+                    <div
+                        className={
+                            cn("w-[calc(100% +480px)] absolute",
+                                "-top-60 -left-60 -bottom-60 -right-60",
+                                "pointer-events-none"
+                            )
+                        }
+                    >
+
+                        <Suspense fallback={null}>
+                            <Scene
+                                isHover={isHover}
+                                isPress={isPress}
+                                mouseX={mouseX}
+                                mouseY={mouseY}
+                            />
+                        </Suspense>
+                    </div>
                 </motion.div>
                 <motion.div
                     className="text-white text-7xl"
-                    variants={{ hover: { scale: 0.85 }, press: { scale: 1.1 } }}
                 >
                     Tech
                 </motion.div>

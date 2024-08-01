@@ -4,6 +4,7 @@ import { Canvas, useThree } from "@react-three/fiber";
 import { useGLTF } from '@react-three/drei';
 import { motion } from "framer-motion-3d";
 import { MotionConfig, useTransform, useSpring, MotionValue, SpringOptions, delay } from "framer-motion";
+import { cn } from "@/utils/cn";
 
 function useSmoothTransform(value: MotionValue<number>, springOptions: SpringOptions | undefined, transformer: { (v: any): number; (v: any): number; (x: any): number; (y: any): number; (input: unknown): any; }) {
     return useSpring(useTransform(value, transformer), springOptions);
@@ -16,14 +17,20 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
     readonly mouseX: MotionValue<number>;
     readonly mouseY: MotionValue<number>;
 }) {
+
     return (
-        <Canvas shadows dpr={[1, 2]} resize={{ scroll: false, offsetSize: true }}>
+        <Canvas
+            shadows
+            dpr={[1, 2]}
+            style={{ pointerEvents: "none" }}
+            resize={{ scroll: false, offsetSize: true }}
+        >
             <Lights />
 
             <Camera mouseX={mouseX} mouseY={mouseY} />
             <MotionConfig transition={{
                 type: "spring",
-                duration: 0.7,
+                duration: 0.5,
                 bounce: 0.5,
                 stiffness: 100,
 
@@ -31,58 +38,78 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
                 <motion.group
                     initial={false}
                     dispose={null}
-
+                    animate={isHover && "hover"}
                 >
                     <Icons
                         gltf="nuxt"
-                        scale={1.8}
-                        position={[0, 3, -1]}
-                        rotation={[Math.PI / 2, -Math.PI / 19, -0.2]}
-                        whileHover={{
-                            scale: 1.9,
-                            rotateY: -Math.PI / 15,
+                        scale={0.5}
+                        position={[0, 1.6, 1.9]}
+                        rotation={[0, -Math.PI / 15, -0.2]}
+                        variants={{
+                            hover: {
+                                scale: 1,
+                                rotateX: Math.PI / 2,
+                            },
                         }}
+
                     />
                     <Icons
                         gltf="vue"
-                        scale={2}
-                        position={[-1.5, -2, 1]}
+                        position={[-1.3, -1.6, 1.5]}
                         rotation={[Math.PI / 2, Math.PI / 20, -0.8]}
-                        whileHover={{
-                            scale: 2.2,
-                            rotateZ: Math.PI - 0.8, // Math.PI * number of rounds - the initial rotation degree
+                        scale={0.5}
+                        variants={{
+                            hover: {
+                                scale: 1.5,
+                                rotateZ: Math.PI - 0.8,
+                            },
                         }}
                     />
                     <Icons
                         gltf="react"
-                        position={[1, 0.8, 2.3]}
+                        scale={0.5}
+                        position={[2.5, 1.8, -1]}
                         rotation={[Math.PI / 1.8, 0, 0.5]}
-                        whileHover={{
-                            rotateX: Math.PI / 1.8,
-                            rotateY: Math.PI / 2,
+                        variants={{
+                            hover: {
+                                scale: 2.3,
+                                rotateX: Math.PI / 1.8,
+                                rotateY: Math.PI / 2,
+                            },
                         }}
+
                     />
                     <Icons
                         gltf="next"
-                        position={[0.5, -0.8, 2.8]}
+                        scale={0.5}
+                        position={[0.5, -0.8, 3]}
                         rotation={[Math.PI / 2.5, -Math.PI / 10, Math.PI / 6]}
-                        whileHover={{
-                            scale: 1.1,
-                            rotateY: -Math.PI / 5,
+                        variants={{
+                            hover: {
+                                scale: 1.1,
+                                rotateY: -Math.PI / 5,
+                            },
                         }}
+
                     />
                     <Icons
                         gltf="graphql"
+                        scale={0.5}
                         position={[-1.5, 1.2, 1.5]}
-                        rotation={[Math.PI / 1.5, 0, Math.PI / 1.2]}
-                        whileHover={{
-                            scale: 1.2,
-                            rotateY: Math.PI / 15,
+                        rotation={[Math.PI / 1.5, Math.PI / 2, Math.PI / 1.2]}
+                        variants={{
+                            hover: {
+                                scale: 1.2,
+
+                                rotateY: Math.PI / 15,
+                            },
                         }}
+
+
                     />
                 </motion.group>
             </MotionConfig>
-        </Canvas>
+        </ Canvas>
     );
 }
 
@@ -107,33 +134,33 @@ function Camera({ mouseX, mouseY, ...props }: {
     const cameraRef = useRef<any>();
 
     useLayoutEffect(() => {
-      const { current: cam }: any = cameraRef;
-      if (cam) {
-        cam.aspect = size.width / size.height;
-        cam.updateProjectionMatrix();
-      }
+        const { current: cam }: any = cameraRef;
+        if (cam) {
+            cam.aspect = size.width / size.height;
+            cam.updateProjectionMatrix();
+        }
     }, [size, props]);
 
     useLayoutEffect(() => {
-      if (cameraRef.current) {
-        const oldCam = camera;
-        set(() => ({ camera: cameraRef.current }));
-        return () => set(() => ({ camera: oldCam }));
-      }
+        if (cameraRef.current) {
+            const oldCam = camera;
+            set(() => ({ camera: cameraRef.current }));
+            return () => set(() => ({ camera: oldCam }));
+        }
     }, [camera, cameraRef, set]);
 
     useLayoutEffect(() => {
-      return cameraX.onChange(() => camera.lookAt(scene.position));
+        return cameraX.onChange(() => camera.lookAt(scene.position));
     }, [cameraX]);
 
     return (
-      <motion.perspectiveCamera
-        ref={cameraRef}
-        fov={90}
-        position={[cameraX, cameraY, 4.6]}
-      />
+        <motion.perspectiveCamera
+            ref={cameraRef}
+            fov={90}
+            position={[cameraX, cameraY, 4.6]}
+        />
     );
-  }
+}
 
 const spring = { stiffness: 600, damping: 30 };
 
@@ -156,6 +183,5 @@ export function Icons({ gltf, ...props }: any) {
         </>
     );
 }
-
 
 export default Scene;
