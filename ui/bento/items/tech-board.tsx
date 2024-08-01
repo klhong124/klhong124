@@ -47,7 +47,7 @@ export function TechBoard() {
             >
                 <motion.div
                     className={
-                        cn("top-0 bottom-0 left-0 right-0")
+                        cn("top-1 bottom-1 left-1 right-1")
                     }
                     variants={{
                         rest: { opacity: 0 },
@@ -58,9 +58,8 @@ export function TechBoard() {
                 >
                     <div
                         className={
-                            cn("w-[calc(100% +640px)] absolute",
-                                "-top-80 -left-80 -bottom-80 -right-80",
-                                "pointer-events-none"
+                            cn("w-screen h-screen absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+                                "pointer-events-none scale-95",
                             )
                         }
                     >
