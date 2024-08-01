@@ -7,7 +7,7 @@ import Scene from "@/ui/bento/items/scene";
 
 
 export function TechBoard() {
-    const [ref, bounds] = useMeasure({ scroll: false });
+    const [ref, bounds] = useMeasure({ scroll: true });
     const [isHover, setIsHover] = useState<boolean>(false);
     const [isPress, setIsPress] = useState<boolean>(false);
     const mouseX: MotionValue<number> = useMotionValue(0);
@@ -22,12 +22,11 @@ export function TechBoard() {
         <MotionConfig transition={{
             type: "spring",
             duration: 0.7,
-            bounce: 0.2,
+            stiffness: 100,
         }}>
             <motion.button
                 className={cn("h-full w-full overflow-visible relative")}
                 ref={ref}
-                initial={false}
                 animate={isHover ? "hover" : "rest"}
 
                 onHoverStart={() => {
@@ -52,13 +51,15 @@ export function TechBoard() {
                     }
                     variants={{
                         rest: { opacity: 0 },
-                        hover: { opacity: 1 }
+                        hover: {
+                            opacity: 1,
+                        }
                     }}
                 >
                     <div
                         className={
-                            cn("w-[calc(100% +480px)] absolute",
-                                "-top-60 -left-60 -bottom-60 -right-60",
+                            cn("w-[calc(100% +640px)] absolute",
+                                "-top-80 -left-80 -bottom-80 -right-80",
                                 "pointer-events-none"
                             )
                         }
@@ -75,7 +76,7 @@ export function TechBoard() {
                     </div>
                 </motion.div>
                 <motion.div
-                    className="text-white text-7xl"
+                    className="text-white text-7xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                 >
                     Tech
                 </motion.div>

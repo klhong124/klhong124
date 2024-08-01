@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useLayoutEffect } from "react";
+import React, { useRef, useLayoutEffect, use, useEffect } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
 import { useGLTF } from '@react-three/drei';
 import { motion } from "framer-motion-3d";
@@ -82,11 +82,11 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
                     <Icons
                         gltf="next"
                         scale={0.5}
-                        position={[0.5, -0.8, 3]}
+                        position={[0.5, -0.4, 3.3]}
                         rotation={[Math.PI / 2.5, -Math.PI / 10, Math.PI / 6]}
                         variants={{
                             hover: {
-                                scale: 1.1,
+                                scale: 0.8,
                                 rotateY: -Math.PI / 5,
                             },
                         }}
@@ -95,12 +95,11 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
                     <Icons
                         gltf="graphql"
                         scale={0.5}
-                        position={[-1.5, 1.2, 1.5]}
+                        position={[-1.2, 0.8, 2.5]}
                         rotation={[Math.PI / 1.5, Math.PI / 2, Math.PI / 1.2]}
                         variants={{
                             hover: {
-                                scale: 1.2,
-
+                                scale: 1,
                                 rotateY: Math.PI / 15,
                             },
                         }}
@@ -133,13 +132,14 @@ function Camera({ mouseX, mouseY, ...props }: {
     const scene = useThree(({ scene }) => scene);
     const cameraRef = useRef<any>();
 
+
     useLayoutEffect(() => {
         const { current: cam }: any = cameraRef;
         if (cam) {
             cam.aspect = size.width / size.height;
             cam.updateProjectionMatrix();
         }
-    }, [size, props]);
+    }, [size]);
 
     useLayoutEffect(() => {
         if (cameraRef.current) {
@@ -147,17 +147,21 @@ function Camera({ mouseX, mouseY, ...props }: {
             set(() => ({ camera: cameraRef.current }));
             return () => set(() => ({ camera: oldCam }));
         }
-    }, [camera, cameraRef, set]);
+    }, [camera, set]);
 
     useLayoutEffect(() => {
-        return cameraX.onChange(() => camera.lookAt(scene.position));
-    }, [cameraX]);
+        return cameraX.onChange(() => {
+            if (cameraRef.current) {
+                cameraRef.current.lookAt(scene.position);
+            }
+        });
+    }, [cameraX, scene.position]);
 
     return (
         <motion.perspectiveCamera
             ref={cameraRef}
-            fov={90}
-            position={[cameraX, cameraY, 4.6]}
+            fov={80}
+            position={[cameraX, cameraY, 5]}
         />
     );
 }
