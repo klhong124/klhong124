@@ -3,8 +3,7 @@ import React, { useRef, useLayoutEffect, use, useEffect } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
 import { useGLTF } from '@react-three/drei';
 import { motion } from "framer-motion-3d";
-import { MotionConfig, useTransform, useSpring, MotionValue, SpringOptions, delay } from "framer-motion";
-import { cn } from "@/utils/cn";
+import { useTransform, useSpring, MotionValue, SpringOptions } from "framer-motion";
 
 function useSmoothTransform(value: MotionValue<number>, springOptions: SpringOptions | undefined, transformer: { (v: any): number; (v: any): number; (x: any): number; (y: any): number; (input: unknown): any; }) {
     return useSpring(useTransform(value, transformer), springOptions);
@@ -28,259 +27,252 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
             <Lights />
 
             <Camera mouseX={mouseX} mouseY={mouseY} />
-            <MotionConfig transition={{
-                type: "spring",
-                duration: 0.5,
-                bounce: 0.5,
-                stiffness: 100,
 
-            }}>
-                <motion.group
-                    initial={false}
-                    dispose={null}
-                    animate={isHover && "hover"}
-                >
-                    <Icons
-                        gltf="nuxt"
-                        scale={0.2}
-                        position={[0.1, 0.5, 3.6]}
-                        rotation={[Math.PI, -Math.PI / 15, -0.2]}
-                        variants={{
-                            hover: {
-                                scale: 0.6,
-                                rotateX: Math.PI / 2,
-                            },
-                        }}
+            <motion.group
+                initial={false}
+                dispose={null}
+                animate={isHover && "hover"}
+            >
+                <Icons
+                    gltf="nuxt"
+                    scale={0.2}
+                    position={[0.1, 0.5, 3.6]}
+                    rotation={[Math.PI, -Math.PI / 15, -0.2]}
+                    variants={{
+                        hover: {
+                            scale: 0.6,
+                            rotateX: Math.PI / 2,
+                        },
+                    }}
 
-                    />
-                    <Icons
-                        gltf="vue"
-                        position={[-1.3, -1.8, 1.6]}
-                        rotation={[Math.PI / 2, Math.PI / 20, -0.8]}
-                        scale={0.5}
-                        variants={{
-                            hover: {
-                                scale: 1.5,
-                                rotateZ: Math.PI - 0.8,
-                            },
-                        }}
-                    />
-                    <Icons
-                        gltf="react"
-                        scale={0.5}
-                        position={[2.5, 1.8, -1]}
-                        rotation={[Math.PI / 1.8, 0, 0.5]}
-                        variants={{
-                            hover: {
-                                scale: 2.3,
-                                rotateX: Math.PI / 1.8,
-                                rotateY: Math.PI / 4,
-                            },
-                        }}
-                    />
-                    <Icons
-                        gltf="typescript"
-                        scale={0.5}
-                        position={[4.8, 0.5, -3]}
-                        rotation={[Math.PI / 5, -Math.PI / 2, 1]}
-                        variants={{
-                            hover: {
-                                scale: 2,
-                                rotateX: Math.PI / 1.8,
-                                rotateY: 0,
-                            },
-                        }}
-                    />
-                    <Icons
-                        gltf="tailwindcss"
-                        scale={0.5}
-                        position={[0.1, -2.5, 0]}
-                        rotation={[Math.PI / 2, Math.PI / 2, -0.2]}
-                        variants={{
-                            hover: {
-                                scale: 1.8,
-                                rotateY: 0,
-                            },
-                        }}
+                />
+                <Icons
+                    gltf="vue"
+                    position={[-1.3, -1.8, 1.6]}
+                    rotation={[Math.PI / 2, Math.PI / 20, -0.8]}
+                    scale={0.5}
+                    variants={{
+                        hover: {
+                            scale: 1.5,
+                            rotateZ: Math.PI - 0.8,
+                        },
+                    }}
+                />
+                <Icons
+                    gltf="react"
+                    scale={0.5}
+                    position={[2.5, 1.8, -1]}
+                    rotation={[Math.PI / 1.8, 0, 0.5]}
+                    variants={{
+                        hover: {
+                            scale: 2.3,
+                            rotateX: Math.PI / 1.8,
+                            rotateY: Math.PI / 4,
+                        },
+                    }}
+                />
+                <Icons
+                    gltf="typescript"
+                    scale={0.5}
+                    position={[4.8, 0.5, -3]}
+                    rotation={[Math.PI / 5, -Math.PI / 2, 1]}
+                    variants={{
+                        hover: {
+                            scale: 2,
+                            rotateX: Math.PI / 1.8,
+                            rotateY: 0,
+                        },
+                    }}
+                />
+                <Icons
+                    gltf="tailwindcss"
+                    scale={0.5}
+                    position={[0.1, -2.5, 0]}
+                    rotation={[Math.PI / 2, Math.PI / 2, -0.2]}
+                    variants={{
+                        hover: {
+                            scale: 1.8,
+                            rotateY: 0,
+                        },
+                    }}
 
-                    />
-                    <Icons
-                        gltf="laravel"
-                        scale={0.5}
-                        position={[2.2, -3.9, -4]}
-                        rotation={[Math.PI / 2, -Math.PI / 4, 0.3]}
-                        variants={{
-                            hover: {
-                                scale: 1.8,
-                                rotateY: 0,
-                            },
-                        }}
+                />
+                <Icons
+                    gltf="laravel"
+                    scale={0.5}
+                    position={[2.2, -3.9, -4]}
+                    rotation={[Math.PI / 2, -Math.PI / 4, 0.3]}
+                    variants={{
+                        hover: {
+                            scale: 1.8,
+                            rotateY: 0,
+                        },
+                    }}
 
-                    />
-                    <Icons
-                        gltf="next"
-                        scale={0.2}
-                        position={[1.2, -0.8, 2.4]}
-                        rotation={[Math.PI / 2.5, Math.PI / 2, Math.PI / 6]}
-                        variants={{
-                            hover: {
-                                scale: 1.3,
-                                rotateY: -Math.PI / 5,
-                            },
-                        }}
-                    />
-                    <Icons
-                        gltf="graphql"
-                        scale={0.5}
-                        position={[-1.2, 0.8, 2.5]}
-                        rotation={[Math.PI / 1.5, Math.PI / 2, Math.PI / 1.2]}
-                        variants={{
-                            hover: {
-                                scale: 1,
-                                rotateY: Math.PI / 15,
-                            },
-                        }}
-                    />
-                    <Icons
-                        gltf="mongodb"
-                        scale={0.5}
-                        position={[-1.2, 1.8, 0]}
-                        rotation={[Math.PI / 1.3, Math.PI / 3, Math.PI]}
-                        variants={{
-                            hover: {
-                                scale: 1,
-                                rotateY: Math.PI * 2,
-                            },
-                        }}
-                    />
-                    <Icons
-                        gltf="framer-motion"
-                        scale={0.5}
-                        position={[-0.9, 2.6, 0.7]}
-                        rotation={[Math.PI / 2.1, Math.PI * 2.2, Math.PI]}
-                        variants={{
-                            hover: {
-                                scale: 1,
-                                rotateZ: Math.PI * 2
-                            },
-                        }}
-                    />
-                    <Icons
-                        gltf="storybook"
-                        scale={0.6}
-                        position={[0.9, 1.7, 1.9]}
-                        rotation={[Math.PI / 2, -Math.PI / 16, Math.PI]}
-                        variants={{
-                            hover: {
-                                scale: 0.9,
-                                rotateZ: Math.PI * 2,
-                            },
-                        }}
-                    />
-                    <Icons
-                        gltf="python"
-                        scale={0.5}
-                        position={[-2.8, 0.2, 0]}
-                        rotation={[-Math.PI, Math.PI / 2, -Math.PI / 4]}
-                        variants={{
-                            hover: {
-                                scale: 1.5,
-                                rotateX: Math.PI / 2,
-                                rotateY: Math.PI / 15,
-                            },
-                        }}
-                    />
-                    <Icons
-                        gltf="threejs"
-                        scale={0.5}
-                        position={[-2.8, -0.9, -1]}
-                        rotation={[Math.PI / 2, 0, 0.3]}
-                        variants={{
-                            hover: {
-                                scale: 1,
-                                rotateY: Math.PI / 3,
-                            },
-                        }}
-                    />
-                    <Icons
-                        gltf="jest"
-                        scale={0.5}
-                        position={[-2.6, -1.3, 1]}
-                        rotation={[Math.PI, 0, 0.2]}
-                        variants={{
-                            hover: {
-                                scale: 1,
-                                rotateY: -Math.PI / 4,
-                                rotateX: Math.PI / 2.1,
-                            },
-                        }}
-                    />
-                    <Icons
-                        gltf="python"
-                        scale={0.5}
-                        position={[-2.8, 0.2, 0]}
-                        rotation={[-Math.PI, Math.PI / 2, -Math.PI / 4]}
-                        variants={{
-                            hover: {
-                                scale: 1.5,
-                                rotateX: Math.PI / 2,
-                                rotateY: Math.PI / 15,
-                            },
-                        }}
-                    />
-                    <Icons
-                        gltf="cloud-run"
-                        scale={0.5}
-                        position={[-1.5, -1.5, -2]}
-                        rotation={[-Math.PI / 1.1, -Math.PI / 3, -Math.PI / 5]}
-                        variants={{
-                            hover: {
-                                scale: 1.2,
-                                rotateX: Math.PI / 2.2,
-                                rotateY: Math.PI / 4,
-                            },
-                        }}
-                    />
-                    <Icons
-                        gltf="firebase"
-                        scale={0.6}
-                        position={[-2.6, -1, -3]}
-                        rotation={[Math.PI / 2.2, -Math.PI / 18, 2]}
-                        variants={{
-                            hover: {
-                                scale: 1.2,
-                                rotateZ: Math.PI + 2,
-                            },
-                        }}
-                    />
-                    <Icons
-                        gltf="illustrator"
-                        scale={0.5}
-                        position={[2.5, -0.5, -3]}
-                        rotation={[Math.PI, Math.PI / 3, -Math.PI / 6]}
-                        variants={{
-                            hover: {
-                                scale: 1,
-                                rotateX: Math.PI / 2,
-                                rotateY: Math.PI / 5,
-                            },
-                        }}
-                    />
-                    <Icons
-                        gltf="photoshop"
-                        scale={0.5}
-                        position={[3.5, -0.6, -3]}
-                        rotation={[Math.PI / 1.2, -Math.PI / 4, Math.PI / 5]}
-                        variants={{
-                            hover: {
-                                scale: 1,
-                                rotateX: Math.PI / 2.1,
-                                rotateY: -Math.PI / 5.2,
-                            },
-                        }}
-                    />
-                </motion.group>
-            </MotionConfig>
+                />
+                <Icons
+                    gltf="next"
+                    scale={0.2}
+                    position={[1.2, -0.8, 2.4]}
+                    rotation={[Math.PI / 2.5, Math.PI / 2, Math.PI / 6]}
+                    variants={{
+                        hover: {
+                            scale: 1.3,
+                            rotateY: -Math.PI / 5,
+                        },
+                    }}
+                />
+                <Icons
+                    gltf="graphql"
+                    scale={0.5}
+                    position={[-1.2, 0.8, 2.5]}
+                    rotation={[Math.PI / 1.5, Math.PI / 2, Math.PI / 1.2]}
+                    variants={{
+                        hover: {
+                            scale: 1,
+                            rotateY: Math.PI / 15,
+                        },
+                    }}
+                />
+                <Icons
+                    gltf="mongodb"
+                    scale={0.5}
+                    position={[-1.2, 1.8, 0]}
+                    rotation={[Math.PI / 1.3, Math.PI / 3, Math.PI]}
+                    variants={{
+                        hover: {
+                            scale: 1,
+                            rotateY: Math.PI * 2,
+                        },
+                    }}
+                />
+                <Icons
+                    gltf="framer-motion"
+                    scale={0.5}
+                    position={[-0.9, 2.6, 0.7]}
+                    rotation={[Math.PI / 2.1, Math.PI * 2.2, Math.PI]}
+                    variants={{
+                        hover: {
+                            scale: 1,
+                            rotateZ: Math.PI * 2
+                        },
+                    }}
+                />
+                <Icons
+                    gltf="storybook"
+                    scale={0.6}
+                    position={[0.9, 1.7, 1.9]}
+                    rotation={[Math.PI / 2, -Math.PI / 16, Math.PI]}
+                    variants={{
+                        hover: {
+                            scale: 0.9,
+                            rotateZ: Math.PI * 2,
+                        },
+                    }}
+                />
+                <Icons
+                    gltf="python"
+                    scale={0.5}
+                    position={[-2.8, 0.2, 0]}
+                    rotation={[-Math.PI, Math.PI / 2, -Math.PI / 4]}
+                    variants={{
+                        hover: {
+                            scale: 1.5,
+                            rotateX: Math.PI / 2,
+                            rotateY: Math.PI / 15,
+                        },
+                    }}
+                />
+                <Icons
+                    gltf="threejs"
+                    scale={0.5}
+                    position={[-3.2, -1, -1]}
+                    rotation={[Math.PI / 2, 0, 0.3]}
+                    variants={{
+                        hover: {
+                            scale: 1,
+                            rotateY: Math.PI / 3,
+                        },
+                    }}
+                />
+                <Icons
+                    gltf="jest"
+                    scale={0.5}
+                    position={[-2.6, -1.3, 1]}
+                    rotation={[Math.PI, 0, 0.2]}
+                    variants={{
+                        hover: {
+                            scale: 1,
+                            rotateY: -Math.PI / 4,
+                            rotateX: Math.PI / 2.1,
+                        },
+                    }}
+                />
+                <Icons
+                    gltf="python"
+                    scale={0.5}
+                    position={[-2.8, 0.2, 0]}
+                    rotation={[-Math.PI, Math.PI / 2, -Math.PI / 4]}
+                    variants={{
+                        hover: {
+                            scale: 1.5,
+                            rotateX: Math.PI / 2,
+                            rotateY: Math.PI / 15,
+                        },
+                    }}
+                />
+                <Icons
+                    gltf="cloud-run"
+                    scale={0.5}
+                    position={[-2, -1.8, -2]}
+                    rotation={[-Math.PI / 1.1, -Math.PI / 3, -Math.PI / 5]}
+                    variants={{
+                        hover: {
+                            scale: 1.2,
+                            rotateX: Math.PI / 2.2,
+                            rotateY: Math.PI / 4,
+                        },
+                    }}
+                />
+                <Icons
+                    gltf="firebase"
+                    scale={0.6}
+                    position={[-3, -1, -3]}
+                    rotation={[Math.PI / 2.2, -Math.PI / 18, 2]}
+                    variants={{
+                        hover: {
+                            scale: 1.2,
+                            rotateZ: Math.PI + 2,
+                        },
+                    }}
+                />
+                <Icons
+                    gltf="illustrator"
+                    scale={0.5}
+                    position={[3, -0.5, -3]}
+                    rotation={[Math.PI, Math.PI / 3, -Math.PI / 6]}
+                    variants={{
+                        hover: {
+                            scale: 1,
+                            rotateX: Math.PI / 2,
+                            rotateY: Math.PI / 5,
+                        },
+                    }}
+                />
+                <Icons
+                    gltf="photoshop"
+                    scale={0.5}
+                    position={[4, -0.6, -3]}
+                    rotation={[Math.PI / 1.2, -Math.PI / 4, Math.PI / 5]}
+                    variants={{
+                        hover: {
+                            scale: 1,
+                            rotateX: Math.PI / 2.1,
+                            rotateY: -Math.PI / 5.2,
+                        },
+                    }}
+                />
+            </motion.group>
         </ Canvas>
     );
 }

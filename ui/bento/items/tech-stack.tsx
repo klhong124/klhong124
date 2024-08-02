@@ -6,7 +6,7 @@ import useMeasure from "react-use-measure";
 import Scene from "@/ui/bento/items/scene";
 
 
-export function TechBoard() {
+export function TechStack() {
     const [ref, bounds] = useMeasure({ scroll: true });
     const [isHover, setIsHover] = useState<boolean>(false);
     const [isPress, setIsPress] = useState<boolean>(false);
@@ -21,11 +21,11 @@ export function TechBoard() {
     return (
         <MotionConfig transition={{
             type: "spring",
-            duration: 0.7,
+            bounce: 0.5,
             stiffness: 100,
         }}>
             <motion.button
-                className={cn("h-full w-full overflow-visible relative cursor-default")}
+                className={cn("h-full w-full overflow-visible relative cursor-default rounded-2xl")}
                 ref={ref}
                 animate={isHover ? "hover" : "rest"}
 
@@ -58,8 +58,9 @@ export function TechBoard() {
                 >
                     <div
                         className={
-                            cn("w-screen h-screen absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
-                                "pointer-events-none scale-95",
+                            cn("w-[1200px] h-[1200px]",
+                                "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+                                "pointer-events-none",
                             )
                         }
                     >
@@ -77,22 +78,17 @@ export function TechBoard() {
                 <motion.div
                     variants={{
                         hover: {
-                            scale: 1.1,
+                            scale: 1.2,
                         }
                     }}
-                    className={cn(
-                        "b text-6xl text-center",
-                    )}
+                    className={cn("text-center")}
                 >
                     <span className={cn(
-                        "text-xl",
-                        "text-secondary",
-                    )}>
-
-                        Modern Development
+                        "text-xl text-secondary",
+                    )}>Modern Development
                     </span>
                     <h1 className={cn(
-                        "text-primary",
+                        "text-primary text-6xl text-center",
                         "font-medium tracking-wide",
                     )}>
                         TechStack
@@ -103,4 +99,4 @@ export function TechBoard() {
         </MotionConfig>
     );
 }
-export default TechBoard;
+export default TechStack;

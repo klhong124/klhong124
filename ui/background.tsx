@@ -1,14 +1,13 @@
 "use client";
-import { cn } from "@/utils/cn";
 import { motion, useMotionTemplate, useSpring } from "framer-motion";
 import { useEffect } from "react";
 
 export const Background = ({
     children,
-    className,
+    ...prop
 }: {
     children: React.ReactNode;
-    className?: string;
+    [key: string]: any;
 }) => {
 
     function handleMouseMove({
@@ -23,8 +22,8 @@ export const Background = ({
         mouseY.set(clientY - top);
     }
     const useSpringConfig = {
-        stiffness: 200,
-        damping: 10,
+        stiffness: 500,
+        damping: 20,
     };
     const mouseX = useSpring(0, useSpringConfig);
     const mouseY = useSpring(0, useSpringConfig);
@@ -37,6 +36,7 @@ export const Background = ({
         )
     `;
 
+    // Set mouse position on page loaded
     useEffect(() => {
         mouseX.set(window.innerWidth / 2);
         mouseY.set(window.innerHeight / 2);
@@ -45,7 +45,7 @@ export const Background = ({
     return (
         <section
             className=
-            "relative h-screen flex items-center bg-white dark:bg-black justify-center w-full group"
+            "relative flex items-center bg-white dark:bg-black justify-center w-full group"
             onMouseMove={handleMouseMove}
         >
             <div className="absolute inset-0 bg-dot-thick-neutral-300 dark:bg-dot-thick-neutral-800  pointer-events-none" />
@@ -71,7 +71,7 @@ export const Background = ({
 
             />
 
-            <div className={cn("relative z-20", className)}>{children}</div>
+            <main {...prop} className="relative">{children}</main>
         </section>
     );
 };

@@ -63,7 +63,9 @@ export const BentoGridItem = ({
             >
                 <div
                     className={cn(
-                        "h-full border border-[rgba(255,255,255,0.10)] dark:bg-[rgba(40,40,40,0.70)]  shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] overflow-visible rounded-2xl " ,
+                        "border border-[rgba(255,255,255,0.10)]",
+                        "h-full overflow-visible rounded-2xl",
+                        "dark:bg-[rgba(40,40,40,0.70)]  shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset]" ,
                     )}
                 >
                     {children}

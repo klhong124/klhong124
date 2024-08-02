@@ -17,6 +17,7 @@
 }
 
 body {
+  @apply font-spaceGrotesk;
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -34,3 +35,4 @@ body {
 
 
 @import "./text.scss";
+@import "./fonts.scss";
