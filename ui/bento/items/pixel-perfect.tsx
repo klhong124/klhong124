@@ -109,7 +109,7 @@ export function PixelPerfect() {
                                 color: "var(--gray-200)",
                             }
                         }}
-                        className={cn("text-secondary text-3xl text-center relative px-3 py-4 mx-3")}
+                        className={cn("text-secondary text-3xl text-center relative px-6 py-4")}
                     >
                         <motion.svg
                             className={cn("absolute -top-[calc(75px/2)] -left-[calc(75px/2)]")}
