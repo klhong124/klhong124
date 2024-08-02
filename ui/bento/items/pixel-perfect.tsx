@@ -7,13 +7,11 @@ export function PixelPerfect() {
     const anchor = useRef<HTMLDivElement>(null);
     const container = useRef<HTMLDivElement>(null);
     const [offsetLeft, setOffsetLeft] = useState(0);
-    const [offsetTop, setOffsetTop] = useState(0);
     const [isHover, setIsHover] = useState<boolean>(false);
 
     const updateAnchorOffset = () => {
         if (anchor.current) {
             setOffsetLeft(anchor.current.getBoundingClientRect().left + 24);
-            setOffsetTop(anchor.current.offsetTop);
         }
     };
 
@@ -25,21 +23,6 @@ export function PixelPerfect() {
         };
     }, []);
 
-
-    const draw = {
-        rest: { pathLength: 0, opacity: 0 },
-        hover: (i: number) => {
-            const delay = 1 + i * 0.5;
-            return {
-                pathLength: 1,
-                opacity: 1,
-                transition: {
-                    pathLength: { delay, type: "spring", duration: 1.5, bounce: 0 },
-                    opacity: { delay, duration: 0.01 }
-                }
-            };
-        }
-    };
 
     return (
         <MotionConfig
@@ -71,6 +54,51 @@ export function PixelPerfect() {
                     }
                 }}
             >
+                <motion.svg
+                    width={(anchor.current?.offsetTop ?? 0) + (anchor.current?.clientHeight ?? 0)}
+                    height={(anchor.current?.offsetTop ?? 0) + (anchor.current?.clientHeight ?? 0)}
+                    viewBox="0 0 100 100"
+                    className={cn(
+                        "absolute bottom-[1px] right-[1px]",
+                    )}
+                >
+                    <motion.circle
+                        cx="50"
+                        cy="50"
+                        r="49"
+                        fill="transparent"
+                        stroke="white"
+                        variants={{
+                            rest: {
+                                pathLength: 0, opacity: 0, rotate: 270,
+                                transition: {
+                                    delay: 0
+                                }
+                            },
+                            hover: {
+                                pathLength: 3 / 4,
+                                opacity: 0.5,
+                                rotate: 270,
+                                transition: {
+                                    pathLength: { type: "spring", duration: 1.5, bounce: 0, delay: 0.5 },
+                                    opacity: { duration: 0.2, delay: 0.5 },
+                                }
+                            }
+                        }}
+                    />
+                    <motion.circle
+                        cx="50"
+                        cy="50"
+                        r="49"
+                        fill="transparent"
+                        stroke="var(--gray-900)"
+                        strokeDasharray="3 1"
+                        variants={{
+                            rest: { opacity: 0 },
+                            hover: { opacity: 1 }
+                        }}
+                    />
+                </motion.svg>
                 <div
                     ref={container}
                     className={cn("flex justify-center items-center h-full")}>
@@ -81,7 +109,7 @@ export function PixelPerfect() {
                                 color: "var(--gray-200)",
                             }
                         }}
-                        className={cn("text-secondary text-3xl text-center relative px-6 py-4")}
+                        className={cn("text-secondary text-3xl text-center relative px-3 py-4 mx-3")}
                     >
                         <motion.svg
                             className={cn("absolute -top-[calc(75px/2)] -left-[calc(75px/2)]")}
@@ -142,24 +170,43 @@ export function PixelPerfect() {
                             }}
 
                             style={{
-                                transform: `translateY(-${offsetTop}px)`
+                                transform: `translateY(-${anchor.current?.offsetTop}px)`
                             }}
                             className={cn("w-0 absolute top-0 left-0",
                                 "border-l border-dashed border-white opacity-50"
                             )}
-
                         />
+                        <motion.span
+                            variants={{
+                                rest: {
+                                    opacity: 0,
+                                    height: 0,
+
+                                },
+                                hover: {
+                                    opacity: 0.5,
+                                    height: "100vh",
+                                }
+                            }}
+
+                            style={{
+                                transform: `translateY(${anchor.current?.offsetTop}px)`,
+                                right: -(anchor.current?.offsetLeft ?? 0) + (anchor.current?.offsetTop ?? 0) + (anchor.current?.clientHeight ?? 0),
+                            }}
+                            className={cn("w-0 absolute bottom-0",
+                                "border-l border-dashed border-white opacity-50"
+                            )}
+                        />
+
+
                         Seamless Pixel-Perfect Implementation
                     </motion.div>
-
                 </div>
 
             </motion.button >
         </MotionConfig>
     );
 }
-
-
 
 
 export default PixelPerfect;

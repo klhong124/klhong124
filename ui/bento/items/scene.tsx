@@ -340,7 +340,7 @@ const spring = { stiffness: 600, damping: 30 };
 
 
 
-export function Icons({ gltf, ...props }: any) {
+function Icons({ gltf, ...props }: any) {
     const { scene } = useGLTF(`/model/${gltf}.gltf`);
     const [x, y, z] = props.position;
     return (

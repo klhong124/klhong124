@@ -50,6 +50,9 @@ export const BentoGridItem = ({
 }) => {
     return (
         <motion.section
+            whileHover={{
+                zIndex: 99,
+            }}
 
             className={cn(
                 "mx-auto w-full  relative  overflow-visible rounded-2xl bg-black",
