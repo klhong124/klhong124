@@ -77,24 +77,22 @@ export function TechBoard() {
                 <motion.div
                     variants={{
                         hover: {
-                            paddingBottom: "8px",
+                            scale: 1.1,
                         }
                     }}
                     className={cn(
-                        "w-full px-8",
-                        "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
-                        "bg-clip-text text-transparent text-6xl text-center ",
+                        "b text-6xl text-center",
                     )}
                 >
                     <span className={cn(
                         "text-xl",
-                        "bg-clip-text bg-gradient-to-t from-neutral-300 to-stone-500",
+                        "text-secondary",
                     )}>
 
                         Modern Development
                     </span>
                     <h1 className={cn(
-                        "bg-clip-text bg-gradient-to-b from-slate-300 to-slate-500",
+                        "text-primary",
                         "font-medium tracking-wide",
                     )}>
                         TechStack
@@ -105,8 +103,4 @@ export function TechBoard() {
         </MotionConfig>
     );
 }
-
-
-
-
 export default TechBoard;

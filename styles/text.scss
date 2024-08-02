@@ -1,0 +1,9 @@
+.text {
+    &-primary {
+        @apply bg-clip-text bg-gradient-to-b from-slate-300 to-slate-500 text-transparent;
+    }
+
+    &-secondary {
+        @apply bg-clip-text  bg-gradient-to-t from-neutral-300 to-neutral-500 text-transparent;
+    }
+}

@@ -4,6 +4,7 @@ import Highlight from "@/ui/highlight";
 import BentoGrid, { BentoGridItem as GridItem } from "@/ui/bento/grid";
 import { CardDemo } from "@/ui/bento/items/card";
 import TechBoard from "@/ui/bento/items/tech-board";
+import DesignBoard from "@/ui/bento/items/design-board";
 import ComingSoon from "@/ui/bento/items/coming-soon";
 export default function Home() {
 
@@ -52,7 +53,7 @@ export default function Home() {
           <ComingSoon/>
         </GridItem>
         <GridItem id={11}>
-          <ComingSoon/>
+          <DesignBoard/>
         </GridItem>
       </BentoGrid>
     </>

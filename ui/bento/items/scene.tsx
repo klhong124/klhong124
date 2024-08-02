@@ -193,7 +193,7 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
                     <Icons
                         gltf="threejs"
                         scale={0.5}
-                        position={[-2.6, -0.9, -1]}
+                        position={[-2.8, -0.9, -1]}
                         rotation={[Math.PI / 2, 0, 0.3]}
                         variants={{
                             hover: {
