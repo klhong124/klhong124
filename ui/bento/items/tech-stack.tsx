@@ -50,7 +50,12 @@ export function TechStack() {
                         cn("top-1 bottom-1 left-1 right-1")
                     }
                     variants={{
-                        rest: { opacity: 0 },
+                        rest: {
+                            opacity: 0,
+                            transition: {
+                                type: "linear"
+                            }
+                        },
                         hover: {
                             opacity: 1,
                         }
