@@ -30,7 +30,7 @@ export default function Home() {
           </div>
 
         </div>
-        <BentoGrid className="-mt-12 overflow-x-hidden">
+        <BentoGrid className="-mt-12 overflow-hidden">
           <GridItem id={1}>
             <ComingSoon />
           </GridItem>

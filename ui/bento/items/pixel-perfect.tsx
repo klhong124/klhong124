@@ -61,7 +61,7 @@ export function PixelPerfect() {
             <motion.button
                 className={cn(
                     "h-full w-full cursor-default rounded-2xl",
-                    "outline-dashed outline-transparent"
+                    "outline-dotted outline-transparent"
                 )}
                 animate={isHover ? "hover" : "rest"}
                 onHoverStart={() => {
@@ -89,45 +89,28 @@ export function PixelPerfect() {
                 <div
                     ref={containerRef}
                     className={cn("flex justify-center items-center h-full")}>
-                    {/* top horizontal line  */}
-                    <motion.span
-                        variants={{
-                            rest: {
-                                opacity: 0,
-                                width: "0vw",
-                            },
-                            hover: {
-                                opacity,
-                                width: "100vw"
-                            }
-                        }}
-                        style={{
-                            top: container.height / 3
-                        }}
-                        className={cn("h-0 absolute left-[1px]",
-                            "border-t border-dashed border-white"
-                        )}
-                    />
 
                     {/* top left three-quarter arc */}
                     <div
                         style={{
                             top: (-75 / 2) + container.height / 3,
-                            left: (-75 / 2) + text.offset.left
+                            left: (-75 / 2) + container.height / 3
                         }}
-                        className={cn("text-secondary text-3xl text-center relative px-6 py-4")}
+                        className={cn("absolute")}
                     >
                         <motion.svg
                             opacity={0}
                             variants={{
                                 rest: {
                                     opacity: 0,
+                                    scale: 0.5,
                                     transition: {
                                         duration: 0.2,
                                     }
                                 },
                                 hover: {
                                     opacity,
+                                    scale: 1,
                                     transition: {
                                         delay: 0.3,
                                     }
@@ -143,11 +126,111 @@ export function PixelPerfect() {
                         </motion.svg>
                     </div>
 
+                    {/* bottom right three-quarter arc */}
+                    <motion.svg
+                        width={container.height / 3 * 2}
+                        height={container.height / 3 * 2}
+                        viewBox="0 0 100 100"
+                        className={cn(
+                            "absolute bottom-[1px] right-[1px]",
+                        )}
+                    >
+                        <motion.circle
+                            cx="50"
+                            cy="50"
+                            r="49"
+                            fill="transparent"
+                            stroke="white"
+                            variants={{
+                                rest: {
+                                    pathLength: 0, opacity: 0, rotate: 270, scale: 0.5,
+                                    transition: {
+                                        delay: 0
+                                    }
+                                },
+                                hover: {
+                                    pathLength: 3 / 4,
+                                    opacity,
+                                    rotate: 270,
+                                    scale: 1,
+                                    transition: {
+                                        scale: { delay: backgroundDuration, type: "linear" },
+                                        pathLength: { type: "spring", duration: 1.5, bounce: 0, delay: backgroundDuration },
+                                        opacity: { duration: 0.2, delay: backgroundDuration },
+                                    }
+                                }
+                            }}
+                        />
+                        {/* dash circle */}
+                        <motion.circle
+                            cx="50"
+                            cy="50"
+                            r="49"
+                            fill="transparent"
+                            stroke="var(--gray-900)"
+                            strokeWidth={2}
+                            strokeDasharray="3 2"
+                            strokeDashoffset="2"
+                            opacity={0}
+                            variants={{
+                                rest: {
+                                    opacity: 0, scale: 0.5,
+                                    transition: {
+                                        scale: { delay: 0 },
+                                    }
+                                },
+                                hover: { opacity: 1, scale: 1, transition: { scale: { delay: backgroundDuration, type: "linear" } } }
+                            }}
+                            transition={{ delay: backgroundDuration, duration: 0 }}
+                        />
+                    </motion.svg>
+                    {/* top horizontal line  */}
+                    <motion.span
+                        variants={{
+                            rest: {
+                                opacity: 0,
+                                width: "0vw",
+                            },
+                            hover: {
+                                opacity,
+                                width: container.width + gridMaxGap
+                            }
+                        }}
+                        style={{
+                            top: container.height / 3
+                        }}
+                        className={cn("h-0 absolute left-[1px]",
+                            "border-t border-dashed border-white"
+                        )}
+                    />
+
+                    {/* left vertical line */}
+                    <motion.span
+                        variants={{
+                            rest: {
+                                opacity: 0,
+                                height: 0,
+
+                            },
+                            hover: {
+                                opacity,
+                                height: container.height
+                            }
+                        }}
+
+                        style={{
+                            left: container.height / 3,
+                        }}
+                        className={cn("w-0 absolute top-[1px]",
+                            "border-l border-dashed border-white"
+                        )}
+                    />
+
                     {/* top vertical lines */}
                     {
-                        Array.from({ length: 5 }).map((_, i) => {
-                            const total = 5;
-                            const top = i < 2;
+                        Array.from({ length: 6 }).map((_, i) => {
+                            const total = 6;
+                            const top = i < 3;
                             return (
                                 <>
                                     {/* gradient line */}
@@ -204,7 +287,7 @@ export function PixelPerfect() {
                     }
 
                     {/* last top vertical line */}
-                    <motion.span
+                    {/* <motion.span
                         variants={{
                             rest: {
                                 opacity: 0,
@@ -230,94 +313,7 @@ export function PixelPerfect() {
 
                         }}
                         className={cn("w-0 absolute border-l border-white border-dashed")}
-                    />
-
-                    <motion.div
-                        ref={textRef}
-                        variants={{
-                            hover: {
-                                color: "var(--gray-200)",
-                            }
-                        }}
-                        className={cn("text-secondary text-center font-normal relative px-6 ",
-                            "2xl:text-3xl md:text-2xl text-lg "
-                        )}
-                    >
-                        {/* left vertical line */}
-                        <motion.span
-                            variants={{
-                                rest: {
-                                    opacity: 0,
-                                    height: 0,
-
-                                },
-                                hover: {
-                                    opacity,
-                                    height: container.height
-                                }
-                            }}
-
-                            style={{
-                                top: -text.offset.top,
-                            }}
-                            className={cn("w-0 absolute left-0",
-                                "border-l border-dashed border-white"
-                            )}
-                        />
-                        Seamless Pixel-Perfect Implementation
-                    </motion.div>
-
-                    {/* bottom right three-quarter arc */}
-                    <motion.svg
-                        width={container.height / 3 * 2}
-                        height={container.height / 3 * 2}
-                        viewBox="0 0 100 100"
-                        className={cn(
-                            "absolute bottom-[1px] right-[1px]",
-                        )}
-                    >
-                        <motion.circle
-                            cx="50"
-                            cy="50"
-                            r="49"
-                            fill="transparent"
-                            stroke="white"
-                            variants={{
-                                rest: {
-                                    pathLength: 0, opacity: 0, rotate: 270,
-                                    transition: {
-                                        delay: 0
-                                    }
-                                },
-                                hover: {
-                                    pathLength: 3 / 4,
-                                    opacity,
-                                    rotate: 270,
-                                    transition: {
-                                        pathLength: { type: "spring", duration: 1.5, bounce: 0, delay: backgroundDuration },
-                                        opacity: { duration: 0.2, delay: backgroundDuration },
-                                    }
-                                }
-                            }}
-                        />
-                        {/* dash circle */}
-                        <motion.circle
-                            cx="50"
-                            cy="50"
-                            r="49"
-                            fill="transparent"
-                            stroke="var(--gray-900)"
-                            strokeWidth={2}
-                            strokeDasharray="3 2"
-                            strokeDashoffset="2"
-                            opacity={0}
-                            variants={{
-                                rest: { opacity: 0 },
-                                hover: { opacity: 1 }
-                            }}
-                            transition={{ delay: backgroundDuration, duration: 0 }}
-                        />
-                    </motion.svg>
+                    /> */}
 
                     {/* bottom right vertical line */}
                     < motion.span
@@ -330,7 +326,7 @@ export function PixelPerfect() {
                             hover: {
                                 opacity,
                                 height: container.height / 3 * 2 + gridMaxGap,
-                                transition: { delay: backgroundDuration + 0.2, duration: 0.8 }
+                                transition: { delay: backgroundDuration + 0.5, duration: 0.8 }
                             }
                         }}
                         style={{
@@ -342,30 +338,37 @@ export function PixelPerfect() {
                         )}
                     />
 
+                    {/* bottom horizontal line  */}
+                    <motion.span
+                        variants={{
+                            rest: {
+                                opacity: 0,
+                                width: 0,
+                            },
+                            hover: {
+                                opacity,
+                                width: gridMaxGap + container.width - 3 // 1px for each offset sum up and 1px for border
+                            }
+                        }}
+
+                        style={{
+                            left: -gridMaxGap,
+                            bottom: container.height / 3
+                        }}
+                        className={cn("h-0 absolute",
+                            "border-t border-dashed border-white"
+                        )}
+                    />
+
+                    <motion.div
+                        ref={textRef}
+                        className={cn("text-secondary text-center font-normal relative",
+                            "2xl:text-4xl md:text-3xl text-2xl "
+                        )}
+                    >
+                        Pixel-Perfect Implementation
+                    </motion.div>
                 </div>
-
-                {/* bottom horizontal line  */}
-                <motion.span
-                    variants={{
-                        rest: {
-                            opacity: 0,
-                            width: 0,
-                        },
-                        hover: {
-                            opacity,
-                            width: gridMaxGap + container.width - 3 // 1px for each offset sum up and 1px for border
-                        }
-                    }}
-
-                    style={{
-                        left: -gridMaxGap,
-                        bottom: container.height / 3
-                    }}
-                    className={cn("h-0 absolute",
-                        "border-t border-dashed border-white"
-                    )}
-                />
-
             </motion.button >
         </MotionConfig >
     );
