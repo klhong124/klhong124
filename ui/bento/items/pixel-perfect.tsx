@@ -49,7 +49,7 @@ export function PixelPerfect() {
 
     const backgroundDuration = 0.5;
     const gridMaxGap = 24
-    const delayStep = 0.1;
+    const delayStep = 0.2;
 
     return (
         <MotionConfig
@@ -325,7 +325,7 @@ export function PixelPerfect() {
                                 hover: {
                                     opacity: 1,
                                     height: container.height / 3 * 2 + gridMaxGap,
-                                    transition: { delay: backgroundDuration + 0.5, duration: 0.8 }
+                                    transition: { delay: backgroundDuration + 0.5, duration: 0.5 }
                                 }
                             }}
                             style={{
