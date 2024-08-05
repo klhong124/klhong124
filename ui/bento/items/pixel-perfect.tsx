@@ -141,6 +141,7 @@ export function PixelPerfect() {
                                 r="49"
                                 fill="transparent"
                                 stroke="white"
+                                opacity={0}
                                 variants={{
                                     rest: {
                                         pathLength: 0, opacity: 0, rotate: 270, scale: 0.5,
@@ -200,7 +201,7 @@ export function PixelPerfect() {
                             style={{
                                 top: container.height / 3
                             }}
-                            className={cn("h-0 absolute left-[1px]",
+                            className={cn("h-0 absolute left-[1px] opacity-0",
                                 "border-t border-dashed border-white"
                             )}
                         />
@@ -222,7 +223,7 @@ export function PixelPerfect() {
                             style={{
                                 left: container.height / 3,
                             }}
-                            className={cn("w-0 absolute top-[1px]",
+                            className={cn("w-0 absolute top-[1px] opacity-0",
                                 "border-l border-dashed border-white"
                             )}
                         />
@@ -260,7 +261,7 @@ export function PixelPerfect() {
                                                 [top ? "bottom" : "top"]: container.height / 3 * 2 + 1,
                                                 borderImage: `linear-gradient(to ${top ? "top" : "bottom"}, rgba(255, 255, 255), rgba(255, 255, 255) 50%, rgba(255, 255, 255, 0)) 1 100%`
                                             }}
-                                            className={cn("w-0 absolute border-l border-white")}
+                                            className={cn("w-0 absolute border-l border-white opacity-0")}
                                         />
                                         {/* dashed line */}
                                         <motion.span
@@ -278,7 +279,7 @@ export function PixelPerfect() {
                                                 left: text.offset.left + text.width / 4 * (top ? i + 1 : total - i),
                                                 [top ? "bottom" : "top"]: container.height / 3 * 2 + 2, // 2px for dash cover offset
                                             }}
-                                            className={cn("w-0 absolute border-l border-dashed border-gray-900")}
+                                            className={cn("w-0 absolute border-l border-dashed border-gray-900 opacity-0")}
                                         />
                                     </div>
                                 );
@@ -324,15 +325,14 @@ export function PixelPerfect() {
                                 },
                                 hover: {
                                     opacity: 1,
-                                    height: container.height / 3 * 2 + gridMaxGap,
-                                    transition: { delay: backgroundDuration + 0.5, duration: 0.5 }
+                                    height: container.height / 3 * 2,
+                                    transition: {  duration: 0.4 }
                                 }
                             }}
                             style={{
                                 right: container.height / 3,
-                                bottom: -gridMaxGap ,
                             }}
-                            className={cn("w-0 absolute",
+                            className={cn("w-0 absolute bottom-0 opacity-0",
                                 "border-l border-dashed border-white"
                             )}
                         />
@@ -351,7 +351,7 @@ export function PixelPerfect() {
                             }}
 
                             style={{
-                                left: -gridMaxGap,
+                                right:0,
                                 bottom: container.height / 3
                             }}
                             className={cn("h-0 absolute",

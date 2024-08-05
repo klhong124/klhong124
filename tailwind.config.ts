@@ -11,6 +11,9 @@ const config: Config = {
   darkMode: "class",
   theme: {
     extend: {
+      screens: {
+        "3xl": "1921px",
+      },
       fontFamily: {
         spaceGrotesk: ['SpaceGrotesk', 'sans-serif'],
       },

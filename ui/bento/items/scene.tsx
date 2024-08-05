@@ -315,7 +315,7 @@ function Camera({ mouseX, mouseY, ...props }: {
     }, [camera, set]);
 
     useLayoutEffect(() => {
-        return cameraX.onChange(() => {
+        return cameraX.on("change",() => {
             if (cameraRef.current) {
                 cameraRef.current.lookAt(scene.position);
             }

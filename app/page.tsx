@@ -4,6 +4,7 @@ import Highlight from "@/ui/highlight";
 import BentoGrid, { BentoGridItem as GridItem } from "@/ui/bento/grid";
 import { CardDemo } from "@/ui/bento/items/card";
 import TechStack from "@/ui/bento/items/tech-stack";
+import Experience from "@/ui/bento/items/experience";
 import PixelPerfect from "@/ui/bento/items/pixel-perfect";
 import ComingSoon from "@/ui/bento/items/coming-soon";
 import { cn } from "@/utils/cn";
@@ -38,7 +39,7 @@ export default function Home() {
             <ComingSoon />
           </GridItem>
           <GridItem id={3}>
-            <ComingSoon />
+            <Experience/>
           </GridItem>
           <GridItem id={4}>
             <CardDemo />
