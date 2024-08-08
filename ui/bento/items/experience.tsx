@@ -29,7 +29,7 @@ export function Experience() {
         <MotionConfig
             transition={{
                 type: "spring",
-                duration: 0.5,
+                duration: 1,
             }}>
             <motion.div
                 ref={ref}
@@ -42,7 +42,7 @@ export function Experience() {
             >
                 <div className={cn("text-primary pb-3",
                     isTight ? "text-4xl" : "text-5xl 3xl:text-6xl")}>
-                    4 years
+                    {new Date().getFullYear() - 2020} years
                 </div>
                 <div className="text-secondary">of web dev experience</div>
             </motion.div >
