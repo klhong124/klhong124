@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useRef, memo, useCallback } from "react";
+import React, { useEffect, useState, useRef, memo, useCallback, use } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/utils/cn";
 
@@ -8,6 +8,7 @@ const charHeight = 15;
 export function CodePattern() {
     const matrixRef = useRef<HTMLDivElement>(null);
     const [matrix, setMatrix] = useState<{ width: number }>({ width: 0, });
+    const [isHover, setIsHover] = useState<boolean>(false);
 
     useEffect(() => {
         const handleResize = () => {
@@ -25,39 +26,43 @@ export function CodePattern() {
     }, [matrixRef]);
 
     return (
-        <div className="max-h-[300px] overflow-hidden">
-            <div className={cn("flex gap-2 w-full p-4 xl:p-6")}>
+        <motion.div className={cn(
+            "max-h-[300px] overflow-hidden"
+        )}
+            onHoverStart={() => {
+                setIsHover(true);
+            }}
+            onHoverEnd={() => {
+                setIsHover(false);
+            }}
+
+        >
+
+            <div ref={matrixRef} className={cn(
+                "flex justify-center h-[400px]",
+            )}>
                 {
-                    ["bg-red-400", "bg-yellow-400", "bg-green-400"].map((color) => (
-                        <span key={color} className={cn(
-                            "rounded-full border border-gray-700",
-                            "w-3 h-3 xl:w-4 xl:h-4",
-                            color
-                        )}></span>
-                    ))
-                }
-            </div>
-            <div ref={matrixRef} className="flex justify-center h-[400px] overflow-hidden">
-                {
-                    Array.from({ length: Math.floor(matrix.width / 24) + 2 }, (_, i) =>
-                        <RainStream key={i + "rain"} />
+                    Array.from({ length: Math.floor(matrix.width / 24) }, (_, i) =>
+                        <RainStream key={i + "rain"} isHover={isHover} />
                     )
                 }
             </div>
 
             <div className={cn("absolute bottom-0 left-0  p-4 xl:p-6 xl:pt-16 pt-16 w-full rounded-b-2xl",
-                "bg-gradient-to-t from-stone-900 via-[rgba(41,37,36,0.9)] via-70% to-transparent"
+                "bg-gradient-to-t from-stone-800 from-70% to-transparent"
             )}>
                 <CardTitle>Clean, sustainable code pattern</CardTitle>
                 <CardDescription>
                     Delivering applications with industry best practices for long-term maintainability and scalability
                 </CardDescription>
             </div>
-        </div >
+        </motion.div >
     );
 }
 
-const RainStream = memo(() => {
+const RainStream = memo(({ isHover }: {
+    isHover: boolean;
+}) => {
     const streamLength = {
         min: 10,
         max: 15,
@@ -67,11 +72,11 @@ const RainStream = memo(() => {
     const randomRange = (min: number, max: number): number => Math.floor(Math.random() * (max - min + 1) + min);
     const getStream = (): string[] => Array.from({ length: randomRange(streamLength.min, streamLength.max) }, () => getChar());
     const getMutatedStream = (stream: string[]): string[] => {
-        return [...stream.map((char) => Math.random() < 0.02 ? getChar() : char).slice(1, stream.length), getChar()];
+        return [...stream.map((char) => Math.random() < 0.03 ? getChar() : char).slice(1, stream.length), getChar()];
     };
 
     const [stream, setStream] = useState<string[]>([]);
-    const [marginTop, setMarginTop] = useState<number>(randomRange(-16 * charHeight, streamLength.max * charHeight));
+    const [marginTop, setMarginTop] = useState<number>(randomRange(-streamLength.max * charHeight, streamLength.max * charHeight));
     const intervalRef = useRef<number | null>(null);
 
     const updateStream = useCallback(() => {
@@ -82,24 +87,27 @@ const RainStream = memo(() => {
     }, []);
 
     useEffect(() => {
-        let _stream = getStream();
-        setStream(_stream);
-        intervalRef.current = window.setInterval(updateStream, randomRange(100, 200)); // 5 - 10 fps
+        setStream(getStream)
+    }, []);
+
+    useEffect(() => {
+        intervalRef.current = window.setInterval(updateStream, isHover ? randomRange(30,70) : 100)
         return () => {
             if (intervalRef.current) {
                 clearInterval(intervalRef.current);
             }
         };
-    }, [updateStream]);
+    }, [updateStream, isHover]);
 
     return (
         <div
             className="text-nowrap text-md text-emerald-500 inline-block"
             style={{
-                marginTop: `${-marginTop}px`,
+                marginTop: -marginTop + "px",
                 writingMode: "vertical-rl",
                 textOrientation: "upright",
                 textShadow: "0 0 4px rgba(32,194,14,0.6)",
+                willChange: "margin-top",
             }}
         >
             {stream.map((char, index) => (

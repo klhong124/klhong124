@@ -2,7 +2,6 @@ import FlipWords from "@/ui/flip-words";
 import Background from "@/ui/background";
 import Highlight from "@/ui/highlight";
 import BentoGrid, { BentoGridItem as GridItem } from "@/ui/bento/grid";
-import { CardDemo } from "@/ui/bento/items/card";
 import TechStack from "@/ui/bento/items/tech-stack";
 import Experience from "@/ui/bento/items/experience";
 import CodePattern from "@/ui/bento/items/code-pattern";
@@ -32,7 +31,7 @@ export default function Home() {
           </div>
 
         </div>
-        <BentoGrid className="-mt-12 overflow-hidden">
+        <BentoGrid className="-mt-12">
           <GridItem id={1}>
             <ComingSoon />
           </GridItem>
@@ -43,7 +42,9 @@ export default function Home() {
             <Experience />
           </GridItem>
           <GridItem id={4}>
-            <CardDemo />
+            <ComingSoon>
+ 
+            </ComingSoon>
           </GridItem>
           <GridItem id={5}>
             <TechStack />

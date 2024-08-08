@@ -27,7 +27,7 @@ export const BentoGrid = ({
     return (
         <div
             className={cn(
-                "grid gap-4 mx-auto min-h-[1100px]",
+                "grid gap-4 min-h-[1100px] overflow-hidden",
                 "xl:grid-cols-6 xl:grid-rows-10 xl:h-screen xl:gap-6",
                 "md:grid-cols-10 md:grid-rows-12 md:p-4",
                 "grid-cols-6 grid-rows-12 p-2",
