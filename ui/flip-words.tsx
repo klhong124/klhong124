@@ -1,9 +1,9 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useMemo, memo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/utils/cn";
 
-export default function FlipWords({
+const FlipWords = memo(function FlipWords({
   words = [
     "Seamless Integration",
     "AI-Driven Insights",
@@ -19,20 +19,23 @@ export default function FlipWords({
   duration?: number;
   className?: string;
 }>) {
-  const [currentWord, setCurrentWord] = useState(words[0]);
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
+  const currentWord = useMemo(() => words[currentWordIndex], [words, currentWordIndex]);
+
   const startAnimation = useCallback(() => {
-    const word = words[words.indexOf(currentWord) + 1] || words[0];
-    setCurrentWord(word);
+    setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length);
     setIsAnimating(true);
-  }, [currentWord, words]);
+  }, [words.length]);
 
   useEffect(() => {
-    if (!isAnimating)
-      setTimeout(() => {
+    if (!isAnimating) {
+      const timer = setTimeout(() => {
         startAnimation();
       }, duration);
+      return () => clearTimeout(timer);
+    }
   }, [isAnimating, duration, startAnimation]);
 
   return (
@@ -69,8 +72,8 @@ export default function FlipWords({
 
           // ease out the animation
           const reverseIndex = currentWord.length - index - 1;
-          const opacity = [0.7, 0.75, 0.8, 0.85, 0.9]
-          const blur = [1, 0.8, 0.6, 0.4, 0.2]
+          const opacity = [0.7, 0.75, 0.8, 0.85, 0.9];
+          const blur = [1, 0.8, 0.6, 0.4, 0.2];
           const blurAmount = blur[reverseIndex] || 0;
           const opacityAmount = opacity[reverseIndex] || 1;
 
@@ -93,14 +96,16 @@ export default function FlipWords({
                 delay: index * 0.05,
                 duration: 0.3,
               }}
-              className="inline-block "
+              className="inline-block"
+              style={{ willChange: "opacity, transform, filter" }}
             >
               {letter}
             </motion.span>
           );
         })}
       </motion.div>
-
     </AnimatePresence>
   );
-};
+});
+
+export default FlipWords;

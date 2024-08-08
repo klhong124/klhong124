@@ -1,7 +1,9 @@
 "use client";
-import React, { useRef, useEffect, useState, memo } from "react";
+import React, { useEffect, useState, useRef, memo, useCallback } from "react";
 import { motion, useInView } from "framer-motion";
 import { cn } from "@/utils/cn";
+
+const charHeight = 17;
 
 export function CodePattern() {
     const ref = useRef<HTMLDivElement>(null);
@@ -34,7 +36,7 @@ export function CodePattern() {
             </div>
             <div ref={matrix} className="flex-grow overflow-hidden flex justify-between">
                 {
-                    Array.from({ length: (matrix.current?.clientWidth ?? 300) / 17 - 5 }, (_, i) =>
+                    Array.from({ length: (matrix.current?.clientWidth ?? 300) / charHeight - 5 }, (_, i) =>
                         <RainStream key={i + "rain"} matrix={matrix} />
                     )
                 }
@@ -52,42 +54,43 @@ export function CodePattern() {
     );
 }
 
+
+
+
 const RainStream = memo(({ matrix }: { matrix: React.RefObject<HTMLDivElement> }) => {
     const chars: string[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;':,.<>?/".split("");
     const getChar = (): string => chars[Math.floor(Math.random() * chars.length)];
     const randomRange = (min: number, max: number): number => Math.floor(Math.random() * (max - min + 1) + min);
-    const getStream = (): string[] => Array.from({ length: randomRange(10, 25) }, () => getChar());
+    const getStream = (): string[] => Array.from({ length: randomRange(10, 15) }, () => getChar());
     const getMutatedStream = (stream: string[]): string[] => {
-        return stream.map((char, i) => (Math.random() < 0.04 ? getChar() : char));
+        return [...stream.map((char) => Math.random() < 0.02 ? getChar() : char).slice(1, stream.length), getChar()];
     };
 
     const [stream, setStream] = useState<string[]>([]);
-    const [marginTop, setMarginTop] = useState<number>(0);
-    const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    const [marginTop, setMarginTop] = useState<number>(randomRange(-400, 25 * 17 + 100));
+    const intervalRef = useRef<number | null>(null);
+
+    const updateStream = useCallback(() => {
+        setStream((prevStream) => getMutatedStream(prevStream));
+        setMarginTop((prevMarginTop) => {
+            const canvasHeight = matrix.current?.clientHeight ?? 300;
+            return prevMarginTop < -canvasHeight ? getStream().length * 17 + 100 : prevMarginTop - 17;
+        });
+    }, [matrix]);
 
     useEffect(() => {
         let _stream = getStream();
-        let canvasHeight = matrix.current?.clientHeight ?? 300;
         setStream(_stream);
-
-        const randomDelay = Math.floor(randomRange(0, 3000));
-
-        setTimeout(() => {
-            intervalRef.current = setInterval(() => {
-                setMarginTop((prev) => (prev < -canvasHeight ? _stream.length * 17 : prev - 17));
-                setStream((stream) => getMutatedStream(stream));
-            }, randomRange(300, 500));
-        }, randomDelay);
-
+        intervalRef.current = window.setInterval(updateStream, 200); // 5 fps
         return () => {
             if (intervalRef.current) {
                 clearInterval(intervalRef.current);
             }
         };
-    }, [matrix]);
+    }, [matrix, updateStream]);
 
     return (
-        <motion.div
+        <div
             className="text-nowrap text-sm text-green-500 inline-block"
             style={{
                 marginTop: `${-marginTop}px`,
@@ -108,9 +111,10 @@ const RainStream = memo(({ matrix }: { matrix: React.RefObject<HTMLDivElement> }
                     {char}
                 </span>
             ))}
-        </motion.div>
+        </div>
     );
 });
+
 
 const CardTitle = ({
     children,

@@ -1,22 +1,36 @@
 "use client";
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useState, memo, useCallback } from "react";
 import { cn } from "@/utils/cn";
 import { motion, MotionConfig, useMotionValue, MotionValue } from "framer-motion";
 import useMeasure from "react-use-measure";
 import Scene from "@/ui/bento/items/scene";
 
-
-export function TechStack() {
+const TechStack = memo(() => {
     const [ref, bounds] = useMeasure({ scroll: true });
     const [isHover, setIsHover] = useState<boolean>(false);
     const [isPress, setIsPress] = useState<boolean>(false);
     const mouseX: MotionValue<number> = useMotionValue(0);
     const mouseY: MotionValue<number> = useMotionValue(0);
 
-    const resetMousePosition = () => {
+    const resetMousePosition = useCallback(() => {
         mouseX.set(0);
         mouseY.set(0);
-    };
+    }, [mouseX, mouseY]);
+
+    const handleHoverStart = useCallback(() => {
+        resetMousePosition();
+        setIsHover(true);
+    }, [resetMousePosition]);
+
+    const handleHoverEnd = useCallback(() => {
+        resetMousePosition();
+        setIsHover(false);
+    }, [resetMousePosition]);
+
+    const handlePointerMove = useCallback((e: any) => {
+        mouseX.set(e.clientX - bounds.x - bounds.width / 2);
+        mouseY.set(e.clientY - bounds.y - bounds.height / 2);
+    }, [bounds, mouseX, mouseY]);
 
     return (
         <MotionConfig transition={{
@@ -28,27 +42,15 @@ export function TechStack() {
                 className={cn("h-full w-full overflow-visible relative cursor-default rounded-2xl")}
                 ref={ref}
                 animate={isHover ? "hover" : "rest"}
-
-                onHoverStart={() => {
-                    resetMousePosition();
-                    setIsHover(true);
-                }}
-                onHoverEnd={() => {
-                    resetMousePosition();
-                    setIsHover(false);
-                }}
+                onHoverStart={handleHoverStart}
+                onHoverEnd={handleHoverEnd}
                 onTapStart={() => setIsPress(true)}
                 onTap={() => setIsPress(false)}
                 onTapCancel={() => setIsPress(false)}
-                onPointerMove={(e) => {
-                    mouseX.set(e.clientX - bounds.x - bounds.width / 2);
-                    mouseY.set(e.clientY - bounds.y - bounds.height / 2);
-                }}
+                onPointerMove={handlePointerMove}
             >
                 <motion.div
-                    className={
-                        cn("top-1 bottom-1 left-1 right-1")
-                    }
+                    className={cn("top-1 bottom-1 left-1 right-1")}
                     variants={{
                         rest: {
                             opacity: 0,
@@ -62,15 +64,12 @@ export function TechStack() {
                     }}
                 >
                     <div
-                        className={
-                            cn("w-[1200px] h-[1200px]",
-                                "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
-                                "pointer-events-none",
-                            )
-                        }
+                        className={cn("w-[1200px] h-[1200px]",
+                            "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+                            "pointer-events-none",
+                        )}
                     >
-
-                        <Suspense fallback={null}>
+                        <Suspense fallback={<></>}>
                             <Scene
                                 isHover={isHover}
                                 isPress={isPress}
@@ -98,10 +97,10 @@ export function TechStack() {
                     )}>
                         TechStack
                     </h1>
-
                 </motion.div>
             </motion.button>
         </MotionConfig>
     );
-}
+});
+
 export default TechStack;
