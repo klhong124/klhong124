@@ -15,7 +15,8 @@ const config: Config = {
         "3xl": "1921px",
       },
       fontFamily: {
-        spaceGrotesk: ['SpaceGrotesk', 'sans-serif'],
+        spaceGrotesk: ['space-grotesk', 'sans-serif'],
+        matrix: ['matrix', 'sans-serif'],
       },
     },
   },

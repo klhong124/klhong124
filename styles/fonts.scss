@@ -1,6 +1,13 @@
 @font-face {
-  font-family: 'SpaceGrotesk';
-  src: url('/public/fonts/SpaceGrotesk.ttf') format('truetype');
+  font-family: 'space-grotesk';
+  src: url('./fonts/space-grotesk.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'matrix';
+  src: url('./fonts/matrix.ttf');
   font-weight: normal;
   font-style: normal;
 }

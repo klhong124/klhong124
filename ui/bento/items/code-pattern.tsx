@@ -1,29 +1,36 @@
 "use client";
 import React, { useEffect, useState, useRef, memo, useCallback } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "@/utils/cn";
 
-const charHeight = 17;
+const charHeight = 16;
 
 export function CodePattern() {
-    const ref = useRef<HTMLDivElement>(null);
-    const matrix = useRef<HTMLDivElement>(null);
-    const isInView = useInView(ref, {
-        margin: "0px 0px -260px 0px",
+    const matrixRef = useRef<HTMLDivElement>(null);
+    const [matrix, setMatrix] = useState<{
+        width: number;
+    }>({
+        width: 0,
     });
 
+    useEffect(() => {
+        const handleResize = () => {
+            if (matrixRef.current) {
+                setMatrix({
+                    width: matrixRef.current.clientWidth,
+                });
+            }
+        };
+        handleResize();
+        window.addEventListener("resize", handleResize);
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, [matrixRef]);
 
     return (
-
-        <motion.div
-            ref={ref}
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-            className={cn(
-                "w-full h-full relative flex flex-col p-4 xl:p-6"
-            )}
-        >
-            <div className="flex gap-2 mb-3">
+        <div className="max-h-[300px] overflow-hidden">
+            <div className={cn("flex gap-2 w-full p-4 xl:p-6")}>
                 {
                     ["bg-red-400", "bg-yellow-400", "bg-green-400"].map((color) => (
                         <span key={color} className={cn(
@@ -34,31 +41,28 @@ export function CodePattern() {
                     ))
                 }
             </div>
-            <div ref={matrix} className="flex-grow overflow-hidden flex justify-between">
+            <div ref={matrixRef} className="flex justify-center h-[400px] overflow-hidden">
                 {
-                    Array.from({ length: (matrix.current?.clientWidth ?? 300) / charHeight - 5 }, (_, i) =>
-                        <RainStream key={i + "rain"} matrix={matrix} />
+                    Array.from({ length: Math.floor(matrix.width / 24) + 2 }, (_, i) =>
+                        <RainStream key={i + "rain"} />
                     )
                 }
-
-
             </div>
 
-            <div>
+            <div className={cn("absolute bottom-0 left-0  p-4 xl:p-6 xl:pt-16 pt-16 w-full rounded-b-2xl",
+                "bg-gradient-to-t from-stone-900 via-[rgba(41,37,36,0.9)] via-70% to-transparent"
+            )}>
                 <CardTitle>Clean, sustainable code pattern</CardTitle>
                 <CardDescription>
                     Delivering applications with industry best practices for long-term maintainability and scalability
                 </CardDescription>
             </div>
-        </motion.div >
+        </div >
     );
 }
 
-
-
-
-const RainStream = memo(({ matrix }: { matrix: React.RefObject<HTMLDivElement> }) => {
-    const chars: string[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;':,.<>?/".split("");
+const RainStream = memo(() => {
+    const chars: string[] = `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*(){}|[]\:"; '<>?,./~/*-+`.split("");
     const getChar = (): string => chars[Math.floor(Math.random() * chars.length)];
     const randomRange = (min: number, max: number): number => Math.floor(Math.random() * (max - min + 1) + min);
     const getStream = (): string[] => Array.from({ length: randomRange(10, 15) }, () => getChar());
@@ -67,31 +71,30 @@ const RainStream = memo(({ matrix }: { matrix: React.RefObject<HTMLDivElement> }
     };
 
     const [stream, setStream] = useState<string[]>([]);
-    const [marginTop, setMarginTop] = useState<number>(randomRange(-400, 25 * 17 + 100));
+    const [marginTop, setMarginTop] = useState<number>(randomRange(-16 * charHeight, 16 * charHeight));
     const intervalRef = useRef<number | null>(null);
 
     const updateStream = useCallback(() => {
         setStream((prevStream) => getMutatedStream(prevStream));
         setMarginTop((prevMarginTop) => {
-            const canvasHeight = matrix.current?.clientHeight ?? 300;
-            return prevMarginTop < -canvasHeight ? getStream().length * 17 + 100 : prevMarginTop - 17;
+            return prevMarginTop < -16 * charHeight ? getStream().length * charHeight : prevMarginTop - charHeight;
         });
-    }, [matrix]);
+    }, []);
 
     useEffect(() => {
         let _stream = getStream();
         setStream(_stream);
-        intervalRef.current = window.setInterval(updateStream, 200); // 5 fps
+        intervalRef.current = window.setInterval(updateStream, randomRange(100,200)); // 5 - 10 fps
         return () => {
             if (intervalRef.current) {
                 clearInterval(intervalRef.current);
             }
         };
-    }, [matrix, updateStream]);
+    }, [updateStream]);
 
     return (
         <div
-            className="text-nowrap text-sm text-green-500 inline-block"
+            className="text-nowrap text-md text-emerald-500 inline-block"
             style={{
                 marginTop: `${-marginTop}px`,
                 writingMode: "vertical-rl",
@@ -101,10 +104,11 @@ const RainStream = memo(({ matrix }: { matrix: React.RefObject<HTMLDivElement> }
         >
             {stream.map((char, index) => (
                 <span
+                    className="cursor-default font-matrix"
                     key={index + char}
                     style={{
-                        color: index === stream.length - 1 ? 'var(--white)' : undefined,
-                        opacity: index < 6 ? 0.1 + index * 0.15 : 1,
+                        color: index === stream.length - 1 ? 'var(--emerald-200)' : undefined,
+                        opacity: index < 5 ? 0.1 + index * 0.2 : 1,
                         textShadow: index === stream.length - 1 ? "0 0 6px #fff" : undefined,
                     }}
                 >
@@ -124,7 +128,7 @@ const CardTitle = ({
     return (
         <h3
             className={cn(
-                "text-xl font-semibold text-primary py-2",
+                "text-xl font-semibold text-primary",
             )}
         >
             {children}
