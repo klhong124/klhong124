@@ -3,15 +3,11 @@ import React, { useEffect, useState, useRef, memo, useCallback } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/utils/cn";
 
-const charHeight = 16;
+const charHeight = 15;
 
 export function CodePattern() {
     const matrixRef = useRef<HTMLDivElement>(null);
-    const [matrix, setMatrix] = useState<{
-        width: number;
-    }>({
-        width: 0,
-    });
+    const [matrix, setMatrix] = useState<{ width: number }>({ width: 0, });
 
     useEffect(() => {
         const handleResize = () => {
@@ -62,29 +58,33 @@ export function CodePattern() {
 }
 
 const RainStream = memo(() => {
+    const streamLength = {
+        min: 10,
+        max: 15,
+    };
     const chars: string[] = `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*(){}|[]\:"; '<>?,./~/*-+`.split("");
     const getChar = (): string => chars[Math.floor(Math.random() * chars.length)];
     const randomRange = (min: number, max: number): number => Math.floor(Math.random() * (max - min + 1) + min);
-    const getStream = (): string[] => Array.from({ length: randomRange(10, 15) }, () => getChar());
+    const getStream = (): string[] => Array.from({ length: randomRange(streamLength.min, streamLength.max) }, () => getChar());
     const getMutatedStream = (stream: string[]): string[] => {
         return [...stream.map((char) => Math.random() < 0.02 ? getChar() : char).slice(1, stream.length), getChar()];
     };
 
     const [stream, setStream] = useState<string[]>([]);
-    const [marginTop, setMarginTop] = useState<number>(randomRange(-16 * charHeight, 16 * charHeight));
+    const [marginTop, setMarginTop] = useState<number>(randomRange(-16 * charHeight, streamLength.max * charHeight));
     const intervalRef = useRef<number | null>(null);
 
     const updateStream = useCallback(() => {
         setStream((prevStream) => getMutatedStream(prevStream));
         setMarginTop((prevMarginTop) => {
-            return prevMarginTop < -16 * charHeight ? getStream().length * charHeight : prevMarginTop - charHeight;
+            return prevMarginTop < -streamLength.max * charHeight ? getStream().length * charHeight : prevMarginTop - charHeight;
         });
     }, []);
 
     useEffect(() => {
         let _stream = getStream();
         setStream(_stream);
-        intervalRef.current = window.setInterval(updateStream, randomRange(100,200)); // 5 - 10 fps
+        intervalRef.current = window.setInterval(updateStream, randomRange(100, 200)); // 5 - 10 fps
         return () => {
             if (intervalRef.current) {
                 clearInterval(intervalRef.current);

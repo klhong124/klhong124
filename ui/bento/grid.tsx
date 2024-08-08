@@ -27,7 +27,7 @@ export const BentoGrid = ({
     return (
         <div
             className={cn(
-                "grid gap-4 mx-auto",
+                "grid gap-4 mx-auto min-h-[1100px]",
                 "xl:grid-cols-6 xl:grid-rows-10 xl:h-screen xl:gap-6",
                 "md:grid-cols-10 md:grid-rows-12 md:p-4",
                 "grid-cols-6 grid-rows-12 p-2",
@@ -51,7 +51,7 @@ export const BentoGridItem = ({
     return (
         <motion.section
             className={cn(
-                "mx-auto w-full  relative  overflow-visible rounded-2xl bg-black",
+                "mx-auto w-full relative  overflow-visible rounded-2xl bg-black",
                 bentoConfig[id],
                 className
             )}
