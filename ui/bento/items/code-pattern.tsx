@@ -1,21 +1,20 @@
 "use client";
-import React, { useEffect, useState, useRef, memo, useCallback, use } from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useState, useRef, memo, useCallback } from "react";
+import { motion, useAnimation, } from "framer-motion";
 import { cn } from "@/utils/cn";
 
-const charHeight = 15;
+const chars: string[] = `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*(){}|[]:";'<>?,./~/*-+`.split("");
+const getStream = (): string[] => Array.from({ length: 20 }, () => chars[Math.floor(Math.random() * chars.length)]);
+
 
 export function CodePattern() {
     const matrixRef = useRef<HTMLDivElement>(null);
-    const [matrix, setMatrix] = useState<{ width: number }>({ width: 0, });
-    const [isHover, setIsHover] = useState<boolean>(false);
+    const [columns, setColumns] = useState<number>(0);
 
     useEffect(() => {
         const handleResize = () => {
             if (matrixRef.current) {
-                setMatrix({
-                    width: matrixRef.current.clientWidth,
-                });
+                setColumns(Math.floor(matrixRef.current.clientWidth / 24))
             }
         };
         handleResize();
@@ -25,25 +24,18 @@ export function CodePattern() {
         };
     }, [matrixRef]);
 
+
     return (
         <motion.div className={cn(
             "max-h-[300px] overflow-hidden"
-        )}
-            onHoverStart={() => {
-                setIsHover(true);
-            }}
-            onHoverEnd={() => {
-                setIsHover(false);
-            }}
-
-        >
+        )}>
 
             <div ref={matrixRef} className={cn(
-                "flex justify-center h-[400px]",
+                "flex justify-between h-[400px]",
             )}>
                 {
-                    Array.from({ length: Math.floor(matrix.width / 24) }, (_, i) =>
-                        <RainStream key={i + "rain"} isHover={isHover} />
+                    Array.from({ length: columns }).map((_, i) =>
+                        <RainStream key={i + "rain"} />
                     )
                 }
             </div>
@@ -60,70 +52,96 @@ export function CodePattern() {
     );
 }
 
-const RainStream = memo(({ isHover }: {
-    isHover: boolean;
-}) => {
-    const streamLength = {
-        min: 10,
-        max: 15,
-    };
-    const chars: string[] = `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*(){}|[]\:"; '<>?,./~/*-+`.split("");
-    const getChar = (): string => chars[Math.floor(Math.random() * chars.length)];
+const RainStream = memo(() => {
+    const matrixRef = useRef<HTMLDivElement>(null);
+
+    const stream = getStream();
+
+    const controls = useAnimation()
+    const show = useAnimation()
     const randomRange = (min: number, max: number): number => Math.floor(Math.random() * (max - min + 1) + min);
-    const getStream = (): string[] => Array.from({ length: randomRange(streamLength.min, streamLength.max) }, () => getChar());
-    const getMutatedStream = (stream: string[]): string[] => {
-        return [...stream.map((char) => Math.random() < 0.03 ? getChar() : char).slice(1, stream.length), getChar()];
-    };
 
-    const [stream, setStream] = useState<string[]>([]);
-    const [marginTop, setMarginTop] = useState<number>(randomRange(-streamLength.max * charHeight, streamLength.max * charHeight));
-    const intervalRef = useRef<number | null>(null);
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            show.start({
+                opacity: 1,
+                transition: {
+                    delay: 2
+                }
+            })
+            controls.start({
+                color: 'var(--emerald-500)',
+                opacity: 0,
+            });
+        }, randomRange(0, 2000));
 
-    const updateStream = useCallback(() => {
-        setStream((prevStream) => getMutatedStream(prevStream));
-        setMarginTop((prevMarginTop) => {
-            return prevMarginTop < -streamLength.max * charHeight ? getStream().length * charHeight : prevMarginTop - charHeight;
-        });
+        return () => clearTimeout(timeoutId);
+    }, [controls]);
+
+
+    const updateMatrix = useCallback(() => {
+        if (matrixRef.current) {
+            const children = matrixRef.current.children;
+            children[randomRange(0, children.length - 1)].textContent = chars[randomRange(0, chars.length - 1)];
+        }
     }, []);
 
     useEffect(() => {
-        setStream(getStream)
-    }, []);
-
-    useEffect(() => {
-        intervalRef.current = window.setInterval(updateStream, isHover ? randomRange(30,70) : 100)
+        const interval = setInterval(updateMatrix, 200);
         return () => {
-            if (intervalRef.current) {
-                clearInterval(intervalRef.current);
-            }
+            clearInterval(interval);
         };
-    }, [updateStream, isHover]);
+    }, [updateMatrix]);
+
+
+
 
     return (
-        <div
+        <motion.div
+            ref={matrixRef}
+            initial={{
+                opacity: 0,
+            }}
+            animate={show}
             className="text-nowrap text-md text-emerald-500 inline-block"
             style={{
-                marginTop: -marginTop + "px",
                 writingMode: "vertical-rl",
                 textOrientation: "upright",
                 textShadow: "0 0 4px rgba(32,194,14,0.6)",
-                willChange: "margin-top",
             }}
         >
-            {stream.map((char, index) => (
-                <span
-                    className="cursor-default font-matrix"
-                    key={index + char}
-                    style={{
-                        color: index === stream.length - 1 ? 'var(--emerald-200)' : undefined,
-                        opacity: index < 5 ? 0.1 + index * 0.2 : 1,
-                        textShadow: index === stream.length - 1 ? "0 0 6px #fff" : undefined,
-                    }}
-                >
-                    {char}
-                </span>
-            ))}
-        </div>
+            {
+                stream.map((char, index) => {
+                    return <motion.span
+                        initial={{
+                            color: 'var(--white)',
+                            opacity: 1,
+                        }}
+                        animate={controls}
+                        transition={{
+                            opacity: {
+                                duration: 1.5,
+                                delay: index * 0.08,
+                                repeat: Infinity,
+                                repeatDelay: 0.5,
+                            },
+                            color: {
+                                duration: 0.3,
+                                delay: index * 0.08,
+                                repeat: Infinity,
+                                repeatDelay: 1.7,
+                            },
+                        }}
+                        key={index + char
+                        }
+                        className="cursor-default font-matrix "
+                    >
+                        {char}
+                    </motion.span>
+
+                })
+            }
+        </motion.div>
     );
 });
 
@@ -136,7 +154,7 @@ const CardTitle = ({
     return (
         <h3
             className={cn(
-                "text-xl font-semibold text-primary",
+                "text-xl font-semibold text-primary pb-2",
             )}
         >
             {children}

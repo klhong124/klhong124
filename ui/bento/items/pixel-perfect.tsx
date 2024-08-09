@@ -49,7 +49,7 @@ export function PixelPerfect() {
 
     const backgroundDuration = 0.5;
     const gridMaxGap = 24
-    const delayStep = 0.2;
+    const delayStep = 0.1;
 
     return (
         <MotionConfig
