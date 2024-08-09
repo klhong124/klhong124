@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense, useState, memo, useCallback } from "react";
+import React, { Suspense, useState, memo } from "react";
 import { cn } from "@/utils/cn";
 import { motion, MotionConfig, useMotionValue, MotionValue } from "framer-motion";
 import useMeasure from "react-use-measure";
@@ -7,30 +7,29 @@ import Scene from "@/ui/bento/items/scene";
 
 const TechStack = memo(() => {
     const [ref, bounds] = useMeasure({ scroll: true });
-    const [isHover, setIsHover] = useState<boolean>(false);
-    const [isPress, setIsPress] = useState<boolean>(false);
+    const [isHover, setIsHover] = useState<boolean>(true);
     const mouseX: MotionValue<number> = useMotionValue(0);
     const mouseY: MotionValue<number> = useMotionValue(0);
 
-    const resetMousePosition = useCallback(() => {
+    const resetMousePosition = () => {
         mouseX.set(0);
         mouseY.set(0);
-    }, [mouseX, mouseY]);
+    };
 
-    const handleHoverStart = useCallback(() => {
+    const handleHoverStart = () => {
         resetMousePosition();
         setIsHover(true);
-    }, [resetMousePosition]);
+    };
 
-    const handleHoverEnd = useCallback(() => {
+    const handleHoverEnd = () => {
         resetMousePosition();
         setIsHover(false);
-    }, [resetMousePosition]);
+    };
 
-    const handlePointerMove = useCallback((e: any) => {
+    const handlePointerMove = (e: any) => {
         mouseX.set(e.clientX - bounds.x - bounds.width / 2);
         mouseY.set(e.clientY - bounds.y - bounds.height / 2);
-    }, [bounds, mouseX, mouseY]);
+    };
 
     return (
         <MotionConfig transition={{
@@ -44,9 +43,6 @@ const TechStack = memo(() => {
                 animate={isHover ? "hover" : "rest"}
                 onHoverStart={handleHoverStart}
                 onHoverEnd={handleHoverEnd}
-                onTapStart={() => setIsPress(true)}
-                onTap={() => setIsPress(false)}
-                onTapCancel={() => setIsPress(false)}
                 onPointerMove={handlePointerMove}
             >
                 <motion.div
@@ -64,7 +60,7 @@ const TechStack = memo(() => {
                     }}
                 >
                     <div
-                        className={cn("w-[1200px] h-[1200px]",
+                        className={cn("w-[800px] h-[800px] scale-150",
                             "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
                             "pointer-events-none",
                         )}
@@ -72,7 +68,6 @@ const TechStack = memo(() => {
                         <Suspense fallback={<></>}>
                             <Scene
                                 isHover={isHover}
-                                isPress={isPress}
                                 mouseX={mouseX}
                                 mouseY={mouseY}
                             />

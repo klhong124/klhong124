@@ -10,9 +10,8 @@ function useSmoothTransform(value: MotionValue<number>, springOptions: SpringOpt
 }
 
 
-export const Scene = React.memo(({ isHover, isPress, mouseX, mouseY }: {
+export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
     readonly isHover: boolean;
-    readonly isPress: boolean;
     readonly mouseX: MotionValue<number>;
     readonly mouseY: MotionValue<number>;
 }) => {
