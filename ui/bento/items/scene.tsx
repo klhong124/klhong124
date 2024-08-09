@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useLayoutEffect, use, useEffect } from "react";
+import React, { useRef, useLayoutEffect, memo } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
 import { useGLTF } from '@react-three/drei';
 import { motion } from "framer-motion-3d";
@@ -10,12 +10,12 @@ function useSmoothTransform(value: MotionValue<number>, springOptions: SpringOpt
 }
 
 
-export function Scene({ isHover, isPress, mouseX, mouseY }: {
+export const Scene = React.memo(({ isHover, isPress, mouseX, mouseY }: {
     readonly isHover: boolean;
     readonly isPress: boolean;
     readonly mouseX: MotionValue<number>;
     readonly mouseY: MotionValue<number>;
-}) {
+}) => {
 
     return (
         <Canvas
@@ -275,19 +275,19 @@ export function Scene({ isHover, isPress, mouseX, mouseY }: {
             </motion.group>
         </ Canvas>
     );
-}
+});
 
-export function Lights() {
+const Lights = memo(() => {
     return (
         <motion.ambientLight intensity={Math.PI / 3} />
     );
-}
+});
 
-// Adapted from https://github.com/pmndrs/drei/blob/master/src/core/PerspectiveCamera.tsx
-function Camera({ mouseX, mouseY, ...props }: {
+const Camera = React.memo(({ mouseX, mouseY }: {
     readonly mouseX: MotionValue<number>;
     readonly mouseY: MotionValue<number>;
-}) {
+}) => {
+
     const cameraX = useSmoothTransform(mouseX, spring, (x) => x / 1000);
     const cameraY = useSmoothTransform(mouseY, spring, (y) => (-1 * y) / 1000);
 
@@ -315,7 +315,7 @@ function Camera({ mouseX, mouseY, ...props }: {
     }, [camera, set]);
 
     useLayoutEffect(() => {
-        return cameraX.on("change",() => {
+        return cameraX.on("change", () => {
             if (cameraRef.current) {
                 cameraRef.current.lookAt(scene.position);
             }
@@ -334,7 +334,7 @@ function Camera({ mouseX, mouseY, ...props }: {
             }}
         />
     );
-}
+});
 
 const spring = { stiffness: 600, damping: 30 };
 

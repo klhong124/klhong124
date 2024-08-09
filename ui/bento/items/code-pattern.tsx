@@ -1,10 +1,8 @@
 "use client";
-import React, { useEffect, useState, useRef, memo, useCallback } from "react";
+import React, { useEffect, useState, useRef, memo, useCallback, useMemo } from "react";
 import { motion, useAnimation, } from "framer-motion";
 import { cn } from "@/utils/cn";
 
-const chars: string[] = `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*(){}|[]:";'<>?,./~/*-+`.split("");
-const getStream = (): string[] => Array.from({ length: 20 }, () => chars[Math.floor(Math.random() * chars.length)]);
 
 
 export function CodePattern() {
@@ -53,16 +51,21 @@ export function CodePattern() {
 }
 
 const RainStream = memo(() => {
+    const chars: string[] = useMemo(() => `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*(){}|[]:";'<>?,./~/*-+`.split(""), []);
+    const getStream = (): string[] => Array.from({ length: 20 }, () => chars[Math.floor(Math.random() * chars.length)]);
+
     const matrixRef = useRef<HTMLDivElement>(null);
+    const timeoutId = useRef<NodeJS.Timeout | null>(null);
+    const intervalId = useRef<NodeJS.Timeout | null>(null);
 
     const stream = getStream();
 
     const charControls = useAnimation()
     const columnControls = useAnimation()
-    const randomRange = (min: number, max: number): number => Math.floor(Math.random() * (max - min + 1) + min);
+    const randomRange = useCallback((min: number, max: number): number => Math.floor(Math.random() * (max - min + 1) + min), []);
 
     useEffect(() => {
-        const timeoutId = setTimeout(() => {
+        timeoutId.current = setTimeout(() => {
             columnControls.start({
                 y: 0,
                 opacity: 1,
@@ -77,7 +80,11 @@ const RainStream = memo(() => {
             });
         }, randomRange(0, 2000));
 
-        return () => clearTimeout(timeoutId);
+        return () => {
+            if (timeoutId.current) {
+                clearTimeout(timeoutId.current);
+            }
+        }
     }, []);
 
 
@@ -89,9 +96,11 @@ const RainStream = memo(() => {
     }, []);
 
     useEffect(() => {
-        const interval = setInterval(updateMatrix, 200);
+        intervalId.current = setInterval(updateMatrix, 200);
         return () => {
-            clearInterval(interval);
+            if (intervalId.current) {
+                clearInterval(intervalId.current);
+            }
         };
     }, [updateMatrix]);
 
