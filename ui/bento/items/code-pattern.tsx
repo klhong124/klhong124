@@ -57,26 +57,28 @@ const RainStream = memo(() => {
 
     const stream = getStream();
 
-    const controls = useAnimation()
-    const show = useAnimation()
+    const charControls = useAnimation()
+    const columnControls = useAnimation()
     const randomRange = (min: number, max: number): number => Math.floor(Math.random() * (max - min + 1) + min);
 
     useEffect(() => {
         const timeoutId = setTimeout(() => {
-            show.start({
+            columnControls.start({
+                y: 0,
                 opacity: 1,
                 transition: {
-                    delay: 2
+                    type: "linear",
+                    duration: 2,
                 }
-            })
-            controls.start({
+            });
+            charControls.start({
                 color: 'var(--emerald-500)',
                 opacity: 0,
             });
         }, randomRange(0, 2000));
 
         return () => clearTimeout(timeoutId);
-    }, [controls]);
+    }, []);
 
 
     const updateMatrix = useCallback(() => {
@@ -100,36 +102,39 @@ const RainStream = memo(() => {
         <motion.div
             ref={matrixRef}
             initial={{
+                y: "100%",
                 opacity: 0,
             }}
-            animate={show}
+            animate={columnControls}
             className="text-nowrap text-md text-emerald-500 inline-block"
             style={{
                 writingMode: "vertical-rl",
                 textOrientation: "upright",
-                textShadow: "0 0 4px rgba(32,194,14,0.6)",
+                textShadow: "0 0 4px var(--emerald-800)",
             }}
         >
             {
                 stream.map((char, index) => {
+                    const matrixLength = randomRange(13, 17) / 10;
+
                     return <motion.span
                         initial={{
                             color: 'var(--white)',
                             opacity: 1,
                         }}
-                        animate={controls}
+                        animate={charControls}
                         transition={{
                             opacity: {
-                                duration: 1.5,
+                                duration: matrixLength,
                                 delay: index * 0.08,
                                 repeat: Infinity,
-                                repeatDelay: 0.5,
+                                repeatDelay: 2 - matrixLength,
                             },
                             color: {
-                                duration: 0.3,
+                                duration: matrixLength / 5,
                                 delay: index * 0.08,
                                 repeat: Infinity,
-                                repeatDelay: 1.7,
+                                repeatDelay: 2 - matrixLength / 5,
                             },
                         }}
                         key={index + char
