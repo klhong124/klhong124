@@ -1,9 +1,7 @@
 "use client";
 import React, { useEffect, useState, useRef, memo, useCallback, useMemo } from "react";
-import { motion, useAnimation, } from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "@/utils/cn";
-
-
 
 export function CodePattern() {
     const matrixRef = useRef<HTMLDivElement>(null);
@@ -24,12 +22,10 @@ export function CodePattern() {
 
 
     return (
-        <motion.div className={cn(
-            "max-h-[300px] overflow-hidden"
-        )}>
+        <div className={cn("max-h-[300px] overflow-hidden")}>
 
             <div ref={matrixRef} className={cn(
-                "flex justify-between h-[400px]",
+                "flex justify-between relative",
             )}>
                 {
                     Array.from({ length: columns }).map((_, i) =>
@@ -46,46 +42,18 @@ export function CodePattern() {
                     Delivering applications with industry best practices for long-term maintainability and scalability
                 </CardDescription>
             </div>
-        </motion.div >
+        </div >
     );
 }
 
 const RainStream = memo(() => {
     const chars: string[] = useMemo(() => `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*(){}|[]:";'<>?,./~/*-+`.split(""), []);
     const getStream = (): string[] => Array.from({ length: 20 }, () => chars[Math.floor(Math.random() * chars.length)]);
-
-    const matrixRef = useRef<HTMLDivElement>(null);
-    const timeoutId = useRef<NodeJS.Timeout | null>(null);
     const intervalId = useRef<NodeJS.Timeout | null>(null);
-
+    const randomRange = useCallback((min: number, max: number): number => Math.floor(Math.random() * (max - min + 1) + min), []);
+    const matrixRef = useRef<HTMLDivElement>(null);
     const stream = getStream();
 
-    const charControls = useAnimation()
-    const columnControls = useAnimation()
-    const randomRange = useCallback((min: number, max: number): number => Math.floor(Math.random() * (max - min + 1) + min), []);
-
-    useEffect(() => {
-        timeoutId.current = setTimeout(() => {
-            columnControls.start({
-                y: 0,
-                opacity: 1,
-                transition: {
-                    type: "linear",
-                    duration: 2,
-                }
-            });
-            charControls.start({
-                color: 'var(--emerald-500)',
-                opacity: 0,
-            });
-        }, randomRange(0, 2000));
-
-        return () => {
-            if (timeoutId.current) {
-                clearTimeout(timeoutId.current);
-            }
-        }
-    }, []);
 
 
     const updateMatrix = useCallback(() => {
@@ -105,53 +73,39 @@ const RainStream = memo(() => {
     }, [updateMatrix]);
 
 
-
-
     return (
         <motion.div
             ref={matrixRef}
-            initial={{
-                y: "100%",
-                opacity: 0,
+            animate={{
+                backgroundPositionY: 500,
+                transition: {
+                    duration: 2 + Math.random() * 2,
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    type: "linear",
+                    delay: Math.random() * 4,
+                }
             }}
-            animate={columnControls}
-            className="text-nowrap text-md text-emerald-500 inline-block"
+
+            className={cn("text-nowrap text-md inline-block bg-clip-text text-transparent bg-repeat h-[500px]",
+                "bg-gradient-to-b from-transparent from-40% via-emerald-500 via-90% to-white "
+            )}
             style={{
                 writingMode: "vertical-rl",
                 textOrientation: "upright",
-                textShadow: "0 0 4px var(--emerald-800)",
             }}
         >
             {
                 stream.map((char, index) => {
-                    const matrixLength = randomRange(13, 17) / 10;
-
-                    return <motion.span
-                        initial={{
-                            color: 'var(--white)',
-                            opacity: 1,
-                        }}
-                        animate={charControls}
-                        transition={{
-                            opacity: {
-                                duration: matrixLength,
-                                delay: index * 0.08,
-                                repeat: Infinity,
-                                repeatDelay: 2 - matrixLength,
-                            },
-                            color: {
-                                duration: matrixLength / 5,
-                                delay: index * 0.08,
-                                repeat: Infinity,
-                                repeatDelay: 2 - matrixLength / 5,
-                            },
-                        }}
+                    return <span
                         key={index + char
                         }
-                        className="cursor-default font-matrix "
+                        className={cn(
+                            "cursor-default font-matrix",
+                        )}
                     >
                         {char}
-                    </motion.span>
+                    </span>
 
                 })
             }

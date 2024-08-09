@@ -42,9 +42,7 @@ export default function Home() {
             <Experience />
           </GridItem>
           <GridItem id={4}>
-            <ComingSoon>
- 
-            </ComingSoon>
+            <ComingSoon />
           </GridItem>
           <GridItem id={5}>
             <TechStack />

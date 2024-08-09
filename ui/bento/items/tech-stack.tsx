@@ -7,7 +7,7 @@ import Scene from "@/ui/bento/items/scene";
 
 const TechStack = memo(() => {
     const [ref, bounds] = useMeasure({ scroll: true });
-    const [isHover, setIsHover] = useState<boolean>(true);
+    const [isHover, setIsHover] = useState<boolean>(false);
     const mouseX: MotionValue<number> = useMotionValue(0);
     const mouseY: MotionValue<number> = useMotionValue(0);
 
