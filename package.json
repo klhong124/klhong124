@@ -13,6 +13,7 @@
   "dependencies": {
     "@react-three/drei": "^9.108.4",
     "@react-three/fiber": "^8.16.8",
+    "@react-three/p2": "^0.0.6",
     "@types/tailwindcss": "^3.1.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.2.13",

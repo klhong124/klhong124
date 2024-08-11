@@ -6,6 +6,7 @@ import TechStack from "@/ui/bento/items/tech-stack";
 import Experience from "@/ui/bento/items/experience";
 import CodePattern from "@/ui/bento/items/code-pattern";
 import PixelPerfect from "@/ui/bento/items/pixel-perfect";
+import Hashtag from "@/ui/bento/items/hashtag";
 import ComingSoon from "@/ui/bento/items/coming-soon";
 import { cn } from "@/utils/cn";
 
@@ -54,7 +55,7 @@ export default function Home() {
             <ComingSoon />
           </GridItem>
           <GridItem id={8}>
-            <ComingSoon />
+            <Hashtag />
           </GridItem>
           <GridItem id={9}>
             <ComingSoon />

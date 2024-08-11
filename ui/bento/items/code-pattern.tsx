@@ -64,7 +64,7 @@ const RainStream = memo(() => {
     }, []);
 
     useEffect(() => {
-        intervalId.current = setInterval(updateMatrix, 200);
+        intervalId.current = setInterval(updateMatrix, 500);
         return () => {
             if (intervalId.current) {
                 clearInterval(intervalId.current);
@@ -83,16 +83,17 @@ const RainStream = memo(() => {
                     repeat: Infinity,
                     repeatType: "loop",
                     type: "linear",
-                    delay: Math.random() * 4,
+                    delay: Math.random() * -4,
                 }
             }}
 
             className={cn("text-nowrap text-md inline-block bg-clip-text text-transparent bg-repeat h-[500px]",
-                "bg-gradient-to-b from-transparent from-40% via-emerald-500 via-90% to-white "
             )}
             style={{
                 writingMode: "vertical-rl",
                 textOrientation: "upright",
+                backgroundImage: "linear-gradient(to bottom, var(--transparent) 40%, var(--emerald-500) 93%, var(--white)  95%, var(--transparent) 100%)"
+
             }}
         >
             {
