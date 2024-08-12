@@ -83,9 +83,8 @@ const Shape = ({
     });
 
     useEffect(() => {
-        const args = Object.keys(config).reduce((a, c) => [...a, config[c]], []);
-        body.current = Matter.Bodies[type](...args, options);
-
+        const args:any = Object.keys(config).reduce((a, c) => [...a, config[c]] as any, []);
+        body.current = (Matter.Bodies as any)[type](...args, options);
         Matter.World.add(engine.world, body.current);
 
         return () => {
