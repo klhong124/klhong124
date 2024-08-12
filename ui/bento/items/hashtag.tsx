@@ -29,18 +29,35 @@ const EngineContext = createContext(null);
 const useEngine = () => useContext(EngineContext);
 
 const World = ({ children }: any) => {
-    const [engine] = useState(() => Matter.Engine.create());
+    const [engine] = useState<any>(() => Matter.Engine.create());
     useTick((delta) => Matter.Engine.update(engine, delta * (1000 / 60)));
+
+    const app: any = useApp();
+    const constraint = { stiffness: 0.2 }
+    useEffect(() => {
+        const mouse = Matter.Mouse.create(app.view);
+        const mouseConstraint = Matter.MouseConstraint.create(engine, { mouse, constraint });
+
+        const scale = 1 / window.devicePixelRatio;
+        Matter.Mouse.setScale(mouse, { x: scale, y: scale });
+
+        Matter.World.add(engine.world, mouseConstraint);
+
+        return () => {
+            Matter.World.remove(engine.world, mouseConstraint);
+        };
+    }, []);
 
     return <EngineContext.Provider value={engine}>{children}</EngineContext.Provider>;
 };
 
+// https://codepen.io/inlet/pen/BaLVrdX
 const Shape = ({
     type,
     config,
     options = {},
-    lineStyle = [1, 0xff0000, 1],
-    fillStyle = [0xff0000, 0]
+    lineStyle = [1, 0xff0000, 1], // [thickness, color, alpha]
+    fillStyle = [0xff0000, 0] // [color, alpha]
 }: any) => {
     const engine: any = useEngine();
     const body: any = useRef();
@@ -77,28 +94,6 @@ const Shape = ({
     }, []);
 
     return <Graphics ref={graphics} />;
-};
-
-// enable mouse constraint
-const Mouse = ({ children, constraint = { stiffness: 0.2 } }: any) => {
-    const app = useApp();
-    const engine: any = useEngine();
-
-    useEffect(() => {
-        const mouse = Matter.Mouse.create(app.view);
-        const mouseConstraint = Matter.MouseConstraint.create(engine, { mouse, constraint });
-
-        const scale = 1 / window.devicePixelRatio;
-        Matter.Mouse.setScale(mouse, { x: scale, y: scale });
-
-        Matter.World.add(engine.world, mouseConstraint);
-
-        return () => {
-            Matter.World.remove(engine.world, mouseConstraint);
-        };
-    }, []);
-
-    return <>{children}</>;
 };
 
 
@@ -139,7 +134,6 @@ export function Hashtag() {
 
             >
                 <World>
-                    <Mouse>
                         <Shape
                             type="circle"
                             fillStyle={[0xff544d, 0.7]}
@@ -189,7 +183,6 @@ export function Hashtag() {
                             />
                         </Container>
 
-                    </Mouse>
                 </World>
             </Stage>
         </div >
