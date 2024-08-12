@@ -1,26 +1,41 @@
 "use client";
 import React, { useEffect, useMemo, StrictMode, useState } from "react";
-import { Physics, useCircle, usePlane, useLine } from '@react-three/p2';
+import { Physics, usePlane, useLine, useBox, useCircle } from '@react-three/p2';
 import { Canvas, useThree } from '@react-three/fiber';
+import { Text, RoundedBox } from '@react-three/drei';
 
 import { cn } from "@/utils/cn";
+const CANVAS_WIDTH = 10;
 
-function Ball({ isHover }: { isHover: boolean }) {
-    const [ref] = useCircle(() => ({ args: [0.5], mass: 1, position: [2, 20] }));
+const tags = [
+    "Quick Learner",
+    "Self-Motivated",
+    "Problem Solver",
+    "Critical Thinker",
+    "Methodical",
+    "Team Player",
+    "Meticulous",
+    "Adaptable",
+    "Innovative",
+    "Analytical",
+]
+function Pills({ children, index }: {
+    index: number;
+    children: string;
+}) {
+    const pillWidth = useMemo(() => children.length / 3, [children]);
+    const randomPositionX = useMemo(() => 0.1 + (pillWidth / 2) + (Math.random() * (CANVAS_WIDTH - pillWidth - 0.1)), []);
+    const [ref] = useBox(() => ({ args: [pillWidth, 1], mass: 3, position: [randomPositionX, index + 15] }));
     return (
-        <mesh ref={ref as any}>
-            <sphereGeometry args={[0.5]} />
-            <meshNormalMaterial />
-        </mesh>
-    );
-}
-function Ball2() {
-    const [ref] = useCircle(() => ({ args: [0.5], mass: 1, position: [2.1, 15] }));
-    return (
-        <mesh ref={ref as any}>
-            <sphereGeometry args={[0.5]} />
-            <meshNormalMaterial />
-        </mesh>
+        <RoundedBox args={[pillWidth, 1, 0]} radius={0.5} ref={ref as any}>
+            <meshLambertMaterial attach="material" color={"grey"} />
+            <Text
+                fontSize={0.5}
+            >
+                {children}
+            </Text>
+        </RoundedBox>
+
     );
 }
 
@@ -29,17 +44,17 @@ function Ground() {
     return <mesh ref={ref as any} />;
 }
 function Walls() {
-    const [leftRef] = useLine(() => ({
-        angle: Math.PI / 2,
-        args: [10],
+    const [leftRef] = useBox(() => ({
+        args: [1, 50],
         mass: 0,
-        position: [0, 0],
+        position: [-0.5, 0],
+        type: 'Kinematic',
     }))
-    const [rightRef] = useLine(() => ({
-        angle: Math.PI / 2,
-        args: [10],
+    const [rightRef] = useBox(() => ({
+        args: [1, 50],
         mass: 0,
-        position: [10, 0],
+        position: [CANVAS_WIDTH + 0.5, 0],
+        type: 'Kinematic',
     }))
     return (<>
         <group ref={leftRef as any} />
@@ -54,7 +69,7 @@ function CameraSetup() {
     // Memoize the aspect ratio and view dimensions
     const { aspect, viewWidth, viewHeight } = useMemo(() => {
         const aspect = size.height / size.width;
-        const viewWidth = 10; // Desired visible width (in world units)
+        const viewWidth = CANVAS_WIDTH; // Desired visible width (in world units)
         const viewHeight = viewWidth * aspect;
         return { aspect, viewWidth, viewHeight };
     }, [size]);
@@ -75,23 +90,21 @@ function CameraSetup() {
 }
 
 export function Hashtag() {
-
-    const [isHover, setIsHover] = useState<boolean>(false);
-
     return (
         <StrictMode>
-
             <Canvas orthographic camera={{ position: [0, 0, 10] }} className={cn("w-full h-full")}>
                 <CameraSetup />
-
-                    <Physics normalIndex={2}>
-
-                        <Ball isHover={isHover} />
-                        <Ball2 />
-                        <Ground />
-                        <Walls />
-
-                    </Physics>
+                <Physics normalIndex={2}>
+                    {
+                        tags.map((tag, i) => (
+                            <Pills key={i} index={i}>
+                                {tag}
+                            </Pills>
+                        ))
+                    }
+                    <Ground />
+                    <Walls />
+                </Physics>
             </Canvas >
         </StrictMode>
 

@@ -64,7 +64,7 @@ const RainStream = memo(() => {
     }, []);
 
     useEffect(() => {
-        intervalId.current = setInterval(updateMatrix, 500);
+        intervalId.current = setInterval(updateMatrix, 1000);
         return () => {
             if (intervalId.current) {
                 clearInterval(intervalId.current);
