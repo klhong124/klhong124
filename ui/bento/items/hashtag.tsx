@@ -1,11 +1,14 @@
 "use client";
-import React, { useEffect, useMemo, StrictMode, useState } from "react";
-import { Physics, usePlane, useLine, useBox, useCircle } from '@react-three/p2';
-import { Canvas, useThree } from '@react-three/fiber';
-import { Text, RoundedBox } from '@react-three/drei';
+import React, { useRef, createContext, useEffect, useState, useCallback, useContext } from "react";
 import { cn } from "@/utils/cn";
+import throttle from "@/utils/throttle";
+import Matter from 'matter-js';
 
-const CANVAS_WIDTH = 10;
+import { Stage, Sprite, Graphics, Container, useTick, useApp } from '@pixi/react';
+
+const xy = (vertice: any) => [vertice.x, vertice.y];
+
+
 
 const tags = [
     "Quick Learner",
@@ -19,81 +22,179 @@ const tags = [
     "Innovative",
     "Analytical",
 ]
-function Pills({ children, index }: {
-    index: number;
-    children: string;
-}) {
-    const pillWidth = useMemo(() => children.length / 3, [children]);
-    const randomPositionX = useMemo(() => 0.1 + (pillWidth / 2) + (Math.random() * (CANVAS_WIDTH - pillWidth - 0.1)), []);
-    const [ref] = useBox(() => ({ args: [pillWidth, 1], mass: 3, position: [randomPositionX, index + 15] }));
-    return (
-        <RoundedBox args={[pillWidth, 1, 0]} radius={0.5} ref={ref as any}>
-            <meshLambertMaterial attach="material" color={"grey"} />
-            <Text
-                fontSize={0.5}
-            >
-                {children}
-            </Text>
-        </RoundedBox>
-
-    );
-}
-
-function Ground() {
-    const [ref] = usePlane(() => ({ mass: 0, position: [0, 0] }));
-    return <mesh ref={ref as any} />;
-}
-function Walls() {
-    const [leftRef] = useBox(() => ({
-        args: [1, 50],
-        mass: 0,
-        position: [-0.5, 0],
-        type: 'Kinematic',
-    }))
-    const [rightRef] = useBox(() => ({
-        args: [1, 50],
-        mass: 0,
-        position: [CANVAS_WIDTH + 0.5, 0],
-        type: 'Kinematic',
-    }))
-    return (<>
-        <group ref={leftRef as any} />
-        <group ref={rightRef as any} />
-    </>)
-}
 
 
-function CameraSetup() {
-    const { camera, size } = useThree();
+// create a world component
+const EngineContext = createContext(null);
+const useEngine = () => useContext(EngineContext);
 
-    // Memoize the aspect ratio and view dimensions
-    const { aspect, viewWidth, viewHeight } = useMemo(() => {
-        const aspect = size.height / size.width;
-        const viewWidth = CANVAS_WIDTH; // Desired visible width (in world units)
-        const viewHeight = viewWidth * aspect;
-        return { aspect, viewWidth, viewHeight };
-    }, [size]);
+const World = ({ children }: any) => {
+    const [engine] = useState(() => Matter.Engine.create());
+    useTick((delta) => Matter.Engine.update(engine, delta * (1000 / 60)));
+
+    return <EngineContext.Provider value={engine}>{children}</EngineContext.Provider>;
+};
+
+const Shape = ({
+    type,
+    config,
+    options = {},
+    lineStyle = [1, 0xff0000, 1],
+    fillStyle = [0xff0000, 0]
+}: any) => {
+    const engine: any = useEngine();
+    const body: any = useRef();
+    const graphics: any = useRef();
+
+    useTick((delta) => {
+        const g: any = graphics.current;
+        const b: any = body.current;
+
+        g.clear();
+
+        g.lineStyle(...lineStyle);
+        g.beginFill(...fillStyle);
+
+        g.moveTo(...xy(b.vertices[0]));
+        for (var j = 1; j < b.vertices.length; j += 1) g.lineTo(...xy(b.vertices[j]));
+        g.lineTo(...xy(b.vertices[0]));
+
+        if (/Circle/.test(b.label)) {
+            g.moveTo(b.position.x, b.position.y);
+            g.lineTo(b.position.x + Math.cos(b.angle) * config.radius, b.position.y + Math.sin(b.angle) * config.radius);
+        }
+    });
 
     useEffect(() => {
-        const orthoCamera = camera as any;
+        const args = Object.keys(config).reduce((a, c) => [...a, config[c]], []);
+        body.current = Matter.Bodies[type](...args, options);
 
-        // Set the orthographic camera frustum
-        orthoCamera.left = 0;
-        orthoCamera.right = viewWidth;
-        orthoCamera.top = viewHeight;
-        orthoCamera.bottom = 0; // Set bottom to 0 to align Y=0 at the bottom of the canvas
-        orthoCamera.updateProjectionMatrix();
+        Matter.World.add(engine.world, body.current);
 
-    }, [camera, viewWidth, viewHeight]);
+        return () => {
+            Matter.World.remove(engine.world, body.current);
+        };
+    }, []);
 
-    return null;
-}
+    return <Graphics ref={graphics} />;
+};
+
+// enable mouse constraint
+const Mouse = ({ children, constraint = { stiffness: 0.2 } }: any) => {
+    const app = useApp();
+    const engine: any = useEngine();
+
+    useEffect(() => {
+        const mouse = Matter.Mouse.create(app.view);
+        const mouseConstraint = Matter.MouseConstraint.create(engine, { mouse, constraint });
+
+        const scale = 1 / window.devicePixelRatio;
+        Matter.Mouse.setScale(mouse, { x: scale, y: scale });
+
+        Matter.World.add(engine.world, mouseConstraint);
+
+        return () => {
+            Matter.World.remove(engine.world, mouseConstraint);
+        };
+    }, []);
+
+    return <>{children}</>;
+};
+
 
 export function Hashtag() {
-    return (
-        <h1>test</h1>
+    const [app, setApp] = useState<any>();
+    const [width, setWidth] = useState(0);
+    const [height, setHeight] = useState(0);
 
+    const canvas = useCallback((node: HTMLDivElement | null) => {
+        const onResize = throttle(() => {
+            if (!node) return;
+            setWidth(node.clientWidth);
+            setHeight(node.clientHeight);
+            if (app && app.renderer) {
+                app.renderer.resize(node.clientWidth, node.clientHeight);
+                app.render();
+            }
+        }, 100);
+        onResize();
+        window.addEventListener('resize', onResize);
+        return () => {
+            window.removeEventListener('resize', onResize);
+        }
+    }, [app]);
+
+
+
+    const bunnyUrl = 'https://pixijs.io/pixi-react/img/bunny.png';
+
+    return (
+        <div className={cn("w-full h-full overflow-hidden")} ref={canvas}>
+
+            <Stage
+                width={0} height={0}
+                renderOnComponentChange={true}
+                options={{ backgroundAlpha: 0 }}
+                onMount={setApp}
+
+            >
+                <World>
+                    <Mouse>
+                        <Shape
+                            type="circle"
+                            fillStyle={[0xff544d, 0.7]}
+                            config={{ x: 80, y: 20, radius: 20 + Math.random() * 100 }}
+                            options={{
+                                friction: 0.8,
+                                density: 0.00001,
+                                restitution: 0.4,
+                                stiffness: 1
+                            }}
+                        />
+                        <Shape
+                            type="circle"
+                            fillStyle={[0x53ce91, 0.5]}
+                            config={{ x: 400, y: 20, radius: 20 + Math.random() * 100 }}
+                            options={{
+                                friction: 0.8,
+                                density: 0.001,
+                                restitution: 0.5,
+                                stiffness: 0.4
+                            }}
+                        />
+                        <Container>
+                            <Shape
+                                name="bottom"
+                                type="rectangle"
+                                config={{ x: width / 2, y: height + 50, width, height: 100 }}
+                                options={{ isStatic: true }}
+                            />
+                            <Shape
+                                name="top"
+                                type="rectangle"
+                                config={{ x: width / 2, y: -50, width, height: 100 }}
+                                options={{ isStatic: true }}
+                            />
+                            <Shape
+                                name="left"
+                                type="rectangle"
+                                config={{ x: -50, y: height / 2, width: 100, height }}
+                                options={{ isStatic: true }}
+                            />
+                            <Shape
+                                name="right"
+                                type="rectangle"
+                                config={{ x: width + 50, y: height / 2, width: 100, height }}
+                                options={{ isStatic: true }}
+                            />
+                        </Container>
+
+                    </Mouse>
+                </World>
+            </Stage>
+        </div >
     );
+
 }
 
 export default Hashtag;
