@@ -143,7 +143,7 @@ export function Hashtag() {
                         <Shape
                             type="circle"
                             fillStyle={[0xff544d, 0.7]}
-                            config={{ x: 80, y: 20, radius: 20 + Math.random() * 100 }}
+                            config={{ x: 80, y: 10, radius: 15 + Math.random() * 20 }}
                             options={{
                                 friction: 0.8,
                                 density: 0.00001,
@@ -154,7 +154,7 @@ export function Hashtag() {
                         <Shape
                             type="circle"
                             fillStyle={[0x53ce91, 0.5]}
-                            config={{ x: 400, y: 20, radius: 20 + Math.random() * 100 }}
+                            config={{ x: 60, y: 15, radius: 20 + Math.random() * 20 }}
                             options={{
                                 friction: 0.8,
                                 density: 0.001,

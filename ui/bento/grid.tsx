@@ -11,7 +11,7 @@ const bentoConfig: { [key: number]: string } = {
     5: "z-[99] xl:col-span-2 xl:row-span-6 xl:order-5 md:order-4 md:col-span-6 md:row-span-4 order-6 col-span-6 row-span-2",
     6: "xl:col-span-2 xl:row-span-3 xl:order-6 md:order-9 md:col-span-5 md:row-span-2 order-7 col-span-6 row-span-1",
     7: "z-10 xl:col-span-1 xl:row-span-3 xl:order-7 md:order-2 md:col-span-3 md:row-span-2 order-2 col-span-3 row-span-1",
-    8: "z-10 xl:col-span-1 xl:row-span-4 xl:order-8 md:order-6 md:col-span-4 md:row-span-3 order-4 col-span-2 row-span-1",
+    8: "z-[98] xl:col-span-1 xl:row-span-4 xl:order-8 md:order-6 md:col-span-4 md:row-span-3 order-4 col-span-2 row-span-1",
     9: "z-10 xl:col-span-2 xl:row-span-4 xl:order-9 md:order-10 md:col-span-5 md:row-span-2 order-10 col-span-6 row-span-1",
     10: "z-10 xl:col-span-1 xl:row-span-3 xl:order-10 md:order-1 md:col-span-3 md:row-span-2 order-1 col-span-3 row-span-1",
     11: "z-0 xl:col-span-3 xl:row-span-2 xl:order-11 md:order-11 md:col-span-10 md:row-span-2 order-11 col-span-6 row-span-1",
