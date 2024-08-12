@@ -1,6 +1,7 @@
 "use client";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import { motion, MotionConfig, useInView } from "framer-motion";
+import throttle from "@/utils/throttle";
 import { cn } from "@/utils/cn";
 
 export function Experience() {
@@ -11,18 +12,21 @@ export function Experience() {
 
     const [isTight, setIsTight] = useState<boolean>(false);
 
-    useEffect(() => {
-        const updateDimensions = () => {
-            if (ref.current) {
-                setIsTight(ref.current.clientWidth < 250);
-            }
-        };
-        updateDimensions();
-        window.addEventListener('resize', updateDimensions);
+    const updateDimensions = useCallback(() => {
+        const onResize = throttle(() => {
+            if (!ref.current) return;
+            setIsTight(ref.current.clientWidth < 250);
+        }, 1000);
+        onResize();
+        window.addEventListener('resize', onResize);
         return () => {
-            window.removeEventListener('resize', updateDimensions);
-        };
-    }, [ref]);
+            window.removeEventListener('resize', onResize);
+        }
+    }, []);
+
+    useEffect(() => {
+        updateDimensions();
+    }, []);
 
 
     return (

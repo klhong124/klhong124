@@ -1,13 +1,10 @@
 "use client";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useState, useCallback } from "react";
 import { motion, MotionConfig } from "framer-motion";
+import throttle from "@/utils/throttle";
 import { cn } from "@/utils/cn";
 
 export function PixelPerfect() {
-    const textRef = useRef<HTMLDivElement>(null);
-    const containerRef = useRef<HTMLDivElement>(null);
-    const [isHover, setIsHover] = useState<boolean>(false);
-
     const [container, setContainer] = useState<{
         height: number,
         width: number
@@ -21,32 +18,35 @@ export function PixelPerfect() {
         }
     }>({ height: 0, width: 0, offset: { left: 0, top: 0 } });
 
-
-    useEffect(() => {
-        const updateDimensions = () => {
-            if (containerRef.current && textRef.current) {
-                setContainer({
-                    height: containerRef.current.clientHeight,
-                    width: containerRef.current.clientWidth
-                });
-                setText({
-                    height: textRef.current.clientHeight,
-                    width: textRef.current.clientWidth,
-                    offset: {
-                        top: textRef.current.offsetTop,
-                        left: textRef.current.offsetLeft
-                    }
-                });
+    const textRef = useCallback((node: HTMLDivElement | null) => {
+        const onResize = throttle(() => node && setText({
+            height: node.clientHeight,
+            width: node.clientWidth,
+            offset: {
+                top: node.offsetTop,
+                left: node.offsetLeft
             }
-        };
-        updateDimensions();
-        window.addEventListener('resize', updateDimensions);
+        }), 1000);
+        onResize();
+        window.addEventListener('resize', onResize);
         return () => {
-            window.removeEventListener('resize', updateDimensions);
-        };
-    }, [containerRef, textRef]);
+            window.removeEventListener('resize', onResize);
+        }
+    }, []);
 
+    const containerRef = useCallback((node: HTMLDivElement | null) => {
+        const onResize = throttle(() => node && setContainer({
+            height: node.clientHeight,
+            width: node.clientWidth
+        }), 1000);
+        onResize();
+        window.addEventListener('resize', onResize);
+        return () => {
+            window.removeEventListener('resize', onResize);
+        }
+    }, []);
 
+    const [isHover, setIsHover] = useState<boolean>(false);
     const backgroundDuration = 0.5;
     const gridMaxGap = 24
     const delayStep = 0.1;
@@ -326,7 +326,7 @@ export function PixelPerfect() {
                                 hover: {
                                     opacity: 1,
                                     height: container.height / 3 * 2,
-                                    transition: {  duration: 0.4 }
+                                    transition: { duration: 0.4 }
                                 }
                             }}
                             style={{
@@ -351,7 +351,7 @@ export function PixelPerfect() {
                             }}
 
                             style={{
-                                right:0,
+                                right: 0,
                                 bottom: container.height / 3
                             }}
                             className={cn("h-0 absolute",

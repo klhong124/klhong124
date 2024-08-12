@@ -1,25 +1,23 @@
 "use client";
-import React, { useEffect, useState, useRef, memo, useCallback, useMemo } from "react";
+import React, { useState, memo, useCallback, useMemo } from "react";
 import { motion } from "framer-motion";
+import throttle from "@/utils/throttle";
 import { cn } from "@/utils/cn";
 
 export function CodePattern() {
-    const matrixRef = useRef<HTMLDivElement>(null);
     const [columns, setColumns] = useState<number>(0);
 
-    useEffect(() => {
-        const handleResize = () => {
-            if (matrixRef.current) {
-                setColumns(Math.floor(matrixRef.current.clientWidth / 24))
-            }
-        };
-        handleResize();
-        window.addEventListener("resize", handleResize);
+    const matrixRef = useCallback((node: HTMLDivElement | null) => {
+        const onResize = throttle(() => {
+            if (!node) return;
+            setColumns(Math.floor(node.clientWidth / 24))
+        }, 100);
+        onResize();
+        window.addEventListener('resize', onResize);
         return () => {
-            window.removeEventListener("resize", handleResize);
-        };
-    }, [matrixRef]);
-
+            window.removeEventListener('resize', onResize);
+        }
+    }, []);
 
     return (
         <div className={cn("max-h-[300px] overflow-hidden")}>
@@ -49,28 +47,20 @@ export function CodePattern() {
 const RainStream = memo(() => {
     const chars: string[] = useMemo(() => `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*(){}|[]:";'<>?,./~/*-+`.split(""), []);
     const getStream = (): string[] => Array.from({ length: 20 }, () => chars[Math.floor(Math.random() * chars.length)]);
-    const intervalId = useRef<NodeJS.Timeout | null>(null);
     const randomRange = useCallback((min: number, max: number): number => Math.floor(Math.random() * (max - min + 1) + min), []);
-    const matrixRef = useRef<HTMLDivElement>(null);
     const stream = getStream();
 
 
 
-    const updateMatrix = useCallback(() => {
-        if (matrixRef.current) {
-            const children = matrixRef.current.children;
-            children[randomRange(0, children.length - 1)].textContent = chars[randomRange(0, chars.length - 1)];
+    const matrixRef = useCallback((node: HTMLDivElement | null) => {
+        if (node) {
+            const children = node.children;
+            const intervalId = setInterval(() => {
+                children[randomRange(0, children.length - 1)].textContent = chars[randomRange(0, chars.length - 1)];
+            }, 1000)
+            return () => clearInterval(intervalId); // Cleanup function to clear the interval
         }
     }, []);
-
-    useEffect(() => {
-        intervalId.current = setInterval(updateMatrix, 1000);
-        return () => {
-            if (intervalId.current) {
-                clearInterval(intervalId.current);
-            }
-        };
-    }, [updateMatrix]);
 
 
     return (
