@@ -49,7 +49,7 @@ export default function Home() {
               <ComingSoon />
             </GridItem>
             <GridItem id={5}>
-              <Hashtag />
+              <TechStack />
             </GridItem>
             <GridItem id={6}>
               <CodePattern />
@@ -58,8 +58,7 @@ export default function Home() {
               <ComingSoon />
             </GridItem>
             <GridItem id={8}>
-              <TechStack />
-
+              <Hashtag />
             </GridItem>
             <GridItem id={9}>
               <ComingSoon />
