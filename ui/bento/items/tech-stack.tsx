@@ -60,7 +60,7 @@ const TechStack = memo(() => {
                     }}
                 >
                     <div
-                        className={cn("w-[800px] h-[800px] scale-150",
+                        className={cn("w-[1200px] h-[1200px]",
                             "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
                             "pointer-events-none",
                         )}

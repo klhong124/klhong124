@@ -1,15 +1,14 @@
 "use client";
-import React, { useEffect, useMemo } from "react";
-import { Physics, Debug, useCircle, usePlane } from '@react-three/p2';
+import React, { useEffect, useMemo, StrictMode, useState } from "react";
+import { Physics, useCircle, usePlane, useLine } from '@react-three/p2';
 import { Canvas, useThree } from '@react-three/fiber';
-import { OrthographicCamera, OrbitControls } from '@react-three/drei';
 
 import { cn } from "@/utils/cn";
 
-function Ball() {
-    const [ref] = useCircle(() => ({ args: [0.5], mass: 1, position: [2, 10] }));
+function Ball({ isHover }: { isHover: boolean }) {
+    const [ref] = useCircle(() => ({ args: [0.5], mass: 1, position: [2, 20] }));
     return (
-        <mesh ref={ref}>
+        <mesh ref={ref as any}>
             <sphereGeometry args={[0.5]} />
             <meshNormalMaterial />
         </mesh>
@@ -18,7 +17,7 @@ function Ball() {
 function Ball2() {
     const [ref] = useCircle(() => ({ args: [0.5], mass: 1, position: [2.1, 15] }));
     return (
-        <mesh ref={ref}>
+        <mesh ref={ref as any}>
             <sphereGeometry args={[0.5]} />
             <meshNormalMaterial />
         </mesh>
@@ -27,15 +26,27 @@ function Ball2() {
 
 function Ground() {
     const [ref] = usePlane(() => ({ mass: 0, position: [0, 0] }));
-    return (
-        <group ref={ref}>
-            <mesh rotation-x={-Math.PI / 2}>
-                <planeGeometry args={[20, 2]} />
-                <meshNormalMaterial />
-            </mesh>
-        </group>
-    );
+    return <mesh ref={ref as any} />;
 }
+function Walls() {
+    const [leftRef] = useLine(() => ({
+        angle: Math.PI / 2,
+        args: [10],
+        mass: 0,
+        position: [0, 0],
+    }))
+    const [rightRef] = useLine(() => ({
+        angle: Math.PI / 2,
+        args: [10],
+        mass: 0,
+        position: [10, 0],
+    }))
+    return (<>
+        <group ref={leftRef as any} />
+        <group ref={rightRef as any} />
+    </>)
+}
+
 
 function CameraSetup() {
     const { camera, size } = useThree();
@@ -65,15 +76,25 @@ function CameraSetup() {
 
 export function Hashtag() {
 
+    const [isHover, setIsHover] = useState<boolean>(false);
+
     return (
-        <Canvas orthographic camera={{ position: [0, 0, 10] }} className="w-full h-full">
-            <CameraSetup />
-            <Physics normalIndex={2}>
-                <Ball />
-                <Ball2 />
-                <Ground />
-            </Physics>
-        </Canvas>
+        <StrictMode>
+
+            <Canvas orthographic camera={{ position: [0, 0, 10] }} className={cn("w-full h-full")}>
+                <CameraSetup />
+
+                    <Physics normalIndex={2}>
+
+                        <Ball isHover={isHover} />
+                        <Ball2 />
+                        <Ground />
+                        <Walls />
+
+                    </Physics>
+            </Canvas >
+        </StrictMode>
+
     );
 }
 
