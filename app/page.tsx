@@ -1,19 +1,22 @@
-import FlipWords from "@/ui/flip-words";
-import Background from "@/ui/background";
-import Highlight from "@/ui/highlight";
-import BentoGrid, { BentoGridItem as GridItem } from "@/ui/bento/grid";
-import TechStack from "@/ui/bento/items/tech-stack";
-import Experience from "@/ui/bento/items/experience";
-import CodePattern from "@/ui/bento/items/code-pattern";
-import PixelPerfect from "@/ui/bento/items/pixel-perfect";
-import Hashtag from "@/ui/bento/items/hashtag";
-import ComingSoon from "@/ui/bento/items/coming-soon";
+import React, { lazy, Suspense, useState, useEffect, useRef } from 'react';
+const FlipWords = lazy(() => import("@/ui/flip-words"));
+const Background = lazy(() => import("@/ui/background"));
+const Highlight = lazy(() => import("@/ui/highlight"));
+const BentoGrid = lazy(() => import('@/ui/bento/grid'));
+const GridItem = lazy(() => import('@/ui/bento/grid').then(module => ({ default: module.BentoGridItem })));
+const TechStack = lazy(() => import('@/ui/bento/items/tech-stack'));
+const Experience = lazy(() => import('@/ui/bento/items/experience'));
+const CodePattern = lazy(() => import('@/ui/bento/items/code-pattern'));
+const PixelPerfect = lazy(() => import('@/ui/bento/items/pixel-perfect'));
+const Hashtag = lazy(() => import('@/ui/bento/items/hashtag'));
+const ComingSoon = lazy(() => import('@/ui/bento/items/coming-soon'));
 import { cn } from "@/utils/cn";
 
 export default function Home() {
 
   return (
     <div>
+
       <Background>
         <div className={cn(
           "h-screen flex items-center justify-center",
@@ -32,44 +35,45 @@ export default function Home() {
           </div>
 
         </div>
-        <BentoGrid className="-mt-12">
-          <GridItem id={1}>
-            <ComingSoon />
-          </GridItem>
-          <GridItem id={2}>
-            <ComingSoon />
-          </GridItem>
-          <GridItem id={3}>
-            <Experience />
-          </GridItem>
-          <GridItem id={4}>
-            <ComingSoon />
-          </GridItem>
-          <GridItem id={5}>
-            <TechStack />
-          </GridItem>
-          <GridItem id={6}>
-            <CodePattern />
-          </GridItem>
-          <GridItem id={7}>
-            <ComingSoon />
-          </GridItem>
-          <GridItem id={8}>
-            <Hashtag />
-          </GridItem>
-          <GridItem id={9}>
-            <ComingSoon />
-          </GridItem>
-          <GridItem id={10}>
-            <ComingSoon />
-          </GridItem>
-          <GridItem id={11}>
-            <PixelPerfect />
-          </GridItem>
-        </BentoGrid>
+        <Suspense fallback={<></>}>
+          <BentoGrid className="-mt-12">
+            <GridItem id={1}>
+              <ComingSoon />
+            </GridItem>
+            <GridItem id={2}>
+              <ComingSoon />
+            </GridItem>
+            <GridItem id={3}>
+              <Experience />
+            </GridItem>
+            <GridItem id={4}>
+              <ComingSoon />
+            </GridItem>
+            <GridItem id={5}>
+              <TechStack />
+            </GridItem>
+            <GridItem id={6}>
+              <CodePattern />
+            </GridItem>
+            <GridItem id={7}>
+              <ComingSoon />
+            </GridItem>
+            <GridItem id={8}>
+              <Hashtag />
+            </GridItem>
+            <GridItem id={9}>
+              <ComingSoon />
+            </GridItem>
+            <GridItem id={10}>
+              <ComingSoon />
+            </GridItem>
+            <GridItem id={11}>
+              <PixelPerfect />
+            </GridItem>
+          </BentoGrid>
+        </Suspense>
       </Background >
-
-    </div>
+    </div >
   );
 
 

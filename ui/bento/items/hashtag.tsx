@@ -3,8 +3,8 @@ import React, { useEffect, useMemo, StrictMode, useState } from "react";
 import { Physics, usePlane, useLine, useBox, useCircle } from '@react-three/p2';
 import { Canvas, useThree } from '@react-three/fiber';
 import { Text, RoundedBox } from '@react-three/drei';
-
 import { cn } from "@/utils/cn";
+
 const CANVAS_WIDTH = 10;
 
 const tags = [
@@ -91,22 +91,7 @@ function CameraSetup() {
 
 export function Hashtag() {
     return (
-        <StrictMode>
-            <Canvas orthographic camera={{ position: [0, 0, 10] }} className={cn("w-full h-full")}>
-                <CameraSetup />
-                <Physics normalIndex={2}>
-                    {
-                        tags.map((tag, i) => (
-                            <Pills key={i} index={i}>
-                                {tag}
-                            </Pills>
-                        ))
-                    }
-                    <Ground />
-                    <Walls />
-                </Physics>
-            </Canvas >
-        </StrictMode>
+        <h1>test</h1>
 
     );
 }

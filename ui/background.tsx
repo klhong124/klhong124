@@ -10,7 +10,7 @@ export const Background = ({
     [key: string]: any;
 }) => {
 
-    function handleMouseMove({
+    function handleMouseClick({
         currentTarget,
         clientX,
         clientY,
@@ -20,10 +20,11 @@ export const Background = ({
 
         mouseX.set(clientX - left);
         mouseY.set(clientY - top);
+
     }
     const useSpringConfig = {
-        stiffness: 500,
-        damping: 20,
+        stiffness: 300,
+        damping: 10,
     };
     const mouseX = useSpring(0, useSpringConfig);
     const mouseY = useSpring(0, useSpringConfig);
@@ -46,7 +47,7 @@ export const Background = ({
         <section
             className=
             "relative flex items-center bg-white dark:bg-black justify-center w-full group"
-            onMouseMove={handleMouseMove}
+            onClick={handleMouseClick}
         >
             <div className="absolute inset-0 bg-dot-thick-neutral-300 dark:bg-dot-thick-neutral-800  pointer-events-none" />
             {/* Radial gradient for the container to give a faded look */}
