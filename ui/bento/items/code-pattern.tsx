@@ -56,7 +56,7 @@ const RainStream = memo(() => {
         if (node) {
             const children = node.children;
             const intervalId = setInterval(() => {
-                children[randomRange(0, children.length - 1)].textContent = chars[randomRange(0, chars.length - 1)];
+                children[randomRange(0, children.length - 1)] && (children[randomRange(0, children.length - 1)].textContent = chars[randomRange(0, chars.length - 1)])
             }, 1000)
             return () => clearInterval(intervalId); // Cleanup function to clear the interval
         }

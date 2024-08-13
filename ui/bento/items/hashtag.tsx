@@ -4,11 +4,9 @@ import { cn } from "@/utils/cn";
 import throttle from "@/utils/throttle";
 import Matter from 'matter-js';
 
-import { Stage, Sprite, Graphics, Container, useTick, useApp } from '@pixi/react';
+import { Stage, Sprite, Graphics, Text, Container, useTick, useApp } from '@pixi/react';
 
 const xy = (vertice: any) => [vertice.x, vertice.y];
-
-
 
 const tags = [
     "Quick Learner",
@@ -51,13 +49,12 @@ const World = ({ children }: any) => {
     return <EngineContext.Provider value={engine}>{children}</EngineContext.Provider>;
 };
 
-// https://codepen.io/inlet/pen/BaLVrdX
 const Shape = ({
     type,
     config,
     options = {},
-    lineStyle = [1, 0xff0000, 1], // [thickness, color, alpha]
-    fillStyle = [0xff0000, 0] // [color, alpha]
+    lineStyle = [], // [thickness, color, alpha]
+    fillStyle = [] // [color, alpha]
 }: any) => {
     const engine: any = useEngine();
     const body: any = useRef();
@@ -73,17 +70,12 @@ const Shape = ({
         g.beginFill(...fillStyle);
 
         g.moveTo(...xy(b.vertices[0]));
-        for (var j = 1; j < b.vertices.length; j += 1) g.lineTo(...xy(b.vertices[j]));
+        for (let j = 1; j < b.vertices.length; j += 1) g.lineTo(...xy(b.vertices[j]));
         g.lineTo(...xy(b.vertices[0]));
-
-        if (/Circle/.test(b.label)) {
-            g.moveTo(b.position.x, b.position.y);
-            g.lineTo(b.position.x + Math.cos(b.angle) * config.radius, b.position.y + Math.sin(b.angle) * config.radius);
-        }
     });
 
     useEffect(() => {
-        const args:any = Object.keys(config).reduce((a, c) => [...a, config[c]] as any, []);
+        const args: any = Object.keys(config).reduce((a, c) => [...a, config[c]] as any, []);
         body.current = (Matter.Bodies as any)[type](...args, options);
         Matter.World.add(engine.world, body.current);
 
@@ -92,8 +84,62 @@ const Shape = ({
         };
     }, []);
 
-    return <Graphics ref={graphics} />;
+    return <Graphics ref={graphics} />
+
 };
+
+const Pill = () => {
+    const engine: any = useEngine();
+    const body = Matter.Bodies.rectangle(20, 100, 100, 50, {
+        chamfer: { radius: 20 },
+    })
+    const pillRef = useCallback((node: any) => {
+        Matter.World.add(engine.world, body);
+
+        const update = () => {
+            if (node) {
+                node.clear();
+                node.lineStyle(2, 0xff00ff, 1);
+                node.moveTo(...xy(body.vertices[0]));
+                for (let j = 1; j < body.vertices.length; j += 1) node.lineTo(...xy(body.vertices[j]));
+                node.lineTo(...xy(body.vertices[0]));
+            }
+            requestAnimationFrame(update);
+        };
+
+        update();
+    }, []);
+
+    const textRef = useCallback((node: any) => {
+        const update = () => {
+            if (node) {
+                node.position.set(body.position.x, body.position.y);
+                node.rotation = body.angle;
+            }
+            requestAnimationFrame(update);
+        };
+
+        update();
+
+        return () => {
+            Matter.World.remove(engine.world, body);
+        };
+    }, []);
+
+    return (
+        <Container>
+            <Graphics ref={pillRef} />
+            <Text
+                ref={textRef}
+                text="Hello"
+                anchor={0.5}
+                x={200}
+                y={100}
+
+            />
+        </Container>
+    )
+}
 
 
 export function Hashtag() {
@@ -106,7 +152,7 @@ export function Hashtag() {
             if (!node) return;
             setWidth(node.clientWidth);
             setHeight(node.clientHeight);
-            if (app && app.renderer) {
+            if (app?.renderer) {
                 app.renderer.resize(node.clientWidth, node.clientHeight);
                 app.render();
             }
@@ -120,8 +166,6 @@ export function Hashtag() {
 
 
 
-    const bunnyUrl = 'https://pixijs.io/pixi-react/img/bunny.png';
-
     return (
         <div className={cn("w-full h-full overflow-hidden")} ref={canvas}>
 
@@ -133,54 +177,55 @@ export function Hashtag() {
 
             >
                 <World>
-                        <Shape
-                            type="circle"
-                            fillStyle={[0xff544d, 0.7]}
-                            config={{ x: 80, y: 10, radius: 15 + Math.random() * 20 }}
-                            options={{
-                                friction: 0.8,
-                                density: 0.00001,
-                                restitution: 0.4,
-                                stiffness: 1
-                            }}
-                        />
-                        <Shape
-                            type="circle"
-                            fillStyle={[0x53ce91, 0.5]}
-                            config={{ x: 60, y: 15, radius: 20 + Math.random() * 20 }}
-                            options={{
-                                friction: 0.8,
-                                density: 0.001,
-                                restitution: 0.5,
-                                stiffness: 0.4
-                            }}
-                        />
-                        <Container>
-                            <Shape
-                                name="bottom"
-                                type="rectangle"
-                                config={{ x: width / 2, y: height + 50, width, height: 100 }}
-                                options={{ isStatic: true }}
-                            />
-                            <Shape
-                                name="top"
-                                type="rectangle"
-                                config={{ x: width / 2, y: -50, width, height: 100 }}
-                                options={{ isStatic: true }}
-                            />
-                            <Shape
-                                name="left"
-                                type="rectangle"
-                                config={{ x: -50, y: height / 2, width: 100, height }}
-                                options={{ isStatic: true }}
-                            />
-                            <Shape
-                                name="right"
-                                type="rectangle"
-                                config={{ x: width + 50, y: height / 2, width: 100, height }}
-                                options={{ isStatic: true }}
-                            />
-                        </Container>
+                    <Pill />
+                    <Shape
+                        type="rectangle"
+                        fillStyle={[0xff544d, 0.7]}
+                        config={{ x: 80, y: 10, width: 120, height: 40 }}
+                        options={{
+                            chamfer: { radius: 20 },
+                            friction: 0.8,
+                            density: 0.00001,
+                            restitution: 0.4,
+                            stiffness: 1
+                        }}
+                    />
+                    <Shape
+                        type="rectangle"
+                        fillStyle={[0x53ce91, 0.5]}
+                        config={{ x: 60, y: 15, width: 120, height: 40 }}
+                        options={{
+                            chamfer: { radius: 20 },
+                            friction: 0.8,
+                            density: 0.001,
+                            restitution: 0.5,
+                            stiffness: 0.4
+                        }}
+                    />
+                    <Shape
+                        name="bottom"
+                        type="rectangle"
+                        config={{ x: width / 2, y: height + 50, width, height: 100 }}
+                        options={{ isStatic: true }}
+                    />
+                    <Shape
+                        name="top"
+                        type="rectangle"
+                        config={{ x: width / 2, y: -50, width, height: 100 }}
+                        options={{ isStatic: true }}
+                    />
+                    <Shape
+                        name="left"
+                        type="rectangle"
+                        config={{ x: -50, y: height / 2, width: 100, height }}
+                        options={{ isStatic: true }}
+                    />
+                    <Shape
+                        name="right"
+                        type="rectangle"
+                        config={{ x: width + 50, y: height / 2, width: 100, height }}
+                        options={{ isStatic: true }}
+                    />
 
                 </World>
             </Stage>
