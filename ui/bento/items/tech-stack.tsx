@@ -45,6 +45,13 @@ const TechStack = memo(() => {
                 onHoverStart={handleHoverStart}
                 onHoverEnd={handleHoverEnd}
                 onPointerMove={handlePointerMove}
+                variants={{
+                    hover: {
+                        boxShadow: "0px 0px 300px 100px rgba(0, 0, 0, 0.8)",
+
+                    }
+                }
+                }
             >
                 <motion.div
                     className={cn("top-1 bottom-1 left-1 right-1")}
@@ -61,7 +68,7 @@ const TechStack = memo(() => {
                     }}
                 >
                     <div
-                        className={cn("w-[1200px] h-[1200px]",
+                        className={cn("w-[900px] h-[900px] scale-125",
                             "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
                             "pointer-events-none",
                         )}

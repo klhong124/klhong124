@@ -50,8 +50,7 @@ const RainStream = memo(() => {
     const randomRange = useCallback((min: number, max: number): number => Math.floor(Math.random() * (max - min + 1) + min), []);
     const stream = getStream();
 
-
-
+    // update char for glitch effect
     const matrixRef = useCallback((node: HTMLDivElement | null) => {
         if (node) {
             const children = node.children;
@@ -61,7 +60,6 @@ const RainStream = memo(() => {
             return () => clearInterval(intervalId); // Cleanup function to clear the interval
         }
     }, []);
-
 
     return (
         <motion.div

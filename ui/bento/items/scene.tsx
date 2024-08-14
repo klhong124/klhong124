@@ -73,7 +73,7 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 <Icons
                     gltf="typescript"
                     scale={0.5}
-                    position={[4.8, 0.5, -3]}
+                    position={[5, 0.5, -3]}
                     rotation={[Math.PI / 5, -Math.PI / 2, 1]}
                     variants={{
                         hover: {
@@ -236,7 +236,7 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 <Icons
                     gltf="firebase"
                     scale={0.6}
-                    position={[-3, -1, -3]}
+                    position={[-3.3, -1, -3]}
                     rotation={[Math.PI / 2.2, -Math.PI / 18, 2]}
                     variants={{
                         hover: {
@@ -248,7 +248,7 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 <Icons
                     gltf="illustrator"
                     scale={0.5}
-                    position={[3, -0.5, -3]}
+                    position={[3.5, -0.5, -3]}
                     rotation={[Math.PI, Math.PI / 3, -Math.PI / 6]}
                     variants={{
                         hover: {
@@ -261,7 +261,7 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 <Icons
                     gltf="photoshop"
                     scale={0.5}
-                    position={[4, -0.6, -3]}
+                    position={[4.3, -0.6, -3]}
                     rotation={[Math.PI / 1.2, -Math.PI / 4, Math.PI / 5]}
                     variants={{
                         hover: {

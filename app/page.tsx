@@ -46,7 +46,7 @@ export default function Home() {
               <Experience />
             </GridItem>
             <GridItem id={4}>
-              <ComingSoon />
+              <Hashtag />
             </GridItem>
             <GridItem id={5}>
               <TechStack />
@@ -58,7 +58,7 @@ export default function Home() {
               <ComingSoon />
             </GridItem>
             <GridItem id={8}>
-              <Hashtag />
+              <ComingSoon />
             </GridItem>
             <GridItem id={9}>
               <ComingSoon />
