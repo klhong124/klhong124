@@ -4,7 +4,8 @@ import { cn } from "@/utils/cn";
 import throttle from "@/utils/throttle";
 import Matter from 'matter-js';
 
-import { Stage, Sprite, Graphics, Text, Container, useTick, useApp } from '@pixi/react';
+import { Stage, Graphics, Text, Container, useTick, useApp } from '@pixi/react';
+import { TextStyle } from 'pixi.js';
 
 const xy = (vertice: any) => [vertice.x, vertice.y];
 
@@ -49,98 +50,101 @@ const World = ({ children }: any) => {
     return <EngineContext.Provider value={engine}>{children}</EngineContext.Provider>;
 };
 
-const Shape = ({
-    type,
-    config,
-    options = {},
-    lineStyle = [], // [thickness, color, alpha]
-    fillStyle = [] // [color, alpha]
-}: any) => {
+const Walls = ({
+    width, height
+}: {
+    width: number; height: number
+}) => {
     const engine: any = useEngine();
     const body: any = useRef();
-    const graphics: any = useRef();
 
-    useTick((delta) => {
-        const g: any = graphics.current;
-        const b: any = body.current;
-
-        g.clear();
-
-        g.lineStyle(...lineStyle);
-        g.beginFill(...fillStyle);
-
-        g.moveTo(...xy(b.vertices[0]));
-        for (let j = 1; j < b.vertices.length; j += 1) g.lineTo(...xy(b.vertices[j]));
-        g.lineTo(...xy(b.vertices[0]));
-    });
+    const thickness = 100;
+    const padding = thickness / 2 - 2;
 
     useEffect(() => {
-        const args: any = Object.keys(config).reduce((a, c) => [...a, config[c]] as any, []);
-        body.current = (Matter.Bodies as any)[type](...args, options);
-        Matter.World.add(engine.world, body.current);
+        const bodies = [
+            { x: width / 2, y: height + padding, width, height: thickness },
+            { x: width / 2, y: -padding, width, height: thickness },
+            { x: -padding, y: height / 2, width: thickness, height },
+            { x: width + padding, y: height / 2, width: thickness, height }
+        ].map(({ x, y, width, height }) => Matter.Bodies.rectangle(x, y, width, height, { isStatic: true }));
 
+        bodies.forEach((body) => {
+            Matter.World.add(engine.world, body);
+        });
         return () => {
-            Matter.World.remove(engine.world, body.current);
+            bodies.forEach((body) => {
+                Matter.World.remove(engine.world, body);
+            });
         };
-    }, []);
+    }, [engine, body, width, height]);
 
-    return <Graphics ref={graphics} />
+    return null
 
 };
 
-const Pill = () => {
+const Pill = ({
+    text,
+    width,
+    height,
+}: {
+    text: string,
+    width: number,
+    height: number
+}) => {
     const engine: any = useEngine();
-    const body = Matter.Bodies.rectangle(20, 100, 100, 50, {
-        chamfer: { radius: 20 },
-    })
-    const pillRef = useCallback((node: any) => {
-        Matter.World.add(engine.world, body);
+    const pillRef = useRef<any>(null);
+    const textRef = useRef<any>(null);
+    const padding = (text.length * 6 + 48) / 2
+    const body = useRef(Matter.Bodies.rectangle(
+        padding + Math.random() * (width - padding * 2),
+        padding + Math.random() * (height - padding * 2),
+        text.length * 6 + 48,
+        40,
+        { chamfer: { radius: 20 } }
+    ));
 
-        const update = () => {
-            if (node) {
-                node.clear();
-                node.lineStyle(2, 0xff00ff, 1);
-                node.moveTo(...xy(body.vertices[0]));
-                for (let j = 1; j < body.vertices.length; j += 1) node.lineTo(...xy(body.vertices[j]));
-                node.lineTo(...xy(body.vertices[0]));
+    useTick(() => {
+        if (pillRef.current) {
+            pillRef.current.clear();
+            pillRef.current.lineStyle(2, 0xffffff, 1);
+            pillRef.current.moveTo(...xy(body.current.vertices[0]));
+            for (let j = 1; j < body.current.vertices.length; j += 1) {
+                pillRef.current.lineTo(...xy(body.current.vertices[j]));
             }
-            requestAnimationFrame(update);
-        };
+            pillRef.current.lineTo(...xy(body.current.vertices[0]));
+        }
 
-        update();
-    }, []);
+        if (textRef.current) {
+            textRef.current.position.set(body.current.position.x, body.current.position.y);
+            textRef.current.rotation = body.current.angle;
+        }
+    });
 
-    const textRef = useCallback((node: any) => {
-        const update = () => {
-            if (node) {
-                node.position.set(body.position.x, body.position.y);
-                node.rotation = body.angle;
-            }
-            requestAnimationFrame(update);
-        };
-
-        update();
-
+    useEffect(() => {
+        Matter.World.add(engine.world, body.current);
         return () => {
-            Matter.World.remove(engine.world, body);
+            Matter.World.remove(engine.world, body.current);
         };
-    }, []);
+    }, [engine, body]);
 
     return (
         <Container>
             <Graphics ref={pillRef} />
             <Text
                 ref={textRef}
-                text="Hello"
+                text={text}
                 anchor={0.5}
                 x={200}
                 y={100}
-
+                style={new TextStyle({
+                    fill: 'white',
+                    fontSize: 14,
+                })}
             />
         </Container>
-    )
-}
-
+    );
+};
 
 export function Hashtag() {
     const [app, setApp] = useState<any>();
@@ -172,61 +176,21 @@ export function Hashtag() {
             <Stage
                 width={0} height={0}
                 renderOnComponentChange={true}
-                options={{ backgroundAlpha: 0 }}
+                options={{
+                    backgroundAlpha: 0,
+                    antialias: true,
+
+                }}
                 onMount={setApp}
 
             >
                 <World>
-                    <Pill />
-                    <Shape
-                        type="rectangle"
-                        fillStyle={[0xff544d, 0.7]}
-                        config={{ x: 80, y: 10, width: 120, height: 40 }}
-                        options={{
-                            chamfer: { radius: 20 },
-                            friction: 0.8,
-                            density: 0.00001,
-                            restitution: 0.4,
-                            stiffness: 1
-                        }}
-                    />
-                    <Shape
-                        type="rectangle"
-                        fillStyle={[0x53ce91, 0.5]}
-                        config={{ x: 60, y: 15, width: 120, height: 40 }}
-                        options={{
-                            chamfer: { radius: 20 },
-                            friction: 0.8,
-                            density: 0.001,
-                            restitution: 0.5,
-                            stiffness: 0.4
-                        }}
-                    />
-                    <Shape
-                        name="bottom"
-                        type="rectangle"
-                        config={{ x: width / 2, y: height + 50, width, height: 100 }}
-                        options={{ isStatic: true }}
-                    />
-                    <Shape
-                        name="top"
-                        type="rectangle"
-                        config={{ x: width / 2, y: -50, width, height: 100 }}
-                        options={{ isStatic: true }}
-                    />
-                    <Shape
-                        name="left"
-                        type="rectangle"
-                        config={{ x: -50, y: height / 2, width: 100, height }}
-                        options={{ isStatic: true }}
-                    />
-                    <Shape
-                        name="right"
-                        type="rectangle"
-                        config={{ x: width + 50, y: height / 2, width: 100, height }}
-                        options={{ isStatic: true }}
-                    />
-
+                    <Walls width={width} height={height} />
+                    {
+                        tags.map((tag, index) => (
+                            <Pill key={index} text={tag} width={width} height={height} />
+                        ))
+                    }
                 </World>
             </Stage>
         </div >
