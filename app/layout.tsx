@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { cn } from "@/utils/cn";
-import { Inter } from "next/font/google";
 import "@/styles/globals.scss";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Ryan Kwan - Portfolio",
@@ -17,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(inter.className, 'dark')}>{children}</body>
+      <body className={cn('dark')}>{children}</body>
     </html>
   );
 }

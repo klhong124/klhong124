@@ -35,7 +35,7 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 <Icons
                     gltf="nuxt"
                     scale={0.2}
-                    position={[0.1, 0.5, 3.6]}
+                    position={[0.1, 0.6, 3.6]}
                     rotation={[Math.PI, -Math.PI / 15, -0.2]}
                     variants={{
                         hover: {

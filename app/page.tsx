@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState, useEffect, useRef } from 'react';
+import React, { lazy, Suspense } from 'react';
 const FlipWords = lazy(() => import("@/ui/flip-words"));
 const Background = lazy(() => import("@/ui/background"));
 const Highlight = lazy(() => import("@/ui/highlight"));
@@ -22,7 +22,7 @@ export default function Home() {
         )}>
           <div>
             <div className={cn(
-              "text-xl sm:text-4xl md:text-5xl mx-auto font-semibold tracking-wide",
+              "text-xl sm:text-4xl md:text-5xl mx-auto tracking-wide",
               "text-slate-300"
             )}>
               Crafting High-Efficiency Websites <br />
@@ -46,7 +46,7 @@ export default function Home() {
               <Experience />
             </GridItem>
             <GridItem id={4}>
-              <Hashtag />
+              <ComingSoon />
             </GridItem>
             <GridItem id={5}>
               <TechStack />
@@ -61,7 +61,7 @@ export default function Home() {
               <ComingSoon />
             </GridItem>
             <GridItem id={9}>
-              <ComingSoon />
+              <Hashtag />
             </GridItem>
             <GridItem id={10}>
               <ComingSoon />

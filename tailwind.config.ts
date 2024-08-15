@@ -17,6 +17,8 @@ const config: Config = {
       fontFamily: {
         spaceGrotesk: ['space-grotesk', 'sans-serif'],
         matrix: ['matrix', 'sans-serif'],
+        quicksand: ['quicksand', 'sans-serif'],
+        bebasNeue: ['bebas-neue', 'sans-serif'],
       },
     },
   },

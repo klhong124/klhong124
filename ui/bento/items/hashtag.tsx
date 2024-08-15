@@ -5,50 +5,54 @@ import throttle from "@/utils/throttle";
 import Matter from 'matter-js';
 
 import { Stage, Graphics, Text, Container, useTick, useApp } from '@pixi/react';
-import { TextStyle } from 'pixi.js';
+import { TextStyle, TextMetrics } from 'pixi.js';
 
 const xy = (vertices: Matter.Vector) => [vertices.x, vertices.y];
 
 const tags = [
     {
         text: "Quick Learner",
-        color: "#f43f5e"
+        color: "#3b82f6"  // Bright blue
     },
     {
         text: "Self-Motivated",
-        color: "#ef4444"
+        color: "#f97316"  // Orange
     },
     {
         text: "Problem Solver",
-        color: "#0ea5e9"
+        color: "#06b6d4"  // Cyan
     },
     {
         text: "Critical Thinker",
-        color: "#3b82f6"
+        color: "#8b5cf6"  // Purple
     },
     {
         text: "Methodical",
-        color: "#6366f1"
-    },
-    {
-        text: "Team Player",
-        color: "#8b5cf6"
+        color: "#10b981"  // Emerald
     },
     {
         text: "Meticulous",
-        color: "#eab308"
+        color: "#eab308"  // Yellow
     },
     {
         text: "Adaptable",
-        color: "#f59e0b"
+        color: "#ec4899"  // Pink
     },
     {
         text: "Innovative",
-        color: "#22c55e"
+        color: "#14b8a6"  // Teal
     },
     {
         text: "Analytical",
-        color: "#10b981"
+        color: "#f43f5e"  // Rose
+    },
+    {
+        text: "Detail-Oriented",
+        color: "#6366f1"  // Indigo
+    },
+    {
+        text: "Collaborative",
+        color: "#22c55e"  // Green
     },
 ]
 
@@ -68,14 +72,13 @@ const World = ({ children }: any) => {
     useTick((delta) => Matter.Engine.update(engine, delta * (1000 / 120)));
 
     const app: any = useApp();
-    const constraint = { stiffness: 0.2 }
+    const constraint = { stiffness: 1, damping: 1 }
     useEffect(() => {
         const mouse = Matter.Mouse.create(app.view);
         const mouseConstraint = Matter.MouseConstraint.create(engine, { mouse, constraint });
 
         const scale = 1 / window.devicePixelRatio;
         Matter.Mouse.setScale(mouse, { x: scale, y: scale });
-
         Matter.World.add(engine.world, mouseConstraint);
 
         return () => {
@@ -123,40 +126,52 @@ const Pill = ({
     text,
     width,
     height,
-    color
+    color,
+    index,
+    totalPills
 }: {
     text: string,
     width: number,
-    height: number
-    color: string
+    height: number,
+    color: string,
+    index: number,
+    totalPills: number
 }) => {
     const engine: any = useEngine();
     const pillRef = useRef<any>(null);
     const textRef = useRef<any>(null);
-    const padding = (text.length * 6 + 48) / 2
+    const pillWidth = text.length * 6 + 48;
+    const pillHeight = 40;
 
     const body = useRef(Matter.Bodies.rectangle(
-        padding + Math.random() * (width - padding * 2),
-        padding + Math.random() * (height - padding * 2),
-        text.length * 6 + 48,
-        40,
+        (index + 1) * (width / (totalPills + 1)),
+        Math.random() * height,
+        pillWidth,
+        pillHeight,
         {
             chamfer: { radius: 20 },
-            restitution: 0.2,
+            restitution: 0,
         }
     ));
-    useTick(() => {
-        if (pillRef.current) {
-            pillRef.current.clear();
-            pillRef.current.lineStyle(2, color, 1);
-            pillRef.current.moveTo(...xy(body.current.vertices[0]));
-            body.current.vertices.forEach((vertex) => {
-                pillRef.current.lineTo(...xy(vertex));
-            });
-            pillRef.current.lineTo(...xy(body.current.vertices[0]));
-        }
 
-        if (textRef.current) {
+    useTick(() => {
+        if (pillRef.current && textRef.current && body.current) {
+            // Check if the pill is outside the zone
+            if (body.current.position.y > height || body.current.position.y < 0 ||
+                body.current.position.x > width || body.current.position.x < 0) {
+                // Reset position
+                Matter.Body.setPosition(body.current, {
+                    x: Math.random() * width,
+                    y: Math.random() * height
+                });
+                Matter.Body.setVelocity(body.current, { x: 0, y: 0 });
+            }
+
+            // Update pill position and rotation
+            pillRef.current.position.set(body.current.position.x, body.current.position.y);
+            pillRef.current.rotation = body.current.angle;
+
+            // Update text position and rotation
             textRef.current.position.set(body.current.position.x, body.current.position.y);
             textRef.current.rotation = body.current.angle;
         }
@@ -171,7 +186,23 @@ const Pill = ({
 
     return (
         <Container>
-            <Graphics ref={pillRef} />
+            <Graphics
+                ref={pillRef}
+                draw={g => {
+                    const padding = 3;
+                    g.clear();
+                    g.lineStyle(2, color, 1);
+                    g.beginFill(0, 0); // Transparent fill
+                    g.drawRoundedRect(
+                        -pillWidth / 2 + padding / 2,
+                        -pillHeight / 2 + padding / 2,
+                        pillWidth - padding,
+                        pillHeight - padding,
+                        20
+                    );
+                    g.endFill();
+                }}
+            />
             <Text
                 ref={textRef}
                 text={text}
@@ -179,9 +210,67 @@ const Pill = ({
                 x={200}
                 y={100}
                 style={new TextStyle({
-                    fill: '#e7e5e4',
+                    fill: '#cbd5e1', //var(--slate-300)
                     fontSize: 14,
                 })}
+            />
+        </Container>
+    );
+};
+
+const Title = ({ width, height }: { width: number; height: number }) => {
+    const engine: any = useEngine();
+    const textRef = useRef<any>(null);
+    const titleText = "HashTag";
+    const titleStyle = new TextStyle({
+        fill: 'transparent',
+        fontWeight: 'bold',
+        fontSize: 82,
+        stroke: '#d1d5db', //var(--gray-300)
+        strokeThickness: 2,
+    });
+    const titleWidth = Math.ceil(TextMetrics.measureText(titleText, titleStyle).width) + 60;
+    const titleHeight = Math.ceil(TextMetrics.measureText(titleText, titleStyle).height) - 24;
+
+    const body = useRef(Matter.Bodies.rectangle(
+        width / 2,
+        titleHeight,
+        titleWidth,
+        titleHeight,
+        {
+            chamfer: { radius: titleHeight / 2 },
+        }
+    ));
+
+    useTick(() => {
+        if (textRef.current && body.current) {
+            // Check if the body is outside the zone
+            if (body.current.position.y > height || body.current.position.y < 0 ||
+                body.current.position.x > width || body.current.position.x < 0) {
+                // Reset position to center
+                Matter.Body.setPosition(body.current, { x: width / 2, y: height * 0.2 });
+                Matter.Body.setVelocity(body.current, { x: 0, y: 0 });
+            }
+
+            textRef.current.position.set(body.current.position.x, body.current.position.y);
+            textRef.current.rotation = body.current.angle;
+        }
+    });
+
+    useEffect(() => {
+        Matter.World.add(engine.world, body.current);
+        return () => {
+            Matter.World.remove(engine.world, body.current);
+        };
+    }, [engine]);
+
+    return (
+        <Container>
+            <Text
+                ref={textRef}
+                text="HASHTAG"
+                anchor={0.5}
+                style={titleStyle}
             />
         </Container>
     );
@@ -210,7 +299,6 @@ export function Hashtag() {
     }, [app]);
 
 
-
     return (
         <div className={cn("w-full h-full overflow-hidden")} ref={canvas}>
 
@@ -227,9 +315,10 @@ export function Hashtag() {
             >
                 <World>
                     <Walls width={width} height={height} />
+                    <Title width={width} height={height} />
                     {
                         tags.map(({ text, color }, index) => (
-                            <Pill key={index} text={text} width={width} height={height} color={color} />
+                            <Pill key={index} text={text} width={width} height={height} color={color} index={index} totalPills={tags.length} />
                         ))
                     }
                 </World>
