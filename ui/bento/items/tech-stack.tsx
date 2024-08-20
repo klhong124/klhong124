@@ -8,7 +8,7 @@ import Scene from "@/ui/bento/items/scene";
 const TechStack = memo(() => {
 
     const [ref, bounds] = useMeasure({ scroll: true });
-    const [isHover, setIsHover] = useState<boolean>(false);
+    const [isHover, setIsHover] = useState<boolean>(true);
     const mouseX: MotionValue<number> = useMotionValue(0);
     const mouseY: MotionValue<number> = useMotionValue(0);
 
@@ -68,7 +68,7 @@ const TechStack = memo(() => {
                     }}
                 >
                     <div
-                        className={cn("w-[900px] h-[900px] scale-125",
+                        className={cn("w-[1200px] h-[1200px]",
                             "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
                             "pointer-events-none",
                         )}

@@ -1,6 +1,6 @@
 "use client";
-import { motion, useMotionTemplate, useSpring } from "framer-motion";
-import { useEffect } from "react";
+import { motion, useMotionTemplate } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export const Background = ({
     children,
@@ -10,7 +10,7 @@ export const Background = ({
     [key: string]: any;
 }) => {
 
-    function handleMouseClick({
+    function handleMouseMove({
         currentTarget,
         clientX,
         clientY,
@@ -18,20 +18,14 @@ export const Background = ({
         if (!currentTarget) return;
         let { left, top } = currentTarget.getBoundingClientRect();
 
-        mouseX.set(clientX - left);
-        mouseY.set(clientY - top);
-
+        setMousePosition({ x: clientX - left, y: clientY - top });
     }
-    const useSpringConfig = {
-        stiffness: 300,
-        damping: 10,
-    };
-    const mouseX = useSpring(0, useSpringConfig);
-    const mouseY = useSpring(0, useSpringConfig);
+
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
     const maskImageStyle = useMotionTemplate`
         radial-gradient(
-            300px circle at ${mouseX}px ${mouseY}px,
+            300px circle at ${mousePosition.x}px ${mousePosition.y}px,
             black 0%,
             transparent 100%
         )
@@ -39,15 +33,14 @@ export const Background = ({
 
     // Set mouse position on page loaded
     useEffect(() => {
-        mouseX.set(window.innerWidth / 2);
-        mouseY.set(window.innerHeight / 2);
+        setMousePosition({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
     }, []);
 
     return (
         <section
             className=
-            "relative flex items-center bg-white dark:bg-black justify-center w-full group"
-            onClick={handleMouseClick}
+            "relative flex items-center bg-white dark:bg-black justify-center w-full group overflow-hidden"
+            onMouseMove={handleMouseMove}
         >
             <div className="absolute inset-0 bg-dot-thick-neutral-300 dark:bg-dot-thick-neutral-800  pointer-events-none" />
             {/* Radial gradient for the container to give a faded look */}

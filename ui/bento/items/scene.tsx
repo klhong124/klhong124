@@ -3,7 +3,7 @@ import React, { useRef, useLayoutEffect, memo } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
 import { useGLTF } from '@react-three/drei';
 import { motion } from "framer-motion-3d";
-import { useTransform, useSpring, MotionValue, SpringOptions } from "framer-motion";
+import { useTransform, useSpring, MotionValue, SpringOptions, animate } from "framer-motion";
 
 function useSmoothTransform(value: MotionValue<number>, springOptions: SpringOptions | undefined, transformer: { (v: any): number; (v: any): number; (x: any): number; (y: any): number; (input: unknown): any; }) {
     return useSpring(useTransform(value, transformer), springOptions);
@@ -43,17 +43,34 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                             rotateX: Math.PI / 2,
                         },
                     }}
-
+                    animate={{
+                        rotateZ: [-0.2, Math.PI - 0.2, Math.PI * 2 - 0.2, Math.PI * 2 - 0.2],
+                        transition: {
+                            times: [0, 0.1, 0.2, 2],
+                            duration: 4,
+                            repeat: Infinity,
+                            ease: ["easeIn", "easeOut", "linear", "linear"],
+                        },
+                    }}
                 />
                 <Icons
                     gltf="vue"
-                    position={[-1.3, -1.8, 1.6]}
+                    position={[-1.2, -1.8, 1.6]}
                     rotation={[Math.PI / 2, Math.PI / 20, -0.8]}
                     scale={0.5}
                     variants={{
                         hover: {
                             scale: 1.5,
-                            rotateZ: Math.PI - 0.8,
+                        },
+                    }}
+                    animate={{
+                        rotateZ: [-0.8, Math.PI - 0.8],
+                        transition: {
+                            duration: 1,
+                            repeatDelay: 3,
+                            type: "spring",
+                            bounce: 0.4,
+                            repeat: Infinity,
                         },
                     }}
                 />
@@ -61,12 +78,19 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                     gltf="react"
                     scale={0.5}
                     position={[2.5, 1.8, -1]}
-                    rotation={[Math.PI / 1.8, 0, 0.5]}
+                    rotation={[Math.PI / 2, 0, 0.2]}
                     variants={{
                         hover: {
                             scale: 2.3,
                             rotateX: Math.PI / 1.8,
-                            rotateY: Math.PI / 4,
+                        },
+                    }}
+                    animate={{
+                        rotateY: [0, Math.PI * 2],
+                        transition: {
+                            duration: 30,
+                            repeat: Infinity,
+                            ease: "linear",
                         },
                     }}
                 />
@@ -74,24 +98,43 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                     gltf="typescript"
                     scale={0.5}
                     position={[5, 0.5, -3]}
-                    rotation={[Math.PI / 5, -Math.PI / 2, 1]}
+                    rotation={[Math.PI / 5, 0, 1]}
                     variants={{
                         hover: {
                             scale: 2,
                             rotateX: Math.PI / 1.8,
-                            rotateY: 0,
+                        },
+                    }}
+                    animate={{
+                        rotateY: [Math.PI / 20, -Math.PI / 10],
+                        transition: {
+                            duration: 1,
+                            repeatDelay: 3,
+                            repeat: Infinity,
+                            repeatType: "reverse",
+                            bounce: 0.5,
+                            stiffness: 200,
+                            type: "spring",
                         },
                     }}
                 />
                 <Icons
                     gltf="tailwindcss"
                     scale={0.5}
-                    position={[0.1, -2.5, 0]}
-                    rotation={[Math.PI / 2, Math.PI / 2, -0.2]}
+                    position={[0, -2.5, 0]}
+                    rotation={[Math.PI / 2, 0, -0.2]}
                     variants={{
                         hover: {
                             scale: 1.8,
-                            rotateY: 0,
+                        },
+                    }}
+                    animate={{
+                        y: [-2.5 - 0.2, -2.5, -2.5 - 0.2],
+                        rotateY: [-Math.PI / 20, 0, -Math.PI / 20],
+                        transition: {
+                            duration: 4,
+                            repeat: Infinity,
+                            ease: "easeInOut",
                         },
                     }}
 
@@ -112,12 +155,15 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 <Icons
                     gltf="next"
                     scale={0.2}
-                    position={[1.2, -0.8, 2.4]}
+                    position={[1.4, -0.8, 2.4]}
                     rotation={[Math.PI / 2.5, Math.PI / 2, Math.PI / 6]}
-                    variants={{
-                        hover: {
-                            scale: 1.3,
-                            rotateY: -Math.PI / 5,
+                    animate={{
+                        scale: [1.3, 1.4, 1.3],
+                        rotateY: [-Math.PI / 5, -Math.PI / 6, -Math.PI / 5],
+                        transition: {
+                            duration: 5,
+                            repeat: Infinity,
+                            ease: "easeInOut",
                         },
                     }}
                 />
@@ -125,11 +171,31 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                     gltf="graphql"
                     scale={0.5}
                     position={[-1.2, 0.8, 2.5]}
-                    rotation={[Math.PI / 1.5, Math.PI / 2, Math.PI / 1.2]}
+                    rotation={[Math.PI / 2, 0, 0]}
                     variants={{
                         hover: {
                             scale: 1,
-                            rotateY: Math.PI / 15,
+                        },
+                    }}
+                    animate={{
+                        rotateY: [0,
+                            -Math.PI / 3,
+                            -Math.PI / 3,
+                            -2 * Math.PI / 3,
+                            -2 * Math.PI / 3,
+                            -Math.PI,
+                            -Math.PI,
+                            -4 * Math.PI / 3,
+                            -4 * Math.PI / 3,
+                            -5 * Math.PI / 3,
+                            -5 * Math.PI / 3,
+                            -2 * Math.PI,
+                            -2 * Math.PI
+                        ],
+                        transition: {
+                            duration: 16,
+                            repeat: Infinity,
+                            ease: "easeInOut",
                         },
                     }}
                 />
@@ -144,6 +210,7 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                             rotateY: Math.PI * 2,
                         },
                     }}
+
                 />
                 <Icons
                     gltf="framer-motion"
@@ -156,16 +223,37 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                             rotateZ: Math.PI * 2
                         },
                     }}
+                    animate={{
+                        y: [2.6, 2.6 + 0.1, 2.6, 2.6 + 0.1, 2.6],
+                        transition: {
+                            times: [0, 0.25, 0.5, 0.75, 1],
+                            duration: 0.8,
+                            repeat: Infinity,
+                            repeatDelay: 2,
+                            ease: "easeInOut",
+                        },
+                    }}
                 />
                 <Icons
                     gltf="storybook"
                     scale={0.6}
                     position={[0.9, 1.7, 1.9]}
-                    rotation={[Math.PI / 2, -Math.PI / 16, Math.PI]}
+                    rotation={[Math.PI / 2, 0, Math.PI]}
                     variants={{
                         hover: {
                             scale: 0.9,
                             rotateZ: Math.PI * 2,
+                        },
+                    }}
+                    animate={{
+                        rotateY: [-Math.PI / 30, Math.PI / 30],
+                        rotateX: [Math.PI / 2 , Math.PI / 2 - Math.PI / 30],
+                        transition: {
+                            duration: 5,
+                            repeat: Infinity,
+                            repeatType: "reverse",
+                            bounce: 0.8,
+                            type: "spring",
                         },
                     }}
                 />
@@ -185,25 +273,47 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 <Icons
                     gltf="threejs"
                     scale={0.5}
-                    position={[-3.2, -1, -1]}
+                    position={[-3.4, -1.1, -1]}
                     rotation={[Math.PI / 2, 0, 0.3]}
                     variants={{
                         hover: {
                             scale: 1,
-                            rotateY: Math.PI / 3,
+                            rotateY: -Math.PI / 3
+                        },
+                    }}
+                    animate={{
+                        rotateX: [
+                            Math.PI / 2,
+                            Math.PI * 2 + Math.PI / 2,
+                        ],
+                        transition: {
+                            duration: 9,
+                            repeat: Infinity,
+                            type: "spring",
+                            bounce: 0.4,
                         },
                     }}
                 />
                 <Icons
                     gltf="jest"
                     scale={0.5}
-                    position={[-2.6, -1.3, 1]}
+                    position={[-2.8, -1.4, 1]}
                     rotation={[Math.PI, 0, 0.2]}
                     variants={{
                         hover: {
                             scale: 1,
-                            rotateY: -Math.PI / 4,
                             rotateX: Math.PI / 2.1,
+                        },
+                    }}
+                    animate={{
+                        y: [-1.4, -1.5, -1.4, -1.5, -1.4],
+                        x: [-2.7, -2.7, -2.6, -2.6, -2.7],
+                        rotateY: [-Math.PI / 4, -Math.PI / 5, -Math.PI / 4, -Math.PI / 5, -Math.PI / 4],
+                        transition: {
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            repeatDelay: 1,
                         },
                     }}
                 />
@@ -223,13 +333,24 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 <Icons
                     gltf="cloud-run"
                     scale={0.5}
-                    position={[-2, -1.8, -2]}
+                    position={[-2.5, -1.8, -2]}
                     rotation={[-Math.PI / 1.1, -Math.PI / 3, -Math.PI / 5]}
                     variants={{
                         hover: {
                             scale: 1.2,
                             rotateX: Math.PI / 2.2,
-                            rotateY: Math.PI / 4,
+                        },
+                    }}
+                    animate={{
+                        rotateZ: [-Math.PI / 5 + Math.PI / 10, -Math.PI / 5],
+                        rotateY: [Math.PI / 4 - Math.PI / 10, Math.PI / 4 +Math.PI / 10],
+                        transition: {
+                            duration: 2,
+                            repeatDelay: 2,
+                            repeat: Infinity,
+                            repeatType: "reverse",
+                            bounce: 0.5,
+                            type: "spring",
                         },
                     }}
                 />
@@ -249,12 +370,22 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                     gltf="illustrator"
                     scale={0.5}
                     position={[3.5, -0.5, -3]}
-                    rotation={[Math.PI, Math.PI / 3, -Math.PI / 6]}
+                    rotation={[Math.PI, Math.PI / 3, -Math.PI / 9]}
                     variants={{
                         hover: {
                             scale: 1,
                             rotateX: Math.PI / 2,
                             rotateY: Math.PI / 5,
+                        },
+                    }}
+                    animate={{
+                        x: [3.5, 3.9, 4.3, 3.9, 3.5],
+                        z: [-3, -2.5, -3, -3.5, -3],
+                        transition: {
+                            duration: 0.9,
+                            repeatDelay: 2,
+                            repeat: Infinity,
+                            ease: "easeOut",
                         },
                     }}
                 />
@@ -268,6 +399,16 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                             scale: 1,
                             rotateX: Math.PI / 2.1,
                             rotateY: -Math.PI / 5.2,
+                        },
+                    }}
+                    animate={{
+                        x: [4.3, 3.9, 3.5, 3.9, 4.3],
+                        z: [-3, -3.5, -3, -2.5, -3],
+                        transition: {
+                            duration: 0.9,
+                            repeatDelay: 2,
+                            repeat: Infinity,
+                            ease: "easeOut",
                         },
                     }}
                 />
@@ -353,8 +494,8 @@ function Icons({ gltf, ...props }: any) {
                 position={[x, y, z - 1]} //pop up effect from z -1 for each icon
                 variants={{
                     hover: {
-                        z,
-                        ...props.variants.hover,
+                        z: props.animate?.z ? undefined : z,
+                        ...props.variants?.hover,
                     }
                 }}
             >
