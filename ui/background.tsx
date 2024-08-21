@@ -39,12 +39,12 @@ export const Background = ({
     return (
         <section
             className=
-            "relative flex items-center bg-white dark:bg-black justify-center w-full group overflow-hidden"
+            "relative flex items-center bg-white dark:bg-stone-950 justify-center w-full group overflow-hidden"
             onMouseMove={handleMouseMove}
         >
             <div className="absolute inset-0 bg-dot-thick-neutral-300 dark:bg-dot-thick-neutral-800  pointer-events-none" />
             {/* Radial gradient for the container to give a faded look */}
-            <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
+            <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-stone-950 bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
 
             {/* Highlight */}
             <motion.div

@@ -9,22 +9,10 @@ export default function Home() {
       <Background>
 
         <div className={cn(
-          "h-screen w-screen",
+          "h-screen w-screen flex justify-center items-center",
         )}>
-                <TechStack />
 
-          {/* <div>
-            <div className={cn(
-              "text-xl sm:text-4xl md:text-5xl mx-auto tracking-wide",
-              "text-slate-300"
-            )}>
-              Crafting High-Efficiency Websites <br />
-              with <FlipWords className="text-slate-300" />
-            </div>
-            <div className="mt-2 sm:mt-4">
-              With the power of <Highlight>React</Highlight> <Highlight>Vue</Highlight> <Highlight>GraphQL</Highlight> and more
-            </div>
-          </div> */}
+          <TechStack />
 
         </div>
 

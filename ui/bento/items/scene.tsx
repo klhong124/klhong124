@@ -465,11 +465,11 @@ const Camera = React.memo(({ mouseX, mouseY }: {
     return (
         <motion.perspectiveCamera
             ref={cameraRef}
-            fov={85}
-            position={[cameraX, cameraY, 6]}
+            fov={80}
+            position={[cameraX, cameraY, 0]}
             variants={{
                 hover: {
-                    z: 5,
+                    z: 5
                 },
             }}
         />

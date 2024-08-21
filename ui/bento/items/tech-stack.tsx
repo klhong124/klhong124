@@ -8,7 +8,7 @@ import Scene from "@/ui/bento/items/scene";
 const TechStack = memo(() => {
 
     const [ref, bounds] = useMeasure({ scroll: true });
-    const [isHover, setIsHover] = useState<boolean>(true);
+    const [isHover, setIsHover] = useState<boolean>(false);
     const mouseX: MotionValue<number> = useMotionValue(0);
     const mouseY: MotionValue<number> = useMotionValue(0);
 
@@ -20,11 +20,6 @@ const TechStack = memo(() => {
     const handleHoverStart = () => {
         resetMousePosition();
         setIsHover(true);
-    };
-
-    const handleHoverEnd = () => {
-        resetMousePosition();
-        setIsHover(false);
     };
 
     const handlePointerMove = (e: any) => {
@@ -39,22 +34,14 @@ const TechStack = memo(() => {
             stiffness: 100,
         }}>
             <motion.button
-                className={cn("h-full w-full overflow-visible relative cursor-default rounded-2xl")}
+                className={cn("w-full h-full overflow-visible relative ")}
                 ref={ref}
                 animate={isHover ? "hover" : "rest"}
                 onHoverStart={handleHoverStart}
-                onHoverEnd={handleHoverEnd}
                 onPointerMove={handlePointerMove}
-                variants={{
-                    hover: {
-                        boxShadow: "0px 0px 300px 100px rgba(0, 0, 0, 0.8)",
-
-                    }
-                }
-                }
             >
                 <motion.div
-                    className={cn("top-1 bottom-1 left-1 right-1")}
+                    className={cn("")}
                     variants={{
                         rest: {
                             opacity: 0,
@@ -68,7 +55,7 @@ const TechStack = memo(() => {
                     }}
                 >
                     <div
-                        className={cn("w-[1200px] h-[1200px]",
+                        className={cn("w-full h-full",
                             "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
                             "pointer-events-none",
                         )}
