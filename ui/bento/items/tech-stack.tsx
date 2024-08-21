@@ -1,14 +1,18 @@
 "use client";
-import React, { Suspense, useState, memo } from "react";
+import React, { Suspense, memo, useEffect } from "react";
 import { cn } from "@/utils/cn";
-import { motion, MotionConfig, useMotionValue, MotionValue } from "framer-motion";
-import useMeasure from "react-use-measure";
+import { motion, MotionConfig, MotionValue, useMotionValue } from "framer-motion";
 import Scene from "@/ui/bento/items/scene";
+import { useHover } from "@/context/hover"; // Add this import
+import { useMousePosition } from "@/context/mouse";
+import useMeasure from "react-use-measure";
 
 const TechStack = memo(() => {
+    const isHover = useHover();
 
     const [ref, bounds] = useMeasure({ scroll: true });
-    const [isHover, setIsHover] = useState<boolean>(false);
+    const { x, y } = useMousePosition();
+
     const mouseX: MotionValue<number> = useMotionValue(0);
     const mouseY: MotionValue<number> = useMotionValue(0);
 
@@ -17,15 +21,14 @@ const TechStack = memo(() => {
         mouseY.set(0);
     };
 
-    const handleHoverStart = () => {
-        resetMousePosition();
-        setIsHover(true);
-    };
-
-    const handlePointerMove = (e: any) => {
-        mouseX.set(e.clientX - bounds.x - bounds.width / 2);
-        mouseY.set(e.clientY - bounds.y - bounds.height / 2);
-    };
+    useEffect(() => {
+        if (!isHover) {
+            resetMousePosition()
+        } else {
+            mouseX.set(x - bounds.x - bounds.width / 2);
+            mouseY.set(y - bounds.y - bounds.height / 2);
+        }
+    }, [x, y, bounds]);
 
     return (
         <MotionConfig transition={{
@@ -34,14 +37,18 @@ const TechStack = memo(() => {
             stiffness: 100,
         }}>
             <motion.button
-                className={cn("w-full h-full overflow-visible relative ")}
-                ref={ref}
+                className={cn("overflow-visible")}
                 animate={isHover ? "hover" : "rest"}
-                onHoverStart={handleHoverStart}
-                onPointerMove={handlePointerMove}
+                onHoverStart={() => resetMousePosition()}
+                onHoverEnd={() => resetMousePosition()}
+                ref={ref}
             >
+
                 <motion.div
-                    className={cn("")}
+                    className={cn("w-full h-full",
+                        "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
+                        "pointer-events-none",
+                    )}
                     variants={{
                         rest: {
                             opacity: 0,
@@ -54,40 +61,14 @@ const TechStack = memo(() => {
                         }
                     }}
                 >
-                    <div
-                        className={cn("w-full h-full",
-                            "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
-                            "pointer-events-none",
-                        )}
-                    >
-                        <Suspense fallback={<></>}>
-                            <Scene
-                                isHover={isHover}
-                                mouseX={mouseX}
-                                mouseY={mouseY}
-                            />
-                        </Suspense>
-                    </div>
+                    <Suspense fallback={<></>}>
+                        <Scene
+                            mouseX={mouseX}
+                            mouseY={mouseY}
+                        />
+                    </Suspense>
                 </motion.div>
-                <motion.div
-                    variants={{
-                        hover: {
-                            scale: 1.2,
-                        }
-                    }}
-                    className={cn("text-center")}
-                >
-                    <span className={cn(
-                        "text-xl text-secondary",
-                    )}>Modern Development
-                    </span>
-                    <h1 className={cn(
-                        "text-primary text-6xl text-center",
-                        "font-medium tracking-wide",
-                    )}>
-                        TechStack
-                    </h1>
-                </motion.div>
+
             </motion.button>
         </MotionConfig>
     );

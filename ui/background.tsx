@@ -1,6 +1,6 @@
 "use client";
 import { motion, useMotionTemplate } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useMousePosition } from "@/context/mouse";
 
 export const Background = ({
     children,
@@ -9,19 +9,7 @@ export const Background = ({
     children: React.ReactNode;
     [key: string]: any;
 }) => {
-
-    function handleMouseMove({
-        currentTarget,
-        clientX,
-        clientY,
-    }: React.MouseEvent<HTMLDivElement>) {
-        if (!currentTarget) return;
-        let { left, top } = currentTarget.getBoundingClientRect();
-
-        setMousePosition({ x: clientX - left, y: clientY - top });
-    }
-
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const mousePosition = useMousePosition();
 
     const maskImageStyle = useMotionTemplate`
         radial-gradient(
@@ -31,16 +19,9 @@ export const Background = ({
         )
     `;
 
-    // Set mouse position on page loaded
-    useEffect(() => {
-        setMousePosition({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
-    }, []);
-
     return (
         <section
-            className=
-            "relative flex items-center bg-white dark:bg-stone-950 justify-center w-full group overflow-hidden"
-            onMouseMove={handleMouseMove}
+            className="relative flex items-center bg-white dark:bg-stone-950 justify-center w-full group overflow-hidden"
         >
             <div className="absolute inset-0 bg-dot-thick-neutral-300 dark:bg-dot-thick-neutral-800  pointer-events-none" />
             {/* Radial gradient for the container to give a faded look */}
@@ -62,10 +43,9 @@ export const Background = ({
                 transition={{
                     duration: 1,
                 }}
-
             />
 
-            <main {...prop} className="relative">{children}</main>
+            <main {...prop}>{children}</main>
         </section>
     );
 };

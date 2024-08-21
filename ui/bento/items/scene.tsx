@@ -4,17 +4,18 @@ import { Canvas, useThree } from "@react-three/fiber";
 import { useGLTF } from '@react-three/drei';
 import { motion } from "framer-motion-3d";
 import { useTransform, useSpring, MotionValue, SpringOptions, animate } from "framer-motion";
+import { useHover } from "@/context/hover"; // Add this import
 
 function useSmoothTransform(value: MotionValue<number>, springOptions: SpringOptions | undefined, transformer: { (v: any): number; (v: any): number; (x: any): number; (y: any): number; (input: unknown): any; }) {
     return useSpring(useTransform(value, transformer), springOptions);
 }
 
 
-export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
-    readonly isHover: boolean;
+export const Scene = React.memo(({ mouseX, mouseY }: {
     readonly mouseX: MotionValue<number>;
     readonly mouseY: MotionValue<number>;
 }) => {
+    const isHover = useHover();
 
     return (
         <Canvas
@@ -34,12 +35,11 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
             >
                 <Icons
                     gltf="nuxt"
-                    scale={0.2}
-                    position={[0.1, 0.6, 3.6]}
+                    scale={0.8}
+                    position={[0.1, 0.9, 3]}
                     rotation={[Math.PI, -Math.PI / 15, -0.2]}
                     variants={{
                         hover: {
-                            scale: 0.6,
                             rotateX: Math.PI / 2,
                         },
                     }}
@@ -57,12 +57,7 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                     gltf="vue"
                     position={[-1.2, -1.8, 1.6]}
                     rotation={[Math.PI / 2, Math.PI / 20, -0.8]}
-                    scale={0.5}
-                    variants={{
-                        hover: {
-                            scale: 1.5,
-                        },
-                    }}
+                    scale={1.5}
                     animate={{
                         rotateZ: [-0.8, Math.PI - 0.8],
                         transition: {
@@ -76,12 +71,11 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 />
                 <Icons
                     gltf="react"
-                    scale={0.5}
-                    position={[2.5, 1.8, -1]}
+                    scale={2.3}
+                    position={[3.3, 2.5, -1]}
                     rotation={[Math.PI / 2, 0, 0.2]}
                     variants={{
                         hover: {
-                            scale: 2.3,
                             rotateX: Math.PI / 1.8,
                         },
                     }}
@@ -96,12 +90,10 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 />
                 <Icons
                     gltf="typescript"
-                    scale={0.5}
-                    position={[5, 0.5, -3]}
+                    position={[2.2, 0.5, 1]}
                     rotation={[Math.PI / 5, 0, 1]}
                     variants={{
                         hover: {
-                            scale: 2,
                             rotateX: Math.PI / 1.8,
                         },
                     }}
@@ -120,14 +112,9 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 />
                 <Icons
                     gltf="tailwindcss"
-                    scale={0.5}
-                    position={[0, -2.5, 0]}
+                    scale={1.8}
+                    position={[0, -2.8, 0]}
                     rotation={[Math.PI / 2, 0, -0.2]}
-                    variants={{
-                        hover: {
-                            scale: 1.8,
-                        },
-                    }}
                     animate={{
                         y: [-2.5 - 0.2, -2.5, -2.5 - 0.2],
                         rotateY: [-Math.PI / 20, 0, -Math.PI / 20],
@@ -141,12 +128,11 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 />
                 <Icons
                     gltf="laravel"
-                    scale={0.5}
+                    scale={1.8}
                     position={[2.2, -3.9, -4]}
                     rotation={[Math.PI / 2, -Math.PI / 4, 0.3]}
                     variants={{
                         hover: {
-                            scale: 1.8,
                             rotateY: 0,
                         },
                     }}
@@ -154,8 +140,7 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 />
                 <Icons
                     gltf="next"
-                    scale={0.2}
-                    position={[1.4, -0.8, 2.4]}
+                    position={[1.7, -1, 2.3]}
                     rotation={[Math.PI / 2.5, Math.PI / 2, Math.PI / 6]}
                     animate={{
                         scale: [1.3, 1.4, 1.3],
@@ -169,14 +154,9 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 />
                 <Icons
                     gltf="graphql"
-                    scale={0.5}
-                    position={[-1.2, 0.8, 2.5]}
-                    rotation={[Math.PI / 2, 0, 0]}
-                    variants={{
-                        hover: {
-                            scale: 1,
-                        },
-                    }}
+                    scale={1.3}
+                    position={[-2.2, 1.3, 1.5]}
+                    rotation={[Math.PI / 1.8, 0, 0]}
                     animate={{
                         rotateY: [0,
                             -Math.PI / 3,
@@ -201,12 +181,11 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 />
                 <Icons
                     gltf="mongodb"
-                    scale={0.5}
-                    position={[-1.2, 1.8, 0]}
+                    position={[-1.2, 1.5, 0.5]}
                     rotation={[Math.PI / 1.3, Math.PI / 3, Math.PI]}
                     variants={{
                         hover: {
-                            scale: 1,
+
                             rotateY: Math.PI * 2,
                         },
                     }}
@@ -214,12 +193,10 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 />
                 <Icons
                     gltf="framer-motion"
-                    scale={0.5}
-                    position={[-0.9, 2.6, 0.7]}
+                    position={[-1.5, 2.3, 0.7]}
                     rotation={[Math.PI / 2.1, Math.PI * 2.2, Math.PI]}
                     variants={{
                         hover: {
-                            scale: 1,
                             rotateZ: Math.PI * 2
                         },
                     }}
@@ -236,18 +213,17 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 />
                 <Icons
                     gltf="storybook"
-                    scale={0.6}
+                    scale={0.9}
                     position={[0.9, 1.7, 1.9]}
                     rotation={[Math.PI / 2, 0, Math.PI]}
                     variants={{
                         hover: {
-                            scale: 0.9,
                             rotateZ: Math.PI * 2,
                         },
                     }}
                     animate={{
                         rotateY: [-Math.PI / 30, Math.PI / 30],
-                        rotateX: [Math.PI / 2 , Math.PI / 2 - Math.PI / 30],
+                        rotateX: [Math.PI / 2, Math.PI / 2 - Math.PI / 30],
                         transition: {
                             duration: 5,
                             repeat: Infinity,
@@ -259,12 +235,12 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 />
                 <Icons
                     gltf="python"
-                    scale={0.5}
-                    position={[-2.8, 0.2, 0]}
+                    scale={1.5}
+                    position={[-3.3, 0.2, 0]}
                     rotation={[-Math.PI, Math.PI / 2, -Math.PI / 4]}
                     variants={{
                         hover: {
-                            scale: 1.5,
+
                             rotateX: Math.PI / 2,
                             rotateY: Math.PI / 15,
                         },
@@ -273,7 +249,7 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 <Icons
                     gltf="threejs"
                     scale={0.5}
-                    position={[-3.4, -1.1, -1]}
+                    position={[-2.9, -1.1, -1]}
                     rotation={[Math.PI / 2, 0, 0.3]}
                     variants={{
                         hover: {
@@ -296,17 +272,15 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 />
                 <Icons
                     gltf="jest"
-                    scale={0.5}
-                    position={[-2.8, -1.4, 1]}
+                    position={[0, 0, 1]}
                     rotation={[Math.PI, 0, 0.2]}
                     variants={{
                         hover: {
-                            scale: 1,
                             rotateX: Math.PI / 2.1,
                         },
                     }}
                     animate={{
-                        y: [-1.4, -1.5, -1.4, -1.5, -1.4],
+                        y: [-1.5, -1.6, -1.5, -1.6, -1.5],
                         x: [-2.7, -2.7, -2.6, -2.6, -2.7],
                         rotateY: [-Math.PI / 4, -Math.PI / 5, -Math.PI / 4, -Math.PI / 5, -Math.PI / 4],
                         transition: {
@@ -319,12 +293,11 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 />
                 <Icons
                     gltf="python"
-                    scale={0.5}
-                    position={[-2.8, 0.2, 0]}
+                    scale={1.5}
+                    position={[-3, 0.2, 0]}
                     rotation={[-Math.PI, Math.PI / 2, -Math.PI / 4]}
                     variants={{
                         hover: {
-                            scale: 1.5,
                             rotateX: Math.PI / 2,
                             rotateY: Math.PI / 15,
                         },
@@ -332,18 +305,17 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 />
                 <Icons
                     gltf="cloud-run"
-                    scale={0.5}
-                    position={[-2.5, -1.8, -2]}
+                    scale={1.2}
+                    position={[-4.8, -1.1, -2]}
                     rotation={[-Math.PI / 1.1, -Math.PI / 3, -Math.PI / 5]}
                     variants={{
                         hover: {
-                            scale: 1.2,
-                            rotateX: Math.PI / 2.2,
+                            rotateX: Math.PI / 1.8,
                         },
                     }}
                     animate={{
                         rotateZ: [-Math.PI / 5 + Math.PI / 10, -Math.PI / 5],
-                        rotateY: [Math.PI / 4 - Math.PI / 10, Math.PI / 4 +Math.PI / 10],
+                        rotateY: [Math.PI / 4 - Math.PI / 10, Math.PI / 4 + Math.PI / 10],
                         transition: {
                             duration: 2,
                             repeatDelay: 2,
@@ -356,30 +328,27 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 />
                 <Icons
                     gltf="firebase"
-                    scale={0.6}
-                    position={[-3.3, -1, -3]}
-                    rotation={[Math.PI / 2.2, -Math.PI / 18, 2]}
+                    scale={1.2}
+                    position={[6, 0, -3]}
+                    rotation={[Math.PI / 2.2, -Math.PI / 18, -Math.PI]}
                     variants={{
                         hover: {
-                            scale: 1.2,
-                            rotateZ: Math.PI + 2,
+                            rotateZ: Math.PI / 10,
                         },
                     }}
                 />
                 <Icons
                     gltf="illustrator"
-                    scale={0.5}
-                    position={[3.5, -0.5, -3]}
+                    position={[4, -0.5, -3]}
                     rotation={[Math.PI, Math.PI / 3, -Math.PI / 9]}
                     variants={{
                         hover: {
-                            scale: 1,
                             rotateX: Math.PI / 2,
                             rotateY: Math.PI / 5,
                         },
                     }}
                     animate={{
-                        x: [3.5, 3.9, 4.3, 3.9, 3.5],
+                        x: [4, 4.4, 4.8, 4.4, 4],
                         z: [-3, -2.5, -3, -3.5, -3],
                         transition: {
                             duration: 0.9,
@@ -391,18 +360,16 @@ export const Scene = React.memo(({ isHover, mouseX, mouseY }: {
                 />
                 <Icons
                     gltf="photoshop"
-                    scale={0.5}
-                    position={[4.3, -0.6, -3]}
+                    position={[4.8, -0.6, -3]}
                     rotation={[Math.PI / 1.2, -Math.PI / 4, Math.PI / 5]}
                     variants={{
                         hover: {
-                            scale: 1,
                             rotateX: Math.PI / 2.1,
                             rotateY: -Math.PI / 5.2,
                         },
                     }}
                     animate={{
-                        x: [4.3, 3.9, 3.5, 3.9, 4.3],
+                        x: [4.8, 4.4, 4, 4.4, 4.8],
                         z: [-3, -3.5, -3, -2.5, -3],
                         transition: {
                             duration: 0.9,
@@ -465,7 +432,7 @@ const Camera = React.memo(({ mouseX, mouseY }: {
     return (
         <motion.perspectiveCamera
             ref={cameraRef}
-            fov={80}
+            fov={85}
             position={[cameraX, cameraY, 0]}
             variants={{
                 hover: {
