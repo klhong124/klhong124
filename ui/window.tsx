@@ -1,10 +1,11 @@
 "use client";
 import { cn } from "@/utils/cn";
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useLayoutEffect } from "react";
 import { motion } from "framer-motion";
 import useMeasure from "react-use-measure";
-import { useHover } from "@/context/hover";
-export const Window = ({
+import { useMouse } from "@/context/mouse";
+
+const Window = ({
     children,
     ...props
 }: {
@@ -13,7 +14,7 @@ export const Window = ({
 }) => {
     const windowRef = useRef<HTMLDivElement>(null);
     const [ref, bounds] = useMeasure({ scroll: true });
-    const isHover = useHover();
+    const { isHover } = useMouse();
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!windowRef.current) return;
@@ -23,7 +24,7 @@ export const Window = ({
     };
 
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!windowRef.current) return;
 
         if (!isHover) {
@@ -53,7 +54,7 @@ export const Window = ({
                     className={cn(
                         "w-[700px] h-[400px] rounded-2xl",
                         "flex flex-col justify-center items-center",
-                        "border border-stone-200/10 shadow-lg",
+                        "border-2 border-stone-200/10 shadow-lg",
                         "[background-image:radial-gradient(95%_100%_at_top,rgba(255,255,255,0.2),rgba(255,255,255,0))]",
                         "shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset]",
                         "[transform-style:preserve-3d]  [&>*]:[transform-style:preserve-3d]",
@@ -79,3 +80,4 @@ export const Window = ({
     );
 };
 
+export default Window;

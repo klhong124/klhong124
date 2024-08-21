@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useState, useMemo, memo } from "react";
+import React, { useCallback, useLayoutEffect, useState, useMemo, memo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/utils/cn";
 
@@ -29,7 +29,7 @@ const FlipWords = memo(function FlipWords({
     setIsAnimating(true);
   }, [words.length]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!isAnimating) {
       const timer = setTimeout(() => {
         startAnimation();

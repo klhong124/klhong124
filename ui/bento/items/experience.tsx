@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useEffect, useState, useCallback } from "react";
+import React, { useRef, useLayoutEffect, useState, useCallback } from "react";
 import { motion, MotionConfig, useInView } from "framer-motion";
 import throttle from "@/utils/throttle";
 import { cn } from "@/utils/cn";
@@ -24,7 +24,7 @@ export function Experience() {
         }
     }, []);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         updateDimensions();
     }, []);
 

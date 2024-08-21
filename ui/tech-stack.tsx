@@ -1,21 +1,82 @@
 "use client";
-import React, { useRef, useLayoutEffect, memo } from "react";
+import React, { useEffect, useRef, useLayoutEffect } from "react";
+import { cn } from "@/utils/cn";
+import { motion, MotionConfig, MotionValue, useMotionValue, useTransform, useSpring, SpringOptions } from "framer-motion";
+import { useMouse } from "@/context/mouse";
+import useMeasure from "react-use-measure";
 import { Canvas, useThree } from "@react-three/fiber";
 import { useGLTF } from '@react-three/drei';
-import { motion } from "framer-motion-3d";
-import { useTransform, useSpring, MotionValue, SpringOptions, animate } from "framer-motion";
-import { useHover } from "@/context/hover"; // Add this import
-
-function useSmoothTransform(value: MotionValue<number>, springOptions: SpringOptions | undefined, transformer: { (v: any): number; (v: any): number; (x: any): number; (y: any): number; (input: unknown): any; }) {
-    return useSpring(useTransform(value, transformer), springOptions);
-}
+import { motion as motion3d } from "framer-motion-3d";
 
 
-export const Scene = React.memo(({ mouseX, mouseY }: {
+const TechStack = () => {
+    const [ref, bounds] = useMeasure({ scroll: true });
+    const { x, y, isHover } = useMouse();
+
+    const mouseX: MotionValue<number> = useMotionValue(0);
+    const mouseY: MotionValue<number> = useMotionValue(0);
+
+    const resetMousePosition = () => {
+        mouseX.set(0);
+        mouseY.set(0);
+    };
+
+    useEffect(() => {
+        if (!isHover) {
+            resetMousePosition()
+        } else {
+            mouseX.set(x - bounds.x - bounds.width / 2);
+            mouseY.set(y - bounds.y - bounds.height / 2);
+        }
+    }, [x, y, bounds]);
+
+    return (
+        <MotionConfig transition={{
+            type: "spring",
+            bounce: 0.5,
+            stiffness: 100,
+        }}>
+            <motion.button
+                className={cn(
+                    "overflow-visible",
+                    "w-full h-full",
+                    "absolute top-0 left-0 transform ",
+                    "pointer-events-none ",
+                )}
+                onHoverStart={() => resetMousePosition()}
+                onHoverEnd={() => resetMousePosition()}
+                animate={isHover ? "hover" : "rest"}
+                whileTap={"tap"}
+                initial="rest"
+                variants={{
+                    rest: {
+                        opacity: 0,
+                        transition: {
+                            type: "linear"
+                        }
+                    },
+                    hover: {
+                        opacity: 1,
+                    },
+
+                }}
+                ref={ref}
+            >
+
+                <Scene
+                    mouseX={mouseX}
+                    mouseY={mouseY}
+                />
+            </motion.button>
+        </MotionConfig >
+    );
+};
+
+
+const Scene = ({ mouseX, mouseY }: {
     readonly mouseX: MotionValue<number>;
     readonly mouseY: MotionValue<number>;
 }) => {
-    const isHover = useHover();
 
     return (
         <Canvas
@@ -28,10 +89,9 @@ export const Scene = React.memo(({ mouseX, mouseY }: {
 
             <Camera mouseX={mouseX} mouseY={mouseY} />
 
-            <motion.group
+            <motion3d.group
                 initial={false}
                 dispose={null}
-                animate={isHover && "hover"}
             >
                 <Icons
                     gltf="nuxt"
@@ -140,7 +200,7 @@ export const Scene = React.memo(({ mouseX, mouseY }: {
                 />
                 <Icons
                     gltf="next"
-                    position={[1.7, -1, 2.3]}
+                    position={[1.6, -0.9, 2.3]}
                     rotation={[Math.PI / 2.5, Math.PI / 2, Math.PI / 6]}
                     animate={{
                         scale: [1.3, 1.4, 1.3],
@@ -379,18 +439,24 @@ export const Scene = React.memo(({ mouseX, mouseY }: {
                         },
                     }}
                 />
-            </motion.group>
-        </ Canvas>
+            </motion3d.group>
+        </Canvas>
     );
-});
+};
 
-const Lights = memo(() => {
+const Lights = () => {
     return (
-        <motion.ambientLight intensity={Math.PI / 3} />
+        <motion3d.ambientLight intensity={Math.PI / 3} />
     );
-});
+};
 
-const Camera = React.memo(({ mouseX, mouseY }: {
+
+function useSmoothTransform(value: MotionValue<number>, springOptions: SpringOptions | undefined, transformer: { (v: any): number; (v: any): number; (x: any): number; (y: any): number; (input: unknown): any; }) {
+    return useSpring(useTransform(value, transformer), springOptions);
+}
+const spring = { stiffness: 600, damping: 30 };
+
+const Camera = ({ mouseX, mouseY }: {
     readonly mouseX: MotionValue<number>;
     readonly mouseY: MotionValue<number>;
 }) => {
@@ -429,34 +495,36 @@ const Camera = React.memo(({ mouseX, mouseY }: {
         });
     }, [cameraX, scene.position]);
 
+    const { isHover, isTap } = useMouse()
+
     return (
-        <motion.perspectiveCamera
+        <motion3d.perspectiveCamera
             ref={cameraRef}
-            fov={85}
+            fov={90}
             position={[cameraX, cameraY, 0]}
             variants={{
                 hover: {
-                    z: 5
+                    z: 4.5
                 },
+                tap: {
+                    z: 4.4
+                }
             }}
+            animate={isTap ? "tap" : (isHover ? "hover" : "rest")}
         />
     );
-});
-
-const spring = { stiffness: 600, damping: 30 };
-
-
+};
 
 function Icons({ gltf, ...props }: any) {
     const { scene } = useGLTF(`/model/${gltf}.gltf`);
     const [x, y, z] = props.position;
     return (
         <>
-            <motion.pointLight
+            <motion3d.pointLight
                 position={[x * 1.1, y * 1.1, z + 1]}
                 intensity={0.8}
             />
-            <motion.mesh
+            <motion3d.mesh
                 {...props}
                 position={[x, y, z - 1]} //pop up effect from z -1 for each icon
                 variants={{
@@ -466,11 +534,11 @@ function Icons({ gltf, ...props }: any) {
                     }
                 }}
             >
-                <motion.primitive object={scene} />
-            </motion.mesh>
+                <motion3d.primitive object={scene} />
+            </motion3d.mesh>
 
         </>
     );
 }
 
-export default Scene;
+export default TechStack;

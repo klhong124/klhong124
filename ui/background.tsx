@@ -1,6 +1,6 @@
 "use client";
 import { motion, useMotionTemplate } from "framer-motion";
-import { useMousePosition } from "@/context/mouse";
+import { useMouse } from "@/context/mouse";
 
 export const Background = ({
     children,
@@ -9,11 +9,11 @@ export const Background = ({
     children: React.ReactNode;
     [key: string]: any;
 }) => {
-    const mousePosition = useMousePosition();
+    const mouse = useMouse();
 
     const maskImageStyle = useMotionTemplate`
         radial-gradient(
-            300px circle at ${mousePosition.x}px ${mousePosition.y}px,
+            300px circle at ${mouse.x}px ${mouse.y}px,
             black 0%,
             transparent 100%
         )

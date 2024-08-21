@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, createContext, useEffect, useState, useCallback, useContext } from "react";
+import React, { useRef, createContext, useLayoutEffect, useState, useCallback, useContext } from "react";
 import { cn } from "@/utils/cn";
 import throttle from "@/utils/throttle";
 import Matter from 'matter-js';
@@ -73,7 +73,7 @@ const World = ({ children }: any) => {
 
     const app: any = useApp();
     const constraint = { stiffness: 1, damping: 1 }
-    useEffect(() => {
+    useLayoutEffect(() => {
         const mouse = Matter.Mouse.create(app.view);
         const mouseConstraint = Matter.MouseConstraint.create(engine, { mouse, constraint });
 
@@ -100,7 +100,7 @@ const Walls = ({
     const thickness = 100;
     const padding = thickness / 2 - 2;
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const bodies = [
             { x: width / 2, y: height + padding, width, height: thickness },
             { x: width / 2, y: -padding, width, height: thickness },
@@ -177,7 +177,7 @@ const Pill = ({
         }
     });
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         Matter.World.add(engine.world, body.current);
         return () => {
             Matter.World.remove(engine.world, body.current);
@@ -257,7 +257,7 @@ const Title = ({ width, height }: { width: number; height: number }) => {
         }
     });
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         Matter.World.add(engine.world, body.current);
         return () => {
             Matter.World.remove(engine.world, body.current);
