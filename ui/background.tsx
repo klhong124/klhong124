@@ -1,6 +1,6 @@
 "use client";
 import { motion, useMotionTemplate } from "framer-motion";
-import { useMouse } from "@/context/mouse";
+import { useMouse } from "@/hooks/useMouse";
 
 export const Background = ({
     children,

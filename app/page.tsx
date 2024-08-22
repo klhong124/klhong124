@@ -4,14 +4,17 @@ import Loading from '@/ui/loading';
 import Background from "@/ui/background";
 import TechStack from '@/ui/tech-stack';
 import Window from '@/ui/window';
-import MouseContext, { Mouse } from '@/context/mouse';
+import MouseContext, { Mouse } from '@/hooks/useMouse';
 import { cn } from "@/utils/cn";
-import { motion, MotionConfig } from "framer-motion";
+import { AnimatePresence, motion, MotionConfig } from "framer-motion";
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 
 
 export default function Home() {
-  const [mouse, setMouse] = useState<Mouse>({ x: 0, y: 0, isHover: false, isTap: false });
+  const router = useRouter();
+  const [mouse, setMouse] = useState<Mouse>({ x: 0, y: 0, isHover: false, isTap: false, isClick: false });
 
   useLayoutEffect(() => {
     if (typeof window !== 'undefined') {
@@ -59,6 +62,18 @@ export default function Home() {
     }));
   };
 
+  const handleClick = (event: React.MouseEvent) => {
+    event.preventDefault();
+    setMouse(prevMouse => ({
+      ...prevMouse,
+      isClick: true
+    }));
+    setTimeout(() => {
+      router.push("/explore");
+    }, 500);
+  };
+
+
   return (
     <Suspense fallback={<Loading />}>
       <MouseContext.Provider value={mouse}>
@@ -81,46 +96,47 @@ export default function Home() {
                 scale: 0.95
               }}
             >
-              <motion.div
-                className={cn("")}
-              >
-                <motion.span
-                  className={cn(
-                    "text-lg text-secondary",
+              <Link href="/explore" className="w-full h-full relative flex" onClick={handleClick} prefetch={true}>
+
+                <div className={cn("absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full")}>
+                  <span
+                    className={cn(
+                      "text-lg text-secondary block mb-2 text-center",
+                    )}
+                  >
+                    Web Developer | Front-end Specialist | UX Enthusiast
+                  </span>
+                  <motion.h1
+                    className={cn(
+                      "text-primary text-7xl text-center",
+                      "font-medium tracking-wide pb-2",
+                    )}
+                  >
+                    Ryan Kwan
+                  </motion.h1>
+                </div>
+                <AnimatePresence>
+                  {mouse.isHover && (
+                    <motion.span
+                      initial={{ opacity: 0 }}
+                      animate={{
+                        opacity: 1,
+                        transition: {
+                          duration: 1,
+                          delay: 0.5
+                        }
+                      }}
+                      exit={{ opacity: 0 }}
+                      className={cn(
+                        "font-medium tracking-wide text-secondary",
+                        "mt-auto mx-auto mb-4"
+                      )}
+                    >
+                      - Click to Explore -
+                    </motion.span>
                   )}
-                  initial={{
-                    opacity: 0
-                  }}
-                  animate={{
-                    opacity: 1,
-                    transition: {
-                      duration: 1,
-                      ease: "easeInOut"
-                    }
-                  }}
-                >
-                  Web Developer | Front-end Specialist | UX Enthusiast
-                </motion.span>
-                <motion.h1
-                  className={cn(
-                    "text-primary text-7xl text-center",
-                    "font-medium tracking-wide pb-2",
-                  )}
-                  initial={{
-                    opacity: 0
-                  }}
-                  animate={{
-                    opacity: 1,
-                    transition: {
-                      delay: 0.5,
-                      duration: 1,
-                      ease: "easeInOut"
-                    }
-                  }}
-                >
-                  Ryan Kwan
-                </motion.h1>
-              </motion.div>
+                </AnimatePresence>
+              </Link>
             </Window>
           </MotionConfig>
           <TechStack />

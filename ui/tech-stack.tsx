@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useLayoutEffect } from "react";
 import { cn } from "@/utils/cn";
 import { motion, MotionConfig, MotionValue, useMotionValue, useTransform, useSpring, SpringOptions } from "framer-motion";
-import { useMouse } from "@/context/mouse";
+import { useMouse } from "@/hooks/useMouse";
 import useMeasure from "react-use-measure";
 import { Canvas, useThree } from "@react-three/fiber";
 import { useGLTF } from '@react-three/drei';
@@ -11,7 +11,7 @@ import { motion as motion3d } from "framer-motion-3d";
 
 const TechStack = () => {
     const [ref, bounds] = useMeasure({ scroll: true });
-    const { x, y, isHover } = useMouse();
+    const { x, y, isHover, isClick } = useMouse();
 
     const mouseX: MotionValue<number> = useMotionValue(0);
     const mouseY: MotionValue<number> = useMotionValue(0);
@@ -22,13 +22,13 @@ const TechStack = () => {
     };
 
     useEffect(() => {
-        if (!isHover) {
+        if (!isHover || isClick) {
             resetMousePosition()
         } else {
             mouseX.set(x - bounds.x - bounds.width / 2);
             mouseY.set(y - bounds.y - bounds.height / 2);
         }
-    }, [x, y, bounds]);
+    }, [x, y, bounds, isClick]);
 
     return (
         <MotionConfig transition={{
@@ -36,7 +36,7 @@ const TechStack = () => {
             bounce: 0.5,
             stiffness: 100,
         }}>
-            <motion.button
+            <motion.div
                 className={cn(
                     "overflow-visible",
                     "w-full h-full",
@@ -45,8 +45,7 @@ const TechStack = () => {
                 )}
                 onHoverStart={() => resetMousePosition()}
                 onHoverEnd={() => resetMousePosition()}
-                animate={isHover ? "hover" : "rest"}
-                whileTap={"tap"}
+                animate={!isHover || isClick ? "rest" : "hover"}
                 initial="rest"
                 variants={{
                     rest: {
@@ -67,7 +66,7 @@ const TechStack = () => {
                     mouseX={mouseX}
                     mouseY={mouseY}
                 />
-            </motion.button>
+            </motion.div>
         </MotionConfig >
     );
 };
@@ -495,7 +494,7 @@ const Camera = ({ mouseX, mouseY }: {
         });
     }, [cameraX, scene.position]);
 
-    const { isHover, isTap } = useMouse()
+    const { isClick, isHover, isTap } = useMouse()
 
     return (
         <motion3d.perspectiveCamera
@@ -507,10 +506,13 @@ const Camera = ({ mouseX, mouseY }: {
                     z: 4.5
                 },
                 tap: {
-                    z: 4.4
+                    z: 4.2
+                },
+                click: {
+                    z: 0
                 }
             }}
-            animate={isTap ? "tap" : (isHover ? "hover" : "rest")}
+            animate={isClick ? "click" : (isTap ? "tap" : (isHover ? "hover" : "rest"))}
         />
     );
 };

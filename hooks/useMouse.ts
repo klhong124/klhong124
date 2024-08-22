@@ -5,6 +5,7 @@ export type Mouse = {
     y: number;
     isHover: boolean;
     isTap: boolean;
+    isClick: boolean;
 };
 
 const MouseContext = createContext<Mouse>({
@@ -12,6 +13,7 @@ const MouseContext = createContext<Mouse>({
     y: 0,
     isHover: false,
     isTap: false,
+    isClick: false,
 });
 
 export default MouseContext;
