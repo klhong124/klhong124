@@ -116,7 +116,7 @@ export default function Home() {
                   </motion.h1>
                 </div>
                 <AnimatePresence>
-                  {mouse.isHover && (
+                  {(mouse.isHover && !mouse.isClick) && (
                     <motion.span
                       initial={{ opacity: 0 }}
                       animate={{

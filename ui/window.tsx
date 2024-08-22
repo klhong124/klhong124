@@ -14,10 +14,10 @@ const Window = ({
 }) => {
     const windowRef = useRef<HTMLDivElement>(null);
     const [ref, bounds] = useMeasure({ scroll: true });
-    const { isHover } = useMouse();
+    const { isHover, isClick } = useMouse();
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!windowRef.current) return;
+        if (!windowRef.current || isClick) return;
         const x = (e.clientX - bounds.left - bounds.width / 2) / 25;
         const y = (e.clientY - bounds.top - bounds.height / 2) / 25;
         windowRef.current.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
@@ -26,11 +26,10 @@ const Window = ({
 
     useLayoutEffect(() => {
         if (!windowRef.current) return;
-
-        if (!isHover) {
+        if (!isHover || isClick) {
             windowRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
         }
-    }, [isHover]);
+    }, [isHover, isClick]);
 
     return (
         <motion.div
@@ -40,11 +39,25 @@ const Window = ({
             {...props}
             ref={ref}
         >
-            <div
+            <motion.div
                 ref={windowRef}
                 onMouseMove={handleMouseMove}
+                initial={{
+                    width: "350px",
+                    height: "200px",
+                }}
+                animate={{
+                    width: isClick ? "100vw" : "700px",
+                    height: isClick ? "100vh" : "400px",
+                }}
+                transition={{
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 30
+                }}
                 className={cn(
-                    "w-[700px] h-[400px] rounded-2xl relative",
+
+                    "rounded-2xl relative",
                     "flex flex-col justify-center items-center",
                     "border-2 border-stone-200/10 shadow-lg",
                     "[background-image:radial-gradient(95%_100%_at_top,rgba(255,255,255,0.2),rgba(255,255,255,0))]",
@@ -68,7 +81,7 @@ const Window = ({
                     </div>
 
                 </div>
-            </div>
+            </motion.div>
         </motion.div>
     );
 };
