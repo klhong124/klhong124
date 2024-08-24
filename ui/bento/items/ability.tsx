@@ -1,9 +1,28 @@
 "use client";
-import React, { useCallback, useLayoutEffect, useState, useMemo, memo } from "react";
+import React, { useCallback, useLayoutEffect, useState, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Highlight from "@/ui/highlight";
+
 import { cn } from "@/utils/cn";
 
-const FlipWords = memo(function FlipWords({
+const Ability = () => {
+  return (
+    <div className="p-24">
+      <div className={cn(
+        "text-xl sm:text-2xl md:text-3xl mx-auto tracking-wide",
+        "text-slate-300"
+      )}>
+        Crafting High-Efficiency Websites <br />
+        with <FlipWords className="text-slate-300" />
+      </div>
+      {/* <div className="mt-2 sm:mt-4">
+        With the power of <Highlight>React</Highlight> <Highlight>Vue</Highlight> <Highlight>GraphQL</Highlight> and more
+      </div> */}
+    </div>
+  );
+};
+
+const FlipWords = ({
   words = [
     "Seamless Integration",
     "AI-Driven Insights",
@@ -12,16 +31,14 @@ const FlipWords = memo(function FlipWords({
     "Elegant Animations",
     "Modern Frameworks"
   ],
-  duration = 3000,
+
   className,
 }: Readonly<{
   words?: readonly string[];
-  duration?: number;
   className?: string;
-}>) {
+}>) => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
-
   const currentWord = useMemo(() => words[currentWordIndex], [words, currentWordIndex]);
 
   const startAnimation = useCallback(() => {
@@ -33,10 +50,10 @@ const FlipWords = memo(function FlipWords({
     if (!isAnimating) {
       const timer = setTimeout(() => {
         startAnimation();
-      }, duration);
+      }, 3000);
       return () => clearTimeout(timer);
     }
-  }, [isAnimating, duration, startAnimation]);
+  }, [isAnimating, startAnimation]);
 
   return (
     <AnimatePresence
@@ -106,6 +123,6 @@ const FlipWords = memo(function FlipWords({
       </motion.div>
     </AnimatePresence>
   );
-});
+};
 
-export default FlipWords;
+export default Ability;

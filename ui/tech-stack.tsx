@@ -39,8 +39,8 @@ const TechStack = () => {
             <motion.div
                 className={cn(
                     "overflow-visible",
-                    "w-full h-full",
-                    "absolute top-0 left-0 transform ",
+                    "w-screen h-screen",
+                    "absolute",
                     "pointer-events-none ",
                 )}
                 onMouseEnter={() => resetMousePosition()}
@@ -181,7 +181,7 @@ const Scene = ({ mouseX, mouseY }: {
                     position={[1.6, -0.9, 2.3]}
                     rotation={[Math.PI / 2.5, Math.PI / 2, Math.PI / 6]}
                     animate={{
-                        scale: [1.2, 1.5, 1.2],
+                        scale: [1.1, 1.3, 1.1],
                         rotateY: [-Math.PI / 5, -Math.PI / 7, -Math.PI / 5],
                         transition: {
                             duration: 4,
@@ -191,6 +191,7 @@ const Scene = ({ mouseX, mouseY }: {
                         },
                     }}
                 />
+
                 <Icons
                     gltf="graphql"
                     scale={1.3}
@@ -274,8 +275,7 @@ const Scene = ({ mouseX, mouseY }: {
                 />
                 <Icons
                     gltf="threejs"
-
-                    position={[-2.9, -1.1, -1]}
+                    position={[-3.3, -1.1, -1]}
                     rotation={[Math.PI / 2, -Math.PI / 3, 0.3]}
                     animate={{
                         rotateX: [
@@ -311,7 +311,7 @@ const Scene = ({ mouseX, mouseY }: {
                 <Icons
                     gltf="cloud-run"
                     scale={1.2}
-                    position={[-4.8, -1.1, -2]}
+                    position={[-5.9, -1.1, -2]}
                     rotation={[Math.PI / 1.8, -Math.PI / 3, -Math.PI / 5]}
 
                     animate={{

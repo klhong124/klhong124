@@ -27,10 +27,10 @@ export const BentoGrid = ({
     return (
         <div
             className={cn(
-                "grid gap-4 min-h-[1100px] overflow-hidden",
+                "grid gap-4 min-h-[1100px] overflow-hidden w-screen",
                 "xl:grid-cols-6 xl:grid-rows-10 xl:h-screen xl:gap-6",
                 "md:grid-cols-10 md:grid-rows-12 md:p-4",
-                "grid-cols-6 grid-rows-12 p-2",
+                "grid-cols-6 grid-rows-12 p-2 ",
                 className
             )}
         >
@@ -44,32 +44,19 @@ export const BentoGridItem = ({
     className,
     id
 }: {
-    children: React.ReactNode;
+    children?: React.ReactNode;
     className?: string;
     id: number;
 }) => {
     return (
         <motion.section
             className={cn(
-                "mx-auto w-full relative  overflow-visible rounded-2xl bg-black",
+                " w-full relative  overflow-visible rounded-2xl border border-[rgba(255,255,255,0.10)]",
                 bentoConfig[id],
                 className
             )}
         >
-            <div
-                className=" h-full [background-image:radial-gradient(95%_100%_at_top,rgba(255,255,255,0.5),rgba(255,255,255,0))] overflow-visible rounded-2xl"
-
-            >
-                <div
-                    className={cn(
-                        "border border-[rgba(255,255,255,0.10)]",
-                        "h-full overflow-visible rounded-2xl",
-                        "dark:bg-[rgba(40,40,40,0.70)]  shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset]" ,
-                    )}
-                >
-                    {children}
-                </div>
-            </div>
+            {children}
         </motion.section>
     );
 };

@@ -42,7 +42,7 @@ export default function TextSpinnerLoader() {
     }, []);
 
     return (
-        <div className="flex h-screen w-screen justify-center items-center">
+        <div className="h-screen w-screen flex justify-end items-end p-8 overflow-hidden">
             <motion.div ref={scope} className="relative aspect-square" style={{ width: radius * 2 }}>
                 <p aria-label={text} />
                 <p aria-hidden="true" className="text">
