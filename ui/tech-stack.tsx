@@ -43,7 +43,7 @@ const TechStack = () => {
                     "absolute top-0 left-0 transform ",
                     "pointer-events-none ",
                 )}
-                onHoverStart={() => resetMousePosition()}
+                onMouseEnter={() => resetMousePosition()}
                 onHoverEnd={() => resetMousePosition()}
                 animate={!isHover || isClick ? "rest" : "hover"}
                 initial="rest"
@@ -96,12 +96,7 @@ const Scene = ({ mouseX, mouseY }: {
                     gltf="nuxt"
                     scale={0.8}
                     position={[0.1, 0.9, 3]}
-                    rotation={[Math.PI, -Math.PI / 15, -0.2]}
-                    variants={{
-                        hover: {
-                            rotateX: Math.PI / 2,
-                        },
-                    }}
+                    rotation={[Math.PI / 2, -Math.PI / 15, -0.2]}
                     animate={{
                         rotateZ: [-0.2, Math.PI - 0.2, Math.PI * 2 - 0.2, Math.PI * 2 - 0.2],
                         transition: {
@@ -131,13 +126,8 @@ const Scene = ({ mouseX, mouseY }: {
                 <Icons
                     gltf="react"
                     scale={2.3}
-                    position={[3.3, 2.5, -1]}
-                    rotation={[Math.PI / 2, 0, 0.2]}
-                    variants={{
-                        hover: {
-                            rotateX: Math.PI / 1.8,
-                        },
-                    }}
+                    position={[3.6, 2.5, -1]}
+                    rotation={[Math.PI / 1.8, 0, 0]}
                     animate={{
                         rotateY: [0, Math.PI * 2],
                         transition: {
@@ -150,12 +140,7 @@ const Scene = ({ mouseX, mouseY }: {
                 <Icons
                     gltf="typescript"
                     position={[2.2, 0.5, 1]}
-                    rotation={[Math.PI / 5, 0, 1]}
-                    variants={{
-                        hover: {
-                            rotateX: Math.PI / 1.8,
-                        },
-                    }}
+                    rotation={[Math.PI / 1.8, 0, 1]}
                     animate={{
                         rotateY: [Math.PI / 20, -Math.PI / 10],
                         transition: {
@@ -189,23 +174,18 @@ const Scene = ({ mouseX, mouseY }: {
                     gltf="laravel"
                     scale={1.8}
                     position={[2.2, -3.9, -4]}
-                    rotation={[Math.PI / 2, -Math.PI / 4, 0.3]}
-                    variants={{
-                        hover: {
-                            rotateY: 0,
-                        },
-                    }}
-
+                    rotation={[Math.PI / 2, 0, 0.3]}
                 />
                 <Icons
                     gltf="next"
                     position={[1.6, -0.9, 2.3]}
                     rotation={[Math.PI / 2.5, Math.PI / 2, Math.PI / 6]}
                     animate={{
-                        scale: [1.3, 1.4, 1.3],
-                        rotateY: [-Math.PI / 5, -Math.PI / 6, -Math.PI / 5],
+                        scale: [1.2, 1.5, 1.2],
+                        rotateY: [-Math.PI / 5, -Math.PI / 7, -Math.PI / 5],
                         transition: {
-                            duration: 5,
+                            duration: 4,
+                            repeatDelay: 3,
                             repeat: Infinity,
                             ease: "easeInOut",
                         },
@@ -241,24 +221,12 @@ const Scene = ({ mouseX, mouseY }: {
                 <Icons
                     gltf="mongodb"
                     position={[-1.2, 1.5, 0.5]}
-                    rotation={[Math.PI / 1.3, Math.PI / 3, Math.PI]}
-                    variants={{
-                        hover: {
-
-                            rotateY: Math.PI * 2,
-                        },
-                    }}
-
+                    rotation={[Math.PI / 1.3, Math.PI * 2, Math.PI]}
                 />
                 <Icons
                     gltf="framer-motion"
                     position={[-1.5, 2.3, 0.7]}
-                    rotation={[Math.PI / 2.1, Math.PI * 2.2, Math.PI]}
-                    variants={{
-                        hover: {
-                            rotateZ: Math.PI * 2
-                        },
-                    }}
+                    rotation={[Math.PI / 2.1, Math.PI * 2.2, Math.PI * 2]}
                     animate={{
                         y: [2.6, 2.6 + 0.1, 2.6, 2.6 + 0.1, 2.6],
                         transition: {
@@ -273,13 +241,8 @@ const Scene = ({ mouseX, mouseY }: {
                 <Icons
                     gltf="storybook"
                     scale={0.9}
-                    position={[0.9, 1.7, 1.9]}
-                    rotation={[Math.PI / 2, 0, Math.PI]}
-                    variants={{
-                        hover: {
-                            rotateZ: Math.PI * 2,
-                        },
-                    }}
+                    position={[1.1, 1.7, 1.9]}
+                    rotation={[0, 0, Math.PI * 2]}
                     animate={{
                         rotateY: [-Math.PI / 30, Math.PI / 30],
                         rotateX: [Math.PI / 2, Math.PI / 2 - Math.PI / 30],
@@ -295,27 +258,25 @@ const Scene = ({ mouseX, mouseY }: {
                 <Icons
                     gltf="python"
                     scale={1.5}
-                    position={[-3.3, 0.2, 0]}
+                    position={[-3.8, 0.3, 0]}
                     rotation={[-Math.PI, Math.PI / 2, -Math.PI / 4]}
-                    variants={{
-                        hover: {
-
-                            rotateX: Math.PI / 2,
-                            rotateY: Math.PI / 15,
+                    animate={{
+                        rotateX: [-Math.PI, Math.PI / 2],
+                        rotateY: [Math.PI / 2, Math.PI / 15],
+                        transition: {
+                            duration: 5,
+                            repeat: Infinity,
+                            repeatType: "reverse",
+                            bounce: 0.4,
+                            type: "spring",
                         },
                     }}
                 />
                 <Icons
                     gltf="threejs"
-                    scale={0.5}
+
                     position={[-2.9, -1.1, -1]}
-                    rotation={[Math.PI / 2, 0, 0.3]}
-                    variants={{
-                        hover: {
-                            scale: 1,
-                            rotateY: -Math.PI / 3
-                        },
-                    }}
+                    rotation={[Math.PI / 2, -Math.PI / 3, 0.3]}
                     animate={{
                         rotateX: [
                             Math.PI / 2,
@@ -332,12 +293,8 @@ const Scene = ({ mouseX, mouseY }: {
                 <Icons
                     gltf="jest"
                     position={[0, 0, 1]}
-                    rotation={[Math.PI, 0, 0.2]}
-                    variants={{
-                        hover: {
-                            rotateX: Math.PI / 2.1,
-                        },
-                    }}
+                    rotation={[Math.PI / 2.1, 0, 0.2]}
+
                     animate={{
                         y: [-1.5, -1.6, -1.5, -1.6, -1.5],
                         x: [-2.7, -2.7, -2.6, -2.6, -2.7],
@@ -350,28 +307,13 @@ const Scene = ({ mouseX, mouseY }: {
                         },
                     }}
                 />
-                <Icons
-                    gltf="python"
-                    scale={1.5}
-                    position={[-3, 0.2, 0]}
-                    rotation={[-Math.PI, Math.PI / 2, -Math.PI / 4]}
-                    variants={{
-                        hover: {
-                            rotateX: Math.PI / 2,
-                            rotateY: Math.PI / 15,
-                        },
-                    }}
-                />
+
                 <Icons
                     gltf="cloud-run"
                     scale={1.2}
                     position={[-4.8, -1.1, -2]}
-                    rotation={[-Math.PI / 1.1, -Math.PI / 3, -Math.PI / 5]}
-                    variants={{
-                        hover: {
-                            rotateX: Math.PI / 1.8,
-                        },
-                    }}
+                    rotation={[Math.PI / 1.8, -Math.PI / 3, -Math.PI / 5]}
+
                     animate={{
                         rotateZ: [-Math.PI / 5 + Math.PI / 10, -Math.PI / 5],
                         rotateY: [Math.PI / 4 - Math.PI / 10, Math.PI / 4 + Math.PI / 10],
@@ -388,24 +330,14 @@ const Scene = ({ mouseX, mouseY }: {
                 <Icons
                     gltf="firebase"
                     scale={1.2}
-                    position={[6, 0, -3]}
-                    rotation={[Math.PI / 2.2, -Math.PI / 18, -Math.PI]}
-                    variants={{
-                        hover: {
-                            rotateZ: Math.PI / 10,
-                        },
-                    }}
+                    position={[6.3, 0.3, -3]}
+                    rotation={[Math.PI / 2.2, -Math.PI / 18, Math.PI / 10]}
+
                 />
                 <Icons
                     gltf="illustrator"
                     position={[4, -0.5, -3]}
-                    rotation={[Math.PI, Math.PI / 3, -Math.PI / 9]}
-                    variants={{
-                        hover: {
-                            rotateX: Math.PI / 2,
-                            rotateY: Math.PI / 5,
-                        },
-                    }}
+                    rotation={[Math.PI / 2, Math.PI / 5, -Math.PI / 9]}
                     animate={{
                         x: [4, 4.4, 4.8, 4.4, 4],
                         z: [-3, -2.5, -3, -3.5, -3],
@@ -420,13 +352,8 @@ const Scene = ({ mouseX, mouseY }: {
                 <Icons
                     gltf="photoshop"
                     position={[4.8, -0.6, -3]}
-                    rotation={[Math.PI / 1.2, -Math.PI / 4, Math.PI / 5]}
-                    variants={{
-                        hover: {
-                            rotateX: Math.PI / 2.1,
-                            rotateY: -Math.PI / 5.2,
-                        },
-                    }}
+                    rotation={[Math.PI / 2.1, -Math.PI / 5.2, Math.PI / 5]}
+
                     animate={{
                         x: [4.8, 4.4, 4, 4.4, 4.8],
                         z: [-3, -3.5, -3, -2.5, -3],
@@ -500,10 +427,15 @@ const Camera = ({ mouseX, mouseY }: {
         <motion3d.perspectiveCamera
             ref={cameraRef}
             fov={90}
-            position={[cameraX, cameraY, 0]}
+            position={[cameraX, cameraY, 7]}
             variants={{
                 hover: {
-                    z: 4.5
+                    z: 4.5,
+                    transition: {
+                        type: "spring",
+                        stiffness: 100,
+                        damping: 10,
+                    }
                 },
                 tap: {
                     z: 4.2
@@ -528,13 +460,6 @@ function Icons({ gltf, ...props }: any) {
             />
             <motion3d.mesh
                 {...props}
-                position={[x, y, z - 1]} //pop up effect from z -1 for each icon
-                variants={{
-                    hover: {
-                        z: props.animate?.z ? undefined : z,
-                        ...props.variants?.hover,
-                    }
-                }}
             >
                 <motion3d.primitive object={scene} />
             </motion3d.mesh>

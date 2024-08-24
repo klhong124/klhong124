@@ -56,11 +56,11 @@ const Window = ({
                     damping: 30
                 }}
                 className={cn(
-
+                    "backdrop-blur-[2px]",
                     "rounded-2xl relative",
                     "flex flex-col justify-center items-center",
                     "border-2 border-stone-200/10 shadow-lg",
-                    "[background-image:radial-gradient(95%_100%_at_top,rgba(255,255,255,0.2),rgba(255,255,255,0))]",
+                    "[background-image:radial-gradient(95%_100%_at_top,rgba(255,255,255,0.25),rgba(255,255,255,0))]",
                     "shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset]",
                     "[transform-style:preserve-3d]  [&>*]:[transform-style:preserve-3d]",
                 )}

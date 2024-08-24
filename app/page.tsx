@@ -90,7 +90,7 @@ export default function Home() {
               onTapStart={handleTapStart}
               onTap={handleTapCancel}
               onTapCancel={handleTapCancel}
-              onHoverStart={handleHoverStart}
+              onMouseEnter={handleHoverStart}
               onHoverEnd={handleHoverEnd}
               whileTap={{
                 scale: 0.95
@@ -108,11 +108,11 @@ export default function Home() {
                   </span>
                   <motion.h1
                     className={cn(
-                      "text-primary text-7xl text-center",
+                      "text-primary text-6xl text-center",
                       "font-medium tracking-wide pb-2",
                     )}
                   >
-                    Ryan Kwan
+                    Ryan K.
                   </motion.h1>
                 </div>
                 <AnimatePresence>
