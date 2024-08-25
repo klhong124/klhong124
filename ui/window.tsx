@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import useMeasure from "react-use-measure";
 import { useMouse } from "@/hooks/useMouse";
 import throttle from "@/utils/throttle";
+import WindowControl from "@/ui/windowControl";
 
 const Window = ({
     children,
@@ -63,8 +64,8 @@ const Window = ({
                     height: "100%",
                     transition: {
                         type: "spring",
-                        duration: 0.3,
-                        stiffness: 200,
+                        duration: 0.1,
+                        stiffness: 100,
                         damping: 10
                     }
                 }}
@@ -78,21 +79,8 @@ const Window = ({
                 )}
             >
                 {children}
+                <WindowControl />
 
-                <div className="absolute top-0 left-0 h-0">
-                    <div className={cn("flex gap-2 p-4 xl:p-6")}>
-                        {
-                            ["bg-red-400", "bg-yellow-400", "bg-green-400"].map((color) => (
-                                <span key={color} className={cn(
-                                    "rounded-full border border-gray-700",
-                                    "w-3 h-3 xl:w-4 xl:h-4",
-                                    color
-                                )}></span>
-                            ))
-                        }
-                    </div>
-
-                </div>
             </motion.div>
         </motion.div>
     );

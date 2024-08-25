@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import BentoGrid, { BentoGridItem as GridItem } from '@/ui/bento/grid';
 import throttle from "@/utils/throttle";
+import { transition } from 'three/webgpu';
 
 
 
@@ -76,12 +77,11 @@ export default function Home() {
     }, 500);
   };
 
-
   return (
-
-
     <MouseContext.Provider value={mouse}>
-      <Background className="h-screen w-screen relative flex justify-center items-center" onMouseMove={throttle(handleMouseMove, 100)}>
+      <Background
+        className="h-screen w-screen relative flex justify-center items-center"
+        onMouseMove={throttle(handleMouseMove, 100)}>
         <MotionConfig
           transition={{
             type: "spring",
@@ -90,13 +90,13 @@ export default function Home() {
           }}
         >
           <BentoGrid>
-            <GridItem id={1} />
-            <GridItem id={2} />
-            <GridItem id={3} />
-            <GridItem id={4} />
-            <GridItem id={5} className="flex-center">
+            <GridItem id={1} transparent />
+            <GridItem id={2} transparent />
+            <GridItem id={3} transparent />
+            <GridItem id={4} transparent />
+            <GridItem id={5} className="flex-center" transparent>
               <Window
-                className={cn("cursor-pointer w-full h-full max-h-[400px] flex-center")}
+                className={cn("cursor-pointer w-full h-full flex-center")}
                 onTapStart={handleTapStart}
                 onTap={handleTapCancel}
                 onTapCancel={handleTapCancel}
@@ -105,31 +105,53 @@ export default function Home() {
                 whileTap={{
                   scale: 0.95
                 }}
+                initial={{
+                  maxHeight: "400px"
+                }}
+                animate={mouse.isClick ? {
+                  maxHeight: "800px",
+                  transition: {
+                    duration: 0.2,
+                    ease: "easeInOut",
+                  }
+                } : {
+                  maxHeight: "400px"
+                }}
+
               >
                 <Link href="/explore"
                   className='w-full h-full flex-center'
                   onClick={handleClick} prefetch={true}>
-
-                  <div className='absolute-center w-full'>
-                    <span
-                      className={cn(
-                        "text-lg text-secondary block mb-2 text-center",
-                      )}
-                    >
-                      Web Developer | Front-end Specialist | UX Enthusiast
-                    </span>
-                    <motion.h1
-                      className={cn(
-                        "text-primary text-6xl text-center",
-                        "font-medium tracking-wide pb-2",
-                      )}
-                    >
-                      Ryan K.
-                    </motion.h1>
-                  </div>
-
-
                   <AnimatePresence>
+
+                    {(!mouse.isClick) && <motion.div className='absolute-center w-full'
+                      initial={{ opacity: 0 }}
+                      animate={{
+                        opacity: 1,
+                        transition: {
+                          duration: 1,
+                        }
+                      }}
+                      exit={{ opacity: 0 }}
+                    >
+                      <span
+                        className={cn(
+                          "text-lg text-secondary block mb-2 text-center",
+                        )}
+                      >
+                        Web Developer | Front-end Specialist | UX Enthusiast
+                      </span>
+                      <motion.h1
+                        className={cn(
+                          "text-primary text-6xl text-center",
+                          "font-medium tracking-wide pb-2",
+                        )}
+                      >
+                        Ryan K.
+                      </motion.h1>
+                    </motion.div>}
+
+
                     {(mouse.isHover && !mouse.isClick) && (
                       <motion.span
                         initial={{ opacity: 0 }}
@@ -154,12 +176,12 @@ export default function Home() {
               </Window>
               <TechStack />
             </GridItem>
-            <GridItem id={6} />
-            <GridItem id={7} />
-            <GridItem id={8} />
-            <GridItem id={9} />
-            <GridItem id={10} />
-            <GridItem id={11} />
+            <GridItem id={6} transparent />
+            <GridItem id={7} transparent />
+            <GridItem id={8} transparent />
+            <GridItem id={9} transparent />
+            <GridItem id={10} transparent />
+            <GridItem id={11} transparent />
           </BentoGrid>
         </MotionConfig>
 
@@ -167,7 +189,5 @@ export default function Home() {
 
       </Background>
     </MouseContext.Provider>
-
-
   );
 }

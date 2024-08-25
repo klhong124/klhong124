@@ -6,6 +6,8 @@ import PixelPerfect from '@/ui/bento/items/pixel-perfect';
 import Hashtag from '@/ui/bento/items/hashtag';
 import ComingSoon from '@/ui/bento/items/coming-soon';
 import Ability from '@/ui/bento/items/ability';
+import WindowControl from "@/ui/windowControl";
+
 export default function Bento() {
     return (
         <BentoGrid>
@@ -22,7 +24,7 @@ export default function Bento() {
                 <ComingSoon />
             </GridItem>
             <GridItem id={5}>
-                <ComingSoon />
+                <WindowControl />
             </GridItem>
             <GridItem id={6}>
                 <CodePattern />
@@ -42,6 +44,6 @@ export default function Bento() {
             <GridItem id={11}>
                 <PixelPerfect />
             </GridItem>
-        </BentoGrid>
+        </BentoGrid >
     );
 }
