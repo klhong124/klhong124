@@ -119,8 +119,8 @@ export default function Home() {
                 }}
 
               >
-                <Link href="/explore"
-                  className='w-full h-full flex-center'
+                <Link href="/explore" draggable={false}
+                  className='w-full h-full flex-center select-none'
                   onClick={handleClick} prefetch={true}>
                   <AnimatePresence>
 
