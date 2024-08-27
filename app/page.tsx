@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import BentoGrid, { BentoGridItem as GridItem } from '@/ui/bento/grid';
 import throttle from "@/utils/throttle";
-import { transition } from 'three/webgpu';
+import Hello from "@/ui/hello";
 
 
 
@@ -124,7 +124,7 @@ export default function Home() {
                   onClick={handleClick} prefetch={true}>
                   <AnimatePresence>
 
-                    {(!mouse.isClick) && <motion.div className='absolute-center w-full'
+                    {(!mouse.isClick) ? <motion.div className='absolute-center w-full'
                       initial={{ opacity: 0 }}
                       animate={{
                         opacity: 1,
@@ -149,7 +149,9 @@ export default function Home() {
                       >
                         Ryan K.
                       </motion.h1>
-                    </motion.div>}
+                    </motion.div> :
+                      <Hello/>
+                    }
 
 
                     {(mouse.isHover && !mouse.isClick) && (
