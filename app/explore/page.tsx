@@ -8,44 +8,48 @@ import ComingSoon from '@/ui/bento/items/coming-soon';
 import Ability from '@/ui/bento/items/ability';
 import WindowControl from "@/ui/windowControl";
 import Hello from "@/ui/hello";
+import Background from "@/ui/background";
 
 export default function Bento() {
     return (
-        <BentoGrid>
-            <GridItem id={1}>
-                <Ability />
-            </GridItem>
-            <GridItem id={2}>
-                <ComingSoon />
-            </GridItem>
-            <GridItem id={3}>
-                <Experience />
-            </GridItem>
-            <GridItem id={4}>
-                <ComingSoon />
-            </GridItem>
-            <GridItem id={5}>
-                <WindowControl />
-                <Hello animated/>
-            </GridItem>
-            <GridItem id={6}>
-                <CodePattern />
-            </GridItem>
-            <GridItem id={7}>
-                <ComingSoon />
-            </GridItem>
-            <GridItem id={8}>
-                <ComingSoon />
-            </GridItem>
-            <GridItem id={9}>
-                <Hashtag />
-            </GridItem>
-            <GridItem id={10}>
-                <ComingSoon />
-            </GridItem>
-            <GridItem id={11}>
-                <PixelPerfect />
-            </GridItem>
-        </BentoGrid >
+        <Background>
+
+            <BentoGrid className='"bg-stone-950"'>
+                <GridItem id={1}>
+                    <Ability />
+                </GridItem>
+                <GridItem id={2}>
+                    <ComingSoon />
+                </GridItem>
+                <GridItem id={3}>
+                    <Experience />
+                </GridItem>
+                <GridItem id={4}>
+                    <ComingSoon />
+                </GridItem>
+                <GridItem id={5}>
+                    <WindowControl />
+                    <Hello animated />
+                </GridItem>
+                <GridItem id={6}>
+                    <CodePattern />
+                </GridItem>
+                <GridItem id={7}>
+                    <ComingSoon />
+                </GridItem>
+                <GridItem id={8}>
+                    <ComingSoon />
+                </GridItem>
+                <GridItem id={9}>
+                    <Hashtag />
+                </GridItem>
+                <GridItem id={10}>
+                    <ComingSoon />
+                </GridItem>
+                <GridItem id={11}>
+                    <PixelPerfect />
+                </GridItem>
+            </BentoGrid >
+        </Background>
     );
 }

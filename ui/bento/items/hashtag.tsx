@@ -228,6 +228,7 @@ const Title = ({ width, height }: { width: number; height: number }) => {
         fontSize: 82,
         stroke: '#d1d5db', //var(--gray-300)
         strokeThickness: 2,
+        
     });
     const titleWidth = Math.ceil(TextMetrics.measureText(titleText, titleStyle).width) + 60;
     const titleHeight = Math.ceil(TextMetrics.measureText(titleText, titleStyle).height) - 24;

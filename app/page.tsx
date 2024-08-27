@@ -90,11 +90,11 @@ export default function Home() {
           }}
         >
           <BentoGrid>
-            <GridItem id={1} transparent />
-            <GridItem id={2} transparent />
-            <GridItem id={3} transparent />
-            <GridItem id={4} transparent />
-            <GridItem id={5} className="flex-center" transparent>
+            <GridItem id={1} invisible />
+            <GridItem id={2} invisible />
+            <GridItem id={3} invisible />
+            <GridItem id={4} invisible />
+            <GridItem id={5} className="flex-center" invisible>
               <Window
                 className={cn("cursor-pointer w-full h-full flex-center")}
                 onTapStart={handleTapStart}
@@ -124,38 +124,41 @@ export default function Home() {
                   onClick={handleClick} prefetch={true}>
                   <AnimatePresence>
 
-                    {(!mouse.isClick) ? <motion.div className='absolute-center w-full'
-                      initial={{ opacity: 0 }}
-                      animate={{
-                        opacity: 1,
-                        transition: {
-                          duration: 1,
-                        }
-                      }}
-                      exit={{ opacity: 0 }}
-                    >
-                      <span
-                        className={cn(
-                          "text-lg text-secondary block mb-2 text-center",
-                        )}
+                    {(!mouse.isClick) ?
+                      <motion.div className='absolute-center w-full'
+                        key="main-content"
+                        initial={{ opacity: 0 }}
+                        animate={{
+                          opacity: 1,
+                          transition: {
+                            duration: 1,
+                          }
+                        }}
+                        exit={{ opacity: 0 }}
                       >
-                        Web Developer | Front-end Specialist | UX Enthusiast
-                      </span>
-                      <motion.h1
-                        className={cn(
-                          "text-primary text-6xl text-center",
-                          "font-medium tracking-wide pb-2",
-                        )}
-                      >
-                        Ryan K.
-                      </motion.h1>
-                    </motion.div> :
-                      <Hello/>
+                        <span
+                          className={cn(
+                            "text-lg text-secondary block mb-2 text-center",
+                          )}
+                        >
+                          Web Developer | Front-end Specialist | UX Enthusiast
+                        </span>
+                        <motion.h1
+                          className={cn(
+                            "text-primary text-6xl text-center",
+                            "font-medium tracking-wide pb-2",
+                          )}
+                        >
+                          Ryan K.
+                        </motion.h1>
+                      </motion.div> :
+                      <Hello />
                     }
 
 
                     {(mouse.isHover && !mouse.isClick) && (
                       <motion.span
+                        key="click-to-explore"
                         initial={{ opacity: 0 }}
                         animate={{
                           opacity: 1,
@@ -178,12 +181,12 @@ export default function Home() {
               </Window>
               <TechStack />
             </GridItem>
-            <GridItem id={6} transparent />
-            <GridItem id={7} transparent />
-            <GridItem id={8} transparent />
-            <GridItem id={9} transparent />
-            <GridItem id={10} transparent />
-            <GridItem id={11} transparent />
+            <GridItem id={6} invisible />
+            <GridItem id={7} invisible />
+            <GridItem id={8} invisible />
+            <GridItem id={9} invisible />
+            <GridItem id={10} invisible />
+            <GridItem id={11} invisible />
           </BentoGrid>
         </MotionConfig>
 
