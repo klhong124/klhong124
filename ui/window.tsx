@@ -16,7 +16,7 @@ const Window = ({
 }) => {
     const windowRef = useRef<HTMLDivElement>(null);
     const [ref, bounds] = useMeasure({ scroll: true });
-    const { isHover, isClick } = useMouse();
+    const [{ isHover, isClick }] = useMouse();
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         const x = (e.clientX - bounds.left - bounds.width / 2) / 25;

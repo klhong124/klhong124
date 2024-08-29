@@ -3,41 +3,32 @@ import { useState, useLayoutEffect } from 'react';
 import Background from "@/ui/background";
 import TechStack from '@/ui/tech-stack';
 import Window from '@/ui/window';
-import MouseContext, { Mouse } from '@/hooks/useMouse';
 import { cn } from "@/utils/cn";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import BentoGrid, { BentoGridItem as GridItem } from '@/ui/bento/grid';
-import throttle from "@/utils/throttle";
 import Hello from "@/ui/hello";
 import Dock from "@/ui/dock";
-
+import { useMouse } from "@/hooks/useMouse";
 
 
 export default function Home() {
   const [pageReady, setPageReady] = useState(false);
   const router = useRouter();
-  const [mouse, setMouse] = useState<Mouse>({ x: 0, y: 0, isHover: false, isTap: false, isClick: false });
+  const [mouse, setMouse] = useMouse()
 
   useLayoutEffect(() => {
+    setPageReady(true);
     if (typeof window !== 'undefined') {
       setMouse(prevMouse => ({
         ...prevMouse,
-        x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
+        isClick: false,
       }));
-      setPageReady(true);
     }
   }, []);
 
-  const handleMouseMove = (event: React.MouseEvent) => {
-    setMouse(prevMouse => ({
-      ...prevMouse,
-      x: event.clientX,
-      y: event.clientY,
-    }));
-  };
+
 
   const handleHoverStart = () => {
     setMouse(prevMouse => ({
@@ -81,10 +72,10 @@ export default function Home() {
   };
 
   return (
-    <MouseContext.Provider value={mouse}>
+    <>
       <Background
         className="relative flex justify-center items-center"
-        onMouseMove={throttle(handleMouseMove, 100)}>
+      >
         <MotionConfig
           transition={{
             type: "spring",
@@ -154,8 +145,11 @@ export default function Home() {
                         >
                           Ryan K.
                         </motion.h1>
-                      </motion.div> :
-                      <Hello />
+                      </motion.div>
+                      : <Hello
+                        exit={{
+                          opacity: 0,
+                        }} />
                     }
 
                     {!pageReady && (
@@ -202,7 +196,7 @@ export default function Home() {
       </Background>
       <Dock />
 
-    </MouseContext.Provider>
+    </>
 
   );
 }

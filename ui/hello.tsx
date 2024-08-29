@@ -3,9 +3,11 @@
 import { motion, MotionStyle } from "framer-motion";
 
 export default function Hello({
-    animated = false
+    animated = false,
+    ...props
 }: Readonly<{
     animated?: boolean
+    [key: string]: any
 }>
 ) {
     const style: MotionStyle = {
@@ -16,7 +18,7 @@ export default function Hello({
         strokeLinejoin: "round"
     }
     return (
-        <div className="absolute-center ">
+        <motion.div className="absolute-center" {...props}>
             {
                 !animated ? (
                     <svg width={"100%"} height={"100%"} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 754 250">
@@ -82,7 +84,7 @@ export default function Hello({
                     </svg>
                 )
             }
-        </div >
+        </motion.div >
     );
 }
 

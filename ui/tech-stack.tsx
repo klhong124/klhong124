@@ -11,7 +11,7 @@ import { motion as motion3d } from "framer-motion-3d";
 
 const TechStack = () => {
     const [ref, bounds] = useMeasure({ scroll: true });
-    const { x, y, isHover, isClick } = useMouse();
+    const [{ x, y, isHover, isClick }] = useMouse();
 
     const mouseX: MotionValue<number> = useMotionValue(Infinity);
     const mouseY: MotionValue<number> = useMotionValue(Infinity);
@@ -421,7 +421,7 @@ const Camera = ({ mouseX, mouseY }: {
         });
     }, [cameraX, scene.position]);
 
-    const { isClick, isHover, isTap } = useMouse()
+    const [{ isClick, isHover, isTap }] = useMouse()
 
     return (
         <motion3d.perspectiveCamera
