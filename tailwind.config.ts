@@ -14,6 +14,9 @@ const config: Config = {
       screens: {
         "3xl": "1921px",
       },
+      backdropBlur: {
+        xs: '2px',
+      },
       fontFamily: {
         spaceGrotesk: ['space-grotesk', 'sans-serif'],
         matrix: ['matrix', 'sans-serif'],

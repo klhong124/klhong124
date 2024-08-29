@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import { cn } from "@/utils/cn";
 import { motion } from "framer-motion";
 
@@ -125,7 +124,7 @@ export const BentoGridItem = ({
             className={cn(
                 " w-full relative  rounded-2xl",
                 !invisible && "border-2 border-stone-200/10  shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset]",
-                !invisible && "[background-image:radial-gradient(95%_100%_at_top,rgba(255,255,255,0.25),rgba(255,255,255,0))] bg-stone-900/20 backdrop-blur-[2px]",
+                !invisible && "[background-image:radial-gradient(95%_100%_at_top,rgba(255,255,255,0.25),rgba(255,255,255,0))] bg-stone-900/20 backdrop-blur-xs",
                 bentoConfig[id],
                 className
             )}
@@ -135,6 +134,7 @@ export const BentoGridItem = ({
         >
             {children}
         </motion.section>
+
     );
 };
 

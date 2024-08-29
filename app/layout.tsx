@@ -11,10 +11,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
+
   return (
     <html lang="en">
-        <body className={cn('dark')}>{children}</body>
-
+      <body className={cn('dark')}>{children}</body>
     </html>
   );
 }

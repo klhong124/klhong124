@@ -13,8 +13,8 @@ const TechStack = () => {
     const [ref, bounds] = useMeasure({ scroll: true });
     const { x, y, isHover, isClick } = useMouse();
 
-    const mouseX: MotionValue<number> = useMotionValue(0);
-    const mouseY: MotionValue<number> = useMotionValue(0);
+    const mouseX: MotionValue<number> = useMotionValue(Infinity);
+    const mouseY: MotionValue<number> = useMotionValue(Infinity);
 
     const resetMousePosition = () => {
         mouseX.set(0);

@@ -1,4 +1,3 @@
-import React from 'react';
 import BentoGrid, { BentoGridItem as GridItem } from '@/ui/bento/grid';
 import Experience from '@/ui/bento/items/experience';
 import CodePattern from '@/ui/bento/items/code-pattern';
@@ -9,11 +8,11 @@ import Ability from '@/ui/bento/items/ability';
 import WindowControl from "@/ui/windowControl";
 import Hello from "@/ui/hello";
 import Background from "@/ui/background";
+import Dock from "@/ui/dock";
 
 export default function Bento() {
     return (
         <Background>
-
             <BentoGrid className='"bg-stone-950"'>
                 <GridItem id={1}>
                     <Ability />
@@ -50,6 +49,10 @@ export default function Bento() {
                     <PixelPerfect />
                 </GridItem>
             </BentoGrid >
+            <div className="h-[500px]">
+                testing
+            </div>
+            <Dock hideOnTop/>
         </Background>
     );
 }

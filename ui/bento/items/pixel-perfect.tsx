@@ -59,7 +59,7 @@ export function PixelPerfect() {
             }}>
             <motion.button
                 className={cn(
-                    "h-full w-full cursor-default rounded-2xl",
+                    "size-full cursor-default rounded-2xl",
                     "outline-dotted outline-transparent"
                 )}
                 animate={isHover ? "hover" : "rest"}
@@ -89,7 +89,7 @@ export function PixelPerfect() {
                     ref={containerRef}
                     className={cn("flex justify-center items-center h-full")}>
 
-                    <div className="absolute w-full h-full opacity-50">
+                    <div className="absolute size-full opacity-50">
                         {/* top left three-quarter arc */}
                         <div
                             style={{

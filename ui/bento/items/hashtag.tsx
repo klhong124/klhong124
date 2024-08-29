@@ -228,7 +228,7 @@ const Title = ({ width, height }: { width: number; height: number }) => {
         fontSize: 82,
         stroke: '#d1d5db', //var(--gray-300)
         strokeThickness: 2,
-        
+
     });
     const titleWidth = Math.ceil(TextMetrics.measureText(titleText, titleStyle).width) + 60;
     const titleHeight = Math.ceil(TextMetrics.measureText(titleText, titleStyle).height) - 24;
@@ -301,7 +301,7 @@ export function Hashtag() {
 
 
     return (
-        <div className={cn("w-full h-full overflow-hidden")} ref={canvas}>
+        <div className={cn("size-full overflow-hidden")} ref={canvas}>
 
             <Stage
                 width={0} height={0}

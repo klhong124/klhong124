@@ -11,10 +11,12 @@ import { useRouter } from 'next/navigation';
 import BentoGrid, { BentoGridItem as GridItem } from '@/ui/bento/grid';
 import throttle from "@/utils/throttle";
 import Hello from "@/ui/hello";
+import Dock from "@/ui/dock";
 
 
 
 export default function Home() {
+  const [pageReady, setPageReady] = useState(false);
   const router = useRouter();
   const [mouse, setMouse] = useState<Mouse>({ x: 0, y: 0, isHover: false, isTap: false, isClick: false });
 
@@ -25,6 +27,7 @@ export default function Home() {
         x: window.innerWidth / 2,
         y: window.innerHeight / 2,
       }));
+      setPageReady(true);
     }
   }, []);
 
@@ -74,13 +77,13 @@ export default function Home() {
 
     setTimeout(() => {
       router.push("/explore");
-    }, 500);
+    }, 300);
   };
 
   return (
     <MouseContext.Provider value={mouse}>
       <Background
-        className="h-screen w-screen relative flex justify-center items-center"
+        className="relative flex justify-center items-center"
         onMouseMove={throttle(handleMouseMove, 100)}>
         <MotionConfig
           transition={{
@@ -96,7 +99,7 @@ export default function Home() {
             <GridItem id={4} invisible />
             <GridItem id={5} className="flex-center" invisible>
               <Window
-                className={cn("cursor-pointer w-full h-full flex-center")}
+                className={cn("cursor-pointer size-full flex-center")}
                 onTapStart={handleTapStart}
                 onTap={handleTapCancel}
                 onTapCancel={handleTapCancel}
@@ -120,7 +123,7 @@ export default function Home() {
 
               >
                 <Link href="/explore" draggable={false}
-                  className='w-full h-full flex-center select-none'
+                  className='size-full flex-center select-none'
                   onClick={handleClick} prefetch={true}>
                   <AnimatePresence>
 
@@ -154,6 +157,10 @@ export default function Home() {
                       </motion.div> :
                       <Hello />
                     }
+
+                    {!pageReady && (
+                      <div className="mt-2 animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-300 mx-auto"></div>
+                    )}
 
 
                     {(mouse.isHover && !mouse.isClick) && (
@@ -193,6 +200,9 @@ export default function Home() {
 
 
       </Background>
+      <Dock />
+
     </MouseContext.Provider>
+
   );
 }
