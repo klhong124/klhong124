@@ -5,7 +5,7 @@ import { MouseContextProvider } from "@/hooks/useMouse";
 
 export const metadata: Metadata = {
   title: "Ryan Kwan - Portfolio",
-  description: "I am an accomplished Full-Stack Developer located in London 🇬🇧, driven by a relentless pursuit of excellence in the Information Technology sector. With a track record of delivering impactful solutions, I am dedicated to enhancing user experiences and driving business success through innovative design and robust development. I am eager to bring my extensive skill set to your team, contributing to the advancement of your projects and delivering tangible value to your organization.",
+  description: "Experienced Full-Stack Developer in London 🇬🇧 with a strong track record of delivering innovative solutions. Specializing in enhancing user experiences and driving business success through cutting-edge design and robust development. Explore my portfolio to see how I can bring measurable value to your projects",
 };
 
 export default function RootLayout({
