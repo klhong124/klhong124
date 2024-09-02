@@ -138,5 +138,31 @@ export const BentoGridItem = ({
     );
 };
 
+export const BentoCenter = ({
+    children,
+    className,
+}: {
+    children?: React.ReactNode;
+    className?: string;
+}) => {
+    return (
+        <BentoGrid>
+            <BentoGridItem id={1} invisible />
+            <BentoGridItem id={2} invisible />
+            <BentoGridItem id={3} invisible />
+            <BentoGridItem id={4} invisible />
+            <BentoGridItem id={5} className={className} invisible>
+                {children}
+            </BentoGridItem>
+            <BentoGridItem id={6} invisible />
+            <BentoGridItem id={7} invisible />
+            <BentoGridItem id={8} invisible />
+            <BentoGridItem id={9} invisible />
+            <BentoGridItem id={10} invisible />
+            <BentoGridItem id={11} invisible />
+        </BentoGrid>
+    );
+};
+
 
 export default BentoGrid;

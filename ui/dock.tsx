@@ -25,6 +25,7 @@ const Dock = ({
             title: "Explore",
             href: "/explore",
         },
+        null,
         {
             title: "Linkedin",
             href: "https://www.linkedin.com/in/ryankwandev/",
@@ -60,11 +61,12 @@ const Dock = ({
     ],
     hideOnTop = false,
 }: {
-    items?: { title: string; href: string, shadow?: string }[];
+    items?: ({ title: string; href: string; shadow?: string } | null)[];
     hideOnTop?: boolean;
 }) => {
     let mouseX = useMotionValue(Infinity);
     const { scrollY } = useScroll();
+
     const [isVisible, setIsVisible] = useState(!hideOnTop);
 
     useMotionValueEvent(scrollY, "change", (latest) => {
@@ -91,7 +93,13 @@ const Dock = ({
                 }}
             >
                 {items.map((item) => (
-                    <IconContainer mouseX={mouseX} key={item.title} {...item} />
+                    item
+                        ? <IconContainer mouseX={mouseX} key={item.title} {...item} />
+                        : <div className={
+                            cn(
+                                "h-[40px] border-r border-stone-100/10"
+                            )
+                        }> </div>
                 ))}
             </motion.div>
         </div>

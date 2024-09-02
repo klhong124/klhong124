@@ -21,7 +21,6 @@ const config: Config = {
         spaceGrotesk: ['space-grotesk', 'sans-serif'],
         matrix: ['matrix', 'sans-serif'],
         quicksand: ['quicksand', 'sans-serif'],
-        sacramento: ['sacramento', 'sans-serif'],
       },
     },
   },

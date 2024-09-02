@@ -7,10 +7,11 @@ import { cn } from "@/utils/cn";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import BentoGrid, { BentoGridItem as GridItem } from '@/ui/bento/grid';
+import { BentoCenter } from '@/ui/bento/grid';
 import Hello from "@/ui/hello";
 import Dock from "@/ui/dock";
 import { useMouse } from "@/hooks/useMouse";
+import Backdrop from "@/ui/backdrop";
 
 
 export default function Home() {
@@ -83,114 +84,103 @@ export default function Home() {
             stiffness: 100,
           }}
         >
-          <BentoGrid>
-            <GridItem id={1} invisible />
-            <GridItem id={2} invisible />
-            <GridItem id={3} invisible />
-            <GridItem id={4} invisible />
-            <GridItem id={5} className="flex-center" invisible>
-              <Window
-                className={cn("cursor-pointer size-full flex-center")}
-                onTapStart={handleTapStart}
-                onTap={handleTapCancel}
-                onTapCancel={handleTapCancel}
-                onMouseEnter={handleHoverStart}
-                onHoverEnd={handleHoverEnd}
-                whileTap={{
-                  scale: 0.95
-                }}
-                initial={{
-                  maxHeight: "400px"
-                }}
-                animate={mouse.isClick ? {
-                  maxHeight: "800px",
-                  transition: {
-                    duration: 0.2,
-                    ease: "easeInOut",
-                  }
-                } : {
-                  maxHeight: "400px"
-                }}
 
-              >
-                <Link href="/explore" draggable={false}
-                  className='size-full flex-center select-none'
-                  onClick={handleClick} prefetch={true}>
-                  <AnimatePresence>
+          <BentoCenter className="flex-center">
+            <Window
+              className={cn("cursor-pointer size-full flex-center")}
+              onTapStart={handleTapStart}
+              onTap={handleTapCancel}
+              onTapCancel={handleTapCancel}
+              onMouseEnter={handleHoverStart}
+              onHoverEnd={handleHoverEnd}
+              whileTap={{
+                scale: 0.95
+              }}
+              initial={{
+                maxHeight: "400px"
+              }}
+              animate={mouse.isClick ? {
+                maxHeight: "800px",
+                transition: {
+                  duration: 0.2,
+                  ease: "easeInOut",
+                }
+              } : {
+                maxHeight: "400px"
+              }}
 
-                    {(!mouse.isClick) ?
-                      <motion.div className='absolute-center w-full'
-                        key="main-content"
-                        initial={{ opacity: 0 }}
-                        animate={{
-                          opacity: 1,
-                          transition: {
-                            duration: 1,
-                          }
-                        }}
-                        exit={{ opacity: 0 }}
-                      >
-                        <span
-                          className={cn(
-                            "text-lg text-secondary block mb-2 text-center",
-                          )}
-                        >
-                          Web Developer | Front-end Specialist | UX Enthusiast
-                        </span>
-                        <motion.h1
-                          className={cn(
-                            "text-primary text-6xl text-center",
-                            "font-medium tracking-wide pb-2",
-                          )}
-                        >
-                          Ryan K.
-                        </motion.h1>
-                      </motion.div>
-                      : <Hello
-                        exit={{
-                          opacity: 0,
-                        }} />
-                    }
+            >
+              <Link href="/explore" draggable={false}
+                className='size-full flex-center select-none'
+                onClick={handleClick} prefetch={true}>
+                <AnimatePresence>
 
-                    {!pageReady && (
-                      <div className="mt-2 animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-300 mx-auto"></div>
-                    )}
-
-
-                    {(mouse.isHover && !mouse.isClick) && (
-                      <motion.span
-                        key="click-to-explore"
-                        initial={{ opacity: 0 }}
-                        animate={{
-                          opacity: 1,
-                          transition: {
-                            duration: 1,
-                            delay: 0.5
-                          }
-                        }}
-                        exit={{ opacity: 0 }}
+                  {(!mouse.isClick) ?
+                    <motion.div className='absolute-center w-full'
+                      key="main-content"
+                      initial={{ opacity: 0 }}
+                      animate={{
+                        opacity: 1,
+                        transition: {
+                          duration: 1,
+                        }
+                      }}
+                      exit={{ opacity: 0 }}
+                    >
+                      <span
                         className={cn(
-                          "font-medium tracking-wide text-secondary",
-                          "mt-auto mb-4",
+                          "text-lg text-secondary block mb-2 text-center",
                         )}
                       >
-                        - Click to Explore -
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
-                </Link>
-              </Window>
-              <TechStack />
-            </GridItem>
-            <GridItem id={6} invisible />
-            <GridItem id={7} invisible />
-            <GridItem id={8} invisible />
-            <GridItem id={9} invisible />
-            <GridItem id={10} invisible />
-            <GridItem id={11} invisible />
-          </BentoGrid>
-        </MotionConfig>
+                        Web Developer | Front-end Specialist | UX Enthusiast
+                      </span>
+                      <motion.h1
+                        className={cn(
+                          "text-primary text-4xl text-center",
+                          "font-medium tracking-wide",
+                        )}
+                      >
+                        Ryan Kwan - Portfolio 25'
+                      </motion.h1>
+                    </motion.div>
+                    : <Hello
+                      exit={{
+                        opacity: 0,
+                      }} />
+                  }
 
+                  {!pageReady && (
+                    <div className="mt-2 animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-300 mx-auto"></div>
+                  )}
+
+
+                  {(mouse.isHover && !mouse.isClick) && (
+                    <motion.span
+                      key="click-to-explore"
+                      initial={{ opacity: 0 }}
+                      animate={{
+                        opacity: 1,
+                        transition: {
+                          duration: 1,
+                          delay: 0.5
+                        }
+                      }}
+                      exit={{ opacity: 0 }}
+                      className={cn(
+                        "font-medium tracking-wide text-secondary",
+                        "mt-auto mb-4",
+                      )}
+                    >
+                      - Click to Explore -
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </Link>
+            </Window>
+            <TechStack />
+          </BentoCenter>
+        </MotionConfig>
+        <Backdrop />
 
 
       </Background>
