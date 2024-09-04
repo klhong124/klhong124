@@ -2,7 +2,6 @@
 import { motion, useMotionTemplate, AnimatePresence } from "framer-motion";
 import { useMouse } from '@/hooks/useMouse';
 import { cn } from "@/utils/cn";
-import throttle from "@/utils/throttle";
 import { usePathname } from "next/navigation";
 
 export const Background = ({
@@ -12,17 +11,10 @@ export const Background = ({
     children: React.ReactNode;
     [key: string]: any;
 }) => {
-    const [mouse, setMouse] = useMouse()
+    const [mouse] = useMouse()
     const pathname = usePathname();
 
 
-    const handleMouseMove = (event: React.MouseEvent) => {
-        setMouse(prevMouse => ({
-            ...prevMouse,
-            x: event.clientX,
-            y: event.clientY,
-        }));
-    };
 
     const maskImageStyle =
         useMotionTemplate`
@@ -37,7 +29,6 @@ export const Background = ({
 
         <section
             className="relative flex items-center bg-stone-950 justify-center w-full overflow-hidden"
-            onMouseMove={throttle(handleMouseMove, 100)}
         >
             <div className={cn("absolute inset-0 pointer-events-none bg-dot-thick-neutral-800")} />
 

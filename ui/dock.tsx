@@ -95,11 +95,7 @@ const Dock = ({
                 {items.map((item) => (
                     item
                         ? <IconContainer mouseX={mouseX} key={item.title} {...item} />
-                        : <div className={
-                            cn(
-                                "h-[40px] border-r border-stone-100/10"
-                            )
-                        }> </div>
+                        : <div className={cn("h-[40px] border-r border-stone-100/10")}/>
                 ))}
             </motion.div>
         </div>

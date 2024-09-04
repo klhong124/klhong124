@@ -12,12 +12,16 @@ import Hello from "@/ui/hello";
 import Dock from "@/ui/dock";
 import { useMouse } from "@/hooks/useMouse";
 import Backdrop from "@/ui/backdrop";
+import Loading from "@/ui/loading";
+import Cursor from "@/ui/cursor";
+import throttle from "@/utils/throttle";
 
 
 export default function Home() {
   const [pageReady, setPageReady] = useState(false);
   const router = useRouter();
   const [mouse, setMouse] = useMouse()
+  const [inWindow, setInWindow] = useState(false);
 
   useLayoutEffect(() => {
     setPageReady(true);
@@ -29,7 +33,14 @@ export default function Home() {
     }
   }, []);
 
-
+  const handleMouseMove = (event: React.MouseEvent) => {
+    setMouse(prevMouse => ({
+      ...prevMouse,
+      x: event.clientX,
+      y: event.clientY,
+    }));
+    setInWindow(true);
+  };
 
   const handleHoverStart = () => {
     setMouse(prevMouse => ({
@@ -73,10 +84,15 @@ export default function Home() {
   };
 
   return (
-    <>
+    <div
+      className="relative w-screen h-screen overflow-hidden"
+      onMouseMove={throttle(handleMouseMove, 100)} onMouseLeave={() => setInWindow(false)}>
+
       <Background
         className="relative flex justify-center items-center"
       >
+        <Backdrop />
+
         <MotionConfig
           transition={{
             type: "spring",
@@ -150,7 +166,7 @@ export default function Home() {
                   }
 
                   {!pageReady && (
-                    <div className="mt-2 animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-300 mx-auto"></div>
+                    <Loading />
                   )}
 
 
@@ -180,13 +196,14 @@ export default function Home() {
             <TechStack />
           </BentoCenter>
         </MotionConfig>
-        <Backdrop />
 
 
       </Background>
       <Dock />
-
-    </>
+      <AnimatePresence>
+        {inWindow && <Cursor />}
+      </AnimatePresence>
+    </div>
 
   );
 }

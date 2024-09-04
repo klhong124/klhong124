@@ -26,7 +26,7 @@ export function CodePattern() {
                 "flex justify-between relative",
             )}>
                 {
-                    Array.from({ length: columns }).map((_, i) =>
+                    [...Array(columns)].map((_, i) =>
                         <RainStream key={i + "rain"} />
                     )
                 }
@@ -81,7 +81,6 @@ const RainStream = memo(() => {
                 writingMode: "vertical-rl",
                 textOrientation: "upright",
                 backgroundImage: "linear-gradient(to bottom, var(--transparent) 40%, var(--emerald-500) 93%, var(--white)  95%, var(--transparent) 100%)"
-
             }}
         >
             {
