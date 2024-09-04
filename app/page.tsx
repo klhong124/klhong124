@@ -156,7 +156,7 @@ export default function Home() {
                           "font-medium tracking-wide",
                         )}
                       >
-                        Ryan Kwan - Portfolio 25'
+                        @ryankwandev
                       </motion.h1>
                     </motion.div>
                     : <Hello
@@ -201,7 +201,7 @@ export default function Home() {
       </Background>
       <Dock />
       <AnimatePresence>
-        {inWindow && <Cursor />}
+        {(inWindow && !mouse.isClick) && <Cursor />}
       </AnimatePresence>
     </div>
 

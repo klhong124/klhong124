@@ -4,7 +4,6 @@ import CodePattern from '@/ui/bento/items/code-pattern';
 import PixelPerfect from '@/ui/bento/items/pixel-perfect';
 import Hashtag from '@/ui/bento/items/hashtag';
 import ComingSoon from '@/ui/bento/items/coming-soon';
-import Ability from '@/ui/bento/items/ability';
 import WindowControl from "@/ui/windowControl";
 import Hello from "@/ui/hello";
 import Background from "@/ui/background";
@@ -15,7 +14,7 @@ export default function Bento() {
         <Background>
             <BentoGrid className='"bg-stone-950"'>
                 <GridItem id={1}>
-                    <Ability />
+                    <ComingSoon />
                 </GridItem>
                 <GridItem id={2}>
                     <ComingSoon />
@@ -49,9 +48,6 @@ export default function Bento() {
                     <PixelPerfect />
                 </GridItem>
             </BentoGrid >
-            <div className="h-[500px]">
-                testing
-            </div>
             <Dock hideOnTop/>
         </Background>
     );
