@@ -11,9 +11,8 @@ export const Highlight = ({
     className?: string;
 }) => {
     const brandColors = {
-        react: "from-sky-400 to-sky-600 dark:text-sky-100 text-sky-950",
-        vue: "from-emerald-400 to-emerald-600 dark:text-emerald-100 text-emerald-950",
-        graphql: "from-rose-400 to-rose-600 dark:text-rose-100 text-rose-950",
+        react: "from-sky-500/50 to-sky-700/50 text-sky-200",
+        vue: "from-emerald-500/50 to-emerald-700/50 text-emerald-200",
     };
 
     return (

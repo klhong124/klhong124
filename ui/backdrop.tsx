@@ -3,66 +3,21 @@ import { cn } from "@/utils/cn";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useLayoutEffect, useEffect, useState, useMemo } from "react";
 import Highlight from "@/ui/highlight";
+import { useMouse } from "@/hooks/useMouse";
 export const Backdrop = () => {
+    const [mouse] = useMouse()
+
     return (
-        <>
-            <Ability />
+        <motion.div
+            className="size-full absolute"
+            animate={{
+                filter: mouse.isHover ? "blur(2px)" : "blur(0px)",
+                opacity: mouse.isClick ? 0 : 1,
+                transition: { duration: 0.3 }
+            }}
+        >
             <Introduction />
             <Portfolio />
-        </>
-    );
-};
-
-
-const Introduction = () => {
-    const [currentTime, setCurrentTime] = useState(new Date());
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrentTime(new Date());
-        }, 1000);
-
-        return () => clearInterval(timer);
-    }, []);
-
-    return (
-        <motion.div className={cn(
-            "absolute bottom-12 left-12 text-stone-300/20 uppercase",
-        )}>
-
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1, delay: 0.75 }}
-                className="text-3xl text-stone-300/20 mt-2"
-            >
-                <div>london based</div>
-            </motion.div>
-
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1 }}
-                className="text-3xl text-stone-300/20"
-            >
-                <div suppressHydrationWarning>
-                    {typeof window !== 'undefined' && currentTime.toLocaleString('en-GB', {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        second: '2-digit',
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric',
-                        timeZone: 'Europe/London'
-                    }).replace(',', '')}
-                </div>
-            </motion.div>
-            <div className={cn("uppercase tracking-widest text-7xl")}>
-                ryan.dev
-                <div className={cn("text-2xl")}>
-                    +852 HongKongese
-                </div>
-            </div>
         </motion.div>
     );
 };
@@ -126,45 +81,85 @@ const Portfolio = () => {
 
 
     return (
-        <div className={cn("absolute right-24 top-0 h-screen overflow-hidden",
-            "border-l-4 border-r-4 border-emerald-950"
-        )}>
-            <motion.div
-                className="flex flex-col"
 
+        <div className={
+            cn(
+                "absolute right-44 top-0 transform -translate-y-1/2 translate-x-1/2 rotate-45",
+                "origin-bottom-left"
+
+            )
+        }
+        >
+            <div
+                className={cn(
+                    "inline-block uppercase text-5xl tracking-widest text-emerald-950",
+                    "border-t-2 border-b-2 border-emerald-950 p-4 px-36 -mx-24",
+                )}
             >
-                <div
-                    className={cn(
-                        "inline-block uppercase text-[100px] tracking-widest text-emerald-950",
-                        " pt-12 ",
-                    )}
-                    style={{
-                        writingMode: "vertical-rl",
-                    }}
-                >
-                    Portfolio 2025
-                </div>
-
-            </motion.div>
-        </div>
+                Portfolio 2025
+            </div>
+        </div >
     );
+    
+    // return (
+    //     <div className={cn("absolute right-24 top-0 h-screen overflow-hidden",
+    //         "border-l-4 border-r-4 border-emerald-950"
+    //     )}>
+    //         <motion.div
+    //             className="flex flex-col"
+
+    //         >
+    //             <div
+    //                 className={cn(
+    //                     "inline-block uppercase text-[100px] tracking-widest text-emerald-950",
+    //                     " pt-12 ",
+    //                 )}
+    //                 style={{
+    //                     writingMode: "vertical-rl",
+    //                 }}
+    //             >
+    //                 Portfolio 2025
+    //             </div>
+
+    //         </motion.div>
+    //     </div>
+    // );
 };
 
-const Ability = () => {
-    return (
-        <motion.div className={cn(
-            "absolute top-12 left-12 w-full",
-            "text-stone-400 leading-snug"
-        )}>
-            <div className="text-5xl tracking-wide">
+const Introduction = () => {
 
+    return (
+        <div className={cn(
+            "absolute top-12 left-12 w-full",
+            "text-stone-300/90",
+        )}>
+
+            <div className="text-5xl tracking-wide leading-snug">
                 Crafting Web Applications <br />
-                with <FlipWords className="text-stone-400" />
+                with <FlipWords />
             </div>
-            <div className="mt-4 text-md">
-                <Highlight>React</Highlight> <Highlight>Vue</Highlight> <Highlight>GraphQL</Highlight>
+
+            <div className={cn("flex flex-col gap-4 text-stone-500 mt-6")}>
+
+
+                <div className={cn("text-2xl")}>
+                    Web Developer | Front-end Specialist | UX Enthusiast
+                </div>
+                <div className={cn("text-6xl flex items-start gap-2 uppercase tracking-widest")}>
+                    <span className={cn("text-primary opacity-80")}>
+                        ryan.dev
+                    </span>
+                    <span className={cn("text-xl")}>
+                        +852 <br />HongKongese
+                    </span>
+                </div>
+                <div>
+                    🇬🇧 London based Design Engineer using <Highlight>React</Highlight> or <Highlight>Vue</Highlight> .
+                </div>
+
             </div>
-        </motion.div>
+
+        </div>
     );
 };
 
@@ -270,5 +265,6 @@ const FlipWords = ({
         </AnimatePresence>
     );
 };
+
 
 export default Backdrop;

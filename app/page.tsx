@@ -145,10 +145,10 @@ export default function Home() {
                     >
                       <span
                         className={cn(
-                          "text-lg text-secondary block mb-2 text-center",
+                          "text-lg  block mb-2 text-center",
                         )}
                       >
-                        Web Developer | Front-end Specialist | UX Enthusiast
+                        👋🏽 Say hello to
                       </span>
                       <motion.h1
                         className={cn(
@@ -199,7 +199,12 @@ export default function Home() {
 
 
       </Background>
-      <Dock />
+      <Dock
+        animate={{
+          filter: mouse.isHover ? "blur(2px)" : "blur(0px)",
+          transition: { duration: 0.3 }
+        }}
+      />
       <AnimatePresence>
         {(inWindow && !mouse.isClick) && <Cursor />}
       </AnimatePresence>

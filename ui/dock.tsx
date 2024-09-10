@@ -60,10 +60,8 @@ const Dock = ({
 
     ],
     hideOnTop = false,
-}: {
-    items?: ({ title: string; href: string; shadow?: string } | null)[];
-    hideOnTop?: boolean;
-}) => {
+    ...props
+}: any) => {
     let mouseX = useMotionValue(Infinity);
     const { scrollY } = useScroll();
 
@@ -74,7 +72,7 @@ const Dock = ({
     });
 
     return (
-        <div className="fixed bottom-2 left-1/2 -translate-x-1/2">
+        <motion.div {...props} className="fixed bottom-2 left-1/2 -translate-x-1/2">
             <motion.div
                 onMouseMove={(e) => mouseX.set(e.pageX)}
                 onMouseLeave={() => mouseX.set(Infinity)}
@@ -95,10 +93,10 @@ const Dock = ({
                 {items.map((item) => (
                     item
                         ? <IconContainer mouseX={mouseX} key={item.title} {...item} />
-                        : <div className={cn("h-[40px] border-r border-stone-100/10")}/>
+                        : <div className={cn("h-[40px] border-r border-stone-100/10")} />
                 ))}
             </motion.div>
-        </div>
+        </motion.div>
     );
 };
 
