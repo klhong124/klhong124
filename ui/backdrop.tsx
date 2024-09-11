@@ -16,11 +16,11 @@ export const Backdrop = () => {
                 transition: { duration: 0.3 }
             }}
         >
-            <Introduction />
             <Portfolio />
         </motion.div>
     );
 };
+
 
 const Portfolio = () => {
     // const skills: string[] = [
@@ -100,7 +100,7 @@ const Portfolio = () => {
             </div>
         </div >
     );
-    
+
     // return (
     //     <div className={cn("absolute right-24 top-0 h-screen overflow-hidden",
     //         "border-l-4 border-r-4 border-emerald-950"
@@ -265,6 +265,8 @@ const FlipWords = ({
         </AnimatePresence>
     );
 };
+
+
 
 
 export default Backdrop;

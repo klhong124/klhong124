@@ -7,7 +7,6 @@ import ComingSoon from '@/ui/bento/items/coming-soon';
 import WindowControl from "@/ui/windowControl";
 import Hello from "@/ui/hello";
 import Background from "@/ui/background";
-import Dock from "@/ui/dock";
 
 export default function Bento() {
     return (
@@ -48,7 +47,6 @@ export default function Bento() {
                     <PixelPerfect />
                 </GridItem>
             </BentoGrid >
-            <Dock hideOnTop/>
         </Background>
     );
 }

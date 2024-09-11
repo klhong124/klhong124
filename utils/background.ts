@@ -14,7 +14,7 @@ export default function addBackgroundDotPattern({ matchUtilities, theme }: any) 
           backgroundImage: `url("${svgToDataUri(dotSvg(value, 2.5))}")`,
         }),
         "bg-dot": (value: any) => ({
-          backgroundImage: `url("${svgToDataUri(dotSvg(value, 4))}")`,
+          backgroundImage: `url("${svgToDataUri(dotSvg(value, 3))}")`,
         }),
       },
       { values: flattenColorPalette(theme("backgroundColor")), type: "color" }

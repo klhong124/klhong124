@@ -57,7 +57,7 @@ const Window = ({
                 onMouseMove={throttle(handleMouseMove, 100)}
                 initial={{
                     width: "450px",
-                    height: "300px",
+                    height: "250px",
                 }}
                 animate={{
                     width: "100%",

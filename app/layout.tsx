@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { cn } from "@/utils/cn";
 import "@/styles/globals.scss";
 import { MouseContextProvider } from "@/hooks/useMouse";
+import Dock from "@/ui/dock";
 
 export const metadata: Metadata = {
   title: "Ryan Kwan - Portfolio",
@@ -20,7 +21,11 @@ export default function RootLayout({
     <html lang="en">
       <MouseContextProvider>
 
-        <body className={cn('dark')}>{children}</body>
+        <body className={cn('dark')}>
+          {children}
+          <Dock />
+        </body>
+
       </MouseContextProvider>
     </html>
   );

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useLayoutEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Background from "@/ui/background";
 import TechStack from '@/ui/tech-stack';
 import Window from '@/ui/window';
@@ -9,7 +9,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { BentoCenter } from '@/ui/bento/grid';
 import Hello from "@/ui/hello";
-import Dock from "@/ui/dock";
 import { useMouse } from "@/hooks/useMouse";
 import Backdrop from "@/ui/backdrop";
 import Loading from "@/ui/loading";
@@ -23,12 +22,13 @@ export default function Home() {
   const [mouse, setMouse] = useMouse()
   const [inWindow, setInWindow] = useState(false);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setPageReady(true);
     if (typeof window !== 'undefined') {
       setMouse(prevMouse => ({
         ...prevMouse,
         isClick: false,
+        isHover: false,
       }));
     }
   }, []);
@@ -91,7 +91,7 @@ export default function Home() {
       <Background
         className="relative flex justify-center items-center"
       >
-        <Backdrop />
+        {/* <Backdrop /> */}
 
         <MotionConfig
           transition={{
@@ -151,6 +151,16 @@ export default function Home() {
                         👋🏽 Say hello to
                       </span>
                       <motion.h1
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{
+                          opacity: 1,
+                          y: 0,
+                          transition: {
+                            duration: 0.6,
+                            ease: "easeOut",
+                            delay: 0.2
+                          }
+                        }}
                         className={cn(
                           "text-primary text-4xl text-center",
                           "font-medium tracking-wide",
@@ -175,7 +185,7 @@ export default function Home() {
                       key="click-to-explore"
                       initial={{ opacity: 0 }}
                       animate={{
-                        opacity: 1,
+                        opacity: 0.7,
                         transition: {
                           duration: 1,
                           delay: 0.5
@@ -199,12 +209,7 @@ export default function Home() {
 
 
       </Background>
-      <Dock
-        animate={{
-          filter: mouse.isHover ? "blur(2px)" : "blur(0px)",
-          transition: { duration: 0.3 }
-        }}
-      />
+
       <AnimatePresence>
         {(inWindow && !mouse.isClick) && <Cursor />}
       </AnimatePresence>

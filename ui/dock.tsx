@@ -7,8 +7,6 @@ import {
     useMotionValue,
     useSpring,
     useTransform,
-    useScroll,
-    useMotionValueEvent
 } from "framer-motion";
 import Link from "next/link";
 import { useRef, useState } from "react";
@@ -59,44 +57,37 @@ const Dock = ({
         },
 
     ],
-    hideOnTop = false,
     ...props
 }: any) => {
     let mouseX = useMotionValue(Infinity);
-    const { scrollY } = useScroll();
-
-    const [isVisible, setIsVisible] = useState(!hideOnTop);
-
-    useMotionValueEvent(scrollY, "change", (latest) => {
-        setIsVisible(latest > 0 || !hideOnTop);
-    });
+    let [isHover, setIsHover] = useState(false);
 
     return (
         <motion.div {...props} className="fixed bottom-2 left-1/2 -translate-x-1/2">
             <motion.div
-                onMouseMove={(e) => mouseX.set(e.pageX)}
-                onMouseLeave={() => mouseX.set(Infinity)}
+                onMouseMove={(e) => { mouseX.set(e.pageX); setIsHover(true) }}
+                onMouseLeave={() => { mouseX.set(Infinity); setIsHover(false) }}
                 className={cn(
                     "flex h-16 gap-4 items-end rounded-2xl px-4 pb-3",
                     "bg-stone-200/10 backdrop-blur-sm",
                     "border border-stone-100/10 shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset]",
                 )}
                 animate={{
-                    opacity: isVisible ? 1 : 0,
-                    y: isVisible ? 0 : 20,
+                    opacity: isHover ? 1 : 0,
+                    y: isHover ? 0 : 50,
                 }}
                 transition={{
                     duration: 0.3,
                     ease: "easeInOut",
                 }}
             >
-                {items.map((item) => (
+                {items.map((item: { title: string; href: string; shadow?: string } | null) => (
                     item
                         ? <IconContainer mouseX={mouseX} key={item.title} {...item} />
-                        : <div className={cn("h-[40px] border-r border-stone-100/10")} />
+                        : <div key={Math.random().toString()} className={cn("h-[40px] border-r border-stone-100/10")} />
                 ))}
             </motion.div>
-        </motion.div>
+        </motion.div >
     );
 };
 

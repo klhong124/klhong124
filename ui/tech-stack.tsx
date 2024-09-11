@@ -95,7 +95,7 @@ const Scene = ({ mouseX, mouseY }: {
                 <Icons
                     gltf="nuxt"
                     scale={0.8}
-                    position={[0.1, 0.9, 3]}
+                    position={[0.1, 0.8, 3]}
                     rotation={[Math.PI / 2, -Math.PI / 15, -0.2]}
                     animate={{
                         rotateZ: [-0.2, Math.PI - 0.2, Math.PI * 2 - 0.2, Math.PI * 2 - 0.2],
@@ -109,7 +109,7 @@ const Scene = ({ mouseX, mouseY }: {
                 />
                 <Icons
                     gltf="vue"
-                    position={[-1.2, -1.8, 1.6]}
+                    position={[-1.5, -1.8, 1.6]}
                     rotation={[Math.PI / 2, Math.PI / 20, -0.8]}
                     scale={1.5}
                     animate={{
@@ -126,7 +126,7 @@ const Scene = ({ mouseX, mouseY }: {
                 <Icons
                     gltf="react"
                     scale={2.3}
-                    position={[3.6, 2.5, -1]}
+                    position={[4.6, 3, -1]}
                     rotation={[Math.PI / 1.8, 0, 0]}
                     animate={{
                         rotateY: [0, Math.PI * 2],
@@ -139,7 +139,7 @@ const Scene = ({ mouseX, mouseY }: {
                 />
                 <Icons
                     gltf="typescript"
-                    position={[2.2, 0.5, 1]}
+                    position={[2.5, 0.5, 1]}
                     rotation={[Math.PI / 1.8, 0, 1]}
                     animate={{
                         rotateY: [Math.PI / 20, -Math.PI / 10],
@@ -173,12 +173,12 @@ const Scene = ({ mouseX, mouseY }: {
                 <Icons
                     gltf="laravel"
                     scale={1.8}
-                    position={[2.2, -3.9, -4]}
+                    position={[3, -3.9, -4]}
                     rotation={[Math.PI / 2, 0, 0.3]}
                 />
                 <Icons
                     gltf="next"
-                    position={[1.6, -0.9, 2.3]}
+                    position={[1.8, -0.9, 2.3]}
                     rotation={[Math.PI / 2.5, Math.PI / 2, Math.PI / 6]}
                     animate={{
                         scale: [1.1, 1.3, 1.1],
@@ -195,7 +195,7 @@ const Scene = ({ mouseX, mouseY }: {
                 <Icons
                     gltf="graphql"
                     scale={1.3}
-                    position={[-2.2, 1.3, 1.5]}
+                    position={[-2.7, 1.4, 1.5]}
                     rotation={[Math.PI / 1.8, 0, 0]}
                     animate={{
                         rotateY: [0,
@@ -221,12 +221,12 @@ const Scene = ({ mouseX, mouseY }: {
                 />
                 <Icons
                     gltf="mongodb"
-                    position={[-1.2, 1.5, 0.5]}
-                    rotation={[Math.PI / 1.3, Math.PI * 2, Math.PI]}
+                    position={[-2.6, 2.3, 0]}
+                    rotation={[Math.PI / 1.3, Math.PI * 2, 0]}
                 />
                 <Icons
                     gltf="framer-motion"
-                    position={[-1.5, 2.3, 0.7]}
+                    position={[-1.3, 2.3, 0.7]}
                     rotation={[Math.PI / 2.1, Math.PI * 2.2, Math.PI * 2]}
                     animate={{
                         y: [2.6, 2.6 + 0.1, 2.6, 2.6 + 0.1, 2.6],
@@ -242,7 +242,7 @@ const Scene = ({ mouseX, mouseY }: {
                 <Icons
                     gltf="storybook"
                     scale={0.9}
-                    position={[1.1, 1.7, 1.9]}
+                    position={[1.2, 1.8, 1.9]}
                     rotation={[0, 0, Math.PI * 2]}
                     animate={{
                         rotateY: [-Math.PI / 30, Math.PI / 30],
@@ -259,7 +259,7 @@ const Scene = ({ mouseX, mouseY }: {
                 <Icons
                     gltf="python"
                     scale={1.5}
-                    position={[-3.8, 0.3, 0]}
+                    position={[-4, 0.3, 0]}
                     rotation={[-Math.PI, Math.PI / 2, -Math.PI / 4]}
                     animate={{
                         rotateX: [-Math.PI, Math.PI / 2],
@@ -297,7 +297,7 @@ const Scene = ({ mouseX, mouseY }: {
 
                     animate={{
                         y: [-1.5, -1.6, -1.5, -1.6, -1.5],
-                        x: [-2.7, -2.7, -2.6, -2.6, -2.7],
+                        x: [-3.7, -3.7, -3.6, -3.6, -3.7],
                         rotateY: [-Math.PI / 4, -Math.PI / 5, -Math.PI / 4, -Math.PI / 5, -Math.PI / 4],
                         transition: {
                             duration: 2,
@@ -311,7 +311,7 @@ const Scene = ({ mouseX, mouseY }: {
                 <Icons
                     gltf="cloud-run"
                     scale={1.2}
-                    position={[-5.9, -1.1, -2]}
+                    position={[-6.1, -1.1, -1.5]}
                     rotation={[Math.PI / 1.8, -Math.PI / 3, -Math.PI / 5]}
 
                     animate={{
@@ -330,7 +330,7 @@ const Scene = ({ mouseX, mouseY }: {
                 <Icons
                     gltf="firebase"
                     scale={1.2}
-                    position={[6.3, 0.3, -3]}
+                    position={[5.5, 0.3, -1]}
                     rotation={[Math.PI / 2.2, -Math.PI / 18, Math.PI / 10]}
 
                 />
@@ -387,8 +387,8 @@ const Camera = ({ mouseX, mouseY }: {
     readonly mouseY: MotionValue<number>;
 }) => {
 
-    const cameraX = useSmoothTransform(mouseX, spring, (x) => x / 1000);
-    const cameraY = useSmoothTransform(mouseY, spring, (y) => (-1 * y) / 1000);
+    const cameraX = useSmoothTransform(mouseX, spring, (x) => (-1 * x) / 1000);
+    const cameraY = useSmoothTransform(mouseY, spring, (y) => (y) / 1000);
 
     const set = useThree(({ set }) => set);
     const camera = useThree(({ camera }) => camera);
@@ -426,11 +426,11 @@ const Camera = ({ mouseX, mouseY }: {
     return (
         <motion3d.perspectiveCamera
             ref={cameraRef}
-            fov={90}
-            position={[cameraX, cameraY, 7]}
+            fov={100}
+            position={[cameraX, cameraY, 6.3]}
             variants={{
                 hover: {
-                    z: 4.5,
+                    z: 4.2,
                     transition: {
                         type: "spring",
                         stiffness: 100,
@@ -438,7 +438,7 @@ const Camera = ({ mouseX, mouseY }: {
                     }
                 },
                 tap: {
-                    z: 4.2
+                    z: 4
                 },
                 click: {
                     z: 0
