@@ -1,7 +1,6 @@
 "use client";
-import React, { useState, useCallback, useRef, useEffect } from "react";
-import { motion, MotionConfig } from "motion/react";
-import throttle from "@/utils/throttle";
+import React, { useState, useCallback, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import { cn } from "@/utils/cn";
 
 const skills: string[] = [
@@ -61,40 +60,50 @@ const skills: string[] = [
 ]
 
 export function SkillSet() {
-    const [scrollSpeed, setScrollSpeed] = useState<number>(0);
-    const containerRef = useRef<HTMLDivElement | null>(null);
-
-    // Use useEffect to handle scrolling based on move state
-    useEffect(() => {
-        const container = containerRef.current;
-        if (!container) return;
-
-        const intervalId = setInterval(() => {
-            container.scrollTop += scrollSpeed
-        }, 16);
-
-        return () => clearInterval(intervalId);
-    }, [scrollSpeed]); // Add move as dependency
+    const [speed, setSpeed] = useState(0);
+    const [position, setPosition] = useState(0);
+    const ref = useRef<HTMLDivElement>(null);
 
     const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-        if (!containerRef.current) return;
         const rect = e.currentTarget.getBoundingClientRect();
         const mouseY = e.clientY - rect.top;
         const midPoint = rect.height / 2;
-        const delta = Math.abs(mouseY - midPoint) < 20 ? 0 : Number((Math.abs(mouseY - midPoint) / rect.height * 20).toFixed(1));
-        const speed = delta * (mouseY < midPoint ? -1 : 1);
-        setScrollSpeed(speed);
+        const delta = Math.abs(mouseY - midPoint) < 20
+            ? 0
+            : (midPoint - mouseY) * 0.1; // Using delta for smoother speed control
+        setSpeed(delta);
     }, []);
+
+    useEffect(() => {
+        let animationFrameId: number;
+        const updatePosition = () => {
+            setPosition(prev => {
+                const listHeight = ref.current?.clientHeight ?? 0;
+                const maxScroll = Math.max(0, listHeight);
+
+                const newPosition = prev + speed;
+                // Clamp the position between -maxScroll and 0
+                return Math.min(0, Math.max(-maxScroll, newPosition));
+            });
+            animationFrameId = requestAnimationFrame(updatePosition);
+        };
+
+        animationFrameId = requestAnimationFrame(updatePosition);
+        return () => cancelAnimationFrame(animationFrameId);
+    }, [speed]);
 
     return (
         <div
-            className={cn("overflow-y-scroll h-full no-scrollbar relative")}
-            ref={containerRef}
+            className={cn("h-full relative overflow-hidden")}
+            ref={ref}
             onMouseMove={handleMouseMove}
-            onMouseLeave={() => setScrollSpeed(0)}
+            onMouseLeave={() => setSpeed(0)}
         >
             <div className="h-full bg-primary w-1 absolute"></div>
-            <div className="pl-4">
+            <motion.div
+                className="pl-4"
+                style={{ y: position }}
+            >
                 {skills.map((skill, index) => (
                     <motion.div
                         key={index}
@@ -106,7 +115,7 @@ export function SkillSet() {
                         {skill}
                     </motion.div>
                 ))}
-            </div>
+            </motion.div>
         </div>
     );
 }
