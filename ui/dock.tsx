@@ -68,7 +68,7 @@ const Dock = ({
                 onMouseMove={(e) => { mouseX.set(e.pageX); setIsHover(true) }}
                 onMouseLeave={() => { mouseX.set(Infinity); setIsHover(false) }}
                 className={cn(
-                    "flex h-16 gap-4 items-end rounded-2xl px-4 pb-3",
+                    "flex h-16 gap-4 items-end rounded-3xl px-4 pb-3",
                     "bg-stone-200/10 backdrop-blur-sm",
                     "border border-stone-100/10 shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset]",
                 )}

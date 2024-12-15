@@ -59,7 +59,7 @@ export function PixelPerfect() {
             }}>
             <motion.button
                 className={cn(
-                    "size-full cursor-default rounded-2xl",
+                    "size-full cursor-default rounded-3xl",
                     "outline-dotted outline-transparent"
                 )}
                 animate={isHover ? "hover" : "rest"}

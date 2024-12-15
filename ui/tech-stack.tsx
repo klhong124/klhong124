@@ -441,7 +441,7 @@ const Camera = ({ mouseX, mouseY }: {
                     z: 4
                 },
                 click: {
-                    z: 0
+                    z: 3
                 }
             }}
             animate={isClick ? "click" : (isTap ? "tap" : (isHover ? "hover" : "rest"))}
