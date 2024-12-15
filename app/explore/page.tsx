@@ -7,7 +7,7 @@ import ComingSoon from '@/ui/bento/items/coming-soon';
 import WindowControl from "@/ui/windowControl";
 import Hello from "@/ui/hello";
 import Background from "@/ui/background";
-
+import SkillSet from "@/ui/bento/items/skillset";
 export default function Bento() {
     return (
         <Background>
@@ -35,7 +35,7 @@ export default function Bento() {
                     <ComingSoon />
                 </GridItem>
                 <GridItem id={8}>
-                    <ComingSoon />
+                    <SkillSet />
                 </GridItem>
                 <GridItem id={9}>
                     <Hashtag />

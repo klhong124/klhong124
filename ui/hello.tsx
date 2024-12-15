@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, MotionStyle } from "framer-motion";
+import { motion, MotionStyle } from "motion/react";
 
 export default function Hello({
     animated = false,

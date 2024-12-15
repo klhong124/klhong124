@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef, useLayoutEffect, useState, useCallback } from "react";
-import { motion, MotionConfig, useInView } from "framer-motion";
+import { motion, MotionConfig, useInView } from "motion/react";
 import throttle from "@/utils/throttle";
 import { cn } from "@/utils/cn";
 

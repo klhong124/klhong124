@@ -4,7 +4,7 @@ import Background from "@/ui/background";
 import TechStack from '@/ui/tech-stack';
 import Window from '@/ui/window';
 import { cn } from "@/utils/cn";
-import { AnimatePresence, motion, MotionConfig } from "framer-motion";
+import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { BentoCenter } from '@/ui/bento/grid';

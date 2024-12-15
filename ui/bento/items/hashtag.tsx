@@ -7,7 +7,6 @@ import Matter from 'matter-js';
 import { Stage, Graphics, Text, Container, useTick, useApp } from '@pixi/react';
 import { TextStyle, TextMetrics } from 'pixi.js';
 
-const xy = (vertices: Matter.Vector) => [vertices.x, vertices.y];
 
 const tags = [
     {

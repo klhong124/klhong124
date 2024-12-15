@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/utils/cn";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 const bentoConfig: { [key: number]: string } = {
     1: "xl:col-span-2 xl:row-span-4 xl:order-1 md:order-3 md:col-span-4 md:row-span-3 order-3 col-span-4 row-span-1",

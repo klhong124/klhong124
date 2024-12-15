@@ -1,5 +1,5 @@
 "use client";
-import { motion, useMotionTemplate, AnimatePresence } from "framer-motion";
+import { motion, useMotionTemplate, AnimatePresence } from "motion/react";
 import { useMouse } from '@/hooks/useMouse';
 import { cn } from "@/utils/cn";
 import { usePathname } from "next/navigation";

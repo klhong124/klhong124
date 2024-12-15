@@ -1,5 +1,5 @@
 // import '@/styles/cursor.scss'
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { useMouse } from '@/hooks/useMouse'
 import { cn } from "@/utils/cn";
 

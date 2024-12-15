@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useLayoutEffect } from "react";
 import { cn } from "@/utils/cn";
-import { motion, MotionConfig, MotionValue, useMotionValue, useTransform, useSpring, SpringOptions } from "framer-motion";
+import { motion, MotionConfig, MotionValue, useMotionValue, useTransform, useSpring, SpringOptions } from "motion/react";
 import { useMouse } from "@/hooks/useMouse";
 import useMeasure from "react-use-measure";
 import { Canvas, useThree } from "@react-three/fiber";
@@ -427,7 +427,7 @@ const Camera = ({ mouseX, mouseY }: {
         <motion3d.perspectiveCamera
             ref={cameraRef}
             fov={100}
-            position={[cameraX, cameraY, 6.3]}
+            position={[cameraX.get(), cameraY.get(), 6.3]}
             variants={{
                 hover: {
                     z: 4.2,

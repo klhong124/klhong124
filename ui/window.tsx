@@ -1,7 +1,7 @@
 "use client";
 import { cn } from "@/utils/cn";
 import React, { useRef, useLayoutEffect, useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import useMeasure from "react-use-measure";
 import { useMouse } from "@/hooks/useMouse";
 import throttle from "@/utils/throttle";

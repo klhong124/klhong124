@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "@/utils/cn";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useLayoutEffect, useEffect, useState, useMemo } from "react";
 import Highlight from "@/ui/highlight";
 import { useMouse } from "@/hooks/useMouse";

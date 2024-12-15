@@ -8,7 +8,7 @@ export function ComingSoon({
 }: any) {
     return (
         <div
-            className="h-full w-[500px] "
+            className="h-full"
         >
             <div className={cn("flex gap-2 w-full p-4 xl:p-6")}>
                 {
