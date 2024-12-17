@@ -59,7 +59,7 @@ export function PixelPerfect() {
             }}>
             <motion.button
                 className={cn(
-                    "size-full cursor-default rounded-3xl",
+                    "size-full cursor-default rounded-2xl",
                     "outline-dotted outline-transparent"
                 )}
                 animate={isHover ? "hover" : "rest"}
@@ -362,8 +362,8 @@ export function PixelPerfect() {
 
                     <motion.div
                         ref={textRef}
-                        className={cn("text-secondary text-center font-normal relative ",
-                            "2xl:text-4xl md:text-3xl text-2xl "
+                        className={cn("text-secondary text-center font-normal relative px-24",
+                            "2xl:text-3xl md:text-2xl text-xl",
                         )}
                     >
                         Pixel-Perfect Implementation

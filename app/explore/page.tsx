@@ -4,19 +4,21 @@ import CodePattern from '@/ui/bento/items/code-pattern';
 import PixelPerfect from '@/ui/bento/items/pixel-perfect';
 import Hashtag from '@/ui/bento/items/hashtag';
 import ComingSoon from '@/ui/bento/items/coming-soon';
-import WindowControl from "@/ui/windowControl";
-import Hello from "@/ui/hello";
+
 import Background from "@/ui/background";
-import SkillSet from "@/ui/bento/items/skillset";
+import SkillSet from "@/ui/bento/items/skill-set";
+import Introduction from "@/ui/bento/items/introduction";
+import Profile from "@/ui/bento/items/profile";
+import Animation from "@/ui/bento/items/animation";
 export default function Bento() {
     return (
         <Background>
-            <BentoGrid className='"bg-stone-950"'>
+            <BentoGrid className='"bg-stone-900"'>
                 <GridItem id={1}>
-                    <ComingSoon />
+                    <Profile />
                 </GridItem>
                 <GridItem id={2}>
-                    <ComingSoon />
+                    <PixelPerfect />
                 </GridItem>
                 <GridItem id={3}>
                     <Experience />
@@ -25,11 +27,11 @@ export default function Bento() {
                     <ComingSoon />
                 </GridItem>
                 <GridItem id={5}>
-                    <WindowControl />
-                    <Hello animated />
+                    <Introduction />
                 </GridItem>
                 <GridItem id={6}>
                     <CodePattern />
+
                 </GridItem>
                 <GridItem id={7}>
                     <ComingSoon />
@@ -38,13 +40,13 @@ export default function Bento() {
                     <SkillSet />
                 </GridItem>
                 <GridItem id={9}>
-                    <Hashtag />
+                    <ComingSoon />
                 </GridItem>
                 <GridItem id={10}>
                     <ComingSoon />
                 </GridItem>
                 <GridItem id={11}>
-                    <PixelPerfect />
+                    <Hashtag />
                 </GridItem>
             </BentoGrid >
         </Background>

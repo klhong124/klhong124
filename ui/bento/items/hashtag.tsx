@@ -7,7 +7,7 @@ import Matter from 'matter-js';
 import { Stage, Graphics, Text, Container, useTick, useApp } from '@pixi/react';
 import { TextStyle, TextMetrics } from 'pixi.js';
 
-
+const title = "HASHTAG"
 const tags = [
     {
         text: "Quick Learner",
@@ -51,6 +51,18 @@ const tags = [
     },
     {
         text: "Collaborative",
+        color: "#06b6d4"  // Cyan
+    },
+    {
+        text: "Passionate",
+        color: "#22c55e"  // Green
+    },
+    {
+        text: "Creative",
+        color: "#f97316"  // Orange
+    },
+    {
+        text: "Team Player",
         color: "#22c55e"  // Green
     },
 ]
@@ -142,9 +154,14 @@ const Pill = ({
     const pillWidth = text.length * 6 + 48;
     const pillHeight = 40;
 
+    const startPosition = {
+        x: (index + 1) * (width / (totalPills + 1)),
+        y: Math.random() * height + 40
+    }
+
     const body = useRef(Matter.Bodies.rectangle(
-        (index + 1) * (width / (totalPills + 1)),
-        Math.random() * height,
+        startPosition.x,
+        startPosition.y,
         pillWidth,
         pillHeight,
         {
@@ -159,10 +176,7 @@ const Pill = ({
             if (body.current.position.y > height || body.current.position.y < 0 ||
                 body.current.position.x > width || body.current.position.x < 0) {
                 // Reset position
-                Matter.Body.setPosition(body.current, {
-                    x: Math.random() * width,
-                    y: Math.random() * height
-                });
+                Matter.Body.setPosition(body.current, startPosition);
                 Matter.Body.setVelocity(body.current, { x: 0, y: 0 });
             }
 
@@ -220,21 +234,26 @@ const Pill = ({
 const Title = ({ width, height }: { width: number; height: number }) => {
     const engine: any = useEngine();
     const textRef = useRef<any>(null);
-    const titleText = "HashTag";
+    const titleText = title;
     const titleStyle = new TextStyle({
         fill: 'transparent',
         fontWeight: 'bold',
-        fontSize: 82,
+        fontSize: 52,
         stroke: '#d1d5db', //var(--gray-300)
         strokeThickness: 2,
 
     });
-    const titleWidth = Math.ceil(TextMetrics.measureText(titleText, titleStyle).width) + 60;
-    const titleHeight = Math.ceil(TextMetrics.measureText(titleText, titleStyle).height) - 24;
+    const titleWidth = Math.ceil(TextMetrics.measureText(titleText, titleStyle).width) + 10;
+    const titleHeight = Math.ceil(TextMetrics.measureText(titleText, titleStyle).height) - 16;
+
+    const startPosition = {
+        x: width / 3,
+        y: titleHeight
+    }
 
     const body = useRef(Matter.Bodies.rectangle(
-        width / 2,
-        titleHeight,
+        startPosition.x,
+        startPosition.y,
         titleWidth,
         titleHeight,
         {
@@ -247,8 +266,8 @@ const Title = ({ width, height }: { width: number; height: number }) => {
             // Check if the body is outside the zone
             if (body.current.position.y > height || body.current.position.y < 0 ||
                 body.current.position.x > width || body.current.position.x < 0) {
-                // Reset position to center
-                Matter.Body.setPosition(body.current, { x: width / 2, y: height * 0.2 });
+                // Reset position to start position
+                Matter.Body.setPosition(body.current, startPosition);
                 Matter.Body.setVelocity(body.current, { x: 0, y: 0 });
             }
 
@@ -268,7 +287,7 @@ const Title = ({ width, height }: { width: number; height: number }) => {
         <Container>
             <Text
                 ref={textRef}
-                text="HASHTAG"
+                text={title}
                 anchor={0.5}
                 style={titleStyle}
             />

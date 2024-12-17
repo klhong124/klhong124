@@ -1,5 +1,4 @@
 "use client";
-
 import { motion, MotionStyle } from "motion/react";
 
 export default function Hello({
@@ -40,7 +39,18 @@ export default function Hello({
                         </g>
                     </svg>
                 ) : (
-                    <svg width={"100%"} height={"100%"} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 754 250">
+                        <motion.svg width={"100%"} height={"100%"} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 754 250"
+                        initial={{
+                            y: 0
+                        }}
+                        animate={{
+                            y: -50
+                        }}
+                        transition={{
+                            duration: 1,
+                            delay: 2.3
+                        }}
+                    >
                         <g transform="matrix(1,0,0,1,-17.5277,-158.247)">
                             <g transform="matrix(1,0,0,1,-9.29825,5.64892)">
                                 <motion.path
@@ -74,14 +84,14 @@ export default function Hello({
                                         opacity: 1
                                     }}
                                     transition={{
-                                        delay: 2.5,
+                                        delay: 2.3,
                                     }}
                                     cx="683.567" cy="418.701" r="12.5"
                                     style={{ fill: "var(--slate-200)" }} />
                             </g>
                         </g>
 
-                    </svg>
+                    </motion.svg>
                 )
             }
         </motion.div >

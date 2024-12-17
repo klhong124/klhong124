@@ -5,15 +5,13 @@ import React from "react";
 
 export const Highlight = ({
     children,
+    animationDelay = 0,
     className,
 }: {
     children: React.ReactNode;
     className?: string;
+    animationDelay?: number;
 }) => {
-    const brandColors = {
-        react: "from-sky-500/50 to-sky-700/50 text-sky-200",
-        vue: "from-emerald-500/50 to-emerald-700/50 text-emerald-200",
-    };
 
     return (
         <motion.span
@@ -24,19 +22,19 @@ export const Highlight = ({
                 backgroundSize: "100% 100%",
             }}
             transition={{
-                duration: 2,
+                duration: 1,
                 ease: "linear",
-                delay: 0.5,
+                delay: 2.5 +animationDelay,
             }}
             style={{
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "left center",
-                display: "inline",
+                display: "inline-block",
             }}
             className={cn(
-                `relative inline-block px-2 rounded-md bg-gradient-to-r`,
+                `relative inline-block px-2 rounded-md bg-gradient-to-br mx-1 mt-1`,
+                `from-sky-600/50 to-sky-800/50 text-sky-200`,
                 className,
-                brandColors[children?.toString().toLowerCase() as 'react' | 'vue']
             )}
         >
             {children}

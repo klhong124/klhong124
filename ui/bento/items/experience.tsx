@@ -40,7 +40,7 @@ export function Experience() {
                 initial={{ opacity: 0 }}
                 animate={isInView ? { opacity: 1 } : { opacity: 0 }}
                 className={cn(
-                    "size-full rounded-3xl flex flex-col justify-center",
+                    "size-full rounded-2xl flex flex-col justify-center",
                     isTight ? "text-left px-6" : "items-center px-10 "
                 )}
             >

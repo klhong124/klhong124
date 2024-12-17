@@ -16,28 +16,16 @@ import Image from "next/image";
 const Dock = ({
     items = [
         {
-            title: "Home",
-            href: "/",
-        },
-        {
-            title: "Explore",
-            href: "/explore",
-        },
-        null,
-        {
             title: "Linkedin",
             href: "https://www.linkedin.com/in/ryankwandev/",
-            shadow: "shadow-[0px_12px_18px_-12px_var(--blue-500)]",
         },
         {
             title: "Github",
             href: "https://github.com/klhong124",
-            shadow: "shadow-[0px_12px_18px_-12px_var(--gray-700)]",
         },
         {
             title: "X",
             href: "https://x.com/ryankwandev",
-            shadow: "shadow-[0px_12px_18px_-12px_var(--black)]",
         },
         {
             title: "Inbox",
@@ -47,47 +35,32 @@ const Dock = ({
         {
             title: "Medium",
             href: "https://medium.com/@ryankwandev",
-            shadow: "shadow-[0px_12px_18px_-12px_var(--white)]",
 
         },
         {
             title: "Whatsapp",
             href: "https://wa.me/447878154432",
-            shadow: "shadow-[0px_12px_18px_-12px_var(--green-500)]",
         },
 
     ],
     ...props
 }: any) => {
     let mouseX = useMotionValue(Infinity);
-    let [isHover, setIsHover] = useState(false);
 
     return (
-        <motion.div {...props} className="fixed bottom-2 left-1/2 -translate-x-1/2">
+        <div {...props}>
             <motion.div
-                onMouseMove={(e) => { mouseX.set(e.pageX); setIsHover(true) }}
-                onMouseLeave={() => { mouseX.set(Infinity); setIsHover(false) }}
+                onMouseMove={(e) => { mouseX.set(e.pageX) }}
+                onMouseLeave={() => { mouseX.set(Infinity) }}
                 className={cn(
-                    "flex h-16 gap-4 items-end rounded-3xl px-4 pb-3",
-                    "bg-stone-200/10 backdrop-blur-sm",
-                    "border border-stone-100/10 shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset]",
+                    "flex h-16 gap-4 items-center rounded-2xl",
                 )}
-                animate={{
-                    opacity: isHover ? 1 : 0,
-                    y: isHover ? 0 : 50,
-                }}
-                transition={{
-                    duration: 0.3,
-                    ease: "easeInOut",
-                }}
             >
-                {items.map((item: { title: string; href: string; shadow?: string } | null) => (
-                    item
-                        ? <IconContainer mouseX={mouseX} key={item.title} {...item} />
-                        : <div key={Math.random().toString()} className={cn("h-[40px] border-r border-stone-100/10")} />
+                {items.map((item: { title: string; href: string;}) => (
+                    <IconContainer mouseX={mouseX} key={item.title} {...item} />
                 ))}
             </motion.div>
-        </motion.div >
+        </div>
     );
 };
 
@@ -96,12 +69,10 @@ function IconContainer({
     mouseX,
     title,
     href,
-    shadow,
 }: Readonly<{
     mouseX: MotionValue;
     title: string;
     href: string;
-    shadow?: string;
 }>) {
     let ref = useRef<HTMLDivElement>(null);
 
@@ -111,15 +82,11 @@ function IconContainer({
         return val - bounds.x - bounds.width / 2;
     });
 
-    let widthTransform = useTransform(distance, [-150, 0, 150], [40, 80, 40]);
-    let heightTransform = useTransform(distance, [-150, 0, 150], [40, 80, 40]);
+    let widthTransform = useTransform(distance, [-150, 0, 150], [40, 60, 40]);
+    let heightTransform = useTransform(distance, [-150, 0, 150], [40, 60, 40]);
 
-    let widthTransformIcon = useTransform(distance, [-150, 0, 150], [20, 40, 20]);
-    let heightTransformIcon = useTransform(
-        distance,
-        [-150, 0, 150],
-        [20, 40, 20]
-    );
+    let widthTransformIcon = useTransform(distance, [-150, 0, 150], [20, 30, 20]);
+    let heightTransformIcon = useTransform(distance,[-150, 0, 150],[20, 30, 20]);
 
     let width = useSpring(widthTransform, {
         mass: 0.1,
@@ -164,7 +131,7 @@ function IconContainer({
                 onMouseEnter={() => setHovered(true)}
                 onMouseLeave={() => setHovered(false)}
                 className={cn("aspect-square rounded-xl bg-stone-700 flex items-center justify-center relative",
-                    hovered && shadow,
+                    hovered && "shadow-[0px_12px_18px_-12px_var(--black)]",
                     "transition-shadow duration-300"
                 )}
             >
