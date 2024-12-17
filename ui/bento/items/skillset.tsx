@@ -5,67 +5,71 @@ import { cn } from "@/utils/cn";
 import { interpolate } from "flubber";
 
 
-const skills: string[] = [
-    "Framer Motion",
-    "Vercel",
-    "AWS",
-    "Docker",
-    "Git",
-    "Azure",
-    "Google Cloud Platform",
-    "Bun",
-    `Javascript`,
-    `Node.js`,
-    `Typescript`,
-    `Vue`,
-    `Nuxt.js`,
-    `Pinia`,
-    `React`,
-    `Next.js`,
-    `Storybook`,
-    `Tailwind CSS`,
-    `Scss`,
-    `Pixi.js`,
-    `ApolloGraphQL`,
-    `Python`,
-    `OCR`,
-    `Selenium`,
-    `Web Scraping`,
-    `SQL`,
-    `php`,
-    `Laravel`,
-    `MongoDB`,
-    `Serverless`,
-    ` Functions`,
-    `Firebase`,
-    `Stripe`,
-    `Twilio`,
-    `Shopify`,
-    `GSAP`,
-    `Three.js`,
-    `jQuery`,
-    `EJS`,
-    `Arduino`,
-    `Cypress.js`,
-    `Jest`,
-    `Processing`,
-    `Figma`,
-    `UX Design`,
-    `PhotoShop`,
-    `Illustrator`,
-    `After Effect`,
-    `Animation`,
-    `Motion Graphics`,
-    `Davinci Resolve`,
-    `Premiere Pro`,
-    `Photography`
-]
+const skills: Record<string, string[]> = {
+    'Tech Stack': [
+        "Framer Motion",
+        "Vercel",
+        "AWS",
+        "Docker",
+        "Git",
+        "Azure",
+        "Google Cloud Platform",
+        "Bun",
+        `Javascript`,
+        `Node.js`,
+        `Typescript`,
+        `Vue`,
+        `Nuxt.js`,
+        `Pinia`,
+        `React`,
+        `Next.js`,
+        `Storybook`,
+        `Tailwind CSS`,
+        `Scss`,
+        `Pixi.js`,
+        `ApolloGraphQL`,
+        `Python`,
+        `OCR`,
+        `Selenium`,
+        `Web Scraping`,
+        `SQL`,
+        `php`,
+        `Laravel`,
+        `MongoDB`,
+        `Serverless`,
+        ` Functions`,
+        `Firebase`,
+        `Stripe`,
+        `Twilio`,
+        `Shopify`,
+        `GSAP`,
+        `Three.js`,
+        `jQuery`,
+        `EJS`,
+        `Arduino`,
+        `Cypress.js`,
+        `Jest`,
+        `Processing`,
+    ],
+    'Design Tools': [
+        `Figma`,
+        `UX Design`,
+        `PhotoShop`,
+        `Illustrator`,
+        `After Effect`,
+        `Animation`,
+        `Motion Graphics`,
+        `Davinci Resolve`,
+        `Premiere Pro`,
+        `Photography`
+    ]
+}
 
 // pathState 0 for up, 1 for stop, 2 for down
 const paths: string[] = [
-    "M8,0L2,16L8,14L13.994,16L7.994,0.015",
-    "M14,8C14,11.314 11.314,14 8,14C4.686,14 2,11.314 2,8C2,4.686 4.686,2 8,2C11.314,2 14,4.686 14,8",
-    "M8,16L2,0L8,2L13.994,0L7.994,15.985",
+    "M12,0l-11,24l11,-4l11,4l-11,-24",
+    "M18,12C18,15.314 15.314,18 12,18C8.686,18 6,15.314 6,12C6,8.686 8.686,6 12,6C15.314,6 18,8.686 18,12",
+    "M12,24l-11,-24l11,4l11,-4l-11,24",
 ]
 
 export function SkillSet() {
@@ -85,7 +89,7 @@ export function SkillSet() {
         const currentMouseY = e.clientY - rect.top;
         const midPoint = rect.height / 2;
         offsetTracker.set((currentMouseY - midPoint) / (rect.height / 2) * 100);
-        setSpeed(parseFloat(((midPoint - currentMouseY) * 0.02).toFixed(1)));
+        setSpeed(parseFloat(((midPoint - currentMouseY) * 0.05).toFixed(1)));
     }, []);
 
     useEffect(() => {
@@ -136,46 +140,58 @@ export function SkillSet() {
             onMouseLeave={() => setSpeed(0)}
         >
             {/* mouse tracker */}
-            <div className="absolute inset-0 ml-4">
+            <div className="absolute inset-0 ml-6">
                 <motion.div className={cn(
                     "h-[300%] w-[2px] absolute -translate-y-1/3 -translate-x-1/2",
-                    'bg-gradient-to-b from-violet-800 via-cyan-800 to-indigo-900',
+                    'bg-gradient-to-b from-slate-700 via-slate-600 to-slate-700',
                 )}
                     style={{
                         top: offsetTracker.get() + '%'
                     }}
                 />
                 <motion.div className={cn(
-                    "h-4 w-4 absolute -translate-x-1/2 ",
+                    "h-6 w-6 absolute -translate-x-1/2 ",
                 )}
                     style={{
                         top: (offsetTracker.get() + 100) / 2 + '%'
                     }}
                 >
-                    <svg width="16" height="16" className="text-cyan-700">
+                    <svg width="24" height="24" className="text-slate-500" >
                         <motion.path fill="currentColor" d={path} />
                     </svg>
                 </motion.div>
             </div>
 
-
+            {/* filter */}
+            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-stone-900 to-transparent pointer-events-none z-10 rounded-b-3xl" />
 
             <motion.div
-                className={cn("ml-12")}
+                className={cn("ml-14")}
                 ref={listRef}
                 style={{ y: position }}
             >
-                {[...skills, ...skills].map((skill, index) => (
-                    <motion.div
-                        key={index}
-                        className="text-primary cursor-default py-1"
-                        whileHover={{
-                            x: 10,
-                            scale: 1.1
-                        }}
-                    >
-                        {skill}
-                    </motion.div>
+
+                {Array.from({ length: 2 }).map((_, index) => (
+                    <div key={index}>
+                        {Object.entries(skills).map(([category, items]) => (
+                            <div key={category} className="cursor-default">
+                                <h3 className="text-primary-500 text-lg font-bold py-2">{category}</h3>
+                                {items.map((item, i) => (
+                                    <motion.div
+                                        key={i}
+                                        className="text-secondary py-1 pl-2"
+                                        whileHover={{
+                                            scale: 1.1,
+                                            x: 12
+                                        }}
+
+                                    >
+                                        {item}
+                                    </motion.div>
+                                ))}
+                            </div>
+                        ))}
+                    </div>
                 ))}
             </motion.div>
         </div>
