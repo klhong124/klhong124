@@ -123,8 +123,9 @@ export const BentoGridItem = ({
         <motion.section
             className={cn(
                 " w-full relative rounded-3xl",
-                !invisible && "border-2 border-stone-200/10  shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset]",
-                !invisible && "[background-image:radial-gradient(95%_100%_at_top,rgba(255,255,255,0.25),rgba(255,255,255,0))] bg-stone-900/20 backdrop-blur-xs",
+                id !== 5 && "overflow-hidden",
+                !invisible && "border-2 border-stone-100/10  shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset]",
+                !invisible && "[background-image:radial-gradient(97%_100%_at_top,rgba(255,255,255,0.2),rgba(255,255,255,0))] bg-stone-900/20 backdrop-blur-xs",
                 bentoConfig[id],
                 className
             )}

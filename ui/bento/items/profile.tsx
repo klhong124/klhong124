@@ -6,13 +6,16 @@ import Image from "next/image";
 
 function StatItem({ icon, label, value }: Readonly<{ icon: React.ReactNode, label: string, value: number }>) {
     return (
-        <div className="flex items-center space-x-4 text-gray-300">
+        <a className="flex items-center space-x-4"
+            href="https://github.com/klhong124"
+            target="_blank"
+        >
             {icon}
             <div>
-                <div className="text-sm font-medium text-muted-foreground">{label}</div>
-                <div className="text-2xl font-bold">{value.toLocaleString()}</div>
+                <div className="text-sm font-medium text-muted-foreground text-secondary">{label}</div>
+                <div className="text-2xl font-bold text-primary">{value.toLocaleString()}</div>
             </div>
-        </div>
+        </a>
     )
 }
 
@@ -22,10 +25,10 @@ const GithubStats = async () => {
     const { stars, repos, followers } = await getGithubStats()
 
     return (
-        <div className={cn("flex justify-between px-4")}>
-            <StatItem icon={<GitBranch />} label="Repos" value={repos} />
-            <StatItem icon={<Star />} label="Stars" value={stars} />
-            <StatItem icon={<Users />} label="Followers" value={followers} />
+        <div className={cn("flex justify-around")}>
+            <StatItem icon={<GitBranch  className="text-blue-400"/>} label="Repos" value={repos} />
+            <StatItem icon={<Star className="text-yellow-400"/>} label="Stars" value={stars} />
+            <StatItem icon={<Users className="text-red-400"/>} label="Followers" value={followers} />
         </div>
     )
 }
@@ -34,11 +37,13 @@ export function Profile() {
 
     return (
         <div className={cn(
-            "p-6 flex flex-col gap-2 h-full"
+            "flex flex-col gap-2 h-full py-6",
+            "2xl:px-8 xl:px-6 px-4"
+
         )}>
 
 
-            <div className="flex items-center gap-6 mb-4">
+            <div className="flex items-center gap-8 mb-4">
                 <div className={cn(
                     "rounded-full w-24 h-24 relative overflow-hidden"
                 )}>

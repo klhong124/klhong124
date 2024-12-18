@@ -89,7 +89,7 @@ export function SkillSet() {
         const currentMouseY = e.clientY - rect.top;
         const midPoint = rect.height / 2;
         offsetTracker.set((currentMouseY - midPoint) / (rect.height / 2) * 100);
-        setSpeed(parseFloat(((midPoint - currentMouseY) * 0.05).toFixed(1)));
+        setSpeed(parseFloat(((midPoint - currentMouseY) * 0.03).toFixed(1)));
     }, []);
 
     useEffect(() => {
@@ -184,7 +184,6 @@ export function SkillSet() {
                                             scale: 1.1,
                                             x: 12
                                         }}
-
                                     >
                                         {item}
                                     </motion.div>

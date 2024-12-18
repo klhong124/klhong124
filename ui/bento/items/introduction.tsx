@@ -7,7 +7,7 @@ import { cn } from "@/utils/cn";
 
 export default function introduction() {
     return (
-        <>
+        <div>
             <WindowControl />
 
             <Hello animated />
@@ -28,6 +28,6 @@ export default function introduction() {
             </motion.p>
 
 
-        </>
+        </div>
     );
 }

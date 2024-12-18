@@ -33,7 +33,7 @@ export function CodePattern() {
             </div>
 
             <div className={cn("absolute bottom-0 left-0  p-4 xl:p-6 xl:pt-16 pt-16 w-full rounded-b-2xl",
-                "bg-gradient-to-t from-stone-800 from-70% to-transparent"
+                "bg-gradient-to-t from-stone-900 from-65% to-transparent"
             )}>
                 <CardTitle>Clean, sustainable code pattern</CardTitle>
                 <CardDescription>
