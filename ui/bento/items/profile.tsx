@@ -34,11 +34,11 @@ export function Profile() {
 
     return (
         <div className={cn(
-            "p-8 flex flex-col gap-2 item"
+            "p-6 flex flex-col gap-2 h-full"
         )}>
 
 
-            <div className="flex items-center gap-8 mb-4">
+            <div className="flex items-center gap-6 mb-4">
                 <div className={cn(
                     "rounded-full w-24 h-24 relative overflow-hidden"
                 )}>
@@ -68,7 +68,7 @@ export function Profile() {
 
             <GithubStats />
 
-            <Dock className="absolute bottom-4 left-1/2 -translate-x-1/2" />
+            <Dock className="mt-auto" />
 
         </div>
     );

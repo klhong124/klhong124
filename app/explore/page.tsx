@@ -31,7 +31,7 @@ export default function Bento() {
                 <GridItem id={5}>
                     <Introduction />
                 </GridItem>
-                <GridItem id={6}>
+                <GridItem id={6} className='overflow-hidden'>
                     <CodePattern />
                 </GridItem>
                 <GridItem id={7}>
