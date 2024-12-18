@@ -4,14 +4,6 @@ import getGithubStats from "@/utils/github";
 import { GitBranch, Star, Users } from 'lucide-react'
 import Image from "next/image";
 
-const WakatimeStats = () => {
-    return <a href="https://wakatime.com/@ryankwandev" target="_blank">
-        <img src="https://wakatime.com/badge/user/e5861fa7-60ad-4e2e-8d44-eefbc5ee063e.svg?style=for-the-badge" alt="wakatime" />
-    </a>
-
-}
-
-
 function StatItem({ icon, label, value }: Readonly<{ icon: React.ReactNode, label: string, value: number }>) {
     return (
         <div className="flex items-center space-x-4 text-gray-300">
@@ -30,9 +22,9 @@ const GithubStats = async () => {
     const { stars, repos, followers } = await getGithubStats()
 
     return (
-        <div className={cn("flex justify-between px-8")}>
-            <StatItem icon={<Star />} label="Stars" value={stars} />
+        <div className={cn("flex justify-between px-4")}>
             <StatItem icon={<GitBranch />} label="Repos" value={repos} />
+            <StatItem icon={<Star />} label="Stars" value={stars} />
             <StatItem icon={<Users />} label="Followers" value={followers} />
         </div>
     )
@@ -48,7 +40,7 @@ export function Profile() {
 
             <div className="flex items-center gap-8 mb-4">
                 <div className={cn(
-                    "rounded-full w-32 h-32 relative overflow-hidden"
+                    "rounded-full w-24 h-24 relative overflow-hidden"
                 )}>
                     <Image
                         src="/icon.gif"
@@ -58,7 +50,7 @@ export function Profile() {
                 </div>
 
 
-                <div>
+                <div className="flex-1">
                     <h1 className={cn(
                         "text-3xl font-bold text-primary mb-2"
                     )}>
@@ -69,7 +61,6 @@ export function Profile() {
                     )}>
                         Experienced Front-end Developer in Next.js
                     </h2>
-                    <Dock />
 
                 </div>
 
@@ -77,9 +68,7 @@ export function Profile() {
 
             <GithubStats />
 
-            {/* profile title */}
-            {/* <WakatimeStats /> */}
-            <br />
+            <Dock className="absolute bottom-4 left-1/2 -translate-x-1/2" />
 
         </div>
     );

@@ -10,6 +10,8 @@ import SkillSet from "@/ui/bento/items/skill-set";
 import Introduction from "@/ui/bento/items/introduction";
 import Profile from "@/ui/bento/items/profile";
 import Animation from "@/ui/bento/items/animation";
+import Work from "@/ui/bento/items/work";
+
 export default function Bento() {
     return (
         <Background>
@@ -31,7 +33,6 @@ export default function Bento() {
                 </GridItem>
                 <GridItem id={6}>
                     <CodePattern />
-
                 </GridItem>
                 <GridItem id={7}>
                     <ComingSoon />
@@ -40,7 +41,7 @@ export default function Bento() {
                     <SkillSet />
                 </GridItem>
                 <GridItem id={9}>
-                    <ComingSoon />
+                    <Work />
                 </GridItem>
                 <GridItem id={10}>
                     <ComingSoon />

@@ -25,6 +25,8 @@ export default function introduction() {
                 <Highlight animationDelay={0.6}>UX Enthusiast</Highlight>
                 with a passion for crafting stunning applications.
             </motion.p>
+
+
         </>
     );
 }

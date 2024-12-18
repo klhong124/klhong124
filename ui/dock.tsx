@@ -53,7 +53,7 @@ const Dock = ({
                 onMouseMove={(e) => { mouseX.set(e.pageX) }}
                 onMouseLeave={() => { mouseX.set(Infinity) }}
                 className={cn(
-                    "flex h-16 gap-4 items-center rounded-2xl",
+                    "flex h-16 gap-4 items-center rounded-2xl justify-center",
                 )}
             >
                 {items.map((item: { title: string; href: string;}) => (

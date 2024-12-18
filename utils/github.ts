@@ -1,7 +1,6 @@
 import { Octokit } from '@octokit/rest'
 
 const GITHUB_USERNAME = 'klhong124'
-const GITHUB_REPO = 'Portfolio'
 
 const octokit = new Octokit({
     auth: process.env.GITHUB_TOKEN
