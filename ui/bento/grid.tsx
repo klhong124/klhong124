@@ -125,7 +125,7 @@ export const BentoGridItem = ({
                 " w-full relative rounded-3xl",
                 id !== 5 && "overflow-hidden",
                 !invisible && "border-2 border-stone-100/10  shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset]",
-                !invisible && "[background-image:radial-gradient(97%_100%_at_top,rgba(255,255,255,0.2),rgba(255,255,255,0))] bg-stone-900/20 backdrop-blur-xs",
+                !invisible && "[background-image:radial-gradient(85%_100%_at_top,rgba(255,255,255,0.15),rgba(255,255,255,0))] bg-stone-900/60",
                 bentoConfig[id],
                 className
             )}

@@ -239,8 +239,8 @@ const Title = ({ width, height }: { width: number; height: number }) => {
         fill: 'transparent',
         fontWeight: 'bold',
         fontSize: 64,
-        stroke: '#d1d5db30', //var(--gray-300)
-        strokeThickness: 2,
+        stroke: '#d1d5db80', //var(--gray-300)
+        strokeThickness: 1,
 
     });
     const titleWidth = Math.ceil(TextMetrics.measureText(titleText, titleStyle).width) + 5;

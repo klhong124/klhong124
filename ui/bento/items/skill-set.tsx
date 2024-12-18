@@ -139,8 +139,11 @@ export function SkillSet() {
             onMouseMove={handleMouseMove}
             onMouseLeave={() => setSpeed(0)}
         >
+            {/* overlay */}
+            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-stone-900 to-transparent pointer-events-none z-10 rounded-b-3xl" />
+
             {/* mouse tracker */}
-            <div className="absolute inset-0 ml-6">
+            <div className="absolute inset-0 ml-6 z-10">
                 <motion.div className={cn(
                     "h-[300%] w-[2px] absolute -translate-y-1/3 -translate-x-1/2",
                     'bg-gradient-to-b from-slate-700 via-slate-600 to-slate-700',
@@ -162,8 +165,6 @@ export function SkillSet() {
                 </motion.div>
             </div>
 
-            {/* filter */}
-            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-stone-900 to-transparent pointer-events-none z-10 rounded-b-3xl" />
 
             <motion.div
                 className={cn("ml-14")}
@@ -175,11 +176,14 @@ export function SkillSet() {
                     <div key={index}>
                         {Object.entries(skills).map(([category, items]) => (
                             <div key={category} className="cursor-default">
-                                <h3 className="text-primary-500 text-lg font-bold py-2">{category}</h3>
+                                <div className="flex items-center py-2">
+                                    <h3 className="text-primary text-lg font-bold mr-3">{category}</h3>
+                                    <hr className="w-full flex-1 opacity-50" />
+                                </div>
                                 {items.map((item, i) => (
                                     <motion.div
                                         key={i}
-                                        className="text-secondary py-1 pl-2"
+                                        className="text-secondary py-1 px-2"
                                         whileHover={{
                                             scale: 1.1,
                                             x: 12

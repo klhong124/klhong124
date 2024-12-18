@@ -41,7 +41,7 @@ export default function Bento() {
                     <SkillSet />
                 </GridItem>
                 <GridItem id={9}>
-                    <Work />
+                    <Work/>
                 </GridItem>
                 <GridItem id={10}>
                     <ComingSoon />
