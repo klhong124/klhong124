@@ -238,12 +238,12 @@ const Title = ({ width, height }: { width: number; height: number }) => {
     const titleStyle = new TextStyle({
         fill: 'transparent',
         fontWeight: 'bold',
-        fontSize: 52,
-        stroke: '#d1d5db', //var(--gray-300)
+        fontSize: 64,
+        stroke: '#d1d5db30', //var(--gray-300)
         strokeThickness: 2,
 
     });
-    const titleWidth = Math.ceil(TextMetrics.measureText(titleText, titleStyle).width) + 10;
+    const titleWidth = Math.ceil(TextMetrics.measureText(titleText, titleStyle).width) + 5;
     const titleHeight = Math.ceil(TextMetrics.measureText(titleText, titleStyle).height) - 16;
 
     const startPosition = {
