@@ -33,7 +33,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "ui/*.tsx"
-, "app/explore"  ],
+, "app/explore", "app/api"  ],
   "exclude": [
     "node_modules"
   ]

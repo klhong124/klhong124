@@ -11,6 +11,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@octokit/rest": "^21.0.2",
     "@pixi/react": "^7.1.2",
     "@react-three/drei": "^9.109.5",
     "@react-three/fiber": "^8.16.8",
@@ -18,6 +19,7 @@
     "clsx": "^2.1.1",
     "flubber": "^0.4.2",
     "framer-motion-3d": "^11.3.6",
+    "lucide-react": "^0.468.0",
     "matter-js": "^0.20.0",
     "mini-svg-data-uri": "^1.4.4",
     "motion": "^11.14.3",
