@@ -2,6 +2,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { motion } from "motion/react";
 import Image from "next/image";
+import jobs from "@/utils/jobs";
 import { cn } from "@/utils/cn";
 
 const TextHoverEffect = ({ text }: {
@@ -138,55 +139,67 @@ const TextHoverEffect = ({ text }: {
     );
 };
 
-const Thumbnail = ({ year, img, link, ...props }: {
-    year: number;
+const Thumbnail = ({ img, ...props }: {
     img: string;
-    link: string;
     [key: string]: any;
 }) => {
     return (
-        <div className={cn('absolute min-w-[350px] top-12')} {...props}>
+        <motion.div
+            {...props}
+        >
             <motion.div
-                style={{
-                    perspective: "1000px",
-                }}
                 className={cn(
-                    "relative",
-
-                )}>
+                    "[transform-style:preserve-3d]",
+                    "[transform-origin:center]",
+                    "[transform:rotateY(-50deg)]",
+                    "shadow-[0_15px_25px_rgba(0,0,0,0.2)]",
+                    'rounded-xl overflow-hidden',
+                    'w-[280px] h-[160px]',
+                    'border-2 border-stone-100/10'
+                )}
+            >
                 <Image
                     src={img}
                     alt="thumbnail"
-                    width={350}
-                    height={250}
-                    className={cn(
-                        "[transform-style:preserve-3d]",
-                        "[transform:rotateY(-60deg)_rotateX(-2deg)]",
-                        "shadow-[0_15px_25px_rgba(0,0,0,0.5)]"
-                    )}
+                    className="object-cover object-right-top"
+                    fill
                 />
             </motion.div>
-        </div>
+        </motion.div >
     );
 };
 
 const Work = () => {
     return (
         <div className="w-full h-full relative">
-            {
-                [...Array(4)].map((_, index) => (
-                    <Thumbnail
-                        style={{
-                            right: `${index * 80}px`,
-                        }}
-                        key={index}
-                        year={2022}
-                        img="/images/cdp.png"
-                        link="https://cdpfrontend.prod.kubrickgroup.cloud/" />
-                ))
-            }
-
             <TextHoverEffect text="WORK" />
+
+            <div className={cn('flex flex-row-reverse items-center justify-center',
+                'xl:scale-[0.7] 2xl:scale-100'
+            )}>
+                {
+                    [...jobs].reverse().map((job, index) => (
+                        <Thumbnail
+                            className={cn('w-12')}
+                            style={{
+                                perspective: "1000px",
+                                scale: 1 + index * 0.04,
+                            }}
+                            initial={{
+                                x: -120,
+                                y: 40
+                            }}
+                            whileHover={{
+                                x: index === jobs.length - 1 ? -120 : -100,
+                            }}
+                            key={index}
+                            img={job.img}
+                        />
+                    ))
+                }
+            </div>
+
+
         </div>
     );
 };

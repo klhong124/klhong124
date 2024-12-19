@@ -1,7 +1,7 @@
 const jobs = [
     {
         name: "Kubrick Group",
-        img: '/image/cdp.png',
+        img: '/images/cdp.png',
         link: "https://cdpfrontend.prod.kubrickgroup.cloud/",
         year: 2022,
         desc:
@@ -35,6 +35,24 @@ const jobs = [
             "Cloud Run",
         ],
     },
+
+    {
+        name: "Ezekia",
+        img: '/images/Ezekia.png',
+        link: "https://cdpfrontend.prod.kubrickgroup.cloud/",
+        year: 2024,
+        desc:
+            "I developed and maintained a Software for executive search firms",
+        tags: [
+            "PHP",
+            "Laravel",
+            "MySQL",
+            "JavaScript",
+            "Vue",
+        ],
+    },
+
+
     {
         name: "Car8",
         img: "https://ryankwan.netlify.app/img/car8.png",
@@ -58,14 +76,6 @@ const jobs = [
         year: 2019,
         desc: "An event website made of pure HTML and CSS.",
         tags: ["HTML", "CSS", "Graphic Design", "AOS Animation"],
-    },
-    {
-        name: "Facebook Add Friends Bot",
-        img: "https://ryankwan.netlify.app/img/facebook.png",
-        year: 2018,
-        desc:
-            "An application that automatically login to Facebook and sends friend requests to the others. With a function to remove all friend requests as well.",
-        tags: ["Java", "Selenium", "Web Scraping"],
     },
 ]
 
