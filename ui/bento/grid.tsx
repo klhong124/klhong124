@@ -96,7 +96,7 @@ export const BentoGrid = ({
     return (
         <div
             className={cn(
-                "grid gap-4 min-h-[850px] overflow-hidden w-screen",
+                "grid gap-4 min-h-[950px] overflow-hidden w-screen",
                 "xl:grid-cols-6 xl:grid-rows-10 xl:h-screen xl:gap-6",
                 "md:grid-cols-10 md:grid-rows-12 md:p-4",
                 "grid-cols-6 grid-rows-12 p-2 ",
@@ -122,10 +122,11 @@ export const BentoGridItem = ({
     return (
         <motion.section
             className={cn(
+                "backdrop-blur-xs",
                 " w-full relative rounded-3xl",
                 id !== 5 && "overflow-hidden",
                 !invisible && "border-2 border-stone-100/10  shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset]",
-                !invisible && "[background-image:radial-gradient(85%_100%_at_top,rgba(255,255,255,0.15),rgba(255,255,255,0))] bg-stone-900/60",
+                !invisible && "[background-image:radial-gradient(96%_100%_at_top,rgba(255,255,255,0.2),rgba(255,255,255,0))] bg-stone-900/30",
                 bentoConfig[id],
                 className
             )}

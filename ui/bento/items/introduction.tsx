@@ -22,8 +22,8 @@ export default function introduction() {
 
                 I am Ryan, a
                 <Highlight>Web Developer</Highlight>
-                <Highlight animationDelay={0.3}>Front-end Specialist</Highlight>
-                <Highlight animationDelay={0.6}>UX Enthusiast</Highlight>
+                <Highlight animationDelay={1.2}>Front-end Specialist</Highlight>
+                <Highlight animationDelay={2.4}>UX Enthusiast</Highlight>
                 with a passion for crafting stunning applications.
             </motion.p>
 

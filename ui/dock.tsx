@@ -82,8 +82,8 @@ function IconContainer({
         return val - bounds.x - bounds.width / 2;
     });
 
-    let widthTransform = useTransform(distance, [-150, 0, 150], [40, 60, 40]);
-    let heightTransform = useTransform(distance, [-150, 0, 150], [40, 60, 40]);
+    let widthTransform = useTransform(distance, [-150, 0, 150], [40, 55, 40]);
+    let heightTransform = useTransform(distance, [-150, 0, 150], [40, 55, 40]);
 
     let widthTransformIcon = useTransform(distance, [-150, 0, 150], [20, 30, 20]);
     let heightTransformIcon = useTransform(distance,[-150, 0, 150],[20, 30, 20]);
@@ -138,13 +138,13 @@ function IconContainer({
                 <AnimatePresence>
                     {hovered && (
                         <motion.div
-                            initial={{ opacity: 0, y: 10, x: "-50%" }}
+                            initial={{ opacity: 0, y: -10, x: "-50%" }}
                             animate={{ opacity: 1, y: 0, x: "-50%" }}
-                            exit={{ opacity: 0, y: 2, x: "-50%" }}
+                            exit={{ opacity: 0, y: -2, x: "-50%" }}
                             className={cn(
                                 "font-spaceGrotesk px-2 py-0.5 whitespace-pre rounded-md",
                                 "bg-neutral-900 border-neutral-900 text-neutral-100",
-                                "absolute left-1/2 -translate-x-1/2 -top-8",
+                                "absolute left-1/2 -translate-x-1/2 -bottom-7",
                                 "w-fit text-sm"
                             )}
                         >

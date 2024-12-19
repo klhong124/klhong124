@@ -20,7 +20,7 @@ const jobs = [
     },
     {
         name: "Gymism Club",
-        img: "https://ryankwan.netlify.app/img/gymism.png",
+        img: "/images/gymism.png",
         link: "https://beta.gymism.club/",
         year: 2021,
         desc:

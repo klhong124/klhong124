@@ -73,7 +73,7 @@ export function Profile() {
 
             <GithubStats />
 
-            <div className="mt-auto">
+            <div className="mt-auto mb-1">
                 <div
                     className="font-medium tracking-wide text-secondary text-center opacity-70">
                     - Lets get in touch -

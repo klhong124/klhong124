@@ -10,7 +10,6 @@ import { useRouter } from 'next/navigation';
 import { BentoCenter } from '@/ui/bento/grid';
 import Hello from "@/ui/hello";
 import { useMouse } from "@/hooks/useMouse";
-import Backdrop from "@/ui/backdrop";
 import Loading from "@/ui/loading";
 import Cursor from "@/ui/cursor";
 import throttle from "@/utils/throttle";
@@ -91,7 +90,6 @@ export default function Home() {
       <Background
         className="relative flex justify-center items-center"
       >
-        {/* <Backdrop /> */}
 
         <MotionConfig
           transition={{

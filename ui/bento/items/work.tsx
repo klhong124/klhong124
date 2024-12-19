@@ -186,7 +186,7 @@ const Work = () => {
                             }}
                             initial={{
                                 x: -120,
-                                y: 40
+                                y: 50
                             }}
                             whileHover={{
                                 x: index === jobs.length - 1 ? -120 : -100,
