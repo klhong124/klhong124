@@ -9,62 +9,32 @@ import { TextStyle, TextMetrics } from 'pixi.js';
 
 const title = "HASHTAG"
 const tags = [
-    {
-        text: "Quick Learner",
-        color: "#3b82f6"  // Bright blue
-    },
-    {
-        text: "Self-Motivated",
-        color: "#f97316"  // Orange
-    },
-    {
-        text: "Problem Solver",
-        color: "#06b6d4"  // Cyan
-    },
-    {
-        text: "Critical Thinker",
-        color: "#8b5cf6"  // Purple
-    },
-    {
-        text: "Methodical",
-        color: "#10b981"  // Emerald
-    },
-    {
-        text: "Meticulous",
-        color: "#eab308"  // Yellow
-    },
-    {
-        text: "Adaptable",
-        color: "#ec4899"  // Pink
-    },
-    {
-        text: "Innovative",
-        color: "#14b8a6"  // Teal
-    },
-    {
-        text: "Analytical",
-        color: "#f43f5e"  // Rose
-    },
-    {
-        text: "Detail-Oriented",
-        color: "#6366f1"  // Indigo
-    },
-    {
-        text: "Collaborative",
-        color: "#06b6d4"  // Cyan
-    },
-    {
-        text: "Passionate",
-        color: "#22c55e"  // Green
-    },
-    {
-        text: "Creative",
-        color: "#f97316"  // Orange
-    },
-    {
-        text: "Team Player",
-        color: "#22c55e"  // Green
-    },
+    "Quick Learner",
+    "Self-Motivated",
+    "Problem Solver",
+    "Critical Thinker",
+    "Methodical",
+    "Meticulous",
+    "Adaptable",
+    "Innovative",
+    "Analytical",
+    "Detail-Oriented",
+    "Collaborative",
+    "Passionate",
+    "Creative",
+    "Team Player"
+]
+const colors = [
+    "#0066ff", // Blue
+    "#ff6600", // Orange
+    "#00ccff", // Cyan
+    "#9933ff", // Purple
+    "#33cc33", // Green
+    "#ffcc00", // Yellow
+    "#ff3399", // Pink
+    "#00cc99", // Teal
+    "#ff3366", // Rose
+    "#6666ff"  // Indigo
 ]
 
 
@@ -137,22 +107,20 @@ const Pill = ({
     text,
     width,
     height,
-    color,
     index,
     totalPills
 }: {
     text: string,
     width: number,
     height: number,
-    color: string,
     index: number,
     totalPills: number
 }) => {
     const engine: any = useEngine();
     const pillRef = useRef<any>(null);
     const textRef = useRef<any>(null);
-    const pillWidth = text.length * 6 + 48;
-    const pillHeight = 40;
+    const pillWidth = text.length * 6 + 40;
+    const pillHeight = 36;
 
     const startPosition = {
         x: (index + 1) * (width / (totalPills + 1)),
@@ -165,7 +133,7 @@ const Pill = ({
         pillWidth,
         pillHeight,
         {
-            chamfer: { radius: 20 },
+            chamfer: { radius: pillHeight / 2 },
             restitution: 0,
         }
     ));
@@ -204,7 +172,7 @@ const Pill = ({
                 draw={g => {
                     const padding = 3;
                     g.clear();
-                    g.lineStyle(2, color, 1);
+                    g.lineStyle(2, colors[index % colors.length], 0.5);
                     g.beginFill(0, 0); // Transparent fill
                     g.drawRoundedRect(
                         -pillWidth / 2 + padding / 2,
@@ -336,8 +304,8 @@ export function Hashtag() {
                     <Walls width={width} height={height} />
                     <Title width={width} height={height} />
                     {
-                        tags.map(({ text, color }, index) => (
-                            <Pill key={index} text={text} width={width} height={height} color={color} index={index} totalPills={tags.length} />
+                        tags.map((text, index) => (
+                            <Pill key={index} text={text} width={width} height={height} index={index} totalPills={tags.length} />
                         ))
                     }
                 </World>

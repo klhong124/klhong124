@@ -10,6 +10,7 @@ import SkillSet from "@/ui/bento/items/skill-set";
 import Introduction from "@/ui/bento/items/introduction";
 import Profile from "@/ui/bento/items/profile";
 import Animation from "@/ui/bento/items/animation";
+import Location from "@/ui/bento/items/location";
 import Work from "@/ui/bento/items/work";
 
 export default function Bento() {
@@ -26,7 +27,7 @@ export default function Bento() {
                     <Experience />
                 </GridItem>
                 <GridItem id={4}>
-                    <ComingSoon />
+                    <Location />
                 </GridItem>
                 <GridItem id={5}>
                     <Introduction />
@@ -41,7 +42,7 @@ export default function Bento() {
                     <SkillSet />
                 </GridItem>
                 <GridItem id={9}>
-                    <Work/>
+                    <Work />
                 </GridItem>
                 <GridItem id={10}>
                     <ComingSoon />
