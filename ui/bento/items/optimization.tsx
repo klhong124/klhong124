@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "motion/react";
 import { cn } from "@/utils/cn";
-export function Animation() {
+export function Optimization() {
     return (
         <motion.div
             className={cn(
@@ -9,15 +9,12 @@ export function Animation() {
                 "text-left px-6"
             )}
         >
-            <div className="text-secondary">
-                release the power of
-            </div>
             <div className={cn("text-primary pb-3",
-                "text-4xl")}>
-                Animation x Interaction
+                "text-xl")}>
+                Testing, Deployment, and Performance optimization
             </div>
         </motion.div>
     );
 }
 
-export default Animation;
+export default Optimization;

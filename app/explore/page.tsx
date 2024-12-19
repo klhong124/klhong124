@@ -3,7 +3,6 @@ import Experience from '@/ui/bento/items/experience';
 import CodePattern from '@/ui/bento/items/code-pattern';
 import PixelPerfect from '@/ui/bento/items/pixel-perfect';
 import Hashtag from '@/ui/bento/items/hashtag';
-import ComingSoon from '@/ui/bento/items/coming-soon';
 
 import Background from "@/ui/background";
 import SkillSet from "@/ui/bento/items/skill-set";
@@ -12,6 +11,7 @@ import Profile from "@/ui/bento/items/profile";
 import Animation from "@/ui/bento/items/animation";
 import Location from "@/ui/bento/items/location";
 import Work from "@/ui/bento/items/work";
+import Testing from "@/ui/bento/items/optimization";
 
 export default function Bento() {
     return (
@@ -36,7 +36,7 @@ export default function Bento() {
                     <CodePattern />
                 </GridItem>
                 <GridItem id={7}>
-                    <ComingSoon />
+                    <Animation />
                 </GridItem>
                 <GridItem id={8}>
                     <SkillSet />
@@ -45,7 +45,7 @@ export default function Bento() {
                     <Work />
                 </GridItem>
                 <GridItem id={10}>
-                    <ComingSoon />
+                    <Testing />
                 </GridItem>
                 <GridItem id={11}>
                     <Hashtag />
