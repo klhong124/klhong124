@@ -2,6 +2,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { motion } from "motion/react";
 import Image from "next/image";
+import Link from "next/link";
 import jobs from "@/utils/jobs";
 import { cn } from "@/utils/cn";
 
@@ -26,12 +27,12 @@ const TextHoverEffect = ({ text }: {
     }, [cursor]);
 
     return (
-        <motion.div className="absolute w-full h-[200%]"
+        <motion.div className="absolute w-full"
             initial={{
-                bottom: '-98%'
+                bottom: -20
             }}
             whileHover={{
-                bottom: '-95%'
+                bottom: -5
             }}
         >
             <svg
@@ -157,14 +158,19 @@ const Thumbnail = ({ img, ...props }: {
                     "relative"
                 )}
             >
-                <Image
-                    src={img}
-                    alt="thumbnail"
-                    className="object-cover object-right-top"
-                    fill
-                    sizes="100%"
-                    priority
-                />
+                <Link
+                    href={`/explore/work`}
+                    prefetch={true}
+                >
+                    <Image
+                        src={img}
+                        alt="thumbnail"
+                        className="object-cover object-right-top"
+                        fill
+                        sizes="100%"
+                        priority
+                    />
+                </Link>
             </motion.div>
         </motion.div >
     );
@@ -175,7 +181,7 @@ const Work = () => {
         <div className="w-full h-full relative">
             <TextHoverEffect text="WORK" />
 
-            <div className={cn('flex flex-row-reverse items-center justify-center',
+            <div className={cn('flex flex-row-reverse items-center justify-center mt-[10%]',
                 'xl:scale-[0.7] 2xl:scale-100'
             )}>
                 {
@@ -188,7 +194,6 @@ const Work = () => {
                             }}
                             initial={{
                                 x: -120,
-                                y: 50
                             }}
                             whileHover={{
                                 x: index === jobs.length - 1 ? -120 : -100,

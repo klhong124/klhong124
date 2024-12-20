@@ -71,10 +71,7 @@ const Window = ({
                     }
                 }}
                 className={cn(
-                    "backdrop-blur-xs",
-                    "rounded-3xl ",
-                    "border-2 border-stone-100/10  shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset]",
-                    "[background-image:radial-gradient(96%_100%_at_top,rgba(255,255,255,0.2),rgba(255,255,255,0))] bg-stone-900/30",
+                    "glass",
                     "[transform-style:preserve-3d]  [&>*]:[transform-style:preserve-3d]",
                     (isHoverOnChange || !isHover) && "transition-rotate duration-100"
                 )}

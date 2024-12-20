@@ -28,7 +28,7 @@ export const Background = ({
     return (
 
         <section
-            className="relative flex items-center bg-stone-950 justify-center w-full overflow-hidden"
+            className="relative flex items-center bg-stone-950 justify-center w-full overflow-hidden min-h-screen"
         >
             <div className={cn("absolute inset-0 pointer-events-none bg-dot-thick-neutral-800")} />
 

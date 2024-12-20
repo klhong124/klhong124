@@ -9,7 +9,6 @@ export default function introduction() {
     return (
         <div className="flex-center flex-wrap h-full">
             <WindowControl />
-
             <Hello animated />
             <motion.p className={cn(
                 "text-md text-gray-400  text-center mt-28 p-12 w-full max-w-2xl",
@@ -25,8 +24,6 @@ export default function introduction() {
                 <Highlight animationDelay={2.4}>UX Enthusiast</Highlight>
                 with a passion for crafting stunning applications.
             </motion.p>
-
-
         </div>
     );
 }

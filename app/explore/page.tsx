@@ -14,7 +14,7 @@ import Testing from "@/ui/bento/items/optimization";
 import IndicatorText from "@/ui/indicatorText";
 
 
-export default function Bento() {
+export default function ExplorePage() {
     return (
         <Background>
             <IndicatorText className="absolute top-4 left-1/2 -translate-x-1/2 xl:hidden z-10">

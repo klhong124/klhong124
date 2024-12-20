@@ -23,7 +23,6 @@ export default function RootLayout({
         <body className={cn('dark')}>
           {children}
         </body>
-
       </MouseContextProvider>
     </html>
   );
