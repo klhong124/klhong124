@@ -3,17 +3,17 @@ import { cn } from "@/utils/cn";
 import { motion } from "motion/react";
 
 const bentoConfig: { [key: number]: string } = {
-    1: " xl:col-span-2 xl:row-span-4 xl:order-1   md:order-2 md:col-span-2 md:row-span-5",    //Profile
-    2: " xl:col-span-2 xl:row-span-2 xl:order-2   md:order-8 md:col-span-2 md:row-span-2",    //Pixel Perfect
-    3: " xl:col-span-1 xl:row-span-3 xl:order-3   md:order-4 md:row-span-3",                  //Experience
-    4: " xl:col-span-1 xl:row-span-3 xl:order-4   md:order-5 md:row-span-3",                  //Location
-    5: " xl:col-span-2 xl:row-span-6 xl:order-5   md:col-span-4 md:row-span-6 md:order-1",    //Introduction
-    6: " xl:col-span-2 xl:row-span-3 xl:order-6   md:order-3 md:col-span-2 md:row-span-3",    //Code-Patterns
-    7: " xl:col-span-1 xl:row-span-3 xl:order-7   md:order-6 md:row-span-3",                  //Animation
-    8: " xl:col-span-1 xl:row-span-4 xl:order-8   md:order-7 md:row-span-6",                  // SkillSet
-    9: " xl:col-span-2 xl:row-span-4 xl:order-9   md:order-10 md:col-span-2 md:row-span-3",   // Work
-    10: "xl:col-span-1 xl:row-span-3 xl:order-10  md:order-9 md:row-span-3",                  // Optimization
-    11: "xl:col-span-3 xl:row-span-2 xl:order-11  md:order-11 md:col-span-4 md:row-span-3",   // Hashtag
+    1: " xl:col-span-2 xl:row-span-4 xl:order-1   md:order-2 md:col-span-2 md:row-span-5   order-2 col-span-2 row-span-3"  , //Profile
+    2: " xl:col-span-2 xl:row-span-2 xl:order-2   md:order-8 md:col-span-2 md:row-span-2   order-5 col-span-2 row-span-2"  , //Pixel Perfect
+    3: " xl:col-span-1 xl:row-span-3 xl:order-3   md:order-4 md:row-span-3                 order-3 row-span-2"  , //Experience
+    4: " xl:col-span-1 xl:row-span-3 xl:order-4   md:order-5 md:row-span-3                 order-4 row-span-2"  , //Location
+    5: " xl:col-span-2 xl:row-span-6 xl:order-5   md:col-span-4 md:row-span-6 md:order-1   order-1 col-span-2 row-span-4" , //Introduction
+    6: " xl:col-span-2 xl:row-span-3 xl:order-6   md:order-3 md:col-span-2 md:row-span-3   order-6 col-span-2"  , //Code-Patterns
+    7: " xl:col-span-1 xl:row-span-3 xl:order-7   md:order-6 md:row-span-3                 order-7 row-span-2", //Animation
+    8: " xl:col-span-1 xl:row-span-4 xl:order-8   md:order-7 md:row-span-6                 order-8 row-span-4"  , // SkillSet
+    9: " xl:col-span-2 xl:row-span-4 xl:order-9   md:order-10 md:col-span-2 md:row-span-3  order-10 col-span-2 row-span-3" , // Work
+    10: "xl:col-span-1 xl:row-span-3 xl:order-10  md:order-9 md:row-span-3                 order-9 row-span-2" , // Optimization
+    11: "xl:col-span-3 xl:row-span-2 xl:order-11  md:order-11 md:col-span-4 md:row-span-3  order-11 col-span-2 row-span-3" , // Hashtag
 };
 
 const motionConfig = {
@@ -41,6 +41,7 @@ const animationConfig: {
         initial: { x: "calc(100% + 24px)", y: "-100%", opacity: 0 },
         animate: { x: 0, y: 0, opacity: 1 },
         transition: {
+            opacity: { ...motionConfig, delay: 0.3 },
             x: { ...motionConfig, delay: 0.8 },
             y: { ...motionConfig, delay: 0.3 }
         }
@@ -99,6 +100,7 @@ export const BentoGrid = ({
                 "grid gap-4 p-4  w-screen",
                 "xl:grid-cols-6 xl:grid-rows-10 xl:gap-4 xl:h-screen xl:max-w-screen-3xl xl:min-h-[900px] xl:mt-0",
                 "md:grid-cols-4 md:grid-rows-[repeat(20,minmax(0,1fr))] md:max-w-screen-lg md:h-[2160px] md:mt-[calc((100vh-623.2px)/2-16px)]",
+                "grid-cols-2 grid-rows-[repeat(22,minmax(0,1fr))] h-[2860px] mt-[calc((100vh-497.2px)/2-16px)]",
                 className
             )}
         >
