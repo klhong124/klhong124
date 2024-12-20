@@ -41,11 +41,11 @@ export function Experience() {
                 animate={isInView ? { opacity: 1 } : { opacity: 0 }}
                 className={cn(
                     "size-full rounded-2xl flex flex-col justify-center",
-                    isTight ? "text-left px-6" : "items-center px-10 "
+                    isTight ? "text-left p-4" : "items-center p-8 "
                 )}
             >
                 <div className={cn("text-primary pb-3",
-                    isTight ? "text-4xl" : "text-5xl 3xl:text-6xl")}>
+                    isTight ? "text-4xl" : "xl:text-5xl md:text-4xl 3xl:text-6xl")}>
                     {new Date().getFullYear() - 2020} years
                 </div>
                 <div className="text-secondary">of web dev experience</div>

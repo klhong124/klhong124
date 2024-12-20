@@ -52,30 +52,33 @@ const Background = ({ ...props }: {
 
 const Location = () => {
     return (
-        <div className="size-full relative">
+        <div className="size-full relative min-h-[250px]">
             <Background />
-            <div className="flex-center mt-2">
-                <div>
+            <div className={cn("absolute bottom-0 w-full text-center",
+                "bg-gradient-to-t from-stone-900 from-65% to-transparent")}
+            >
+                <div className="flex-center mb-6">
                     <div>
-                        <span className="text-secondary">
-                            Based in
+                        <div>
+                            <span className="text-secondary">
+                                Based in
+                            </span>
+                            <span className="mx-2">🇬🇧</span>
+                        </div>
+                        <span className={cn("text-4xl text-primary font-semibold tracking-wider mt-4")}>
+                            LONDON
                         </span>
-                        <span className="mx-2">🇬🇧</span>
                     </div>
-                    <span className={cn("text-4xl text-primary font-semibold tracking-wider mt-4")}>
-                        LONDON
+                </div>
+                <div className="opacity-50 mb-4">
+                    <span className="text-secondary">
+                        from
                     </span>
+                    <span className="mx-2">🇭🇰</span>
+                    <span className="text-secondary">Hong Kong</span>
                 </div>
             </div>
-
-            <div className="absolute bottom-6 opacity-50 w-full text-center">
-                <span className="text-secondary">
-                    from
-                </span>
-                <span className="mx-2">🇭🇰</span>
-                <span className="text-secondary">Hong Kong</span>
-            </div>
-        </div>
+        </div >
     );
 }
 
