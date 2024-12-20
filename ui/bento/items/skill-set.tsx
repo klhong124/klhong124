@@ -1,9 +1,9 @@
 "use client";
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useState, useCallback, useEffect, useRef, useLayoutEffect } from "react";
 import { motion, useTransform, useSpring } from "motion/react";
 import { cn } from "@/utils/cn";
 import { interpolate } from "flubber";
-
+import throttle from "@/utils/throttle";
 
 const skills: Record<string, string[]> = {
     'Tech Stack': [
@@ -132,46 +132,39 @@ export function SkillSet() {
         }
     }, [speed]);
 
+    const [isTight, setIsTight] = useState<boolean>(false);
+
+    const updateDimensions = useCallback(() => {
+        const onResize = throttle(() => {
+            if (!ref.current) return;
+            setIsTight(ref.current.clientWidth < 250);
+        }, 1000);
+        onResize();
+        window.addEventListener('resize', onResize);
+        return () => {
+            window.removeEventListener('resize', onResize);
+        }
+    }, []);
+
+    useLayoutEffect(() => {
+        updateDimensions();
+    }, []);
+
     return (
         <div
             ref={ref}
-            className={cn("h-full relative overflow-hidden")}
+            className={cn("h-full", isTight ? "px-4" : "px-8")}
             onMouseMove={handleMouseMove}
             onMouseLeave={() => setSpeed(0)}
         >
             {/* overlay */}
             <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-stone-900 to-transparent pointer-events-none z-10 rounded-b-3xl" />
 
-            {/* mouse tracker */}
-            <div className="absolute inset-0 ml-6 z-10">
-                <motion.div className={cn(
-                    "h-[300%] w-[2px] absolute -translate-y-1/3 -translate-x-1/2",
-                    'bg-gradient-to-b from-slate-700 via-slate-600 to-slate-700',
-                )}
-                    style={{
-                        top: offsetTracker.get() + '%'
-                    }}
-                />
-                <motion.div className={cn(
-                    "h-6 w-6 absolute -translate-x-1/2 ",
-                )}
-                    style={{
-                        top: (offsetTracker.get() + 100) / 2 + '%'
-                    }}
-                >
-                    <svg width="24" height="24" className="text-slate-500" >
-                        <motion.path fill="currentColor" d={path} />
-                    </svg>
-                </motion.div>
-            </div>
-
-
             <motion.div
-                className={cn("ml-14")}
+                className={cn(isTight ? "pl-6" : "pl-10")}
                 ref={listRef}
                 style={{ y: position }}
             >
-
                 {Array.from({ length: 2 }).map((_, index) => (
                     <div key={index}>
                         {Object.entries(skills).map(([category, items]) => (
@@ -183,7 +176,7 @@ export function SkillSet() {
                                 {items.map((item, i) => (
                                     <motion.div
                                         key={i}
-                                        className="text-secondary py-1 px-2"
+                                        className="text-secondary py-1"
                                         whileHover={{
                                             scale: 1.1,
                                             x: 12
@@ -197,6 +190,29 @@ export function SkillSet() {
                     </div>
                 ))}
             </motion.div>
+            {/* mouse tracker */}
+            <div>
+                <motion.div className={cn(
+                    "h-[300%] w-[2px] absolute -translate-y-1/3 -translate-x-1/2",
+                    'bg-gradient-to-b from-slate-700 via-slate-600 to-slate-700',
+                )}
+                    style={{
+                        top: offsetTracker.get() + '%'
+                    }}
+                />
+                <motion.div className={cn(
+                    "h-6 w-6 absolute -translate-x-1/2",
+                )}
+                    style={{
+                        top: (offsetTracker.get() + 100) / 2 + '%'
+                    }}
+                >
+                    <svg width="24" height="24" className="text-slate-500" >
+                        <motion.path fill="currentColor" d={path} />
+                    </svg>
+                </motion.div>
+            </div>
+
         </div>
     );
 }
