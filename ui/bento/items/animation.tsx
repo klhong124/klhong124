@@ -13,7 +13,7 @@ export function Animation() {
                 release the power of
             </div>
             <div className={cn("text-primary pb-3",
-                "text-4xl")}>
+                "text-2xl")}>
                 Animation x Interaction
             </div>
         </motion.div>
