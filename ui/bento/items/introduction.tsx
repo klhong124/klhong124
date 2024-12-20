@@ -7,12 +7,12 @@ import { cn } from "@/utils/cn";
 
 export default function introduction() {
     return (
-        <div>
+        <div className="flex-center flex-wrap h-full">
             <WindowControl />
 
             <Hello animated />
             <motion.p className={cn(
-                "text-md text-gray-400 absolute-center text-center mt-16 w-full",
+                "text-md text-gray-400  text-center mt-24 p-4 w-full",
                 "3xl:px-24 2xl:px-10 xl:px-8"
             )}
                 initial={{ opacity: 0 }}

@@ -52,7 +52,7 @@ const Background = ({ ...props }: {
 
 const Location = () => {
     return (
-        <div className="size-full relative min-h-[250px]">
+        <div className="size-full relative ">
             <Background />
             <div className={cn("absolute bottom-0 w-full text-center",
                 "bg-gradient-to-t from-stone-900 from-65% to-transparent")}
