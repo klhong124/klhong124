@@ -2,7 +2,7 @@
 import DottedMap from "dotted-map";
 import { motion } from "motion/react";
 import { cn } from "@/utils/cn";
-const map = new DottedMap({ height: 40, grid: "vertical" });
+const map = new DottedMap({ height: 35, grid: "vertical" });
 
 map.addPin({
     lat: 53.4808,
@@ -18,7 +18,7 @@ const Background = ({ ...props }: {
 }) => {
     return (
         <svg
-            viewBox="0 0 80 40"
+            viewBox="0 0 75 40"
             {...props}
         >
             {points.map((point, index) => (
@@ -28,11 +28,11 @@ const Background = ({ ...props }: {
                         cx={point.x}
                         cy={point.y}
                         initial={{
-                            r: 0.3,
+                            r: 0.2,
                             opacity: 0.25
                         }}
                         animate={{
-                            r: [0.3, 0.5, 0.3],
+                            r: [0.2, 0.4, 0.2],
                             opacity: [0.25, 1, 0.25]
                         }}
                         transition={{
@@ -57,7 +57,7 @@ const Background = ({ ...props }: {
 const Location = () => {
     return (
         <div className="size-full relative ">
-            <Background />
+            <Background className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px]" />
             <div className={cn("absolute bottom-0 w-full text-center",
                 "bg-gradient-to-t from-stone-900 from-65% to-transparent")}
             >

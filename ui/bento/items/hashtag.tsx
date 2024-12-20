@@ -48,9 +48,10 @@ const World = ({ children }: any) => {
         engine.constraintIterations = 1;
         engine.velocityIterations = 3;
         engine.positionIterations = 2;
+        engine.gravity.y = 10;
         return engine;
     });
-    useTick((delta=16.666) => Matter.Engine.update(engine, delta))
+    useTick((delta = 16.666) => Matter.Engine.update(engine, delta));
 
     const app: any = useApp();
     const constraint = { stiffness: 1, damping: 1 }

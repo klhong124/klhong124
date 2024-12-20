@@ -7,7 +7,7 @@ const WindowControl = () => {
         router.push("/");
     }
     return (
-        <div className="absolute top-0 left-0 h-0" >
+        <div className="absolute top-0 left-0 h-0">
             <div className={cn("flex gap-2 p-4 xl:p-6")}>
                 {
                     ["bg-red-400", "bg-yellow-400", "bg-green-400"].map((color) => (

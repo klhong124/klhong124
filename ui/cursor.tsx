@@ -72,7 +72,7 @@ export const Tag = ({ children }: { children: React.ReactNode }) => {
       }}
       className={cn(
         "mt-5 ml-3",
-        "px-2 py-2 bg-emerald-600 text-white whitespace-nowrap min-w-max text-xs rounded-xl rounded-tl-none")
+        "px-2 py-2 bg-emerald-700 text-white whitespace-nowrap min-w-max text-xs rounded-xl rounded-tl-none")
       }
     >
       {children}
