@@ -3,7 +3,7 @@ import Dock from "@/ui/dock";
 import getGithubStats from "@/utils/github";
 import { GitBranch, Star, Users } from 'lucide-react'
 import Image from "next/image";
-
+import IndicatorText from "@/ui/indicatorText";
 function StatItem({ icon, label, value }: Readonly<{ icon: React.ReactNode, label: string, value: number }>) {
     return (
         <a className="flex items-center space-x-4"
@@ -75,11 +75,8 @@ export function Profile() {
 
             <GithubStats />
 
-            <div className="mt-auto mb-1">
-                <div
-                    className="font-medium tracking-wide text-secondary text-center opacity-70">
-                    - Lets get in touch -
-                </div>
+            <div className="mt-auto mb-1 text-center">
+                <IndicatorText>Lets get in touch</IndicatorText>
                 <Dock />
             </div>
 

@@ -13,6 +13,7 @@ import { useMouse } from "@/hooks/useMouse";
 import Loading from "@/ui/loading";
 import Cursor from "@/ui/cursor";
 import throttle from "@/utils/throttle";
+import IndicatorText from "@/ui/indicatorText";
 
 
 export default function Home() {
@@ -186,24 +187,7 @@ export default function Home() {
 
 
                   {(mouse.isHover && !mouse.isClick) && (
-                    <motion.span
-                      key="click-to-explore"
-                      initial={{ opacity: 0 }}
-                      animate={{
-                        opacity: 0.7,
-                        transition: {
-                          duration: 1,
-                          delay: 0.5
-                        }
-                      }}
-                      exit={{ opacity: 0 }}
-                      className={cn(
-                        "font-medium tracking-wide text-secondary",
-                        "mt-auto mb-4",
-                      )}
-                    >
-                      - Click to Explore -
-                    </motion.span>
+                    <IndicatorText className="mt-auto mb-4">Click to Explore</IndicatorText>
                   )}
                 </AnimatePresence>
               </Link>
