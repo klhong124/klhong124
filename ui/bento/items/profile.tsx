@@ -37,7 +37,7 @@ export function Profile() {
 
     return (
         <div className={cn(
-            "flex flex-col gap-2 h-full py-6",
+            "flex flex-col gap-2 h-full py-6 max-w-xl mx-auto",
             "2xl:px-8 xl:px-6 px-4"
 
         )}>

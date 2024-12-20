@@ -39,7 +39,7 @@ const TechStack = () => {
             <motion.div
                 className={cn(
                     "overflow-visible",
-                    "w-screen h-screen",
+                    "w-screen h-screen min-h-[1080px]",
                     "absolute",
                     "pointer-events-none ",
                 )}
@@ -426,7 +426,7 @@ const Camera = ({ mouseX, mouseY }: {
     return (
         <motion3d.perspectiveCamera
             ref={cameraRef}
-            fov={100}
+            fov={110}
             position={[cameraX.get(), cameraY.get(), 6.3]}
             variants={{
                 hover: {
