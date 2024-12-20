@@ -11,13 +11,13 @@ const TextHoverEffect = ({ text }: {
     const svgRef = useRef<SVGSVGElement>(null);
     const [cursor, setCursor] = useState({ x: 0, y: 0 });
     const [hovered, setHovered] = useState(false);
-    const [maskPosition, setMaskPosition] = useState({ cx: "50%", cy: "50%" });
+    const [maskPosition, setMaskPosition] = useState({ cx: '50%', cy: '50%' });
 
     useEffect(() => {
         if (svgRef.current && cursor.x !== null && cursor.y !== null) {
             const svgRect = svgRef.current.getBoundingClientRect();
-            const cxPercentage = ((cursor.x - svgRect.left) / svgRect.width) * 100;
-            const cyPercentage = ((cursor.y - svgRect.top) / svgRect.height) * 100;
+            const cxPercentage: number = ((cursor.x - svgRect.left) / svgRect.width) * 100;
+            const cyPercentage: number = ((cursor.y - svgRect.top) / svgRect.height) * 100;
             setMaskPosition({
                 cx: `${cxPercentage}%`,
                 cy: `${cyPercentage}%`,
@@ -48,9 +48,10 @@ const TextHoverEffect = ({ text }: {
                     <linearGradient
                         id="textGradient"
                         gradientUnits="userSpaceOnUse"
-                        cx="50%"
-                        cy="50%"
-                        r="25%"
+                        x1="0%"
+                        y1="0%"
+                        x2="100%"
+                        y2="0%"
                     >
                         {hovered && (
                             <>
@@ -67,16 +68,14 @@ const TextHoverEffect = ({ text }: {
                         id="revealMask"
                         gradientUnits="userSpaceOnUse"
                         r="20%"
-                        animate={maskPosition}
+                        initial={{
+                            cx: '50%',
+                            cy: '50%'
+                        }}
+                        animate={{
+                            ...maskPosition
+                        }}
                         transition={{ duration: 0, ease: "easeOut" }}
-
-                    // example for a smoother animation below
-
-                    //   transition={{
-                    //     type: "spring",
-                    //     stiffness: 300,
-                    //     damping: 50,
-                    //   }}
                     >
                         <stop offset="0%" stopColor="white" />
                         <stop offset="100%" stopColor="black" />
@@ -154,7 +153,8 @@ const Thumbnail = ({ img, ...props }: {
                     "shadow-[0_15px_25px_rgba(0,0,0,0.2)]",
                     'rounded-xl overflow-hidden',
                     'w-[280px] h-[160px]',
-                    'border-2 border-stone-100/10'
+                    'border-2 border-stone-100/10',
+                    "relative"
                 )}
             >
                 <Image
@@ -162,6 +162,8 @@ const Thumbnail = ({ img, ...props }: {
                     alt="thumbnail"
                     className="object-cover object-right-top"
                     fill
+                    sizes="100%"
+                    priority
                 />
             </motion.div>
         </motion.div >

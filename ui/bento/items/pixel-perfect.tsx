@@ -362,7 +362,7 @@ export function PixelPerfect() {
 
                     <motion.div
                         ref={textRef}
-                        className={cn("text-secondary text-center font-normal relative px-12",
+                        className={cn("text-secondary text-center font-normal relative px-20",
                             "2xl:text-2xl md:text-xl text-lg",
                         )}
                     >

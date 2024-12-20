@@ -50,7 +50,7 @@ const World = ({ children }: any) => {
         engine.positionIterations = 2;
         return engine;
     });
-    useTick((delta) => Matter.Engine.update(engine, delta * (1000 / 120)));
+    useTick((delta=16.666) => Matter.Engine.update(engine, delta))
 
     const app: any = useApp();
     const constraint = { stiffness: 1, damping: 1 }

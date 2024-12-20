@@ -27,6 +27,10 @@ const Background = ({ ...props }: {
                         key={index}
                         cx={point.x}
                         cy={point.y}
+                        initial={{
+                            r: 0.3,
+                            opacity: 0.25
+                        }}
                         animate={{
                             r: [0.3, 0.5, 0.3],
                             opacity: [0.25, 1, 0.25]

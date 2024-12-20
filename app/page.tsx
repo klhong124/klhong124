@@ -111,9 +111,11 @@ export default function Home() {
                 scale: 0.95
               }}
               initial={{
+                maxWidth: "450px",
                 maxHeight: "400px"
               }}
               animate={mouse.isClick ? {
+                maxWidth: "1200px",
                 maxHeight: "800px",
                 transition: {
                   duration: 0.2,
@@ -130,8 +132,9 @@ export default function Home() {
                 <AnimatePresence>
 
                   {(!mouse.isClick) ?
-                    <motion.div className='absolute-center w-full'
-                      key="main-content"
+                    <motion.div
+                      className='absolute-center w-full'
+                      key="welcome-content"
                       initial={{ opacity: 0 }}
                       animate={{
                         opacity: 1,
@@ -168,13 +171,17 @@ export default function Home() {
                       </motion.h1>
                     </motion.div>
                     : <Hello
+                      key="hello-animation"
                       exit={{
                         opacity: 0,
+                        transition: {
+                          duration: 0.3
+                        }
                       }} />
                   }
 
                   {!pageReady && (
-                    <Loading />
+                    <Loading key="loading-screen" />
                   )}
 
 

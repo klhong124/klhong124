@@ -51,6 +51,8 @@ export function Profile() {
                         src="/icon.gif"
                         alt="Profile"
                         fill
+                        sizes="100%"
+                        priority
                     />
                 </div>
 

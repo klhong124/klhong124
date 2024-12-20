@@ -12,8 +12,7 @@ export default function introduction() {
 
             <Hello animated />
             <motion.p className={cn(
-                "text-md text-gray-400  text-center mt-24 p-4 w-full",
-                "3xl:px-24 2xl:px-10 xl:px-8"
+                "text-md text-gray-400  text-center mt-28 p-12 w-full max-w-2xl",
             )}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

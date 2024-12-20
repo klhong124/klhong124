@@ -46,6 +46,7 @@ const Window = ({
 
     return (
         <motion.div
+
             style={{
                 perspective: "1000px",
             }}
