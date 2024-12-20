@@ -377,18 +377,13 @@ const Lights = () => {
 };
 
 
-function useSmoothTransform(value: MotionValue<number>, springOptions: SpringOptions | undefined, transformer: { (v: any): number; (v: any): number; (x: any): number; (y: any): number; (input: unknown): any; }) {
-    return useSpring(useTransform(value, transformer), springOptions);
-}
-const spring = { stiffness: 600, damping: 30 };
-
 const Camera = ({ mouseX, mouseY }: {
     readonly mouseX: MotionValue<number>;
     readonly mouseY: MotionValue<number>;
 }) => {
 
-    const cameraX = useSmoothTransform(mouseX, spring, (x) => (-1 * x) / 1000);
-    const cameraY = useSmoothTransform(mouseY, spring, (y) => (y) / 1000);
+    const cameraX = useTransform(mouseX, (x) => (-1 * x) / 4000);
+    const cameraY = useTransform(mouseY,  (y) => (y) / 4000);
 
     const set = useThree(({ set }) => set);
     const camera = useThree(({ camera }) => camera);
@@ -426,7 +421,7 @@ const Camera = ({ mouseX, mouseY }: {
     return (
         <motion3d.perspectiveCamera
             ref={cameraRef}
-            fov={110}
+            fov={105}
             position={[cameraX.get(), cameraY.get(), 6.3]}
             variants={{
                 hover: {
