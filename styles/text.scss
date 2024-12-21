@@ -1,6 +1,6 @@
 .text {
     &-primary {
-        @apply bg-clip-text bg-gradient-to-b from-slate-200 to-slate-400 text-transparent;
+        @apply bg-clip-text bg-gradient-to-b from-slate-200 via-slate-400 to-slate-200 text-transparent bg-repeat-y;
     }
 
     &-secondary {

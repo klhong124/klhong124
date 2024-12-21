@@ -26,19 +26,16 @@ const Thumbnail = ({ img, ...props }: {
                     "relative"
                 )}
             >
-                <Link
-                    href={`/explore/work`}
-                    prefetch={true}
-                >
-                    <Image
-                        src={img}
-                        alt="thumbnail"
-                        className="object-cover object-right-top"
-                        fill
-                        sizes="100%"
-                        priority
-                    />
-                </Link>
+
+                <Image
+                    src={img}
+                    alt="thumbnail"
+                    className="object-cover object-right-top"
+                    fill
+                    sizes="100%"
+                    priority
+                />
+
             </motion.div>
         </motion.div >
     );
@@ -47,33 +44,37 @@ const Thumbnail = ({ img, ...props }: {
 const Work = () => {
     return (
         <div className="w-full h-full relative">
-            <TextHoverEffect className={cn('absolute w-full')}>WORK</TextHoverEffect>
+            <Link
+                href={`/explore/work`}
+                prefetch={true}
+            >
+                <TextHoverEffect className={cn('absolute w-full')}>WORK</TextHoverEffect>
 
-            <div className={cn('flex flex-row-reverse items-center justify-center mt-[10%]',
-                'xl:scale-[0.7] 2xl:scale-100'
-            )}>
-                {
-                    [...jobs].reverse().map((job, index) => (
-                        <Thumbnail
-                            className={cn('w-12')}
-                            style={{
-                                perspective: "1000px",
-                                scale: 1 + index * 0.04,
-                            }}
-                            initial={{
-                                x: -120,
-                            }}
-                            whileHover={{
-                                x: index === jobs.length - 1 ? -120 : -100,
-                            }}
-                            key={index}
-                            img={job.img}
-                        />
-                    ))
-                }
-            </div>
+                <div className={cn('flex flex-row-reverse items-center justify-center mt-[10%]',
+                    'xl:scale-[0.7] 2xl:scale-100'
+                )}>
+                    {
+                        jobs.filter(job => job.img!).reverse().map((job, index) => (
+                            <Thumbnail
+                                className={cn('w-12')}
+                                style={{
+                                    perspective: "1000px",
+                                    scale: 1 + index * 0.04,
+                                }}
+                                initial={{
+                                    x: -120,
+                                }}
+                                whileHover={{
+                                    x: index === jobs.length - 1 ? -110 : -100,
+                                }}
+                                key={index}
+                                img={job.img!}
+                            />
+                        ))
+                    }
 
-
+                </div>
+            </Link>
         </div>
     );
 };
