@@ -43,12 +43,12 @@ export function Profile() {
         )}>
 
 
-            <div className="flex items-center gap-8 mb-2">
+            <div className="flex items-center gap-6 mb-2 md:px-6">
                 <div className={cn(
                     "rounded-full w-24 h-24 relative overflow-hidden"
                 )}>
                     <Image
-                        src="/icon.gif"
+                        src="/icon.png"
                         alt="Profile"
                         fill
                         sizes="100%"

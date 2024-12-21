@@ -5,7 +5,11 @@ import { useRouter } from "next/navigation";
 const WindowControl = () => {
     const router = useRouter();
     const onButtonClick = () => {
-        router.back();
+        if (window.location.pathname === '/explore') {
+            router.push('/');
+        } else {
+            router.back();
+        }
     }
     return (
         <div className="absolute top-0 left-0 h-0">
