@@ -3,7 +3,7 @@ const jobs = [
     {
         name: "Executives Place Limited",
         title:"Web Applications Developer",
-        img: '/images/Ezekia.png',
+        images: '/images/ezekia.png',
         link: "https://cdpfrontend.prod.kubrickgroup.cloud/",
         year: 2024,
         desc:"At Ezekia.com, a software platform for executive search firms, I was responsible for front-end development. This role allowed me to gain valuable experience with Vue.js and Laravel.",
@@ -18,7 +18,7 @@ const jobs = [
     {
         name: "Kubrick Group Limited",
         title:"Full-stack Developer",
-        img: '/images/cdp.png',
+        images: ['/images/kubrickgroup.png','/images/cdp.png'],
         link: "https://cdpfrontend.prod.kubrickgroup.cloud/",
         year: 2022,
         desc: `My first role after moving to London was as a Full Stack Developer at Kubrick Group, where I contributed to an e-Learning platform, a CMS application, and Storybook. Using Vue.js and React,
@@ -39,7 +39,7 @@ const jobs = [
     {
         name: "Gymism Club",
         title:"Full-stack Developer",
-        img: "/images/gymism.png",
+        images: "/images/gymism.png",
         link: "https://beta.gymism.club/",
         year: 2021,
         desc:`During COVID, I built Gymism.club as a side project—a coach-matching platform featuring information about personal fitness trainers and promoting a wide range of sports.
@@ -58,7 +58,7 @@ const jobs = [
     {
         name: "Goodest Lab Limited",
         title: "Analyst Programmer",
-        img: "https://ryankwan.netlify.app/img/car8.png",
+        images: "https://ryankwan.netlify.app/img/car8.png",
         link: "https://www.car8.com/",
         year: 2020,
         desc: `While working at a start-up, I built Car8.com from scratch—an online marketplace for car buyers and sellers—leveraging Vue.js and Laravel.
@@ -93,7 +93,7 @@ const jobs = [
     {
         name: "MEMO Plus Production",
         title: "Graphic Designer",
-        img: "https://ryankwan.netlify.app/img/ipcc.png",
+        images: "/images/memoplus.png",
         link: "https://www.ipcc.gov.hk/symposium2019/view/index.html",
         year: 2019,
         desc: "MemoPlus is an integrated Public Relations agency focusing on marketing, profile-raising, relationship and brand management. I was responsible for designing the website and providing the necessary support and guidance.",

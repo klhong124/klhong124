@@ -6,8 +6,8 @@ import jobs from "@/utils/jobs";
 import { cn } from "@/utils/cn";
 import TextHoverEffect from "@/ui/textHoverEffect";
 
-const Thumbnail = ({ img, ...props }: {
-    img: string;
+const Thumbnail = ({ images, ...props }: {
+    images: string[];
     [key: string]: any;
 }) => {
     return (
@@ -28,7 +28,7 @@ const Thumbnail = ({ img, ...props }: {
             >
 
                 <Image
-                    src={img}
+                    src={Array.isArray(images) ? images[0] : images}
                     alt="thumbnail"
                     className="object-cover object-right-top"
                     fill
@@ -54,7 +54,7 @@ const Work = () => {
                     'xl:scale-[0.7] 2xl:scale-100'
                 )}>
                     {
-                        jobs.filter(job => job.img!).reverse().map((job, index) => (
+                        jobs.filter(job => job.images).reverse().map((job, index) => (
                             <Thumbnail
                                 className={cn('w-12')}
                                 style={{
@@ -68,7 +68,7 @@ const Work = () => {
                                     x: index === jobs.length - 1 ? -110 : -100,
                                 }}
                                 key={index}
-                                img={job.img!}
+                                img={job.images!}
                             />
                         ))
                     }

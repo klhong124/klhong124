@@ -4,8 +4,10 @@ import Background from "@/ui/background";
 import WindowControl from "@/ui/windowControl";
 import TextHoverEffect from "@/ui/textHoverEffect";
 import { motion, useScroll, useTransform } from "motion/react";
+import Image from "next/image";
 import { cn } from "@/utils/cn";
 import jobs from "@/utils/jobs";
+
 
 const Timeline = () => {
     const ref = useRef<HTMLDivElement>(null);
@@ -42,7 +44,6 @@ const Timeline = () => {
         <div
             ref={containerRef}
         >
-
             <div ref={ref} className="relative mx-auto pb-20">
                 {jobs.toSorted((a, b) => b.year - a.year).map((item, index) => (
                     <div
@@ -82,6 +83,41 @@ const Timeline = () => {
                             <p className="text-neutral-400 whitespace-pre-line">
                                 {item.desc}
                             </p>
+                            <div className="flex flex-wrap gap-2 mt-6">
+                                {
+                                    item.images && (
+                                        Array.isArray(item.images) ? (
+                                            item.images.map((image, idx) => (
+                                                <div key={idx} className="w-[calc(50%-8px)] min-w-[200px] aspect-video relative">
+                                                    <Image
+                                                        className={cn(
+                                                            "border border-neutral-700 rounded-lg",
+                                                            "object-cover object-top",
+                                                            "shadow-[0_15px_25px_rgba(0,0,0,0.2)]",
+                                                        )}
+                                                        src={image}
+                                                        alt={`${item.name} ${idx + 1}`}
+                                                        fill
+                                                    />
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <div className="w-1/2 min-w-[200px] aspect-video relative">
+                                                <Image
+                                                    className={cn(
+                                                        "border border-neutral-700 rounded-lg",
+                                                        "object-cover object-top",
+                                                        "shadow-[0_15px_25px_rgba(0,0,0,0.2)]",
+                                                    )}
+                                                    src={item.images}
+                                                    alt={item.name}
+                                                    fill
+                                                />
+                                            </div>
+                                        )
+                                    )
+                                }
+                            </div>
                         </div>
                     </div>
                 ))}
