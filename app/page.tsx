@@ -199,9 +199,9 @@ export default function Home() {
 
       </Background>
 
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {(inWindow && !mouse.isClick) && <Cursor />}
-      </AnimatePresence>
+      </AnimatePresence> */}
     </div>
 
   );
