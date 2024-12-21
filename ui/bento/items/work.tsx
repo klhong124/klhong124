@@ -7,7 +7,7 @@ import { cn } from "@/utils/cn";
 import TextHoverEffect from "@/ui/textHoverEffect";
 
 const Thumbnail = ({ images, ...props }: {
-    images: string[];
+    images: string[] | string;
     [key: string]: any;
 }) => {
     return (
@@ -28,10 +28,10 @@ const Thumbnail = ({ images, ...props }: {
             >
 
                 <Image
-                    src={Array.isArray(images) ? images[0] : images}
                     alt="thumbnail"
                     className="object-cover object-right-top"
                     fill
+                    src={Array.isArray(images) ? images[0] : images}
                     sizes="100%"
                     priority
                 />
@@ -68,7 +68,7 @@ const Work = () => {
                                     x: index === jobs.length - 1 ? -110 : -100,
                                 }}
                                 key={index}
-                                img={job.images!}
+                                images={job.images!}
                             />
                         ))
                     }

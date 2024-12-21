@@ -18,7 +18,7 @@ const jobs = [
     {
         name: "Kubrick Group Limited",
         title:"Full-stack Developer",
-        images: ['/images/kubrickgroup.png','/images/cdp.png'],
+        images: ['/images/cdp.png','/images/kubrickgroup.png'],
         link: "https://cdpfrontend.prod.kubrickgroup.cloud/",
         year: 2022,
         desc: `My first role after moving to London was as a Full Stack Developer at Kubrick Group, where I contributed to an e-Learning platform, a CMS application, and Storybook. Using Vue.js and React,
