@@ -45,7 +45,7 @@ const Timeline = () => {
             ref={containerRef}
         >
             <div ref={ref} className="relative mx-auto pb-20">
-                {jobs.toSorted((a, b) => b.year - a.year).map((item, index) => (
+                {jobs.sort((a, b) => b.year - a.year).map((item, index) => (
                     <div
                         key={index}
                         className="flex justify-start py-5 md:py-20 md:gap-10"
