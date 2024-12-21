@@ -63,9 +63,9 @@ export function PixelPerfect() {
                     "outline-dotted outline-transparent"
                 )}
                 animate={isHover ? "hover" : "rest"}
-                onMouseEnter={() => {
-                    setIsHover(true);
-                }}
+                // onMouseEnter={() => {
+                //     setIsHover(true);
+                // }}
                 onHoverEnd={() => {
                     setIsHover(false);
                 }}
