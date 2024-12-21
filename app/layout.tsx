@@ -5,7 +5,13 @@ import { MouseContextProvider } from "@/hooks/useMouse";
 
 export const metadata: Metadata = {
   title: "Ryan Kwan - Portfolio",
-  description: "Experienced Full-Stack Developer in London 🇬🇧 with a strong track record of delivering innovative solutions. Specializing in enhancing user experiences and driving business success through cutting-edge design and robust development. Explore my portfolio to see how I can bring measurable value to your projects",
+  description: "Experienced full-stack developer with a diverse background in designing and building web applications, marketplaces, and platforms. Proficient in modern frameworks like Vue.js, Laravel, React, and Apollo GraphQL, with expertise in front-end and back-end development, data integration, and creating seamless user experiences. Strong foundation in web design, animation, and software maintenance, complemented by experience in programming education and multimedia technology. Passionate about delivering innovative, user-centric, and scalable solutions across various industries",
+  twitter: {
+    card: 'summary_large_image',
+    creator: '@ryankwandev',
+    images: ['https://ryankwan.netlify.app/img/car8.png'], // Must be an absolute URL
+  },
+
 };
 
 export default function RootLayout({
