@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { cn } from "@/utils/cn";
 import "@/styles/globals.scss";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { MouseContextProvider } from "@/hooks/useMouse";
 
 export const metadata: Metadata = {
@@ -28,8 +29,8 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+      <SpeedInsights/>
       <MouseContextProvider>
-
         <body className={cn('dark')}>
           {children}
         </body>
