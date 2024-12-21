@@ -6,6 +6,7 @@ import jobs from "@/utils/jobs";
 import { cn } from "@/utils/cn";
 import TextHoverEffect from "@/ui/textHoverEffect";
 
+
 const Thumbnail = ({ images, ...props }: {
     images: string[] | string;
     [key: string]: any;

@@ -7,7 +7,11 @@ import { motion, useScroll, useTransform } from "motion/react";
 import Image from "next/image";
 import { cn } from "@/utils/cn";
 import jobs from "@/utils/jobs";
+import { Metadata } from 'next';
 
+export const metadata: Metadata = {
+    title: "Work"
+}
 
 const Timeline = () => {
     const ref = useRef<HTMLDivElement>(null);

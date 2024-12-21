@@ -13,7 +13,7 @@ const skills: Record<string, string[]> = {
         "Docker",
         "Git",
         "Azure",
-        "Google Cloud Platform",
+        "Cloud Run",
         "Bun",
         `Javascript`,
         `Node.js`,
@@ -37,7 +37,6 @@ const skills: Record<string, string[]> = {
         `Laravel`,
         `MongoDB`,
         `Serverless`,
-        ` Functions`,
         `Firebase`,
         `Stripe`,
         `Twilio`,
@@ -173,7 +172,7 @@ export function SkillSet() {
                                     <h3 className="text-primary text-lg font-bold mr-3">{category}</h3>
                                     <hr className="w-full flex-1 opacity-50" />
                                 </div>
-                                {items.map((item, i) => (
+                                {items.sort().map((item, i) => (
                                     <motion.div
                                         key={i}
                                         className="text-secondary py-1"

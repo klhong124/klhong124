@@ -12,7 +12,11 @@ import Location from "@/ui/bento/items/location";
 import Work from "@/ui/bento/items/work";
 import Testing from "@/ui/bento/items/optimization";
 import IndicatorText from "@/ui/indicatorText";
+import { Metadata } from 'next';
 
+export const metadata: Metadata = {
+  title: "Explore",
+};
 
 export default function ExplorePage() {
     return (
