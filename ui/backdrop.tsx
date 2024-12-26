@@ -1,18 +1,18 @@
 "use client";
 import { cn } from "@/utils/cn";
 import { AnimatePresence, motion } from "motion/react";
-import { useCallback, useLayoutEffect, useEffect, useState, useMemo } from "react";
+import { useCallback, useLayoutEffect, useState, useMemo } from "react";
 import Highlight from "@/ui/highlight";
-import { useMouse } from "@/hooks/useMouse";
+import { useHero } from "@/hooks/useHero";
 export const Backdrop = () => {
-    const [mouse] = useMouse()
+    const [{ isHover, isClick }] = useHero()
 
     return (
         <motion.div
             className="size-full absolute"
             animate={{
-                filter: mouse.isHover ? "blur(2px)" : "blur(0px)",
-                opacity: mouse.isClick ? 0 : 1,
+                filter: isHover ? "blur(2px)" : "blur(0px)",
+                opacity: isClick ? 0 : 1,
                 transition: { duration: 0.3 }
             }}
         >
