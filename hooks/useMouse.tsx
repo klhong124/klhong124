@@ -4,9 +4,7 @@ import { useState, useMemo, useLayoutEffect, createContext, useContext, Dispatch
 export type Mouse = {
     x: number;
     y: number;
-    isHover: boolean;
-    isTap: boolean;
-    isClick: boolean;
+    isActive: boolean;
 };
 
 const MouseContext = createContext<[Mouse, Dispatch<SetStateAction<Mouse>>] | undefined>(undefined);
@@ -23,14 +21,20 @@ export const useMouse = () => {
 
 
 export const MouseContextProvider = ({ children }: { children: React.ReactNode }) => {
-    const [mouse, setMouse] = useState<Mouse>({ x: 0, y: 0, isHover: false, isTap: false, isClick: false });
+    const [mouse, setMouse] = useState<Mouse>({ x: 0, y: 0, isActive: false});
 
     useLayoutEffect(() => {
         if (typeof window !== 'undefined') {
-            setMouse(prevMouse => ({
-                ...prevMouse,
+            setMouse(prev => ({
+                ...prev,
                 x: window.innerWidth / 2,
                 y: window.innerHeight / 2,
+            }));
+        }
+        return () => {
+            setMouse(prev => ({
+                ...prev,
+                isActive: false,
             }));
         }
     }, []);

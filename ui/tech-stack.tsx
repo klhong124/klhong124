@@ -7,12 +7,12 @@ import useMeasure from "react-use-measure";
 import { Canvas, useThree } from "@react-three/fiber";
 import { useGLTF } from '@react-three/drei';
 import { motion as motion3d } from "framer-motion-3d";
-
+import { useHero } from "@/hooks/useHero";
 
 const TechStack = () => {
     const [ref, bounds] = useMeasure({ scroll: true });
-    const [{ x, y, isHover, isClick }] = useMouse();
-
+    const [{ x, y }] = useMouse();
+    const [{ isHover, isClick }] = useHero();
     const mouseX: MotionValue<number> = useMotionValue(Infinity);
     const mouseY: MotionValue<number> = useMotionValue(Infinity);
 
@@ -416,7 +416,7 @@ const Camera = ({ mouseX, mouseY }: {
         });
     }, [cameraX, scene.position]);
 
-    const [{ isClick, isHover, isTap }] = useMouse()
+    const [{ isClick, isHover, isTap }] = useHero()
 
     return (
         <motion3d.perspectiveCamera

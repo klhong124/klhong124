@@ -4,6 +4,7 @@ import "@/styles/globals.scss";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { MouseContextProvider } from "@/hooks/useMouse";
+import Body from "@/ui/body";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://ryankwan.vercel.app/'),
@@ -29,17 +30,16 @@ export default function RootLayout({
 }>) {
 
 
-
   return (
-    <html lang="en">
-      <SpeedInsights/>
+    <html lang="en" >
+      <SpeedInsights />
       <MouseContextProvider>
-        <body className={cn('dark')}>
+
+        <Body >
           {children}
-        </body>
+        </Body>
       </MouseContextProvider>
       <GoogleAnalytics gaId="G-NK426M59VD" />
-
     </html>
   );
 }

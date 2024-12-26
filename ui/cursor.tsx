@@ -1,4 +1,5 @@
 // import '@/styles/cursor.scss'
+'use client'
 import { motion } from "motion/react";
 import { useMouse } from '@/hooks/useMouse'
 import { cn } from "@/utils/cn";
@@ -10,28 +11,31 @@ export default function Cursor({
 }>) {
   const [mouse] = useMouse()
   return (
+    <div className="size-screen fixed top-0 left-0 z-50 pointer-events-none">
 
-    <motion.div
-      className="h-4 w-4 rounded-full absolute z-50 pointer-events-none"
-      style={{
-        top: mouse.y,
-        left: mouse.x,
-      }}
-      initial={{
-        scale: 1,
-        opacity: 1,
-      }}
-      animate={{
-        scale: 1,
-        opacity: 1,
-      }}
-      exit={{
-        scale: 0,
-        opacity: 0,
-      }}
-    >
-      <Tag>{title}</Tag>
-    </motion.div>
+
+      <motion.div
+        className="h-4 w-4 rounded-full absolute pointer-events-none"
+        style={{
+          top: mouse.y,
+          left: mouse.x,
+        }}
+        initial={{
+          scale: 1,
+          opacity: 1,
+        }}
+        animate={{
+          scale: 1,
+          opacity: 1,
+        }}
+        exit={{
+          scale: 0,
+          opacity: 0,
+        }}
+      >
+        <Tag>{title}</Tag>
+      </motion.div>
+    </div>
 
   );
 };
