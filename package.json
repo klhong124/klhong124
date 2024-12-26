@@ -11,6 +11,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@next/third-parties": "^15.1.2",
     "@octokit/rest": "^21.0.2",
     "@pixi/react": "^7.1.2",
     "@react-three/drei": "^9.109.5",
