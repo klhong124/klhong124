@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { cn } from "@/utils/cn";
 import "@/styles/globals.scss";
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { GoogleAnalytics } from '@next/third-parties/google'
 import { MouseContextProvider } from "@/hooks/useMouse";
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://ryankwan.vercel.app/'),
   title: {
     template: '%s | Ryan Kwan - Portfolio',
     default: 'Ryan Kwan - Portfolio', // a default is required when creating a template
@@ -17,6 +19,7 @@ export const metadata: Metadata = {
   creator: 'Ryan Kwan',
   authors: [{ name: 'Ryan Kwan', url: 'https://github.com/klhong124' }],
   publisher: 'Ryan Kwan',
+
 };
 
 export default function RootLayout({
@@ -35,6 +38,8 @@ export default function RootLayout({
           {children}
         </body>
       </MouseContextProvider>
+      <GoogleAnalytics gaId="G-NK426M59VD" />
+
     </html>
   );
 }

@@ -9,7 +9,6 @@ export const metadata: Metadata = {
 }
 
 
-
 const WorkPage = () => {
     return (
         <Background>
