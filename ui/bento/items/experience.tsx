@@ -22,7 +22,7 @@ export function Experience() {
         return () => {
             window.removeEventListener('resize', onResize);
         }
-    }, []);
+    }, [ref]);
 
     useLayoutEffect(() => {
         updateDimensions();

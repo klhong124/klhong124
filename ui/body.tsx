@@ -16,7 +16,7 @@ export default function Body({ children }: Readonly<{ children: React.ReactNode 
             y: event.clientY,
         }));
     };
-    return <body className={cn('dark')} onMouseMove={throttle(handleMouseMove, 100)}>
+    return <body className={cn('dark')} onMouseMove={throttle(handleMouseMove)}>
         {children}
         <AnimatePresence>
             {isActive && <Cursor />}

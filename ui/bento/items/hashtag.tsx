@@ -278,7 +278,7 @@ export function Hashtag() {
                 app.renderer.resize(node.clientWidth, node.clientHeight);
                 app.render();
             }
-        }, 100);
+        }, 1000);
         onResize();
         window.addEventListener('resize', onResize);
         return () => {

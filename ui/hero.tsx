@@ -4,7 +4,7 @@ import React, { useRef, useLayoutEffect, useState, useEffect } from "react";
 import { motion } from "motion/react";
 import useMeasure from "react-use-measure";
 import { useHero } from "@/hooks/useHero";
-import throttle from "@/utils/throttle";
+import throttle, { limit } from "@/utils/throttle";
 import WindowControl from "@/ui/windowControl";
 
 const Hero = ({
@@ -59,11 +59,17 @@ const Hero = ({
 
 
 
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const handleHeroMove = (e: React.MouseEvent<HTMLDivElement>) => {
         const x = (e.clientX - bounds.left - bounds.width / 2) / 25;
         const y = (e.clientY - bounds.top - bounds.height / 2) / 25;
         if (!windowRef.current || isClick) return;
         windowRef.current.style.transform = `rotateY(${-x}deg) rotateX(${y}deg)`;
+    };
+    const handleHeroLeave = () => {
+        setTimeout(() => {
+            if (!windowRef.current) return;
+            windowRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
+        }, limit);
     };
 
 
@@ -117,7 +123,8 @@ const Hero = ({
         >
             <motion.div
                 ref={windowRef}
-                onMouseMove={throttle(handleMouseMove, 100)}
+                onMouseMove={throttle(handleHeroMove)}
+                onMouseLeave={handleHeroLeave}
                 initial={{
                     width: "450px",
                     height: "250px",
@@ -135,7 +142,7 @@ const Hero = ({
                 className={cn(
                     "glass",
                     "[transform-style:preserve-3d]  [&>*]:[transform-style:preserve-3d]",
-                    (isHoverOnChange || !isHover) && "transition-rotate duration-100"
+                    "transition-rotate duration-100"
                 )}
             >
                 {children}

@@ -11,7 +11,7 @@ export function CodePattern() {
         const onResize = throttle(() => {
             if (!node) return;
             setColumns(Math.floor(node.clientWidth / 24))
-        }, 100);
+        });
         onResize();
         window.addEventListener('resize', onResize);
         return () => {
