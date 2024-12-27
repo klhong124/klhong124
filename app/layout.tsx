@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { cn } from "@/utils/cn";
 import "@/styles/globals.scss";
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights as VercelSpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics as VercelAnalytics } from "@vercel/analytics/react"
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { MouseContextProvider } from "@/hooks/useMouse";
 import Body from "@/ui/body";
@@ -33,15 +32,17 @@ export default function RootLayout({
 
   return (
     <html lang="en" >
-      <SpeedInsights />
-      <MouseContextProvider>
 
+      <VercelSpeedInsights />
+      <VercelAnalytics />
+      <GoogleAnalytics gaId="G-NK426M59VD" />
+
+      <MouseContextProvider>
         <Body >
           {children}
         </Body>
       </MouseContextProvider>
-      <Analytics/>
-      <GoogleAnalytics gaId="G-NK426M59VD" />
+
     </html>
   );
 }

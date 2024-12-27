@@ -3,8 +3,8 @@ const jobs = [
     {
         name: "Executives Place Limited",
         title:"Web Applications Developer",
-        images: '/images/ezekia.png',
-        link: "https://cdpfrontend.prod.kubrickgroup.cloud/",
+        images: '/images/EZEKIA.png',
+        link: "https://ezekia.com/#/",
         year: 2024,
         desc:"At Ezekia.com, a software platform for executive search firms, I was responsible for front-end development. This role allowed me to gain valuable experience with Vue.js and Laravel.",
         tags: [
