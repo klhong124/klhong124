@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     template: '%s | Ryan Kwan - Portfolio',
     default: 'Ryan Kwan - Portfolio', // a default is required when creating a template
   },
-  description: "Experienced full-stack developer with a diverse background in designing and building web applications, marketplaces, and platforms. Proficient in modern frameworks like Vue.js, Laravel, React, and Apollo GraphQL, with expertise in front-end and back-end development, data integration, and creating seamless user experiences. Strong foundation in web design, animation, and software maintenance, complemented by experience in programming education and multimedia technology. Passionate about delivering innovative, user-centric, and scalable solutions across various industries",
+  description: "Experienced full-stack developer with a diverse background in designing and building web applications, marketplaces, and platforms. Proficient in modern frameworks like Vue and React, with expertise in front-end and back-end development, data integration, and creating seamless user experiences. Strong foundation in web design, animation, and software maintenance, complemented by experience in programming education and multimedia technology. Passionate about delivering innovative, user-centric, and scalable solutions across various industries",
   generator: 'Next.js',
   applicationName: 'Portfolio',
   referrer: 'origin-when-cross-origin',
