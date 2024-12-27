@@ -3,7 +3,7 @@ const jobs = [
     {
         name: "Executives Place Limited",
         title:"Web Applications Developer",
-        images: '/images/EZEKIA.png',
+        images: '/images/executivesplace.png',
         link: "https://ezekia.com/#/",
         year: 2024,
         desc:"At Ezekia.com, a software platform for executive search firms, I was responsible for front-end development. This role allowed me to gain valuable experience with Vue.js and Laravel.",
