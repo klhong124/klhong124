@@ -17,6 +17,8 @@
     "@react-three/drei": "^9.109.5",
     "@react-three/fiber": "^8.16.8",
     "@types/tailwindcss": "^3.1.0",
+    "@vercel/analytics": "^1.4.1",
+    "@vercel/blob": "^0.27.0",
     "@vercel/speed-insights": "^1.1.0",
     "clsx": "^2.1.1",
     "dotted-map": "^2.2.3",

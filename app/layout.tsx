@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { cn } from "@/utils/cn";
 import "@/styles/globals.scss";
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/react"
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { MouseContextProvider } from "@/hooks/useMouse";
 import Body from "@/ui/body";
@@ -39,6 +40,7 @@ export default function RootLayout({
           {children}
         </Body>
       </MouseContextProvider>
+      <Analytics/>
       <GoogleAnalytics gaId="G-NK426M59VD" />
     </html>
   );
