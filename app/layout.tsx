@@ -5,6 +5,7 @@ import { Analytics as VercelAnalytics } from "@vercel/analytics/react"
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { MouseContextProvider } from "@/hooks/useMouse";
 import Body from "@/ui/body";
+import { PostHogProvider } from "@/components/PostHogProvider";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://ryankwan.vercel.app/'),
@@ -20,7 +21,6 @@ export const metadata: Metadata = {
   creator: 'Ryan Kwan',
   authors: [{ name: 'Ryan Kwan', url: 'https://github.com/klhong124' }],
   publisher: 'Ryan Kwan',
-
 };
 
 export default function RootLayout({
@@ -28,21 +28,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-
   return (
     <html lang="en" >
+      <PostHogProvider>
+        <VercelSpeedInsights />
+        <VercelAnalytics />
+        <GoogleAnalytics gaId="G-NK426M59VD" />
 
-      <VercelSpeedInsights />
-      <VercelAnalytics />
-      <GoogleAnalytics gaId="G-NK426M59VD" />
-
-      <MouseContextProvider>
-        <Body >
-          {children}
-        </Body>
-      </MouseContextProvider>
-
+        <MouseContextProvider>
+          <Body >
+            {children}
+          </Body>
+        </MouseContextProvider>
+      </PostHogProvider>
     </html>
   );
 }
