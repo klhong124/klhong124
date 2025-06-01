@@ -11,7 +11,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@fullpage/react-fullpage": "^0.1.48",
+    "@fullpage/react-fullpage": "0.1.19",
     "@next/third-parties": "^15.1.2",
     "@octokit/rest": "^21.0.2",
     "@pixi/react": "^7.1.2",
@@ -35,8 +35,6 @@
     "posthog-node": "^4.17.1",
     "react": "^18",
     "react-dom": "^18",
-    "react-page-scroll": "^1.0.6",
-    "react-page-scroller": "^3.0.1",
     "react-use-measure": "^2.1.1",
     "tailwind-merge": "^2.3.0",
     "three": "^0.166.1"

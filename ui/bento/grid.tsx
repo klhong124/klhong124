@@ -104,9 +104,9 @@ export const BentoGrid = ({
 
             className={cn(
                 "grid gap-2 md:gap-4 p-2 md:p-4 w-screen",
-                "xl:grid-cols-6 xl:grid-rows-10 xl:gap-4 xl:h-screen xl:max-w-screen-3xl xl:min-h-[900px] xl:mt-0",
-                "md:grid-cols-4 md:grid-rows-[repeat(20,minmax(0,1fr))] md:max-w-screen-lg md:h-[2160px] md:mt-[calc((100vh-623.2px)/2-16px)]",
-                "grid-cols-2 grid-rows-[repeat(22,minmax(0,1fr))] h-[2860px] mt-[calc((100vh-497.2px)/2-8px)]",
+                "xl:grid-cols-6 xl:grid-rows-10 xl:gap-4 xl:h-screen xl:max-w-screen-3xl xl:min-h-[900px]",
+                "md:grid-cols-4 md:grid-rows-[repeat(20,minmax(0,1fr))] md:max-w-screen-lg md:h-[2160px]",
+                "grid-cols-2 grid-rows-[repeat(22,minmax(0,1fr))] h-[2860px]",
                 className
             )}
         >
