@@ -139,7 +139,6 @@ const HeroContent = () => {
             isClick: !prev.isClick
         }));
     };
-    console.log("render hero content")
 
     return (
         <div
