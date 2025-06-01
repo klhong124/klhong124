@@ -139,6 +139,7 @@ const HeroContent = () => {
             isClick: !prev.isClick
         }));
     };
+    console.log("render hero content")
 
     return (
         <div
@@ -200,10 +201,10 @@ const HeroContent = () => {
 
 const Introduction = () => {
     return (
-        <div className="flex-center flex-wrap h-full">
+        <div className="flex flex-col items-center h-full">
             <Hello />
             <motion.p className={cn(
-                "text-md text-gray-400 text-center  mt-60 p-14 w-full max-w-xl",
+                "text-md text-gray-400 text-center  mt-14 md:p-14 sm:p-12 p-6 w-full max-w-xl",
             )}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -228,14 +229,14 @@ const Hello = () => {
         strokeLinejoin: "round"
     }
     return (
-        <motion.div className="absolute-center">
+        <motion.div>
             {
                 <motion.svg width={"100%"} height={"100%"} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 754 250"
                     initial={{
-                        y: 0
+                        y: 180
                     }}
                     animate={{
-                        y: -60
+                        y: 80
                     }}
                     transition={{
                         duration: 0.7,
