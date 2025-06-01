@@ -1,138 +1,80 @@
 "use client";
 import Background from "@/ui/background";
-import TechStack from '@/ui/tech-stack';
 import Hero from '@/ui/hero';
-import { cn } from "@/utils/cn";
-import { AnimatePresence, motion, MotionConfig } from "motion/react";
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { BentoCenter } from '@/ui/bento/grid';
-import Hello from "@/ui/hello";
-import { useHero, HeroContextProvider } from "@/hooks/useHero";
-import Loading from "@/ui/loading";
-import IndicatorText from "@/ui/indicatorText";
-
+import { MotionConfig } from "motion/react";
+import { HeroContextProvider } from "@/hooks/useHero";
+import Dock from "@/ui/dock";
+import BentoGrid, { BentoGridItem as GridItem } from '@/ui/bento/grid';
+import Experience from '@/ui/bento/items/experience';
+import CodePattern from '@/ui/bento/items/code-pattern';
+import PixelPerfect from '@/ui/bento/items/pixel-perfect';
+import Hashtag from '@/ui/bento/items/hashtag';
+import SkillSet from "@/ui/bento/items/skill-set";
+import Profile from "@/ui/bento/items/profile";
+import Animation from "@/ui/bento/items/animation";
+import Location from "@/ui/bento/items/location";
+import Work from "@/ui/bento/items/work";
+import Testing from "@/ui/bento/items/optimization";
+import PageScroll from 'react-page-scroll';
 
 export default function Home() {
-
-
   return (
-    <div
-      className="relative w-screen h-screen overflow-hidden"
+    <PageScroll>
+      <div className="h-screen">
+        <HeroContextProvider>
+          <MotionConfig
+            transition={{
+              type: "spring",
+              bounce: 0.5,
+              stiffness: 100,
+            }}
+          >
+            <Hero />
+          </MotionConfig>
+          <Background />
+          <Dock />
+        </HeroContextProvider>
+      </div>
 
-    >
-      <Background
-        className="relative flex justify-center items-center"
-      >
-
-        <MotionConfig
-          transition={{
-            type: "spring",
-            bounce: 0.5,
-            stiffness: 100,
-          }}
-        >
-
-          <BentoCenter className="flex-center">
-            <HeroContextProvider>
-              <Hero
-                className={cn("cursor-pointer size-full flex-center")}            >
-                <HeroContent />
-
-              </Hero>
-              <TechStack />
-            </HeroContextProvider>
-          </BentoCenter>
-        </MotionConfig>
-
-
-      </Background>
-    </div>
-
+      <div className="h-screen mx-auto">
+        <BentoGrid className="h-full">
+          <GridItem id={1}>
+            {/* <Profile /> */}
+          </GridItem>
+          <GridItem id={2}>
+            <PixelPerfect />
+          </GridItem>
+          <GridItem id={3}>
+            <Experience />
+          </GridItem>
+          <GridItem id={4}>
+            <Location />
+          </GridItem>
+          <GridItem id={5}>
+            <Location />
+          </GridItem>
+          <GridItem id={6}>
+            <CodePattern />
+          </GridItem>
+          <GridItem id={7}>
+            <Animation />
+          </GridItem>
+          <GridItem id={8}>
+            <SkillSet />
+          </GridItem>
+          <GridItem id={9}>
+            <Work />
+          </GridItem>
+          <GridItem id={10}>
+            <Testing />
+          </GridItem>
+          <GridItem id={11}>
+            <Hashtag />
+          </GridItem>
+        </BentoGrid>
+      </div>
+    </PageScroll>
   );
 }
 
 
-const HeroContent = () => {
-  const router = useRouter();
-  const [{ isHover, isClick }, setHero] = useHero();
-
-  const handleClick = (event: React.MouseEvent) => {
-    event.preventDefault();
-    setHero(prev => ({
-      ...prev,
-      isClick: true
-    }));
-    router.prefetch('/explore');
-
-    setTimeout(() => {
-      router.push("/explore");
-    }, 300);
-  };
-
-  return (
-    <Link href="/explore" draggable={false}
-      className='size-full flex-center select-none'
-      onClick={handleClick} prefetch={true}>
-      <AnimatePresence>
-        {(!isClick) ?
-          <motion.div
-            className='absolute-center w-full'
-            key="welcome-content"
-            initial={{ opacity: 0 }}
-            animate={{
-              opacity: 1,
-              transition: {
-                duration: 1,
-              }
-            }}
-            exit={{ opacity: 0 }}
-          >
-            <span
-              className={cn(
-                "text-lg  block mb-2 text-center",
-              )}
-            >
-              👋🏽 Say hello to
-            </span>
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{
-                opacity: 1,
-                y: 0,
-                transition: {
-                  duration: 0.6,
-                  ease: "easeOut",
-                  delay: 0.2
-                }
-              }}
-              className={cn(
-                "text-primary text-4xl text-center",
-                "font-medium tracking-wide",
-              )}
-            >
-              @ryankwandev
-            </motion.h1>
-          </motion.div>
-          : <Hello
-            key="hello-animation"
-            exit={{
-              opacity: 0,
-              transition: {
-                duration: 0.3
-              }
-            }} />
-        }
-
-
-        {/* <Loading key="loading-screen" /> */}
-
-
-
-        {(isHover && !isClick) && (
-          <IndicatorText className="mt-auto mb-4">Click to Explore</IndicatorText>
-        )}
-      </AnimatePresence>
-    </Link>
-  )
-}

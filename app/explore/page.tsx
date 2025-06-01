@@ -5,7 +5,6 @@ import PixelPerfect from '@/ui/bento/items/pixel-perfect';
 import Hashtag from '@/ui/bento/items/hashtag';
 import Background from "@/ui/background";
 import SkillSet from "@/ui/bento/items/skill-set";
-import Introduction from "@/ui/bento/items/introduction";
 import Profile from "@/ui/bento/items/profile";
 import Animation from "@/ui/bento/items/animation";
 import Location from "@/ui/bento/items/location";
@@ -20,7 +19,7 @@ export const metadata: Metadata = {
 
 export default function ExplorePage() {
     return (
-        <Background>
+        <div>
             <IndicatorText className="absolute top-4 left-1/2 -translate-x-1/2 xl:hidden z-10">
                 Scroll to explore
             </IndicatorText>
@@ -39,7 +38,6 @@ export default function ExplorePage() {
                     <Location />
                 </GridItem>
                 <GridItem id={5}>
-                    <Introduction />
                 </GridItem>
                 <GridItem id={6}>
                     <CodePattern />
@@ -60,6 +58,6 @@ export default function ExplorePage() {
                     <Hashtag />
                 </GridItem>
             </BentoGrid >
-        </Background>
+        </div>
     );
 }

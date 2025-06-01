@@ -21,17 +21,12 @@ export const useHero = () => {
 
 
 export const HeroContextProvider = ({ children }: { children: React.ReactNode }) => {
-    const [hero, setHero] = useState<Hero>({ isHover: false, isTap: false, isClick: false });
+    const [hero, setHero] = useState<Hero>({
+        isHover: false,
+        isTap: false,
+        isClick: false
+    });
 
-    useLayoutEffect(() => {
-        return () => {
-            setHero(prev => ({
-                ...prev,
-                isClick: false,
-                isHover: false,
-            }));
-        }
-    }, []);
     return (
         <HeroContext.Provider value={useMemo(() => [hero, setHero], [hero, setHero])}>
             {children}

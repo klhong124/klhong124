@@ -30,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" >
-      <PostHogProvider>
+      {/* <PostHogProvider> */}
         <VercelSpeedInsights />
         <VercelAnalytics />
         <GoogleAnalytics gaId="G-NK426M59VD" />
@@ -40,7 +40,7 @@ export default function RootLayout({
             {children}
           </Body>
         </MouseContextProvider>
-      </PostHogProvider>
+      {/* </PostHogProvider> */}
     </html>
   );
 }

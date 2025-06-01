@@ -12,23 +12,14 @@ import { useHero } from "@/hooks/useHero";
 const TechStack = () => {
     const [ref, bounds] = useMeasure({ scroll: true });
     const [{ x, y }] = useMouse();
-    const [{ isHover, isClick }] = useHero();
+    const [{ isHover }] = useHero();
     const mouseX: MotionValue<number> = useMotionValue(Infinity);
     const mouseY: MotionValue<number> = useMotionValue(Infinity);
 
-    const resetMousePosition = () => {
-        mouseX.set(0);
-        mouseY.set(0);
-    };
-
     useEffect(() => {
-        if (!isHover || isClick) {
-            resetMousePosition()
-        } else {
-            mouseX.set(x - bounds.x - bounds.width / 2);
-            mouseY.set(y - bounds.y - bounds.height / 2);
-        }
-    }, [x, y, bounds, isClick]);
+        mouseX.set(x - bounds.x - bounds.width / 2);
+        mouseY.set(y - bounds.y - bounds.height / 2);
+    }, [x, y, bounds]);
 
     return (
         <MotionConfig transition={{
@@ -43,9 +34,7 @@ const TechStack = () => {
                     "absolute",
                     "pointer-events-none ",
                 )}
-                onMouseEnter={() => resetMousePosition()}
-                onHoverEnd={() => resetMousePosition()}
-                animate={!isHover || isClick ? "rest" : "hover"}
+                animate={!isHover ? "rest" : "hover"}
                 initial="rest"
                 variants={{
                     rest: {
@@ -95,7 +84,7 @@ const Scene = ({ mouseX, mouseY }: {
                 <Icons
                     gltf="nuxt"
                     scale={0.8}
-                    position={[0.1, 0.8, 3]}
+                    position={[0.1, 0.75, 3]}
                     rotation={[Math.PI / 2, -Math.PI / 15, -0.2]}
                     animate={{
                         rotateZ: [-0.2, Math.PI - 0.2, Math.PI * 2 - 0.2, Math.PI * 2 - 0.2],
@@ -139,7 +128,7 @@ const Scene = ({ mouseX, mouseY }: {
                 />
                 <Icons
                     gltf="typescript"
-                    position={[2.5, 0.5, 1]}
+                    position={[2.6, 0.5, 1]}
                     rotation={[Math.PI / 1.8, 0, 1]}
                     animate={{
                         rotateY: [Math.PI / 20, -Math.PI / 10],
@@ -330,7 +319,7 @@ const Scene = ({ mouseX, mouseY }: {
                 <Icons
                     gltf="firebase"
                     scale={1.2}
-                    position={[5.5, 0.3, -1]}
+                    position={[5.8, 0.3, -1]}
                     rotation={[Math.PI / 2.2, -Math.PI / 18, Math.PI / 10]}
 
                 />
@@ -343,7 +332,7 @@ const Scene = ({ mouseX, mouseY }: {
                         z: [-3, -2.5, -3, -3.5, -3],
                         transition: {
                             duration: 0.9,
-                            repeatDelay: 2,
+                            repeatDelay: 4,
                             repeat: Infinity,
                             ease: "easeOut",
                         },
@@ -359,7 +348,7 @@ const Scene = ({ mouseX, mouseY }: {
                         z: [-3, -3.5, -3, -2.5, -3],
                         transition: {
                             duration: 0.9,
-                            repeatDelay: 2,
+                            repeatDelay: 4,
                             repeat: Infinity,
                             ease: "easeOut",
                         },
@@ -382,8 +371,8 @@ const Camera = ({ mouseX, mouseY }: {
     readonly mouseY: MotionValue<number>;
 }) => {
 
-    const cameraX = useTransform(mouseX, (x) => (-1 * x) / 4000);
-    const cameraY = useTransform(mouseY,  (y) => (y) / 4000);
+    const cameraX = useTransform(mouseX, (x) => (-1 * x) / 3500);
+    const cameraY = useTransform(mouseY,  (y) => (y) / 5000);
 
     const set = useThree(({ set }) => set);
     const camera = useThree(({ camera }) => camera);
@@ -421,11 +410,11 @@ const Camera = ({ mouseX, mouseY }: {
     return (
         <motion3d.perspectiveCamera
             ref={cameraRef}
-            fov={105}
-            position={[cameraX.get(), cameraY.get(), 6.3]}
+            fov={95}
+            position={[cameraX.get(), cameraY.get(), 4]}
             variants={{
                 hover: {
-                    z: 4.2,
+                    z: 4.5,
                     transition: {
                         type: "spring",
                         stiffness: 100,
@@ -433,10 +422,10 @@ const Camera = ({ mouseX, mouseY }: {
                     }
                 },
                 tap: {
-                    z: 4
+                    z: 5
                 },
                 click: {
-                    z: 3
+                    z: 4
                 }
             }}
             animate={isClick ? "click" : (isTap ? "tap" : (isHover ? "hover" : "rest"))}

@@ -4,17 +4,9 @@ import { useMouse } from '@/hooks/useMouse';
 import { cn } from "@/utils/cn";
 import { usePathname } from "next/navigation";
 
-export const Background = ({
-    children,
-    ...prop
-}: {
-    children: React.ReactNode;
-    [key: string]: any;
-}) => {
+export const Background = () => {
     const [mouse] = useMouse()
     const pathname = usePathname();
-
-
 
     const maskImageStyle =
         useMotionTemplate`
@@ -28,7 +20,7 @@ export const Background = ({
     return (
 
         <section
-            className="relative flex items-center bg-stone-950 justify-center w-full overflow-hidden min-h-screen"
+            className="bg-stone-950 fixed top-0 left-0 w-screen h-screen -z-50"
         >
             <div className={cn("absolute inset-0 pointer-events-none bg-dot-thick-neutral-800")} />
 
@@ -54,7 +46,6 @@ export const Background = ({
             {/* Radial gradient for the container to give a faded look */}
             <div className={cn("absolute pointer-events-none inset-0 bg-stone-950 [mask-image:radial-gradient(ellipse_at_center,transparent_10%,black)]")} />
 
-            <main {...prop}>{children}</main>
         </section >
 
     );
