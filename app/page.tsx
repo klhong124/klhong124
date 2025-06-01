@@ -15,6 +15,7 @@ import Location from "@/ui/bento/items/location";
 import Work from "@/ui/bento/items/work";
 import Testing from "@/ui/bento/items/optimization";
 import { VisibilityProvider } from "@/hooks/useVisibility";
+// @ts-ignore
 import ReactFullpage from '@fullpage/react-fullpage';
 import TextHoverEffect from "@/ui/textHoverEffect";
 import WindowControl from '@/ui/windowControl';
