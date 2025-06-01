@@ -7,7 +7,7 @@ import Matter from 'matter-js';
 import { Stage, Graphics, Text, Container, useTick, useApp } from '@pixi/react';
 import { TextStyle, TextMetrics } from 'pixi.js';
 
-const title = "HASHTAG"
+const title = "SoftSkills"
 const tags = [
     "Quick Learner",
     "Self-Motivated",
@@ -264,7 +264,7 @@ const Title = ({ width, height }: { width: number; height: number }) => {
     );
 };
 
-export function Hashtag() {
+export function SoftSkills() {
     const [app, setApp] = useState<any>();
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);
@@ -316,4 +316,4 @@ export function Hashtag() {
 
 }
 
-export default Hashtag;
+export default SoftSkills;

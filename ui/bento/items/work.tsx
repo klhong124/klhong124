@@ -46,7 +46,7 @@ const Work = () => {
     return (
         <div className="w-full h-full relative">
             <Link
-                href={`/explore/work`}
+                href={`/work`}
                 prefetch={true}
             >
                 <TextHoverEffect className={cn('absolute w-full')}>WORK</TextHoverEffect>

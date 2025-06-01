@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 const WindowControl = () => {
     const router = useRouter();
     const onButtonClick = () => {
-        if (window.location.pathname === '/explore') {
+        if (window.location.pathname !== '/') {
             router.push('/');
         } else {
             router.back();

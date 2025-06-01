@@ -1,7 +1,7 @@
 "use client";
 import { cn } from "@/utils/cn";
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useVisibility } from "@/hooks/useVisibility";
 
 const bentoConfig: { [key: number]: string } = {
     1: " xl:col-span-2 xl:row-span-4 xl:order-1   md:order-2 md:col-span-2 md:row-span-5   order-2 col-span-2 row-span-3", //Profile
@@ -14,7 +14,7 @@ const bentoConfig: { [key: number]: string } = {
     8: " xl:col-span-1 xl:row-span-4 xl:order-8   md:order-7 md:row-span-6                 order-8 row-span-4", // SkillSet
     9: " xl:col-span-2 xl:row-span-4 xl:order-9   md:order-10 md:col-span-2 md:row-span-3  order-10 col-span-2 row-span-3", // Work
     10: "xl:col-span-1 xl:row-span-3 xl:order-10  md:order-9 md:row-span-3                 order-9 row-span-2", // Optimization
-    11: "xl:col-span-3 xl:row-span-2 xl:order-11  md:order-11 md:col-span-4 md:row-span-3  order-11 col-span-2 row-span-3", // Hashtag
+    11: "xl:col-span-3 xl:row-span-2 xl:order-11  md:order-11 md:col-span-4 md:row-span-3  order-11 col-span-2 row-span-3", // SoftSkills
 };
 
 const motionConfig = {
@@ -34,13 +34,13 @@ const animationConfig: {
         transition: { ...motionConfig }
     },
     2: {
-        initial: { y: "100%", opacity: 0 },
+        initial: { y: "-100%", opacity: 0 },
         animate: { y: 0, opacity: 1 },
         transition: { ...motionConfig }
     },
     3: {
-        initial: { x: "calc(100% + 24px)", opacity: 0 },
-        animate: { x: 0, opacity: 1 },
+        initial: { x: "calc(100% + 24px)", y: "-100%", opacity: 0 },
+        animate: { x: 0, y: 0, opacity: 1 },
         transition: {
             opacity: { ...motionConfig, delay: 0.3 },
             x: { ...motionConfig, delay: 0.8 },
@@ -94,8 +94,14 @@ export const BentoGrid = ({
     className?: string;
     children?: React.ReactNode;
 }) => {
+    const { setIsVisible } = useVisibility();
+
     return (
-        <div
+        <motion.section
+            onMouseEnter={() => {
+                setIsVisible(true);
+            }}
+
             className={cn(
                 "grid gap-2 md:gap-4 p-2 md:p-4 w-screen",
                 "xl:grid-cols-6 xl:grid-rows-10 xl:gap-4 xl:h-screen xl:max-w-screen-3xl xl:min-h-[900px] xl:mt-0",
@@ -105,7 +111,7 @@ export const BentoGrid = ({
             )}
         >
             {children}
-        </div>
+        </motion.section >
     );
 };
 
@@ -118,12 +124,11 @@ export const BentoGridItem = ({
     className?: string;
     id: number;
 }) => {
+    const { isVisible } = useVisibility();
 
-    const [isVisible, setIsVisible] = useState(false);
     return (
         <motion.section
-            onViewportEnter={() => setIsVisible(true)}
-            onViewportLeave={() => setIsVisible(false)}
+
             className={cn(
                 "w-full relative glass overflow-hidden",
                 bentoConfig[id],

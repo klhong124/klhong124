@@ -16,10 +16,12 @@ export default function Body({ children }: Readonly<{ children: React.ReactNode 
             y: event.clientY,
         }));
     };
-    return <body className={cn('dark')} onMouseMove={throttle(handleMouseMove)}>
-        {children}
-        <AnimatePresence>
-            {isActive && <Cursor />}
-        </AnimatePresence>
-    </body>
+    return (
+        <div className={cn('dark min-h-screen')} onMouseMove={throttle(handleMouseMove)}>
+            {children}
+            <AnimatePresence>
+                {isActive && <Cursor />}
+            </AnimatePresence>
+        </div>
+    );
 }

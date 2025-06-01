@@ -5,6 +5,7 @@ import { Analytics as VercelAnalytics } from "@vercel/analytics/react"
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { MouseContextProvider } from "@/hooks/useMouse";
 import Body from "@/ui/body";
+import { Background } from "@/ui/background";
 import { PostHogProvider } from "@/components/PostHogProvider";
 
 export const metadata: Metadata = {
@@ -29,18 +30,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" >
-      {/* <PostHogProvider> */}
-        <VercelSpeedInsights />
-        <VercelAnalytics />
-        <GoogleAnalytics gaId="G-NK426M59VD" />
+    <html lang="en" className="dark">
+      <body>
+        <PostHogProvider>
+          <MouseContextProvider>
+            <Body>
+              {children}
+            </Body>
+            <Background />
+          </MouseContextProvider>
+          <VercelSpeedInsights />
+          <VercelAnalytics />
+          <GoogleAnalytics gaId="G-NK426M59VD" />
 
-        <MouseContextProvider>
-          <Body >
-            {children}
-          </Body>
-        </MouseContextProvider>
-      {/* </PostHogProvider> */}
+        </PostHogProvider>
+      </body>
     </html>
   );
 }

@@ -10,6 +10,11 @@ const TextHoverEffect = ({ children, className }: {
     const [cursor, setCursor] = useState({ x: 0, y: 0 });
     const [hovered, setHovered] = useState(false);
     const [maskPosition, setMaskPosition] = useState({ cx: '50%', cy: '50%' });
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     useEffect(() => {
         if (svgRef.current && cursor.x !== null && cursor.y !== null) {
@@ -22,6 +27,31 @@ const TextHoverEffect = ({ children, className }: {
             });
         }
     }, [cursor]);
+
+    if (!isMounted) {
+        return (
+            <div className={className}>
+                <svg
+                    width="100%"
+                    height="100%"
+                    viewBox="0 0 300 100"
+                    className="select-none"
+                >
+                    <text
+                        x="50%"
+                        y="50%"
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                        strokeWidth="0.5"
+                        className="font-[helvetica] font-bold stroke-neutral-500 fill-transparent text-7xl"
+                        style={{ opacity: 0 }}
+                    >
+                        {children}
+                    </text>
+                </svg>
+            </div>
+        );
+    }
 
     return (
         <motion.div className={className}
@@ -94,7 +124,7 @@ const TextHoverEffect = ({ children, className }: {
                     textAnchor="middle"
                     dominantBaseline="middle"
                     strokeWidth="0.5"
-                    className="font-[helvetica] font-bold stroke-neutral-500 fill-transparent text-7xl  "
+                    className="font-[helvetica] font-bold stroke-neutral-500 fill-transparent text-7xl"
                     style={{ opacity: hovered ? 0.7 : 0 }}
                 >
                     {children}
@@ -105,7 +135,7 @@ const TextHoverEffect = ({ children, className }: {
                     textAnchor="middle"
                     dominantBaseline="middle"
                     strokeWidth="1"
-                    className="font-[helvetica] font-bold fill-transparent text-7xl stroke-neutral-500 "
+                    className="font-[helvetica] font-bold fill-transparent text-7xl stroke-neutral-500"
                     initial={{ strokeDashoffset: 1000, strokeDasharray: 1000 }}
                     animate={{
                         strokeDashoffset: 0,
@@ -126,7 +156,7 @@ const TextHoverEffect = ({ children, className }: {
                     stroke="url(#textGradient)"
                     strokeWidth="0.5"
                     mask="url(#textMask)"
-                    className="font-[helvetica] font-bold fill-transparent text-7xl  "
+                    className="font-[helvetica] font-bold fill-transparent text-7xl"
                 >
                     {children}
                 </text>

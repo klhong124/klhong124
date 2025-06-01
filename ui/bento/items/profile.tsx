@@ -1,9 +1,13 @@
+"use client";
 import { cn } from "@/utils/cn";
 import Dock from "@/ui/dock";
 import getGithubStats from "@/utils/github";
 import { GitBranch, Star, Users } from 'lucide-react'
 import Image from "next/image";
 import IndicatorText from "@/ui/indicatorText";
+import { useEffect, useState } from "react";
+import { useVisibility } from "@/hooks/useVisibility";
+
 function StatItem({ icon, label, value }: Readonly<{ icon: React.ReactNode, label: string, value: number }>) {
     return (
         <a className="flex items-center space-x-4"
@@ -19,30 +23,47 @@ function StatItem({ icon, label, value }: Readonly<{ icon: React.ReactNode, labe
     )
 }
 
+const GithubStats = () => {
+    const [stats, setStats] = useState({ stars: 25, repos: 12, followers: 9 });
+    const [loading, setLoading] = useState(true);
+    const { isVisible } = useVisibility();
 
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const data = await getGithubStats();
+                setStats(data);
+            } catch (error) {
+                console.error('Failed to fetch GitHub stats:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-const GithubStats = async () => {
-    const { stars, repos, followers } = await getGithubStats()
+        if (isVisible) {
+            fetchStats();
+        }
+    }, [isVisible]);
+
+    if (loading) {
+        return <div className="flex justify-around">Loading...</div>;
+    }
 
     return (
         <div className={cn("flex justify-around")}>
-            <StatItem icon={<GitBranch className="text-blue-400" />} label="Repos" value={repos} />
-            <StatItem icon={<Star className="text-yellow-400" />} label="Stars" value={stars} />
-            <StatItem icon={<Users className="text-red-400" />} label="Followers" value={followers} />
+            <StatItem icon={<GitBranch className="text-blue-400" />} label="Repos" value={stats.repos} />
+            <StatItem icon={<Star className="text-yellow-400" />} label="Stars" value={stats.stars} />
+            <StatItem icon={<Users className="text-red-400" />} label="Followers" value={stats.followers} />
         </div>
     )
 }
 
 export function Profile() {
-
     return (
         <div className={cn(
             "flex flex-col gap-2 h-full py-6 max-w-xl mx-auto",
             "2xl:px-8 xl:px-6 px-4"
-
         )}>
-
-
             <div className="flex items-center gap-6 mb-2 md:px-6">
                 <div className={cn(
                     "rounded-full w-24 h-24 relative overflow-hidden"
@@ -56,7 +77,6 @@ export function Profile() {
                     />
                 </div>
 
-
                 <div className="flex-1">
                     <h1 className={cn(
                         "text-3xl font-bold text-primary mb-2"
@@ -68,18 +88,19 @@ export function Profile() {
                     )}>
                         Experienced Front-end Developer in Next.js
                     </h2>
-
                 </div>
-
             </div>
 
             <GithubStats />
+
+            <p className="mt-12 text-secondary">
+                Adept at crafting dynamic UIs, immersive user experiences, and performant systems that delight users. Seeking a frontend role where design, interaction, and modern web architecture intersect..
+            </p>
 
             <div className="mt-auto mb-1 text-center">
                 <IndicatorText>Lets get in touch</IndicatorText>
                 <Dock />
             </div>
-
         </div>
     );
 }

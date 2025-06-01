@@ -10,7 +10,7 @@ const Timeline = () => {
     const ref = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
-    const [height, setHeight] = useState(0);
+    const [height, setHeight] = useState(1000);
 
     useEffect(() => {
         const updateHeight = () => {
