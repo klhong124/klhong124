@@ -80,7 +80,7 @@ const Hero = ({
             onMouseEnter={handleHoverStart}
             onMouseLeave={handleHoverEnd}
             onMouseMove={throttle(handleHoverStart)}
-            className={cn("cursor-pointer size-full flex-center min-h-screen w-screen")}
+            className={cn("cursor-pointer size-full flex-center min-h-screen w-full")}
             style={{
                 perspective: "1000px",
             }}

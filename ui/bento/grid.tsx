@@ -97,7 +97,7 @@ export const BentoGrid = ({
     return (
         <motion.section
             className={cn(
-                "grid gap-2 md:gap-4 p-2 md:p-4 w-screen",
+                "flex flex-col md:grid gap-2 md:gap-4 p-2 md:p-4  w-full",
                 "xl:grid-cols-6 xl:grid-rows-10 xl:gap-4 xl:h-screen xl:max-w-screen-3xl xl:min-h-[900px]",
                 "md:grid-cols-4 md:grid-rows-[repeat(20,minmax(0,1fr))] md:max-w-screen-lg md:h-[2160px]",
                 "grid-cols-2 grid-rows-[repeat(22,minmax(0,1fr))] h-[2860px]",
@@ -120,18 +120,18 @@ export const BentoGridItem = ({
 }) => {
     return (
         <motion.section
-
             className={cn(
                 "w-full relative glass overflow-hidden",
+                "min-h-[300px] max-h-[600px] md:min-h-[150px] md:max-h-[900px]",
                 bentoConfig[id],
                 className
             )}
-            initial={"hidden"}
-            variants={{
-                "hidden": animationConfig[id]?.initial,
-                "visible": animationConfig[id]?.animate
-            }}
-            animate={"visible"}
+        // initial={"hidden"}
+        // variants={{
+        //     "hidden": animationConfig[id]?.initial,
+        //     "visible": animationConfig[id]?.animate
+        // }}
+
         >
             {children}
         </motion.section>

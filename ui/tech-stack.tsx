@@ -30,7 +30,7 @@ const TechStack = () => {
             <motion.div
                 className={cn(
                     "overflow-visible",
-                    "w-screen h-screen min-h-[1080px]",
+                    "w-full h-screen min-h-[1080px]",
                     "absolute",
                     "pointer-events-none ",
                 )}

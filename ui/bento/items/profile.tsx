@@ -1,6 +1,5 @@
 "use client";
 import { cn } from "@/utils/cn";
-import Dock from "@/ui/dock";
 import getGithubStats from "@/utils/github";
 import { GitBranch, Star, Users } from 'lucide-react'
 import Image from "next/image";
@@ -76,7 +75,7 @@ export function Profile() {
                 <div className="flex-1">
                     <h1 className={cn(
                         "text-3xl font-bold text-primary mb-2"
-                    )}>
+                )}>
                         Ryan Kwan
                     </h1>
                     <h2 className={cn(
@@ -95,7 +94,6 @@ export function Profile() {
 
             <div className="mt-auto mb-1 text-center">
                 <IndicatorText>Lets get in touch</IndicatorText>
-                <Dock />
             </div>
         </div>
     );

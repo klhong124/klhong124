@@ -45,7 +45,7 @@ export function Experience() {
                 )}
             >
                 <div className={cn("text-primary pb-3",
-                    isTight ? "text-4xl" : "xl:text-5xl md:text-4xl 3xl:text-6xl")}>
+                    isTight ? "text-4xl" : "text-4xl xl:text-5xl md:text-4xl 3xl:text-6xl")}>
                     {new Date().getFullYear() - 2020} years
                 </div>
                 <div className="text-secondary">of web dev experience</div>
