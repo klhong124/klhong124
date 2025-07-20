@@ -56,6 +56,46 @@ body {
   [background-image:radial-gradient(96%_100%_at_top,rgba(255,255,255,0.2),rgba(255,255,255,0))] bg-stone-900/30;
 }
 
+/* Glowing card effect */
+.glow-effect::after {
+  content: "";
+  border-radius: inherit;
+  position: absolute;
+  inset: calc(-1 * var(--glowingeffect-border-width));
+  border: var(--glowingeffect-border-width) solid transparent;
+  background: var(--gradient-light);
+  background-attachment: fixed;
+  opacity: var(--active);
+  transition: opacity 0.3s;
+  -webkit-mask-clip: padding-box, border-box;
+  mask-clip: padding-box, border-box;
+  -webkit-mask-composite: intersect;
+  mask-composite: intersect;
+  -webkit-mask-image: linear-gradient(transparent, transparent),
+    conic-gradient(from calc((var(--start) - var(--spread)) * 1deg),
+      transparent 0deg,
+      white,
+      transparent calc(var(--spread) * 2deg));
+  mask-image: linear-gradient(transparent, transparent),
+    conic-gradient(from calc((var(--start) - var(--spread)) * 1deg),
+      transparent 0deg,
+      white,
+      transparent calc(var(--spread) * 2deg));
+  filter: blur(var(--blur));
+}
+
+/* Dark mode support for glowing effect */
+@media (prefers-color-scheme: dark) {
+  .glow-effect::after {
+    background: var(--gradient-dark);
+  }
+}
+
+/* Tailwind dark mode support */
+.dark .glow-effect::after {
+  background: var(--gradient-dark);
+}
+
 
 @import "./text.scss";
 @import "./fonts.scss";

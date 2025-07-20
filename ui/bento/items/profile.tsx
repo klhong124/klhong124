@@ -6,7 +6,6 @@ import { GitBranch, Star, Users } from 'lucide-react'
 import Image from "next/image";
 import IndicatorText from "@/ui/indicatorText";
 import { useEffect, useState } from "react";
-import { useVisibility } from "@/hooks/useVisibility";
 
 function StatItem({ icon, label, value }: Readonly<{ icon: React.ReactNode, label: string, value: number }>) {
     return (
@@ -26,7 +25,6 @@ function StatItem({ icon, label, value }: Readonly<{ icon: React.ReactNode, labe
 const GithubStats = () => {
     const [stats, setStats] = useState({ stars: 25, repos: 12, followers: 9 });
     const [loading, setLoading] = useState(true);
-    const { isVisible } = useVisibility();
 
     useEffect(() => {
         const fetchStats = async () => {
@@ -40,10 +38,8 @@ const GithubStats = () => {
             }
         };
 
-        if (isVisible) {
-            fetchStats();
-        }
-    }, [isVisible]);
+        fetchStats();
+    }, []);
 
     if (loading) {
         return <div className="flex justify-around">Loading...</div>;

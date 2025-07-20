@@ -1,7 +1,6 @@
 "use client";
 import { cn } from "@/utils/cn";
 import { motion } from "motion/react";
-import { useVisibility } from "@/hooks/useVisibility";
 
 const bentoConfig: { [key: number]: string } = {
     1: " xl:col-span-2 xl:row-span-4 xl:order-1   md:order-2 md:col-span-2 md:row-span-5   order-2 col-span-2 row-span-3", //Profile
@@ -94,14 +93,9 @@ export const BentoGrid = ({
     className?: string;
     children?: React.ReactNode;
 }) => {
-    const { setIsVisible } = useVisibility();
 
     return (
         <motion.section
-            onMouseEnter={() => {
-                setIsVisible(true);
-            }}
-
             className={cn(
                 "grid gap-2 md:gap-4 p-2 md:p-4 w-screen",
                 "xl:grid-cols-6 xl:grid-rows-10 xl:gap-4 xl:h-screen xl:max-w-screen-3xl xl:min-h-[900px]",
@@ -124,8 +118,6 @@ export const BentoGridItem = ({
     className?: string;
     id: number;
 }) => {
-    const { isVisible } = useVisibility();
-
     return (
         <motion.section
 
@@ -139,8 +131,7 @@ export const BentoGridItem = ({
                 "hidden": animationConfig[id]?.initial,
                 "visible": animationConfig[id]?.animate
             }}
-            animate={isVisible ? "visible" : "hidden"}
-            transition={isVisible ? animationConfig[id]?.transition || {} : { duration: 0 }}
+            animate={"visible"}
         >
             {children}
         </motion.section>
