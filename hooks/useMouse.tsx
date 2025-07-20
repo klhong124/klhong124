@@ -21,7 +21,7 @@ export const useMouse = () => {
 
 
 export const MouseContextProvider = ({ children }: { children: React.ReactNode }) => {
-    const [mouse, setMouse] = useState<Mouse>({ x: 0, y: 0, isActive: false});
+    const [mouse, setMouse] = useState<Mouse>({ x: 0, y: 0, isActive: false });
 
     useLayoutEffect(() => {
         if (typeof window !== 'undefined') {
@@ -30,12 +30,28 @@ export const MouseContextProvider = ({ children }: { children: React.ReactNode }
                 x: window.innerWidth / 2,
                 y: window.innerHeight / 2,
             }));
+            window.addEventListener('mousemove', (e) => {
+                setMouse(prev => ({
+                    ...prev,
+                    isActive: true,
+                    x: e.clientX,
+                    y: e.clientY,
+                }));
+            });
         }
         return () => {
             setMouse(prev => ({
                 ...prev,
                 isActive: false,
             }));
+            window.removeEventListener('mousemove', (e) => {
+                setMouse(prev => ({
+                    ...prev,
+                    isActive: true,
+                    x: e.clientX,
+                    y: e.clientY,
+                }));
+            });
         }
     }, []);
     return (

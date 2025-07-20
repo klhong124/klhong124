@@ -25,7 +25,7 @@ const GlowingCard = memo(({
     glow = true,
     className,
     disabled = false,
-    movementDuration = 1.5,
+    movementDuration = 1,
     borderWidth = 3,
 }: PropsWithChildren<GlowingEffectProps>) => {
     const containerRef = useRef<HTMLDivElement>(null);

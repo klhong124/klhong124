@@ -7,10 +7,10 @@ import throttle, { limit } from "@/utils/throttle";
 import WindowControl from "@/ui/windowControl";
 import GlowingCard from "@/ui/glowing-card";
 import TechStack from '@/ui/tech-stack';
-import { AnimatePresence } from "motion/react";
 import IndicatorText from "@/ui/indicatorText";
 import Highlight from "@/ui/highlight";
 import Dock from "@/ui/dock";
+import { useMouse } from "@/hooks/useMouse";
 
 const HeroSection = () => {
     return (
@@ -23,7 +23,6 @@ const HeroSection = () => {
                 }}
             >
                 <Hero />
-                <Dock />
             </MotionConfig>
         </HeroContextProvider>
     )
@@ -37,7 +36,7 @@ const Hero = ({
     [key: string]: any;
 }) => {
     const [_, setHero] = useHero();
-
+    const [__, setMouse] = useMouse();
     const handleHoverStart = () => {
         setHero(prev => ({
             ...prev,
@@ -49,6 +48,10 @@ const Hero = ({
         setHero(prev => ({
             ...prev,
             isHover: false
+        }));
+        setMouse(prev => ({
+            ...prev,
+            isActive: false,
         }));
     };
 
@@ -75,8 +78,8 @@ const Hero = ({
             onTap={handleTapCancel}
             onTapCancel={handleTapCancel}
             onMouseEnter={handleHoverStart}
+            onMouseLeave={handleHoverEnd}
             onMouseMove={throttle(handleHoverStart)}
-            onHoverEnd={handleHoverEnd}
             className={cn("cursor-pointer size-full flex-center min-h-screen w-screen")}
             style={{
                 perspective: "1000px",
@@ -90,7 +93,7 @@ const Hero = ({
 
             </GlowingCard>
             <TechStack />
-
+            <Dock />
         </motion.div>
     );
 };
@@ -151,7 +154,7 @@ const HeroContent = () => {
                     initial="hidden"
                     animate="visible"
                 >
-                    <div className="flex-1 flex-center flex-col gap-8">
+                    <div className="flex-1 flex-center flex-col gap-4">
                         {/* Greeting with wave animation */}
                         <motion.div
                             variants={itemVariants}
@@ -194,18 +197,17 @@ const HeroContent = () => {
                                         key={index}
                                         initial={{
                                             opacity: 0,
-                                            y: 20,
-                                            rotateX: 90
+                                            y: 30,
                                         }}
                                         animate={{
                                             opacity: 1,
                                             y: 0,
-                                            rotateX: 0
                                         }}
                                         transition={{
-                                            duration: 0.4,
-                                            delay: 0.8 + index * 0.05,
-                                            ease: [0.23, 1, 0.32, 1]
+                                            type: "spring",
+                                            bounce: 0.5,
+                                            duration: 0.8,
+                                            delay: 0.4 + index * 0.05,
                                         }}
 
                                         className="inline-block"

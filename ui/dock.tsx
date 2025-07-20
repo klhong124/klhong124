@@ -12,7 +12,6 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-
 const Dock = ({
     items = [
         {
@@ -46,7 +45,6 @@ const Dock = ({
     ...props
 }: any) => {
     let mouseX = useMotionValue(Infinity);
-
     return (
         <div {...props}>
             <motion.div
@@ -56,7 +54,7 @@ const Dock = ({
                     "absolute bottom-8 left-0 right-0 flex h-16 gap-4 items-center rounded-2xl justify-center",
                 )}
             >
-                {items.map((item: { title: string; href: string;}) => (
+                {items.map((item: { title: string; href: string; }) => (
                     <IconContainer mouseX={mouseX} key={item.title} {...item} />
                 ))}
             </motion.div>
@@ -74,6 +72,7 @@ function IconContainer({
     title: string;
     href: string;
 }>) {
+
     let ref = useRef<HTMLDivElement>(null);
 
     let distance = useTransform(mouseX, (val) => {
@@ -86,7 +85,7 @@ function IconContainer({
     let heightTransform = useTransform(distance, [-150, 0, 150], [40, 55, 40]);
 
     let widthTransformIcon = useTransform(distance, [-150, 0, 150], [20, 30, 20]);
-    let heightTransformIcon = useTransform(distance,[-150, 0, 150],[20, 30, 20]);
+    let heightTransformIcon = useTransform(distance, [-150, 0, 150], [20, 30, 20]);
 
     let width = useSpring(widthTransform, {
         mass: 0.1,

@@ -4,9 +4,9 @@ import { SpeedInsights as VercelSpeedInsights } from "@vercel/speed-insights/nex
 import { Analytics as VercelAnalytics } from "@vercel/analytics/react"
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { MouseContextProvider } from "@/hooks/useMouse";
-import Body from "@/ui/body";
 import { Background } from "@/ui/background";
 import { PostHogProvider } from "@/components/PostHogProvider";
+import Cursor from "@/ui/cursor";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://ryankwan.vercel.app/'),
@@ -34,9 +34,9 @@ export default function RootLayout({
       <body>
         <PostHogProvider>
           <MouseContextProvider>
-            <Body>
+
               {children}
-            </Body>
+            <Cursor />
             <Background />
           </MouseContextProvider>
           <VercelSpeedInsights />
