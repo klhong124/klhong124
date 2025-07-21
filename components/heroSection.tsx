@@ -256,13 +256,14 @@ const HeroContent = () => {
                     >
                         <IndicatorText className="relative">
                             <motion.span
+                                initial={{
+                                    opacity: 0
+                                }}
                                 animate={{
-                                    opacity: [0.6, 1, 0.6]
+                                    opacity: 1
                                 }}
                                 transition={{
                                     duration: 2,
-                                    repeat: Infinity,
-                                    repeatDelay: 3,
                                     ease: "easeInOut"
                                 }}
                             >
