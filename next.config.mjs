@@ -1,5 +1,6 @@
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
+import createMDX from "@next/mdx";
 
 /** @type {import('next').NextConfig} */
 
@@ -7,6 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const nextConfig = {
+    pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
     sassOptions: {
         includePaths: [path.join(__dirname, 'styles')],
     },
@@ -38,4 +40,6 @@ const nextConfig = {
     skipTrailingSlashRedirect: true,
 };
 
-export default nextConfig;
+const withMDX = createMDX({});
+
+export default withMDX(nextConfig);

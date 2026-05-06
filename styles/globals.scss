@@ -1,30 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
+@import "./tokens.scss";
+@import "./text.scss";
+@import "./fonts.scss";
 
 body {
   @apply font-spaceGrotesk;
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: rgb(var(--fg));
+  background: radial-gradient(circle at 20% 10%, rgba(45, 45, 70, 0.5), transparent 40%),
+    radial-gradient(circle at 80% 0%, rgba(20, 60, 90, 0.35), transparent 40%), rgb(var(--bg));
 }
 
 @layer utilities {
@@ -51,9 +36,27 @@ body {
 }
 
 .glass {
-  @apply backdrop-blur-xs rounded-3xl
-  border-2 border-stone-100/10 shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset]
-  [background-image:radial-gradient(96%_100%_at_top,rgba(255,255,255,0.2),rgba(255,255,255,0))] bg-stone-900/30;
+  @apply backdrop-blur-md;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 12px 48px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.04);
+  background: linear-gradient(155deg, rgba(18, 20, 32, 0.92), rgba(10, 12, 22, 0.88), rgba(16, 18, 30, 0.9));
+}
+
+.section-wrap {
+  @apply mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-12;
+}
+
+.grid-noise::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.1;
+  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.3) 1px, transparent 0);
+  background-size: 24px 24px;
 }
 
 /* Glowing card effect */
@@ -95,9 +98,5 @@ body {
 .dark .glow-effect::after {
   background: var(--gradient-dark);
 }
-
-
-@import "./text.scss";
-@import "./fonts.scss";
 
 

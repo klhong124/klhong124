@@ -1,455 +1,172 @@
 "use client";
-import React, { useEffect, useRef, useLayoutEffect } from "react";
+
+import React, { useEffect, useMemo, useRef } from "react";
 import { cn } from "@/utils/cn";
-import { motion, MotionConfig, MotionValue, useMotionValue, useTransform, useSpring, SpringOptions } from "motion/react";
+import { MotionValue, useMotionValue } from "motion/react";
 import { useMouse } from "@/hooks/useMouse";
 import useMeasure from "react-use-measure";
-import { Canvas, useThree } from "@react-three/fiber";
-import { useGLTF } from '@react-three/drei';
-import { motion as motion3d } from "framer-motion-3d";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { useGLTF } from "@react-three/drei";
+import * as THREE from "three";
 import { useHero } from "@/hooks/useHero";
 
-const TechStack = () => {
-    const [ref, bounds] = useMeasure({ scroll: true });
-    const [{ x, y }] = useMouse();
-    const [{ isHover }] = useHero();
-    const mouseX: MotionValue<number> = useMotionValue(Infinity);
-    const mouseY: MotionValue<number> = useMotionValue(Infinity);
+type Vec3 = [number, number, number];
 
-    useEffect(() => {
-        mouseX.set(x - bounds.x - bounds.width / 2);
-        mouseY.set(y - bounds.y - bounds.height / 2);
-    }, [x, y, bounds]);
-
-    return (
-        <MotionConfig transition={{
-            type: "spring",
-            bounce: 0.5,
-            stiffness: 100,
-        }}>
-            <motion.div
-                className={cn(
-                    "overflow-visible",
-                    "w-full h-screen min-h-[1080px]",
-                    "absolute",
-                    "pointer-events-none ",
-                )}
-                animate={!isHover ? "rest" : "hover"}
-                initial="rest"
-                variants={{
-                    rest: {
-                        opacity: 0,
-                        transition: {
-                            type: "linear"
-                        }
-                    },
-                    hover: {
-                        opacity: 1,
-                    },
-
-                }}
-                ref={ref}
-            >
-
-                <Scene
-                    mouseX={mouseX}
-                    mouseY={mouseY}
-                />
-            </motion.div>
-        </MotionConfig >
-    );
+type IconConfig = {
+  gltf: string;
+  position: Vec3;
+  rotation: Vec3;
+  scale?: number;
+  spinY?: number;
+  spinX?: number;
+  spinZ?: number;
+  bob?: { amp: number; speed: number };
+  pulse?: number;
+  drift?: boolean;
+  driftPhase?: number;
 };
 
+const ICONS: IconConfig[] = [
+  { gltf: "nuxt", position: [0.1, 0.75, 3], rotation: [Math.PI / 2, -Math.PI / 15, -0.2], scale: 0.8, spinZ: 0.9 },
+  { gltf: "vue", position: [-1.5, -1.8, 1.6], rotation: [Math.PI / 2, Math.PI / 20, -0.8], scale: 1.5, spinZ: 0.6 },
+  { gltf: "typescript", position: [2.6, 0.5, 1], rotation: [Math.PI / 1.8, 0, 1], spinY: 0.35 },
+  { gltf: "tailwindcss", position: [0, -2.8, 0], rotation: [Math.PI / 2, 0, -0.2], scale: 1.8, bob: { amp: 0.08, speed: 1.2 }, spinY: 0.2 },
+  { gltf: "next", position: [1.8, -0.9, 2.3], rotation: [Math.PI / 2.5, Math.PI / 2, Math.PI / 6], pulse: 0.08, spinY: 0.15 },
+  { gltf: "mongodb", position: [-2.6, 2.3, 0], rotation: [Math.PI / 1.3, Math.PI * 2, 0] },
+  { gltf: "framer-motion", position: [-1.3, 2.3, 0.7], rotation: [Math.PI / 2.1, Math.PI * 2.2, Math.PI * 2], bob: { amp: 0.04, speed: 3 } },
+  { gltf: "storybook", position: [1.2, 1.8, 1.9], rotation: [0, 0, Math.PI * 2], scale: 0.9, spinY: 0.25 },
+  { gltf: "python", position: [-4, 0.3, 0], rotation: [-Math.PI, Math.PI / 2, -Math.PI / 4], scale: 1.5, spinX: 0.12, spinY: 0.1 },
+  { gltf: "threejs", position: [-3.3, -1.1, -1], rotation: [Math.PI / 2, -Math.PI / 3, 0.3], spinX: 0.35 },
+  { gltf: "cloud-run", position: [-6.1, -1.1, -1.5], rotation: [Math.PI / 1.8, -Math.PI / 3, -Math.PI / 5], scale: 1.2, spinY: 0.2, spinZ: 0.15 },
+  { gltf: "firebase", position: [5.8, 0.3, -1], rotation: [Math.PI / 2.2, -Math.PI / 18, Math.PI / 10], scale: 1.2 },
+  { gltf: "illustrator", position: [4, -0.5, -3], rotation: [Math.PI / 2, Math.PI / 5, -Math.PI / 9], drift: true },
+  { gltf: "figma", position: [4.8, -0.6, -3], rotation: [Math.PI / 2.1, -Math.PI / 5.2, Math.PI / 5], drift: true, driftPhase: Math.PI },
+  { gltf: "vscode", position: [4.6, 3, -1], rotation: [Math.PI / 1.8, 0, 0], scale: 2, spinY: 0.22 },
+  { gltf: "miro", position: [-2.7, 1.4, 1.5], rotation: [Math.PI / 1.8, 0, 0], scale: 1.2, spinY: 0.1 },
+];
 
-const Scene = ({ mouseX, mouseY }: {
-    readonly mouseX: MotionValue<number>;
-    readonly mouseY: MotionValue<number>;
-}) => {
+function CameraRig({ mouseX, mouseY }: { mouseX: MotionValue<number>; mouseY: MotionValue<number> }) {
+  const { camera } = useThree();
+  const [{ isClick, isHover, isTap }] = useHero();
 
-    return (
-        <Canvas
-            shadows
-            dpr={[1, 2]}
-            style={{ pointerEvents: "none" }}
-            resize={{ scroll: false, offsetSize: true }}
-        >
-            <Lights />
+  useFrame(() => {
+    const cx = (-1 * mouseX.get()) / 3500;
+    const cy = mouseY.get() / 5000;
+    let targetZ = 4;
+    if (isTap) targetZ = 5;
+    else if (isHover) targetZ = 4.5;
+    if (isClick) targetZ = 4;
 
-            <Camera mouseX={mouseX} mouseY={mouseY} />
+    camera.position.x = cx;
+    camera.position.y = cy;
+    camera.position.z += (targetZ - camera.position.z) * 0.12;
+    camera.lookAt(0, 0, 0);
+  });
 
-            <motion3d.group
-                initial={false}
-                dispose={null}
-            >
-                <Icons
-                    gltf="nuxt"
-                    scale={0.8}
-                    position={[0.1, 0.75, 3]}
-                    rotation={[Math.PI / 2, -Math.PI / 15, -0.2]}
-                    animate={{
-                        rotateZ: [-0.2, Math.PI - 0.2, Math.PI * 2 - 0.2, Math.PI * 2 - 0.2],
-                        transition: {
-                            times: [0, 0.1, 0.2, 2],
-                            duration: 4,
-                            repeat: Infinity,
-                            ease: ["easeIn", "easeOut", "linear", "linear"],
-                        },
-                    }}
-                />
-                <Icons
-                    gltf="vue"
-                    position={[-1.5, -1.8, 1.6]}
-                    rotation={[Math.PI / 2, Math.PI / 20, -0.8]}
-                    scale={1.5}
-                    animate={{
-                        rotateZ: [-0.8, Math.PI - 0.8],
-                        transition: {
-                            duration: 1,
-                            repeatDelay: 3,
-                            type: "spring",
-                            bounce: 0.4,
-                            repeat: Infinity,
-                        },
-                    }}
-                />
-                <Icons
-                    gltf="react"
-                    scale={2.3}
-                    position={[4.6, 3, -1]}
-                    rotation={[Math.PI / 1.8, 0, 0]}
-                    animate={{
-                        rotateY: [0, Math.PI * 2],
-                        transition: {
-                            duration: 30,
-                            repeat: Infinity,
-                            ease: "linear",
-                        },
-                    }}
-                />
-                <Icons
-                    gltf="typescript"
-                    position={[2.6, 0.5, 1]}
-                    rotation={[Math.PI / 1.8, 0, 1]}
-                    animate={{
-                        rotateY: [Math.PI / 20, -Math.PI / 10],
-                        transition: {
-                            duration: 1,
-                            repeatDelay: 3,
-                            repeat: Infinity,
-                            repeatType: "reverse",
-                            bounce: 0.5,
-                            stiffness: 200,
-                            type: "spring",
-                        },
-                    }}
-                />
-                <Icons
-                    gltf="tailwindcss"
-                    scale={1.8}
-                    position={[0, -2.8, 0]}
-                    rotation={[Math.PI / 2, 0, -0.2]}
-                    animate={{
-                        y: [-2.5 - 0.2, -2.5, -2.5 - 0.2],
-                        rotateY: [-Math.PI / 20, 0, -Math.PI / 20],
-                        transition: {
-                            duration: 4,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                        },
-                    }}
-
-                />
-                <Icons
-                    gltf="laravel"
-                    scale={1.8}
-                    position={[3, -3.9, -4]}
-                    rotation={[Math.PI / 2, 0, 0.3]}
-                />
-                <Icons
-                    gltf="next"
-                    position={[1.8, -0.9, 2.3]}
-                    rotation={[Math.PI / 2.5, Math.PI / 2, Math.PI / 6]}
-                    animate={{
-                        scale: [1.1, 1.3, 1.1],
-                        rotateY: [-Math.PI / 5, -Math.PI / 7, -Math.PI / 5],
-                        transition: {
-                            duration: 4,
-                            repeatDelay: 3,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                        },
-                    }}
-                />
-
-                <Icons
-                    gltf="graphql"
-                    scale={1.3}
-                    position={[-2.7, 1.4, 1.5]}
-                    rotation={[Math.PI / 1.8, 0, 0]}
-                    animate={{
-                        rotateY: [0,
-                            -Math.PI / 3,
-                            -Math.PI / 3,
-                            -2 * Math.PI / 3,
-                            -2 * Math.PI / 3,
-                            -Math.PI,
-                            -Math.PI,
-                            -4 * Math.PI / 3,
-                            -4 * Math.PI / 3,
-                            -5 * Math.PI / 3,
-                            -5 * Math.PI / 3,
-                            -2 * Math.PI,
-                            -2 * Math.PI
-                        ],
-                        transition: {
-                            duration: 16,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                        },
-                    }}
-                />
-                <Icons
-                    gltf="mongodb"
-                    position={[-2.6, 2.3, 0]}
-                    rotation={[Math.PI / 1.3, Math.PI * 2, 0]}
-                />
-                <Icons
-                    gltf="framer-motion"
-                    position={[-1.3, 2.3, 0.7]}
-                    rotation={[Math.PI / 2.1, Math.PI * 2.2, Math.PI * 2]}
-                    animate={{
-                        y: [2.6, 2.6 + 0.1, 2.6, 2.6 + 0.1, 2.6],
-                        transition: {
-                            times: [0, 0.25, 0.5, 0.75, 1],
-                            duration: 0.8,
-                            repeat: Infinity,
-                            repeatDelay: 2,
-                            ease: "easeInOut",
-                        },
-                    }}
-                />
-                <Icons
-                    gltf="storybook"
-                    scale={0.9}
-                    position={[1.2, 1.8, 1.9]}
-                    rotation={[0, 0, Math.PI * 2]}
-                    animate={{
-                        rotateY: [-Math.PI / 30, Math.PI / 30],
-                        rotateX: [Math.PI / 2, Math.PI / 2 - Math.PI / 30],
-                        transition: {
-                            duration: 5,
-                            repeat: Infinity,
-                            repeatType: "reverse",
-                            bounce: 0.8,
-                            type: "spring",
-                        },
-                    }}
-                />
-                <Icons
-                    gltf="python"
-                    scale={1.5}
-                    position={[-4, 0.3, 0]}
-                    rotation={[-Math.PI, Math.PI / 2, -Math.PI / 4]}
-                    animate={{
-                        rotateX: [-Math.PI, Math.PI / 2],
-                        rotateY: [Math.PI / 2, Math.PI / 15],
-                        transition: {
-                            duration: 5,
-                            repeat: Infinity,
-                            repeatType: "reverse",
-                            bounce: 0.4,
-                            type: "spring",
-                        },
-                    }}
-                />
-                <Icons
-                    gltf="threejs"
-                    position={[-3.3, -1.1, -1]}
-                    rotation={[Math.PI / 2, -Math.PI / 3, 0.3]}
-                    animate={{
-                        rotateX: [
-                            Math.PI / 2,
-                            Math.PI * 2 + Math.PI / 2,
-                        ],
-                        transition: {
-                            duration: 9,
-                            repeat: Infinity,
-                            type: "spring",
-                            bounce: 0.4,
-                        },
-                    }}
-                />
-                <Icons
-                    gltf="jest"
-                    position={[0, 0, 1]}
-                    rotation={[Math.PI / 2.1, 0, 0.2]}
-
-                    animate={{
-                        y: [-1.5, -1.6, -1.5, -1.6, -1.5],
-                        x: [-3.7, -3.7, -3.6, -3.6, -3.7],
-                        rotateY: [-Math.PI / 4, -Math.PI / 5, -Math.PI / 4, -Math.PI / 5, -Math.PI / 4],
-                        transition: {
-                            duration: 2,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                            repeatDelay: 1,
-                        },
-                    }}
-                />
-
-                <Icons
-                    gltf="cloud-run"
-                    scale={1.2}
-                    position={[-6.1, -1.1, -1.5]}
-                    rotation={[Math.PI / 1.8, -Math.PI / 3, -Math.PI / 5]}
-
-                    animate={{
-                        rotateZ: [-Math.PI / 5 + Math.PI / 10, -Math.PI / 5],
-                        rotateY: [Math.PI / 4 - Math.PI / 10, Math.PI / 4 + Math.PI / 10],
-                        transition: {
-                            duration: 2,
-                            repeatDelay: 2,
-                            repeat: Infinity,
-                            repeatType: "reverse",
-                            bounce: 0.5,
-                            type: "spring",
-                        },
-                    }}
-                />
-                <Icons
-                    gltf="firebase"
-                    scale={1.2}
-                    position={[5.8, 0.3, -1]}
-                    rotation={[Math.PI / 2.2, -Math.PI / 18, Math.PI / 10]}
-
-                />
-                <Icons
-                    gltf="illustrator"
-                    position={[4, -0.5, -3]}
-                    rotation={[Math.PI / 2, Math.PI / 5, -Math.PI / 9]}
-                    animate={{
-                        x: [4, 4.4, 4.8, 4.4, 4],
-                        z: [-3, -2.5, -3, -3.5, -3],
-                        transition: {
-                            duration: 0.9,
-                            repeatDelay: 4,
-                            repeat: Infinity,
-                            ease: "easeOut",
-                        },
-                    }}
-                />
-                <Icons
-                    gltf="photoshop"
-                    position={[4.8, -0.6, -3]}
-                    rotation={[Math.PI / 2.1, -Math.PI / 5.2, Math.PI / 5]}
-
-                    animate={{
-                        x: [4.8, 4.4, 4, 4.4, 4.8],
-                        z: [-3, -3.5, -3, -2.5, -3],
-                        transition: {
-                            duration: 0.9,
-                            repeatDelay: 4,
-                            repeat: Infinity,
-                            ease: "easeOut",
-                        },
-                    }}
-                />
-            </motion3d.group>
-        </Canvas>
-    );
-};
-
-const Lights = () => {
-    return (
-        <motion3d.ambientLight intensity={Math.PI / 3} />
-    );
-};
-
-
-const Camera = ({ mouseX, mouseY }: {
-    readonly mouseX: MotionValue<number>;
-    readonly mouseY: MotionValue<number>;
-}) => {
-
-    const cameraX = useTransform(mouseX, (x) => (-1 * x) / 3500);
-    const cameraY = useTransform(mouseY,  (y) => (y) / 5000);
-
-    const set = useThree(({ set }) => set);
-    const camera = useThree(({ camera }) => camera);
-    const size = useThree(({ size }) => size);
-    const scene = useThree(({ scene }) => scene);
-    const cameraRef = useRef<any>();
-
-
-    useLayoutEffect(() => {
-        const { current: cam }: any = cameraRef;
-        if (cam) {
-            cam.aspect = size.width / size.height;
-            cam.updateProjectionMatrix();
-        }
-    }, [size]);
-
-    useLayoutEffect(() => {
-        if (cameraRef.current) {
-            const oldCam = camera;
-            set(() => ({ camera: cameraRef.current }));
-            return () => set(() => ({ camera: oldCam }));
-        }
-    }, [camera, set]);
-
-    useLayoutEffect(() => {
-        return cameraX.on("change", () => {
-            if (cameraRef.current) {
-                cameraRef.current.lookAt(scene.position);
-            }
-        });
-    }, [cameraX, scene.position]);
-
-    const [{ isClick, isHover, isTap }] = useHero()
-
-    return (
-        <motion3d.perspectiveCamera
-            ref={cameraRef}
-            fov={95}
-            position={[cameraX.get(), cameraY.get(), 4]}
-            variants={{
-                hover: {
-                    z: 4.5,
-                    transition: {
-                        type: "spring",
-                        stiffness: 100,
-                        damping: 10,
-                    }
-                },
-                tap: {
-                    z: 5
-                },
-                click: {
-                    z: 4
-                }
-            }}
-            animate={isClick ? "click" : (isTap ? "tap" : (isHover ? "hover" : "rest"))}
-        />
-    );
-};
-
-function Icons({ gltf, ...props }: any) {
-    const { scene } = useGLTF(`/model/${gltf}.gltf`);
-    const [x, y, z] = props.position;
-    return (
-        <>
-            <motion3d.pointLight
-                position={[x * 1.1, y * 1.1, z + 1]}
-                intensity={0.8}
-            />
-            <motion3d.mesh
-                {...props}
-            >
-                <motion3d.primitive object={scene} />
-            </motion3d.mesh>
-
-        </>
-    );
+  return null;
 }
 
+function ToolIcon({ config }: { config: IconConfig }) {
+  const { gltf, position, rotation, scale = 1 } = config;
+  const { scene } = useGLTF(`/model/${gltf}.gltf`);
+  const group = useRef<THREE.Group>(null);
+  const clone = useMemo(() => scene.clone(true), [scene]);
+
+  const base = useRef({
+    px: position[0],
+    py: position[1],
+    pz: position[2],
+    rx: rotation[0],
+    ry: rotation[1],
+    rz: rotation[2],
+    sc: scale,
+  });
+
+  useFrame((state) => {
+    const g = group.current;
+    if (!g) return;
+    const t = state.clock.elapsedTime;
+
+    const rx = base.current.rx + (config.spinX ?? 0) * t;
+    const ry = base.current.ry + (config.spinY ?? 0) * t;
+    const rz = base.current.rz + (config.spinZ ? Math.sin(t * config.spinZ) * 0.25 : 0);
+    g.rotation.set(rx, ry, rz);
+
+    let y = base.current.py;
+    if (config.bob) y += Math.sin(t * config.bob.speed) * config.bob.amp;
+    let x = base.current.px;
+    let z = base.current.pz;
+    if (config.drift) {
+      const ph = config.driftPhase ?? 0;
+      x += Math.sin(t * 0.7 + ph) * 0.35;
+      z += Math.cos(t * 0.6 + ph) * 0.35;
+    }
+    g.position.set(x, y, z);
+
+    let s = base.current.sc;
+    if (config.pulse) s *= 1 + Math.sin(t * 1.5) * config.pulse;
+    g.scale.setScalar(s);
+  });
+
+  const [lx, ly, lz] = position;
+
+  return (
+    <group ref={group}>
+      <pointLight position={[lx * 1.1, ly * 1.1, lz + 1]} intensity={0.8} />
+      <primitive object={clone} />
+    </group>
+  );
+}
+
+function Scene({ mouseX, mouseY }: { mouseX: MotionValue<number>; mouseY: MotionValue<number> }) {
+  return (
+    <Canvas
+      shadows
+      dpr={[1, 2]}
+      style={{ pointerEvents: "none" }}
+      resize={{ scroll: false, offsetSize: true }}
+      camera={{ fov: 95, near: 0.1, far: 200, position: [0, 0, 4] }}
+    >
+      <ambientLight intensity={Math.PI / 3} />
+      <CameraRig mouseX={mouseX} mouseY={mouseY} />
+      <group>
+        {ICONS.map((cfg, i) => (
+          <ToolIcon key={`${cfg.gltf}-${i}`} config={cfg} />
+        ))}
+      </group>
+    </Canvas>
+  );
+}
+
+const TechStack = () => {
+  const [ref, bounds] = useMeasure({ scroll: true });
+  const [{ x, y }] = useMouse();
+  const [{ isHover }] = useHero();
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  useEffect(() => {
+    mouseX.set(x - bounds.x - bounds.width / 2);
+    mouseY.set(y - bounds.y - bounds.height / 2);
+  }, [x, y, bounds, mouseX, mouseY]);
+
+  /** Do not wrap `<Canvas>` in `motion.*` — R3F uses a separate reconciler and Framer Motion breaks `ReactCurrentOwner`. */
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        "pointer-events-none absolute inset-0 overflow-visible",
+        "h-full min-h-screen w-full transition-opacity duration-500 ease-out",
+        isHover ? "opacity-100" : "opacity-0",
+      )}
+    >
+      <Scene mouseX={mouseX} mouseY={mouseY} />
+    </div>
+  );
+};
+
 export default TechStack;
+
+ICONS.forEach((c) => {
+  useGLTF.preload(`/model/${c.gltf}.gltf`);
+});

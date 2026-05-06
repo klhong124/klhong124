@@ -7,6 +7,15 @@ import { MouseContextProvider } from "@/hooks/useMouse";
 import { Background } from "@/ui/background";
 import { PostHogProvider } from "@/components/PostHogProvider";
 import Cursor from "@/ui/cursor";
+import { Inter_Tight } from "next/font/google";
+import { LenisProvider } from "@/components/layout/lenis-provider";
+import { ThemeAccentProvider } from "@/components/layout/theme-accent-provider";
+import { SiteHeader } from "@/components/layout/site-header";
+import { SiteFooter } from "@/components/layout/site-footer";
+import { CommandPalette } from "@/components/layout/command-palette";
+import { NoiseOverlay } from "@/components/shared/noise-overlay";
+
+const interTight = Inter_Tight({ subsets: ["latin"], variable: "--font-inter-tight" });
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://ryankwan.vercel.app/'),
@@ -14,11 +23,11 @@ export const metadata: Metadata = {
     template: '%s | Ryan Kwan - Portfolio',
     default: 'Ryan Kwan - Portfolio', // a default is required when creating a template
   },
-  description: "Experienced full-stack developer with a diverse background in designing and building web applications, marketplaces, and platforms. Proficient in modern frameworks like Vue and React, with expertise in front-end and back-end development, data integration, and creating seamless user experiences. Strong foundation in web design, animation, and software maintenance, complemented by experience in programming education and multimedia technology. Passionate about delivering innovative, user-centric, and scalable solutions across various industries",
+  description: "Senior frontend engineer focused on AI-augmented development, UI architecture, and systems design.",
   generator: 'Next.js',
   applicationName: 'Portfolio',
   referrer: 'origin-when-cross-origin',
-  keywords: ['Ryan Kwan', 'Portfolio', 'Full-stack Developer', 'Web Developer', 'Three.js', 'Motion Developer', 'Vue', 'React', 'Next.js', 'Nuxt.js'],
+  keywords: ['Ryan Kwan', 'Portfolio', 'Frontend Engineer', 'UI Architect', 'Systems Designer', 'Next.js', 'React', 'TypeScript'],
   creator: 'Ryan Kwan',
   authors: [{ name: 'Ryan Kwan', url: 'https://github.com/klhong124' }],
   publisher: 'Ryan Kwan',
@@ -31,19 +40,28 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body>
-        <PostHogProvider>
-          <MouseContextProvider>
-
-              {children}
-            <Cursor />
-            <Background />
-          </MouseContextProvider>
+      <body className={interTight.variable}>
+        {/* <PostHogProvider> */}
+          <ThemeAccentProvider>
+            <LenisProvider>
+              <MouseContextProvider>
+                <a href="#content" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-[100] focus:bg-black focus:px-3 focus:py-2">
+                  Skip to content
+                </a>
+                <SiteHeader />
+                <main id="content">{children}</main>
+                <SiteFooter />
+                <CommandPalette />
+                <NoiseOverlay />
+                <Cursor />
+                <Background />
+              </MouseContextProvider>
+            </LenisProvider>
+          </ThemeAccentProvider>
           <VercelSpeedInsights />
           <VercelAnalytics />
           <GoogleAnalytics gaId="G-NK426M59VD" />
-
-        </PostHogProvider>
+        {/* </PostHogProvider> */}
       </body>
     </html>
   );

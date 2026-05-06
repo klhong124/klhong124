@@ -128,17 +128,17 @@ const GlowingCard = memo(({
            #dd7bbb calc(100% / 5)
          )`;
 
-    // Dark mode gradient
-    const darkGradient = `radial-gradient(circle, #a78bfa 10%, #a78bfa00 20%),
-         radial-gradient(circle at 40% 40%, #fde047 5%, #fde04700 15%),
-         radial-gradient(circle at 60% 60%, #6ee7b7 10%, #6ee7b700 20%),
-         radial-gradient(circle at 40% 60%, #7dd3fc 10%, #7dd3fc00 20%),
+    // Dark mode gradient (aligned with section cards + accent token)
+    const darkGradient = `radial-gradient(circle, rgb(var(--accent) / 0.45) 10%, transparent 22%),
+         radial-gradient(circle at 35% 30%, #a78bfa 8%, #a78bfa00 18%),
+         radial-gradient(circle at 65% 55%, #22d3ee 8%, #22d3ee00 18%),
+         radial-gradient(circle at 45% 65%, #c4b5fd 6%, #c4b5fd00 16%),
          repeating-conic-gradient(
            from 236.84deg at 50% 50%,
            #a78bfa 0%,
-           #fde047 calc(25% / 5),
-           #6ee7b7 calc(50% / 5),
-           #7dd3fc calc(75% / 5),
+           #22d3ee calc(25% / 5),
+           #c4b5fd calc(50% / 5),
+           #fde68a calc(75% / 5),
            #a78bfa calc(100% / 5)
          )`;
 

@@ -24,12 +24,24 @@ const config: Config = {
         spaceGrotesk: ['space-grotesk', 'sans-serif'],
         matrix: ['matrix', 'sans-serif'],
         quicksand: ['quicksand', 'sans-serif'],
+        display: ['var(--font-inter-tight)', 'sans-serif'],
+      },
+      colors: {
+        bg: "rgb(var(--bg) / <alpha-value>)",
+        surface: "rgb(var(--surface) / <alpha-value>)",
+        fg: "rgb(var(--fg) / <alpha-value>)",
+        muted: "rgb(var(--muted) / <alpha-value>)",
+        accent: "rgb(var(--accent) / <alpha-value>)",
+      },
+      boxShadow: {
+        glow: "0 0 80px color-mix(in srgb, rgb(var(--accent)) 24%, transparent)",
       },
     },
   },
   plugins: [
     addVariablesForColors,
     addBackgroundDotPattern,
+    require("tailwindcss-animate"),
   ],
 };
 

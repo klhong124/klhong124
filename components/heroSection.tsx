@@ -1,16 +1,19 @@
 "use client";
 import { cn } from "@/utils/cn";
 import React from "react";
+import dynamic from "next/dynamic";
 import { motion, MotionConfig, MotionStyle } from "motion/react";
 import { HeroContextProvider, useHero } from "@/hooks/useHero";
 import throttle, { limit } from "@/utils/throttle";
 import WindowControl from "@/ui/windowControl";
 import GlowingCard from "@/ui/glowing-card";
-import TechStack from '@/ui/tech-stack';
 import IndicatorText from "@/ui/indicatorText";
 import Highlight from "@/ui/highlight";
 import Dock from "@/ui/dock";
 import { useMouse } from "@/hooks/useMouse";
+
+/** R3F must not run during SSR — avoids `ReactCurrentOwner` / invalid React dispatcher errors (incl. Bun). */
+const TechStack3D = dynamic(() => import("@/ui/tech-stack"), { ssr: false, loading: () => null });
 
 const HeroSection = () => {
     return (
@@ -73,28 +76,33 @@ const Hero = ({
 
 
     return (
-        <motion.div
-            onTapStart={handleTapStart}
-            onTap={handleTapCancel}
-            onTapCancel={handleTapCancel}
-            onMouseEnter={handleHoverStart}
-            onMouseLeave={handleHoverEnd}
-            onMouseMove={throttle(handleHoverStart)}
-            className={cn("cursor-pointer size-full flex-center min-h-screen w-full")}
-            style={{
-                perspective: "1000px",
-            }}
-            {...props}
-        >
-
-            <GlowingCard>
-                <HeroContent />
-                <WindowControl />
-
-            </GlowingCard>
-            <TechStack />
-            <Dock />
-        </motion.div>
+        <div className="relative min-h-screen w-full">
+            <motion.div
+                onTapStart={handleTapStart}
+                onTap={handleTapCancel}
+                onTapCancel={handleTapCancel}
+                onMouseEnter={handleHoverStart}
+                onMouseLeave={handleHoverEnd}
+                onMouseMove={throttle(handleHoverStart)}
+                className={cn(
+                    "relative z-10 flex size-full min-h-screen w-full cursor-pointer flex-col items-center justify-center",
+                )}
+                style={{
+                    perspective: "1000px",
+                }}
+                {...props}
+            >
+                <GlowingCard>
+                    <HeroContent />
+                    <WindowControl />
+                </GlowingCard>
+                <Dock />
+            </motion.div>
+            {/* Sibling of `motion.div`, not a child — avoids R3F + Motion reconciler conflicts */}
+            <div className="pointer-events-none absolute inset-0 z-0">
+                {/* <TechStack3D /> */}
+            </div>
+        </div>
     );
 };
 

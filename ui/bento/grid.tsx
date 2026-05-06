@@ -121,11 +121,13 @@ export const BentoGridItem = ({
     return (
         <motion.section
             className={cn(
-                "w-full relative glass overflow-hidden",
+                "w-full relative glass overflow-hidden rounded-2xl",
                 "min-h-[300px] max-h-[600px] md:min-h-[150px] md:max-h-[900px]",
                 bentoConfig[id],
                 className
             )}
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 400, damping: 28 }}
         // initial={"hidden"}
         // variants={{
         //     "hidden": animationConfig[id]?.initial,

@@ -25,15 +25,20 @@
       "@/*": [
         "./*"
       ]
-    }
+    },
+    "target": "ES2017"
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "ui/*.tsx"
-, "app/explore", "app/api", "middleware.ts", "app/work"  ],
+    "ui/*.tsx",
+    "app/explore",
+    "app/api",
+    "middleware.ts",
+    "app/work"
+  ],
   "exclude": [
     "node_modules"
   ]

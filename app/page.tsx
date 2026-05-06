@@ -1,21 +1,23 @@
 "use client";
 import HeroSection from "@/components/heroSection";
-import BentoSection from "@/components/bentoSection";
-import WorkSection from "@/components/workSection";
+import { AboutSection } from "@/components/sections/about";
+import { FeaturedWorkSection } from "@/components/sections/featured-work";
+import { SystemsDesignSection } from "@/components/sections/systems-design";
+import { AiAugmentedSection } from "@/components/sections/ai-augmented";
+import { ExperienceSectionV2 } from "@/components/sections/experience";
+import { TechStackSectionV2 } from "@/components/sections/tech-stack";
+import { ContactSectionV2 } from "@/components/sections/contact";
 export default function Home() {
-
   return (
-    <div  className="relative">
-      {/* Hero Section */}
-        <HeroSection />
-
-      {/* Bento Grid Section */}
-        <BentoSection />
-
-      {/* Work Section */}
-      <WorkSection />
+    <div className="relative">
+      <HeroSection />
+      <AboutSection />
+      <FeaturedWorkSection />
+      <SystemsDesignSection />
+      <AiAugmentedSection />
+      <ExperienceSectionV2 />
+      <TechStackSectionV2 />
+      <ContactSectionV2 />
     </div>
   );
 }
-
-
