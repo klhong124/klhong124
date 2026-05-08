@@ -160,10 +160,10 @@ const HeroContent = () => {
                             variants={itemVariants}
                             animate="visible"
                             initial="hidden"
-                            className="flex items-center space-x-4"
+                            className="flex items-center gap-3 sm:gap-4"
                         >
                             <motion.span
-                                className="text-lg text-center"
+                                className="inline-flex text-2xl sm:text-[1.75rem]"
                                 animate={{
                                     rotate: [0, 12, -12, 12, 0],
                                 }}
@@ -176,7 +176,7 @@ const HeroContent = () => {
                             >
                                 👋🏽
                             </motion.span>
-                            <span className="text-lg text-center">
+                            <span className="text-center text-base font-medium tracking-[0.02em] text-stone-400 sm:text-lg">
                                 Say hello to
                             </span>
                         </motion.div>
@@ -188,8 +188,8 @@ const HeroContent = () => {
                         >
                             <motion.h1
                                 className={cn(
-                                    "text-primary text-4xl text-center",
-                                    "font-medium tracking-wide relative"
+                                    "text-primary relative text-center",
+                                    "text-4xl font-semibold tracking-[-0.03em] ",
                                 )}
                             >
                                 {"@ryankwandev".split("").map((char, index) => (
@@ -284,7 +284,7 @@ const Introduction = () => {
         <div className="flex flex-col items-center h-full">
             <Hello />
             <motion.p className={cn(
-                "text-md text-gray-400  mt-16 md:p-14 sm:p-12 p-6 w-full max-w-xl leading-relaxed",
+                "mt-16 w-full max-w-xl p-6 text-base leading-relaxed text-stone-400 sm:p-12 sm:text-lg md:p-14",
             )}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

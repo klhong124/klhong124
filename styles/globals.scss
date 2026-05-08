@@ -50,10 +50,26 @@ body {
   @apply flex justify-center items-center;
 }
 
+/* Shared glass (work page, bento grid, etc.) — slightly more opaque than before */
 .glass {
   @apply backdrop-blur-xs rounded-3xl
-  border-2 border-stone-100/10 shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset]
-  [background-image:radial-gradient(96%_100%_at_top,rgba(255,255,255,0.2),rgba(255,255,255,0))] bg-stone-900/30;
+  border-2 border-stone-100/15 shadow-[2px_4px_16px_0px_rgba(248,248,248,0.09)_inset]
+  [background-image:radial-gradient(96%_100%_at_top,rgba(255,255,255,0.26),rgba(255,255,255,0))] bg-stone-900/50;
+}
+
+/* Hero / landing card — same surface as GlassSurface (section cards under SectionShell) */
+.glass-landing {
+  @apply rounded-3xl backdrop-blur-[18px];
+  border: 1px solid rgb(255 255 255 / 0.14);
+  background-image: linear-gradient(
+    145deg,
+    rgb(255 255 255 / 0.12) 0%,
+    rgb(255 255 255 / 0.05) 42%,
+    rgb(12 14 28 / 0.86) 100%
+  );
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.07) inset,
+    0 30px 80px -38px rgb(0 0 0 / 0.88);
 }
 
 /* Glowing card effect */

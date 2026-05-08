@@ -1,20 +1,15 @@
-"use client";
 import HeroSection from "@/components/heroSection";
-import BentoSection from "@/components/bentoSection";
-import WorkSection from "@/components/workSection";
+import PortfolioBelowFold from "@/components/portfolio/BelowFold";
+import { SmoothScrollProvider } from "@/components/portfolio/SmoothScrollProvider";
+
 export default function Home() {
-
   return (
-    <div  className="relative">
-      {/* Hero Section */}
+    <SmoothScrollProvider>
+      <div className="relative">
         <HeroSection />
-
-      {/* Bento Grid Section */}
-        <BentoSection />
-
-      {/* Work Section */}
-      <WorkSection />
-    </div>
+        <PortfolioBelowFold />
+      </div>
+    </SmoothScrollProvider>
   );
 }
 

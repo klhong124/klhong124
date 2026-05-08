@@ -24,6 +24,7 @@
     "dotted-map": "^2.2.3",
     "flubber": "^0.4.2",
     "framer-motion-3d": "^11.3.6",
+    "lenis": "^1.3.23",
     "lucide-react": "^0.468.0",
     "matter-js": "^0.20.0",
     "mini-svg-data-uri": "^1.4.4",

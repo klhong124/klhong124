@@ -7,21 +7,55 @@ import { MouseContextProvider } from "@/hooks/useMouse";
 import { Background } from "@/ui/background";
 import { PostHogProvider } from "@/components/PostHogProvider";
 import Cursor from "@/ui/cursor";
+import { SITE, SITE_KEYWORDS, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://ryankwan.vercel.app/'),
+  metadataBase: new URL(SITE_URL),
   title: {
-    template: '%s | Ryan Kwan - Portfolio',
-    default: 'Ryan Kwan - Portfolio', // a default is required when creating a template
+    template: SITE.titleTemplate,
+    default: SITE.titleDefault,
   },
-  description: "Experienced full-stack developer with a diverse background in designing and building web applications, marketplaces, and platforms. Proficient in modern frameworks like Vue and React, with expertise in front-end and back-end development, data integration, and creating seamless user experiences. Strong foundation in web design, animation, and software maintenance, complemented by experience in programming education and multimedia technology. Passionate about delivering innovative, user-centric, and scalable solutions across various industries",
-  generator: 'Next.js',
-  applicationName: 'Portfolio',
-  referrer: 'origin-when-cross-origin',
-  keywords: ['Ryan Kwan', 'Portfolio', 'Full-stack Developer', 'Web Developer', 'Three.js', 'Motion Developer', 'Vue', 'React', 'Next.js', 'Nuxt.js'],
-  creator: 'Ryan Kwan',
-  authors: [{ name: 'Ryan Kwan', url: 'https://github.com/klhong124' }],
-  publisher: 'Ryan Kwan',
+  description: SITE.description,
+  applicationName: `${SITE.name} — Portfolio`,
+  referrer: "origin-when-cross-origin",
+  keywords: [...SITE_KEYWORDS],
+  authors: [{ name: SITE.name, url: "https://github.com/klhong124" }],
+  creator: SITE.name,
+  publisher: SITE.name,
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_GB",
+    url: SITE_URL,
+    siteName: `${SITE.name} — Portfolio`,
+    title: SITE.titleDefault,
+    description: SITE.ogDescription,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE.titleDefault,
+    description: SITE.ogDescription,
+    creator: SITE.twitterHandle,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: SITE_URL,
+  },
+  category: "technology",
 };
 
 export default function RootLayout({
