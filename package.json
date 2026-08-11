@@ -21,7 +21,6 @@
     "@vercel/speed-insights": "^1.1.0",
     "clsx": "^2.1.1",
     "gray-matter": "^4.0.3",
-    "gsap": "^3.15.0",
     "lucide-react": "^0.468.0",
     "mini-svg-data-uri": "^1.4.4",
     "motion": "^13.1.0",

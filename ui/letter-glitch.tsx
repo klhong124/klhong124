@@ -1,3 +1,4 @@
+"use client";
 import { useRef, useEffect } from "react";
 
 const LetterGlitch = ({
@@ -25,7 +26,9 @@ const LetterGlitch = ({
     >([]);
     const grid = useRef({ columns: 0, rows: 0 });
     const context = useRef<CanvasRenderingContext2D | null>(null);
-    const lastGlitchTime = useRef(Date.now());
+    // Seeded in the effect rather than here: calling Date.now() during render is
+    // impure and produces a different value on every re-render.
+    const lastGlitchTime = useRef(0);
 
     const fontSize = 12;
     const charWidth = 18;
@@ -235,7 +238,11 @@ const LetterGlitch = ({
     };
 
     const animate = () => {
-        const now = Date.now();
+        // `animate` is declared in the component body but only ever invoked from
+        // the effect below as a requestAnimationFrame callback, never during
+        // render, so reading the clock here is safe.
+        // eslint-disable-next-line react-hooks/purity
+        const now = performance.now();
         if (now - lastGlitchTime.current >= glitchSpeed) {
             updateLetters();
             drawLetters();
@@ -254,25 +261,47 @@ const LetterGlitch = ({
         if (!canvas) return;
 
         context.current = canvas.getContext("2d");
+        lastGlitchTime.current = performance.now();
         resizeCanvas();
-        animate();
 
-        let resizeTimeout: NodeJS.Timeout;
+        const stop = () => {
+            if (animationRef.current !== null) {
+                cancelAnimationFrame(animationRef.current);
+                animationRef.current = null;
+            }
+        };
 
+        const start = () => {
+            if (animationRef.current === null) animate();
+        };
+
+        start();
+
+        let resizeTimeout: ReturnType<typeof setTimeout>;
         const handleResize = () => {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
-                cancelAnimationFrame(animationRef.current as number);
+                stop();
                 resizeCanvas();
-                animate();
+                start();
             }, 100);
         };
 
-        window.addEventListener("resize", handleResize);
+        // A per-frame canvas loop in a background tab is pure battery drain, so
+        // the loop is torn down whenever the document is hidden.
+        const handleVisibility = () => {
+            if (document.hidden) stop();
+            else start();
+        };
+
+        window.addEventListener("resize", handleResize, { passive: true });
+        document.addEventListener("visibilitychange", handleVisibility);
 
         return () => {
-            cancelAnimationFrame(animationRef.current!);
+            stop();
+            clearTimeout(resizeTimeout);
             window.removeEventListener("resize", handleResize);
+            document.removeEventListener("visibilitychange", handleVisibility);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [glitchSpeed, smooth]);

@@ -12,6 +12,38 @@ body {
     radial-gradient(circle at 80% 0%, rgba(20, 60, 90, 0.35), transparent 40%), rgb(var(--bg));
 }
 
+html {
+  /* Anchor navigation should not fling the page for someone who asked for
+     reduced motion; the media query below turns this off again. */
+  scroll-behavior: smooth;
+}
+
+/* Belt and braces alongside the JavaScript gating in lib/motion. This catches
+   CSS transitions and keyframe animations that MotionProvider cannot reach,
+   including Tailwind's `transition-*` utilities and tailwindcss-animate. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* A visible, consistent focus ring. Several components previously relied on the
+   browser default, which is close to invisible against a dark glass surface. */
+:focus-visible {
+  outline: 2px solid rgb(var(--accent));
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

@@ -1,177 +1,122 @@
-'use client'
-import { cn } from "@/utils/cn";
-import {
-    AnimatePresence,
-    MotionValue,
-    motion,
-    useMotionValue,
-    useSpring,
-    useTransform,
-} from "motion/react";
+"use client";
+import { AnimatePresence, motion, useMotionValue, useSpring, useTransform, type MotionValue } from "motion/react";
 import Link from "next/link";
-import { useRef, useState } from "react";
-import { usePathname } from "next/navigation";
 import Image from "next/image";
-const Dock = ({
-    items = [
-        {
-            title: "Linkedin",
-            href: "https://www.linkedin.com/in/ryankwandev/",
-        },
-        {
-            title: "Github",
-            href: "https://github.com/klhong124",
-        },
-        {
-            title: "X",
-            href: "https://x.com/ryankwandev",
-        },
-        {
-            title: "Inbox",
-            href: "mailto:klhong124+inbox@gmail.com",
+import { useRef, useState } from "react";
+import { cn } from "@/utils/cn";
+import { spring, duration } from "@/lib/motion/tokens";
+import { useMotionEnabled } from "@/lib/motion/use-motion-enabled";
+import { profile } from "@/data/portfolio-content";
 
-        },
-        {
-            title: "Medium",
-            href: "https://medium.com/@ryankwandev",
-
-        },
-        {
-            title: "Whatsapp",
-            href: "https://wa.me/447878154432",
-        },
-
-    ],
-    ...props
-}: any) => {
-    const mouseX = useMotionValue(Infinity);
-    return (
-        <div {...props}>
-            <motion.div
-                onMouseMove={(e) => { mouseX.set(e.pageX) }}
-                onMouseLeave={() => { mouseX.set(Infinity) }}
-                className={cn(
-                    "absolute bottom-8 left-0 right-0 flex h-16 gap-4 items-center rounded-2xl justify-center",
-                )}
-            >
-                {items.map((item: { title: string; href: string; }) => (
-                    <IconContainer mouseX={mouseX} key={item.title} {...item} />
-                ))}
-            </motion.div>
-        </div>
-    );
+type DockItem = {
+  /** Used for the icon filename, the tooltip and the accessible name. */
+  title: string;
+  href: string;
+  /** Spelled out for assistive technology, e.g. "LinkedIn profile". */
+  label: string;
 };
 
+const DEFAULT_ITEMS: DockItem[] = [
+  { title: "linkedin", href: "https://www.linkedin.com/in/ryankwandev/", label: "LinkedIn profile" },
+  { title: "github", href: "https://github.com/klhong124", label: "GitHub profile" },
+  { title: "x", href: "https://x.com/ryankwandev", label: "X profile" },
+  { title: "medium", href: "https://medium.com/@ryankwandev", label: "Medium articles" },
+  { title: "inbox", href: `mailto:${profile.email}`, label: `Email ${profile.email}` },
+];
 
-function IconContainer({
-    mouseX,
-    title,
-    href,
-}: Readonly<{
-    mouseX: MotionValue;
-    title: string;
-    href: string;
-}>) {
+/**
+ * macOS-style magnifying dock for social links.
+ *
+ * Magnification now uses `scale` rather than animated `width`/`height`, so it
+ * runs on the compositor instead of forcing layout on every pointer move. Each
+ * link has a 44px hit area and an explicit accessible name — previously they
+ * relied on the inner image's alt text, which read as "Linkedin" and "Whatsapp".
+ */
+const Dock = ({ items = DEFAULT_ITEMS, className }: { items?: DockItem[]; className?: string }) => {
+  const mouseX = useMotionValue(Number.POSITIVE_INFINITY);
+  const motionEnabled = useMotionEnabled();
 
-    const ref = useRef<HTMLDivElement>(null);
+  return (
+    <nav aria-label="Social links" className={cn("mt-12", className)}>
+      <ul
+        onMouseMove={(event) => motionEnabled && mouseX.set(event.pageX)}
+        onMouseLeave={() => mouseX.set(Number.POSITIVE_INFINITY)}
+        className="flex items-center justify-center gap-3"
+      >
+        {items.map((item) => (
+          <li key={item.title}>
+            <DockIcon mouseX={mouseX} magnify={motionEnabled} {...item} />
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
 
-    const distance = useTransform(mouseX, (val) => {
-        const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
+function DockIcon({
+  mouseX,
+  title,
+  href,
+  label,
+  magnify,
+}: DockItem & { mouseX: MotionValue<number>; magnify: boolean }) {
+  const ref = useRef<HTMLAnchorElement>(null);
+  const [hovered, setHovered] = useState(false);
 
-        return val - bounds.x - bounds.width / 2;
-    });
+  const distance = useTransform(mouseX, (value) => {
+    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
+    return value - bounds.x - bounds.width / 2;
+  });
 
-    const widthTransform = useTransform(distance, [-150, 0, 150], [40, 55, 40]);
-    const heightTransform = useTransform(distance, [-150, 0, 150], [40, 55, 40]);
+  const scale = useSpring(useTransform(distance, [-150, 0, 150], [1, 1.35, 1]), spring.pointer);
+  const isExternal = href.startsWith("http");
 
-    const widthTransformIcon = useTransform(distance, [-150, 0, 150], [20, 30, 20]);
-    const heightTransformIcon = useTransform(distance, [-150, 0, 150], [20, 30, 20]);
+  return (
+    <Link
+      ref={ref}
+      href={href}
+      aria-label={label}
+      target={isExternal ? "_blank" : undefined}
+      rel={isExternal ? "noreferrer noopener" : undefined}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setHovered(true)}
+      onBlur={() => setHovered(false)}
+      className="relative flex size-11 items-center justify-center rounded-xl bg-white/10 transition-colors hover:bg-white/20"
+    >
+      <motion.span
+        style={magnify ? { scale } : undefined}
+        className="flex items-center justify-center"
+      >
+        <Image
+          src={`/svg/${title}.svg`}
+          alt=""
+          aria-hidden="true"
+          width={22}
+          height={22}
+          className="invert"
+        />
+      </motion.span>
 
-    const width = useSpring(widthTransform, {
-        mass: 0.1,
-        stiffness: 150,
-        damping: 12,
-    });
-    const height = useSpring(heightTransform, {
-        mass: 0.1,
-        stiffness: 150,
-        damping: 12,
-    });
-
-    const widthIcon = useSpring(widthTransformIcon, {
-        mass: 0.1,
-        stiffness: 150,
-        damping: 12,
-    });
-    const heightIcon = useSpring(heightTransformIcon, {
-        mass: 0.1,
-        stiffness: 150,
-        damping: 12,
-    });
-
-    const [hovered, setHovered] = useState(false);
-    const pathname = usePathname();
-    const showDot = pathname === href;
-
-    return (
-        <Link
-            href={href.startsWith('mailto:') ? `${href}?subject=Interest in your expertise in Full-Stack Development&body=Hi Ryan,` : href}
-            target={href.startsWith('http') ? "_blank" : undefined}
-            onClick={(e) => {
-                if (pathname === href) {
-                    e.preventDefault();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-            }}
-        >
-            <motion.div
-                ref={ref}
-                style={{ width, height }}
-                onMouseEnter={() => setHovered(true)}
-                onMouseLeave={() => setHovered(false)}
-                className={cn("aspect-square rounded-xl bg-stone-700 flex items-center justify-center relative",
-                    hovered && "shadow-[0px_12px_18px_-12px_var(--black)]",
-                    "transition-shadow duration-300"
-                )}
-            >
-                <AnimatePresence>
-                    {hovered && (
-                        <motion.div
-                            initial={{ opacity: 0, y: -10, x: "-50%" }}
-                            animate={{ opacity: 1, y: 0, x: "-50%" }}
-                            exit={{ opacity: 0, y: -2, x: "-50%" }}
-                            className={cn(
-                                "font-spaceGrotesk px-2 py-0.5 whitespace-pre rounded-md",
-                                "bg-neutral-900 border-neutral-900 text-neutral-100",
-                                "absolute left-1/2 -translate-x-1/2 -bottom-7",
-                                "w-fit text-sm"
-                            )}
-                        >
-                            {title}
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-                <motion.div
-                    style={{ width: widthIcon, height: heightIcon }}
-                    className="flex items-center justify-center"
-                >
-                    <Image
-                        src={`/svg/${title.toLowerCase()}.svg`}
-                        alt={title}
-                        width={46}
-                        height={46}
-                        className="invert"
-                    />
-                </motion.div>
-            </motion.div>
-            <motion.div
-                className="w-1 h-1 rounded-full bg-neutral-400 mx-auto mt-1 -mb-2"
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: showDot ? 1 : 0, scale: 1 }}
-                transition={{ duration: 0.2 }}
-            />
-        </Link>
-    );
+      <AnimatePresence>
+        {hovered && (
+          <motion.span
+            aria-hidden="true"
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -2 }}
+            transition={{ duration: duration.fast }}
+            className={cn(
+              "pointer-events-none absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-pre rounded-md px-2 py-0.5",
+              "border border-white/10 bg-neutral-900 text-sm text-neutral-100",
+            )}
+          >
+            {label}
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </Link>
+  );
 }
 
 export default Dock;

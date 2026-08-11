@@ -1,88 +1,55 @@
-// import '@/styles/cursor.scss'
 'use client'
 import { AnimatePresence, motion } from "motion/react";
 import { useMouse } from '@/hooks/useMouse'
 import { cn } from "@/utils/cn";
 
+/**
+ * Decorative pointer companion.
+ *
+ * Reads position straight from motion values, so moving the mouse updates the
+ * transform without re-rendering. Positioned with `translate` rather than
+ * `top`/`left` so it stays on the compositor. `useMouse` only reports activity
+ * when ambient motion is enabled, so this is inert for reduced-motion, touch and
+ * low-powered devices.
+ */
 export default function Cursor({
   title = "You",
 }: Readonly<{
   title?: string | React.ReactNode;
 }>) {
-  const [mouse] = useMouse()
+  const { x, y, isActive } = useMouse();
+
   return (
     <AnimatePresence>
-      {
-        mouse.isActive && (
-          <div className="size-screen fixed top-0 left-0 z-50 pointer-events-none">
-            <motion.div
-              className="h-4 w-4 rounded-full absolute pointer-events-none"
-              style={{
-                top: mouse.y,
-                left: mouse.x,
-              }}
-              initial={{
-                scale: 1,
-                opacity: 1,
-              }}
-              animate={{
-                scale: 1,
-                opacity: 1,
-              }}
-              exit={{
-                scale: 0,
-                opacity: 0,
-              }}
-            >
-              <Tag>{title}</Tag>
-            </motion.div>
-          </div>
-        )
-      }
+      {isActive && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-0 z-50 overflow-hidden"
+        >
+          <motion.div
+            className="pointer-events-none absolute left-0 top-0 size-4 rounded-full"
+            style={{ x, y }}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+          >
+            <Tag>{title}</Tag>
+          </motion.div>
+        </div>
+      )}
     </AnimatePresence>
   );
-};
-
-export const Pointer = () => {
-  return (
-    <svg
-      stroke="currentColor"
-      fill="currentColor"
-      strokeWidth="1"
-      viewBox="0 0 16 16"
-      className={cn(
-        "-mt-5 -ml-3",
-        "h-5 w-5 text-emerald-500 transform translate-x-[6px] translate-y-[16px] -rotate-[70deg] stroke-emerald-600"
-      )}
-      height="1em"
-      width="1em"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103z"></path>
-    </svg>
-  )
 }
+
 export const Tag = ({ children }: { children: React.ReactNode }) => {
   return (
-    <motion.div
-      initial={{
-        scale: 0.5,
-        opacity: 0,
-      }}
-      animate={{
-        scale: 1,
-        opacity: 1,
-      }}
-      exit={{
-        scale: 0.5,
-        opacity: 0,
-      }}
+    <div
       className={cn(
-        "mt-5 ml-3",
-        "px-2 py-2 bg-emerald-700 text-white whitespace-nowrap min-w-max text-xs rounded-xl rounded-tl-none")
-      }
+        "ml-3 mt-5",
+        "min-w-max whitespace-nowrap rounded-xl rounded-tl-none bg-emerald-700 px-2 py-2 text-xs text-white",
+      )}
     >
       {children}
-    </motion.div>
-  )
-}
+    </div>
+  );
+};

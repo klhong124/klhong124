@@ -1,14 +1,13 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef } from "react";
+import { useMemo, useRef } from "react";
 import { cn } from "@/utils/cn";
-import { MotionValue, useMotionValue } from "motion/react";
+import { MotionValue, useMotionValue, useMotionValueEvent } from "motion/react";
 import { useMouse } from "@/hooks/useMouse";
 import useMeasure from "react-use-measure";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
-import { useHero } from "@/hooks/useHero";
 
 type Vec3 = [number, number, number];
 
@@ -47,16 +46,15 @@ const ICONS: IconConfig[] = [
 
 function CameraRig({ mouseX, mouseY }: { mouseX: MotionValue<number>; mouseY: MotionValue<number> }) {
   const { camera } = useThree();
-  const [{ isClick, isHover, isTap }] = useHero();
 
   useFrame(() => {
     const cx = (-1 * mouseX.get()) / 3500;
     const cy = mouseY.get() / 5000;
-    let targetZ = 4;
-    if (isTap) targetZ = 5;
-    else if (isHover) targetZ = 4.5;
-    if (isClick) targetZ = 4;
+    const targetZ = 4;
 
+    // Mutating the camera inside useFrame is the standard React Three Fiber
+    // pattern — the scene graph is deliberately outside React's render cycle.
+    // eslint-disable-next-line react-hooks/immutability
     camera.position.x = cx;
     camera.position.y = cy;
     camera.position.z += (targetZ - camera.position.z) * 0.12;
@@ -140,24 +138,27 @@ function Scene({ mouseX, mouseY }: { mouseX: MotionValue<number>; mouseY: Motion
 
 const TechStack = () => {
   const [ref, bounds] = useMeasure({ scroll: true });
-  const [{ x, y }] = useMouse();
-  const [{ isHover }] = useHero();
+  const { x, y } = useMouse();
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  useEffect(() => {
-    mouseX.set(x - bounds.x - bounds.width / 2);
-    mouseY.set(y - bounds.y - bounds.height / 2);
-  }, [x, y, bounds, mouseX, mouseY]);
+  // Track the shared pointer motion values directly. Doing this in an effect
+  // keyed on x/y meant a re-render for every mouse move.
+  useMotionValueEvent(x, "change", (value) => {
+    mouseX.set(value - bounds.x - bounds.width / 2);
+  });
+  useMotionValueEvent(y, "change", (value) => {
+    mouseY.set(value - bounds.y - bounds.height / 2);
+  });
 
-  /** Do not wrap `<Canvas>` in `motion.*` — R3F uses a separate reconciler and Framer Motion breaks `ReactCurrentOwner`. */
+  /** Do not wrap `<Canvas>` in `motion.*` — R3F uses a separate reconciler and Motion breaks `ReactCurrentOwner`. */
   return (
     <div
       ref={ref}
+      aria-hidden="true"
       className={cn(
         "pointer-events-none absolute inset-0 overflow-visible",
-        "h-full min-h-screen w-full transition-opacity duration-500 ease-out",
-        isHover ? "opacity-100" : "opacity-0",
+        "size-full",
       )}
     >
       <Scene mouseX={mouseX} mouseY={mouseY} />
@@ -166,7 +167,3 @@ const TechStack = () => {
 };
 
 export default TechStack;
-
-ICONS.forEach((c) => {
-  useGLTF.preload(`/model/${c.gltf}.gltf`);
-});

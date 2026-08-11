@@ -1,6 +1,8 @@
 'use client'
 import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import { cn } from "@/utils/cn";
+import { spring } from "@/lib/motion/tokens";
 
 const TextHoverEffect = ({ children, className }: {
     children: React.ReactNode;
@@ -10,11 +12,6 @@ const TextHoverEffect = ({ children, className }: {
     const [cursor, setCursor] = useState({ x: 0, y: 0 });
     const [hovered, setHovered] = useState(false);
     const [maskPosition, setMaskPosition] = useState({ cx: '50%', cy: '50%' });
-    const [isMounted, setIsMounted] = useState(false);
-
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
 
     useEffect(() => {
         if (svgRef.current && cursor.x !== null && cursor.y !== null) {
@@ -28,39 +25,14 @@ const TextHoverEffect = ({ children, className }: {
         }
     }, [cursor]);
 
-    if (!isMounted) {
-        return (
-            <div className={className}>
-                <svg
-                    width="100%"
-                    height="100%"
-                    viewBox="0 0 300 100"
-                    className="select-none"
-                >
-                    <text
-                        x="50%"
-                        y="50%"
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                        strokeWidth="0.5"
-                        className="font-[helvetica] font-bold stroke-neutral-500 fill-transparent text-7xl"
-                        style={{ opacity: 0 }}
-                    >
-                        {children}
-                    </text>
-                </svg>
-            </div>
-        );
-    }
-
     return (
-        <motion.div className={className}
-            initial={{
-                bottom: -20
-            }}
-            whileHover={{
-                bottom: -5
-            }}
+        // Animates `y` rather than `bottom`: the original animated a layout
+        // property on hover, which forced a reflow every frame.
+        <motion.div
+            className={cn("relative", className)}
+            initial={{ y: 0 }}
+            whileHover={{ y: -8 }}
+            transition={spring.settle}
         >
             <svg
                 ref={svgRef}
