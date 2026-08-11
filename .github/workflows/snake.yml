@@ -35,6 +35,12 @@ jobs:
             dist/github-contribution-grid-snake.svg
             dist/github-contribution-grid-snake-dark.svg?palette=github-dark
 
+      - name: Add vercel.json so Vercel skips this branch
+        # Vercel reads vercel.json from the pushed commit itself, so the
+        # "don't deploy the output branch" setting must live on that branch.
+        run: |
+          echo '{"git":{"deploymentEnabled":{"output":false}}}' > dist/vercel.json
+
       - name: Push SVGs to the output branch
         uses: crazy-max/ghaction-github-pages@v4
         with:
