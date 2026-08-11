@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "@/styles/globals.scss";
 import { SpeedInsights as VercelSpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
-import { GoogleAnalytics } from "@next/third-parties/google";
 import { Inter_Tight, Space_Grotesk } from "next/font/google";
 import { MouseContextProvider } from "@/hooks/useMouse";
 import { MotionProvider } from "@/lib/motion/motion-provider";
@@ -101,9 +100,12 @@ export default function RootLayout({
             </MouseContextProvider>
           </ThemeAccentProvider>
         </MotionProvider>
+        {/* Vercel's analytics only. GA4 was removed: it was 157KB — more than all
+            first-party JavaScript on the page combined — and the largest remaining
+            drag on LCP. It also set cookies with no consent mechanism, which is not
+            a defensible default for a UK-facing site. */}
         <VercelSpeedInsights />
         <VercelAnalytics />
-        <GoogleAnalytics gaId="G-NK426M59VD" />
       </body>
     </html>
   );
