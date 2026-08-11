@@ -58,7 +58,7 @@ const content = {
       role: "Mid-level Frontend Engineer",
       location: "London, UK",
       summary:
-        "Build and maintain parfetts.co.uk and online.parfetts.co.uk for Parfetts, an employee-owned UK Cash & Carry wholesaler that supplies independent retailers.",
+        "Build and maintain web applications for Parfetts, an employee-owned UK Cash & Carry wholesaler that supplies independent retailers.",
       // TODO(ryan): these describe the scope and stack you confirmed. If you want
       // named shipped features or delivery outcomes here, send them over and I
       // will swap them in — I have deliberately not guessed at specifics.

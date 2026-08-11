@@ -1,0 +1,33 @@
+# Fills the "Weekly Coding Breakdown" section of the profile README with
+# WakaTime stats, between the <!--START_SECTION:waka--> markers.
+#
+# IMPORTANT: like snake.yml, this only makes sense in the *profile*
+# repository (klhong124/klhong124).
+#
+# Requires a repo secret named WAKATIME_API_KEY — grab the key from
+# https://wakatime.com/api-key and add it under
+# Settings → Secrets and variables → Actions.
+name: update wakatime stats
+
+on:
+  schedule:
+    # Once a day at 00:30 UTC (offset from snake.yml so they don't race).
+    - cron: "30 0 * * *"
+  # Lets you trigger the first run manually so the section fills immediately.
+  workflow_dispatch:
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Update README with WakaTime stats
+        uses: athul/waka-readme@master
+        with:
+          WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
+          # Last 7 days of coding activity, broken down by language.
+          SHOW_TITLE: true
+          BLOCKS: "░▒▓█"
+          TIME_RANGE: last_7_days

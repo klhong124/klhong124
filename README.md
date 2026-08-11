@@ -2,6 +2,8 @@
   Hi there, I'm Ryan <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="32"/>
 </h1>
 
+
+
 <p align="center">
   <a href="https://github.com/klhong124">
     <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=22&duration=3200&pause=700&color=A78BFA&center=true&vCenter=true&width=720&lines=Frontend+Engineer+%E2%80%A2+London%2C+UK;Currently+%40+BuiltByPixel;Next.js+%E2%80%A2+React+%E2%80%A2+TypeScript;Design+systems+that+stay+consistent;Motion+that+earns+its+place" alt="Typing headline"/>
@@ -13,6 +15,7 @@
   <a href="mailto:hello@ryankwan.dev"><img src="https://img.shields.io/badge/Email-hello%40ryankwan.dev-D14836?style=flat&logo=gmail&logoColor=white"/></a>
   <a href="https://www.linkedin.com/in/ryankwandev/"><img src="https://img.shields.io/badge/LinkedIn-ryankwandev-0A66C2?style=flat&logo=linkedin&logoColor=white"/></a>
   <a href="https://wakatime.com/@ryankwandev"><img src="https://img.shields.io/badge/WakaTime-%40ryankwandev-2F3440?style=flat&logo=wakatime&logoColor=white"/></a>
+  <a href="https://wakatime.com/@e5861fa7-60ad-4e2e-8d44-eefbc5ee063e"><img src="https://wakatime.com/badge/user/e5861fa7-60ad-4e2e-8d44-eefbc5ee063e.svg" alt="Total code time"/></a>
   <img src="https://komarev.com/ghpvc/?username=klhong124&label=Profile%20views&color=8b5cf6&style=flat" alt="Profile views"/>
 </p>
 
