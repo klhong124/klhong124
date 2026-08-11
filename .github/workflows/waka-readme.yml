@@ -1,4 +1,4 @@
-# Fills the "Weekly Coding Breakdown" section of the profile README with
+# Fills the "Monthly Coding Breakdown" section of the profile README with
 # WakaTime stats, between the <!--START_SECTION:waka--> markers.
 #
 # IMPORTANT: like snake.yml, this only makes sense in the *profile*
@@ -27,7 +27,7 @@ jobs:
         uses: athul/waka-readme@master
         with:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
-          # Last 7 days of coding activity, broken down by language.
+          # Last 30 days of coding activity, broken down by language.
           SHOW_TITLE: true
           BLOCKS: "░▒▓█"
-          TIME_RANGE: last_7_days
+          TIME_RANGE: last_30_days
