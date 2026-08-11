@@ -31,9 +31,9 @@ const config: Config = {
         "section-loose": sectionSpacing.loose,
       },
       fontFamily: {
-        spaceGrotesk: ['space-grotesk', 'sans-serif'],
-        matrix: ['matrix', 'sans-serif'],
-        quicksand: ['quicksand', 'sans-serif'],
+        // `matrix` and `quicksand` were declared here and as raw @font-face rules
+        // but never used by any component, so both are gone along with their .ttf files.
+        spaceGrotesk: ['var(--font-space-grotesk)', 'sans-serif'],
         display: ['var(--font-inter-tight)', 'sans-serif'],
       },
       colors: {

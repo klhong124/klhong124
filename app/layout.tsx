@@ -3,7 +3,7 @@ import "@/styles/globals.scss";
 import { SpeedInsights as VercelSpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { Inter_Tight } from "next/font/google";
+import { Inter_Tight, Space_Grotesk } from "next/font/google";
 import { MouseContextProvider } from "@/hooks/useMouse";
 import { MotionProvider } from "@/lib/motion/motion-provider";
 import { Background } from "@/ui/background";
@@ -19,6 +19,18 @@ import { SITE_URL } from "@/app/sitemap";
 const interTight = Inter_Tight({
   subsets: ["latin"],
   variable: "--font-inter-tight",
+  display: "swap",
+});
+
+/**
+ * Body font. Previously a raw `@font-face` pointing at a 63KB .ttf with no
+ * `font-display`, so the browser held the text invisible until the font arrived
+ * — Lighthouse flagged it, and it was the reason LCP lagged well behind the HTML.
+ * Going through next/font gets a subset woff2, a preload hint and `swap`.
+ */
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
   display: "swap",
 });
 
@@ -69,7 +81,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en-GB" className="dark">
-      <body className={interTight.variable}>
+      <body className={`${interTight.variable} ${spaceGrotesk.variable}`}>
         <MotionProvider>
           <ThemeAccentProvider>
             <MouseContextProvider>
