@@ -1,17 +1,22 @@
-import { Section } from "@/components/shared/section";
-import { SectionHeading } from "@/components/shared/section-heading";
-import { GlassCard } from "@/components/shared/glass-card";
-import { bio } from "@/content/bio";
+import { Section } from "@/components/ui/section";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { GlassCard } from "@/components/ui/glass-card";
+import { principles } from "@/data/portfolio-content";
 
 export function AboutSection() {
   return (
-    <Section id="about">
-      <SectionHeading eyebrow="About" title="How I work" description={bio.intro} />
-      <div className="grid gap-6 md:grid-cols-2">
-        {bio.philosophy.map((item) => (
-          <GlassCard key={item.title}>
-            <h3 className="text-lg text-fg">{item.title}</h3>
-            <p className="mt-2 text-muted">{item.detail}</p>
+    <Section id="about" labelledBy="about-heading">
+      <SectionHeading
+        id="about-heading"
+        eyebrow="Approach"
+        title="How I work"
+        description="Four things I keep coming back to, and what they cost in practice."
+      />
+      <div className="grid gap-5 md:grid-cols-2">
+        {principles.map((principle) => (
+          <GlassCard key={principle.title} round="xl" innerClassName="p-6">
+            <h3 className="text-fluid-lg font-semibold text-fg">{principle.title}</h3>
+            <p className="mt-3 text-pretty text-muted">{principle.detail}</p>
           </GlassCard>
         ))}
       </div>

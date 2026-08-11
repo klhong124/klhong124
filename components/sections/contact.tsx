@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
-import { Section } from "@/components/shared/section";
-import { SectionHeading } from "@/components/shared/section-heading";
-import { MagneticButton } from "@/components/shared/magnetic-button";
-import { GlassCard } from "@/components/shared/glass-card";
+import { Section } from "@/components/ui/section";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { MagneticButton } from "@/components/ui/magnetic-button";
+import { GlassCard } from "@/components/ui/glass-card";
 
-export function ContactSectionV2() {
+export function ContactSection() {
   const [status, setStatus] = useState<string>("");
   return (
     <Section id="contact">

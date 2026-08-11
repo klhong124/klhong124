@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getAllProjectSlugs } from "@/lib/mdx";
+import { getPublishedCaseStudySlugs } from "@/data/portfolio-content";
 
 export const SITE_URL = "https://ryankwan.dev";
 
@@ -8,7 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: `${SITE_URL}/`, priority: 1, lastModified },
     { url: `${SITE_URL}/work`, priority: 0.8, lastModified },
-    ...getAllProjectSlugs().map((slug) => ({
+    ...getPublishedCaseStudySlugs().map((slug) => ({
       url: `${SITE_URL}/work/${slug}`,
       priority: 0.6,
       lastModified,

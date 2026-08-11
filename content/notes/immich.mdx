@@ -1,0 +1,17 @@
+## Why not just forward a port
+
+The obvious way to reach a service running at home is to forward a port on the router and point DNS at your residential IP. It works, and it is a bad idea. It puts an origin server directly on the public internet with your home network behind it, it breaks whenever the ISP rotates the IP, and it means every scanner on the internet gets to try the login page.
+
+A Cloudflare Tunnel inverts the direction. `cloudflared` runs on the Mac mini and makes an outbound connection to Cloudflare; Cloudflare accepts public traffic and passes it back down that connection. There are no inbound ports open on the home network at all, TLS terminates at the edge, and the origin's address is never public. The tunnel reconnects on its own when the network drops, which on domestic broadband is not a hypothetical.
+
+## Public gallery, private admin
+
+Not everything should be reachable from the same place. Family members need the gallery, and nobody needs the administrative surface — user management, library settings, the machine itself.
+
+So the two are split. The gallery is public over the tunnel at `gallery.ryankwan.dev`. Administration happens over Tailscale, on a private network where the only members are my own devices. It is the same reasoning as keeping a staging environment off the public internet: if a surface has no reason to be reachable, do not make it reachable, because an unauthenticated attacker cannot exploit a route they cannot open.
+
+## What this has to do with frontend work
+
+Very little, directly, and that is rather the point. Most of the hard bugs I have chased in client work happened at a boundary — a caching header, a redirect chain, a TLS mismatch, an environment variable that existed in one place and not another. Running my own origin, DNS and tunnel means those things stopped being someone else's abstraction and became things I have actually configured, broken and fixed.
+
+It also means the demo link on this site points at something I genuinely operate, with the uptime obligations that come with a family that expects to see their photos.

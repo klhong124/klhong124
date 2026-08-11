@@ -1,16 +1,27 @@
-"use client";
-
 import { cn } from "@/utils/cn";
 
 type SectionProps = {
   id: string;
+  /** Ties the section to its own heading so the landmark is named in a screen reader's list. */
+  labelledBy?: string;
+  space?: "tight" | "default" | "loose";
   className?: string;
   children: React.ReactNode;
 };
 
-export function Section({ id, className, children }: SectionProps) {
+const spacing = {
+  tight: "py-section-tight",
+  default: "py-section",
+  loose: "py-section-loose",
+} as const;
+
+export function Section({ id, labelledBy, space = "default", className, children }: SectionProps) {
   return (
-    <section id={id} className={cn("section-wrap py-20 md:py-28", className)}>
+    <section
+      id={id}
+      aria-labelledby={labelledBy}
+      className={cn("section-wrap scroll-mt-24", spacing[space], className)}
+    >
       {children}
     </section>
   );

@@ -1,21 +1,23 @@
-"use client";
+import { Section } from "@/components/ui/section";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { GlassCard } from "@/components/ui/glass-card";
+import { Pills } from "@/components/ui/pills";
+import { stackGroups } from "@/data/portfolio-content";
 
-import { Section } from "@/components/shared/section";
-import { SectionHeading } from "@/components/shared/section-heading";
-import { GlassCard } from "@/components/shared/glass-card";
-import { stack } from "@/content/stack";
-
-export function TechStackSectionV2() {
+export function TechStackSection() {
   return (
-    <Section id="stack">
-      <SectionHeading eyebrow="Stack" title="Tools I Ship With" />
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {Object.entries(stack).map(([group, tools]) => (
-          <GlassCard key={group} round="xl" innerClassName="p-4">
-            <h3 className="mb-3 text-sm uppercase tracking-[0.2em] text-fg">{group}</h3>
-            <div className="flex flex-wrap gap-2">
-              {tools.map((tool) => <span key={tool} className="rounded-full border border-white/15 px-3 py-1 text-xs text-muted">{tool}</span>)}
-            </div>
+    <Section id="stack" labelledBy="stack-heading">
+      <SectionHeading
+        id="stack-heading"
+        eyebrow="Stack"
+        title="What I build with"
+        description="Grouped by the job it does rather than by how fashionable it is."
+      />
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {stackGroups.map((group) => (
+          <GlassCard key={group.label} round="xl" innerClassName="p-5">
+            <h3 className="mb-4 text-fluid-base font-semibold text-fg">{group.label}</h3>
+            <Pills items={group.items} label={group.label} />
           </GlassCard>
         ))}
       </div>

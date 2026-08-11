@@ -1,36 +1,65 @@
 import type { Metadata } from "next";
 import "@/styles/globals.scss";
-import { SpeedInsights as VercelSpeedInsights } from "@vercel/speed-insights/next"
-import { Analytics as VercelAnalytics } from "@vercel/analytics/react"
-import { GoogleAnalytics } from '@next/third-parties/google'
-import { MouseContextProvider } from "@/hooks/useMouse";
-import { Background } from "@/ui/background";
-import { PostHogProvider } from "@/components/PostHogProvider";
-import Cursor from "@/ui/cursor";
+import { SpeedInsights as VercelSpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Inter_Tight } from "next/font/google";
-import { LenisProvider } from "@/components/layout/lenis-provider";
+import { MouseContextProvider } from "@/hooks/useMouse";
+import { MotionProvider } from "@/lib/motion/motion-provider";
+import { Background } from "@/ui/background";
+import Cursor from "@/ui/cursor";
 import { ThemeAccentProvider } from "@/components/layout/theme-accent-provider";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { CommandPalette } from "@/components/layout/command-palette";
-import { NoiseOverlay } from "@/components/shared/noise-overlay";
+import { NoiseOverlay } from "@/components/ui/noise-overlay";
+import { profile } from "@/data/portfolio-content";
+import { SITE_URL } from "@/app/sitemap";
 
-const interTight = Inter_Tight({ subsets: ["latin"], variable: "--font-inter-tight" });
+const interTight = Inter_Tight({
+  subsets: ["latin"],
+  variable: "--font-inter-tight",
+  display: "swap",
+});
+
+const description = `${profile.role} in ${profile.location}. ${profile.intro}`;
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://ryankwan.vercel.app/'),
+  metadataBase: new URL(SITE_URL),
   title: {
-    template: '%s | Ryan Kwan - Portfolio',
-    default: 'Ryan Kwan - Portfolio', // a default is required when creating a template
+    template: "%s | Ryan Kwan",
+    default: "Ryan Kwan — Frontend Engineer, London",
   },
-  description: "Senior frontend engineer focused on AI-augmented development, UI architecture, and systems design.",
-  generator: 'Next.js',
-  applicationName: 'Portfolio',
-  referrer: 'origin-when-cross-origin',
-  keywords: ['Ryan Kwan', 'Portfolio', 'Frontend Engineer', 'UI Architect', 'Systems Designer', 'Next.js', 'React', 'TypeScript'],
-  creator: 'Ryan Kwan',
-  authors: [{ name: 'Ryan Kwan', url: 'https://github.com/klhong124' }],
-  publisher: 'Ryan Kwan',
+  description,
+  applicationName: "Ryan Kwan",
+  referrer: "origin-when-cross-origin",
+  keywords: [
+    "Ryan Kwan",
+    "Frontend Engineer",
+    "London",
+    "Next.js",
+    "React",
+    "TypeScript",
+    "Design systems",
+  ],
+  creator: profile.name,
+  authors: [{ name: profile.name, url: "https://github.com/klhong124" }],
+  publisher: profile.name,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "en_GB",
+    siteName: "Ryan Kwan",
+    title: "Ryan Kwan — Frontend Engineer, London",
+    description,
+    url: SITE_URL,
+  },
+  twitter: {
+    card: "summary_large_image",
+    creator: "@ryankwandev",
+    title: "Ryan Kwan — Frontend Engineer, London",
+    description,
+  },
 };
 
 export default function RootLayout({
@@ -39,29 +68,30 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en-GB" className="dark">
       <body className={interTight.variable}>
-        {/* <PostHogProvider> */}
+        <MotionProvider>
           <ThemeAccentProvider>
-            <LenisProvider>
-              <MouseContextProvider>
-                <a href="#content" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-[100] focus:bg-black focus:px-3 focus:py-2">
-                  Skip to content
-                </a>
-                <SiteHeader />
-                <main id="content">{children}</main>
-                <SiteFooter />
-                <CommandPalette />
-                <NoiseOverlay />
-                <Cursor />
-                <Background />
-              </MouseContextProvider>
-            </LenisProvider>
+            <MouseContextProvider>
+              <a
+                href="#content"
+                className="sr-only rounded-md bg-fg px-4 py-3 font-medium text-bg focus-visible:not-sr-only focus-visible:absolute focus-visible:left-4 focus-visible:top-4 focus-visible:z-[100]"
+              >
+                Skip to content
+              </a>
+              <SiteHeader />
+              <main id="content">{children}</main>
+              <SiteFooter />
+              <CommandPalette />
+              <NoiseOverlay />
+              <Cursor />
+              <Background />
+            </MouseContextProvider>
           </ThemeAccentProvider>
-          <VercelSpeedInsights />
-          <VercelAnalytics />
-          <GoogleAnalytics gaId="G-NK426M59VD" />
-        {/* </PostHogProvider> */}
+        </MotionProvider>
+        <VercelSpeedInsights />
+        <VercelAnalytics />
+        <GoogleAnalytics gaId="G-NK426M59VD" />
       </body>
     </html>
   );

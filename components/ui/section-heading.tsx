@@ -1,18 +1,24 @@
 import { cn } from "@/utils/cn";
 
 type Props = {
+  /** Must match the `labelledBy` passed to the parent `Section`. */
+  id?: string;
   eyebrow?: string;
   title: string;
   description?: string;
   className?: string;
 };
 
-export function SectionHeading({ eyebrow, title, description, className }: Props) {
+export function SectionHeading({ id, eyebrow, title, description, className }: Props) {
   return (
-    <div className={cn("mb-10 max-w-3xl", className)}>
-      {eyebrow && <p className="mb-2 text-xs uppercase tracking-[0.28em] text-muted">{eyebrow}</p>}
-      <h2 className="font-display text-3xl font-semibold text-fg md:text-5xl">{title}</h2>
-      {description && <p className="mt-3 text-base text-muted md:text-lg">{description}</p>}
+    <div className={cn("mb-12 max-w-measure", className)}>
+      {eyebrow && (
+        <p className="mb-3 text-fluid-sm uppercase tracking-[0.24em] text-accent">{eyebrow}</p>
+      )}
+      <h2 id={id} className="text-balance font-display text-fluid-3xl font-semibold text-fg">
+        {title}
+      </h2>
+      {description && <p className="mt-4 text-pretty text-fluid-lg text-muted">{description}</p>}
     </div>
   );
 }

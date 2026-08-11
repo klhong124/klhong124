@@ -1,52 +1,34 @@
 'use client'
 import { cn } from "@/utils/cn";
-import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
+import { spring } from "@/lib/motion/tokens";
+import { useMotionEnabled } from "@/lib/motion/use-motion-enabled";
 
+const DOT_COLORS = ["bg-red-400", "bg-yellow-400", "bg-green-400"];
+
+/**
+ * The traffic-light dots on the hero card.
+ *
+ * These were <button>s with an empty click handler, which put three unlabelled
+ * 12px focus stops at the very start of the tab order. They are decoration, so
+ * they are now non-interactive and hidden from assistive technology.
+ */
 const WindowControl = () => {
-    const router = useRouter();
-    const onButtonClick = () => {
-        // if (window.location.pathname !== '/') {
-        //     router.push('/');
-        // } else {
-        //     router.back();
-        // }
-    }
-
-    const buttonColors = ["bg-red-400", "bg-yellow-400", "bg-green-400"];
-
+    const motionEnabled = useMotionEnabled();
 
     return (
-        <div className="absolute top-0 left-0 h-0">
-            <motion.div
-                className={cn("flex gap-3 p-4 xl:p-6")}
-
-            >
-                {buttonColors.map((color, index) => (
-                    <motion.button
+        <div aria-hidden="true" className="pointer-events-none absolute left-0 top-0 h-0">
+            <div className={cn("flex gap-3 p-4 xl:p-6")}>
+                {DOT_COLORS.map((color, index) => (
+                    <motion.span
                         key={color}
-                        onClick={onButtonClick}
-                        className={cn(
-                            "rounded-full",
-                            "w-3 h-3",
-                            color
-                        )}
-                        initial={{
-                            scale: 0,
-                        }}
-                        animate={{
-                            scale: 1,
-                        }}
-                        transition={{
-                            type: "spring",
-                            stiffness: 220,
-                            damping: 10,
-                            delay: index * 0.1,
-                        }}
-                        custom={index}
+                        className={cn("block size-3 rounded-full", color)}
+                        initial={motionEnabled ? { scale: 0 } : false}
+                        animate={{ scale: 1 }}
+                        transition={{ ...spring.bouncy, delay: index * 0.08 }}
                     />
                 ))}
-            </motion.div>
+            </div>
         </div>
     );
 };
