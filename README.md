@@ -124,6 +124,17 @@
 
 ### ⏰ Weekly Coding Breakdown (via WakaTime)
 <!--START_SECTION:waka-->
+
+```txt
+From: 03 August 2026 - To: 10 August 2026
+
+TypeScript   4 hrs 39 mins         ███████████████░░░░░░░░░░   59.64 %
+Bash         1 hr 13 mins          ████░░░░░░░░░░░░░░░░░░░░░   15.67 %
+YAML         38 mins               ██░░░░░░░░░░░░░░░░░░░░░░░   08.15 %
+JavaScript   25 mins               █▒░░░░░░░░░░░░░░░░░░░░░░░   05.36 %
+Other        17 mins               █░░░░░░░░░░░░░░░░░░░░░░░░   03.63 %
+```
+
 <!--END_SECTION:waka-->
 
 ---
