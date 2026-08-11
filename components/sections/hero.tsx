@@ -10,6 +10,7 @@ import Highlight from "@/ui/highlight";
 import Dock from "@/ui/dock";
 import { TechStackScene } from "@/components/ui/tech-stack-scene";
 import { useMouse } from "@/hooks/useMouse";
+import { profile } from "@/data/portfolio-content";
 
 /**
  * The original hero, restored from the pre-refresh site: a card that greets
@@ -168,19 +169,13 @@ const HeroContent = () => {
                         >
                             <motion.span
                                 className="text-lg text-center"
-                                animate={{
-                                    rotate: [0, 12, -12, 12, 0],
-                                }}
-
-                                transition={{
-                                    duration: 2,
-                                    repeat: Infinity,
-                                    ease: "linear"
-                                }}
+                                aria-hidden="true"
                             >
                                 👋🏽
                             </motion.span>
-                            <span className="text-lg text-center">
+                            {/* Same treatment as the section labels elsewhere
+                                on the page (About me, Approach, …). */}
+                            <span className="text-fluid-sm uppercase tracking-[0.2em] text-accent">
                                 Say hello to
                             </span>
                         </motion.div>
@@ -192,7 +187,7 @@ const HeroContent = () => {
                         >
                             <motion.h1
                                 className={cn(
-                                    "text-primary text-4xl text-center",
+                                    "text-fg text-fluid-3xl text-center",
                                     "font-display font-semibold tracking-wide relative"
                                 )}
                             >
@@ -233,7 +228,7 @@ const HeroContent = () => {
                             {[...Array(6)].map((_, i) => (
                                 <motion.div
                                     key={i}
-                                    className="absolute w-1 h-1 bg-primary rounded-full"
+                                    className="absolute w-1 h-1 bg-accent rounded-full"
                                     style={{
                                         left: `${20 + i * 15}%`,
                                         top: `${30 + (i % 2) * 20}%`
@@ -288,7 +283,7 @@ const Introduction = () => {
         <div className="flex flex-col items-center h-full">
             <Hello />
             <motion.p className={cn(
-                "text-md text-gray-400  mt-16 md:p-14 sm:p-12 p-6 w-full max-w-xl leading-relaxed",
+                " text-fluid-base leading-loose text-muted mt-16 md:p-14 sm:p-12 p-6 w-full max-w-xl",
             )}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -307,7 +302,9 @@ const Introduction = () => {
 const Hello = () => {
     const style: MotionStyle = {
         fill: "none",
-        stroke: "var(--slate-200)",
+        // The handwritten stroke picks up the site accent (violet), the same
+        // family as headings, links and the glow shadows elsewhere.
+        stroke: "rgb(var(--accent-soft))",
         strokeWidth: "23px",
         strokeLinecap: "round",
         strokeLinejoin: "round"
@@ -363,7 +360,7 @@ const Hello = () => {
                                     delay: 2.3,
                                 }}
                                 cx="683.567" cy="418.701" r="12.5"
-                                style={{ fill: "var(--slate-200)" }} />
+                                style={{ fill: "rgb(var(--accent-soft))" }} />
                         </g>
                     </g>
 

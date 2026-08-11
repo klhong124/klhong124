@@ -12,7 +12,7 @@ import TextHoverEffect from "@/ui/textHoverEffect";
  */
 export function WorkWordmark() {
   return (
-    <div aria-hidden="true" className="pointer-events-auto mb-2 hidden h-24 md:block">
+    <div aria-hidden="true" className="pointer-events-auto  hidden h-24 md:block">
       <TextHoverEffect>WORK</TextHoverEffect>
     </div>
   );

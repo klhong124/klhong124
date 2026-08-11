@@ -14,7 +14,7 @@ const IndicatorText = ({ children, className }: { children: React.ReactNode, cla
         }}
         exit={{ opacity: 0 }}
         className={cn(
-            "font-medium tracking-wide text-secondary",
+            "font-medium text-fluid-sm text-secondary tracking-[0.1em] text-muted",
             className
         )}
     >

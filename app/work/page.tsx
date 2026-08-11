@@ -19,7 +19,7 @@ export default function WorkPage() {
   return (
     <div className="section-wrap py-section">
       <header className="max-w-measure">
-        <WorkWordmark />
+        {/* <WorkWordmark /> */}
         <h1 className="text-balance font-display text-fluid-4xl font-semibold text-fg">Work</h1>
         <p className="mt-4 text-pretty text-fluid-lg text-muted">
           Client projects and things I build for myself. Every case study opens with the problem, the

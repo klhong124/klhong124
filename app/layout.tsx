@@ -7,7 +7,6 @@ import { MouseContextProvider } from "@/hooks/useMouse";
 import { MotionProvider } from "@/lib/motion/motion-provider";
 import { Background } from "@/ui/background";
 import Cursor from "@/ui/cursor";
-import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { CommandPalette } from "@/components/layout/command-palette";
 import { NoiseOverlay } from "@/components/ui/noise-overlay";
@@ -66,7 +65,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    creator: "@ryankwandev",
+    creator: "@ryankwan.dev",
     title: "Ryan Kwan — Frontend Engineer, London",
     description,
   },
@@ -88,7 +87,9 @@ export default function RootLayout({
             >
               Skip to content
             </a>
-            <SiteHeader />
+            {/* The header is rendered by each route rather than here: the
+                homepage places it after the full-screen hero so it only sticks
+                to the top once you scroll past the intro. */}
             <main id="content">{children}</main>
             <SiteFooter />
             <CommandPalette email={profile.email} />

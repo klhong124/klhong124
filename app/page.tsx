@@ -1,4 +1,5 @@
 import { HeroSection } from "@/components/sections/hero";
+import { SiteHeader } from "@/components/layout/site-header";
 import { AboutMeSection } from "@/components/sections/about-me";
 import { AboutSection } from "@/components/sections/about";
 import { FeaturedWorkSection } from "@/components/sections/featured-work";
@@ -15,6 +16,9 @@ export default function Home() {
   return (
     <>
       <HeroSection />
+      {/* Below the full-screen hero on purpose: `sticky top-0` means it only
+          pins to the viewport once you scroll past the intro. */}
+      <SiteHeader />
       <AboutMeSection />
       <AboutSection />
       <FeaturedWorkSection />

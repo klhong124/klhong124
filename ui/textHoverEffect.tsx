@@ -30,8 +30,6 @@ const TextHoverEffect = ({ children, className }: {
         // property on hover, which forced a reflow every frame.
         <motion.div
             className={cn("relative", className)}
-            initial={{ y: 0 }}
-            whileHover={{ y: -8 }}
             transition={spring.settle}
         >
             <svg
