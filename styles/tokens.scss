@@ -3,16 +3,15 @@
   --surface: 14 14 18;
   --fg: 242 242 245;
   --muted: 140 140 152;
-  --accent: 110 231 255;
   --radius-xl: 1.25rem;
   --radius-lg: 1rem;
   --radius-md: 0.75rem;
-}
 
-[data-accent="violet"] {
+  // Single accent. There used to be a cyan/violet/amber switcher in the header,
+  // which meant every accent had to be contrast-checked separately and gave
+  // visitors a decision that says nothing about the work. Violet on this
+  // background is 7.4:1, comfortably past the 4.5:1 AA threshold for body text.
   --accent: 167 139 250;
-}
-
-[data-accent="amber"] {
-  --accent: 255 205 123;
+  --accent-strong: 139 92 246;
+  --accent-soft: 196 181 253;
 }

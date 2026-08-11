@@ -53,13 +53,16 @@ const TextHoverEffect = ({ children, className }: {
                         x2="100%"
                         y2="0%"
                     >
+                        {/* This was a five-stop rainbow reading `var(--yellow-500)`,
+                            `var(--red-500)` and friends — none of which were ever
+                            defined, so every stop resolved to nothing and the
+                            reveal came out black on black. Now it ramps through
+                            the one accent, which is both defined and on-brand. */}
                         {hovered && (
                             <>
-                                <stop offset="0%" stopColor={"var(--yellow-500)"} />
-                                <stop offset="25%" stopColor={"var(--red-500)"} />
-                                <stop offset="50%" stopColor={"var(--blue-500)"} />
-                                <stop offset="75%" stopColor={"var(--cyan-500)"} />
-                                <stop offset="100%" stopColor={"var(--violet-500)"} />
+                                <stop offset="0%" stopColor="rgb(var(--accent-soft))" />
+                                <stop offset="50%" stopColor="rgb(var(--accent))" />
+                                <stop offset="100%" stopColor="rgb(var(--accent-strong))" />
                             </>
                         )}
                     </linearGradient>

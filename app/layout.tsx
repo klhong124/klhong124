@@ -7,7 +7,6 @@ import { MouseContextProvider } from "@/hooks/useMouse";
 import { MotionProvider } from "@/lib/motion/motion-provider";
 import { Background } from "@/ui/background";
 import Cursor from "@/ui/cursor";
-import { ThemeAccentProvider } from "@/components/layout/theme-accent-provider";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { CommandPalette } from "@/components/layout/command-palette";
@@ -82,23 +81,21 @@ export default function RootLayout({
     <html lang="en-GB" className="dark">
       <body className={`${interTight.variable} ${spaceGrotesk.variable}`}>
         <MotionProvider>
-          <ThemeAccentProvider>
-            <MouseContextProvider>
-              <a
-                href="#content"
-                className="sr-only rounded-md bg-fg px-4 py-3 font-medium text-bg focus-visible:not-sr-only focus-visible:absolute focus-visible:left-4 focus-visible:top-4 focus-visible:z-[100]"
-              >
-                Skip to content
-              </a>
-              <SiteHeader />
-              <main id="content">{children}</main>
-              <SiteFooter />
-              <CommandPalette />
-              <NoiseOverlay />
-              <Cursor />
-              <Background />
-            </MouseContextProvider>
-          </ThemeAccentProvider>
+          <MouseContextProvider>
+            <a
+              href="#content"
+              className="sr-only rounded-md bg-fg px-4 py-3 font-medium text-bg focus-visible:not-sr-only focus-visible:absolute focus-visible:left-4 focus-visible:top-4 focus-visible:z-[100]"
+            >
+              Skip to content
+            </a>
+            <SiteHeader />
+            <main id="content">{children}</main>
+            <SiteFooter />
+            <CommandPalette email={profile.email} />
+            <NoiseOverlay />
+            <Cursor />
+            <Background />
+          </MouseContextProvider>
         </MotionProvider>
         {/* Vercel's analytics only. GA4 was removed: it was 157KB — more than all
             first-party JavaScript on the page combined — and the largest remaining

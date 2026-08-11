@@ -41,7 +41,11 @@ const config: Config = {
         surface: "rgb(var(--surface) / <alpha-value>)",
         fg: "rgb(var(--fg) / <alpha-value>)",
         muted: "rgb(var(--muted) / <alpha-value>)",
-        accent: "rgb(var(--accent) / <alpha-value>)",
+        accent: {
+          DEFAULT: "rgb(var(--accent) / <alpha-value>)",
+          strong: "rgb(var(--accent-strong) / <alpha-value>)",
+          soft: "rgb(var(--accent-soft) / <alpha-value>)",
+        },
       },
       boxShadow: {
         glow: "0 0 80px color-mix(in srgb, rgb(var(--accent)) 24%, transparent)",

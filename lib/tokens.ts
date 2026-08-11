@@ -2,9 +2,9 @@
  * Design tokens consumed by `tailwind.config.ts`.
  *
  * Kept in TypeScript rather than scattered through components so the type scale,
- * spacing rhythm and measure are decided in one place. Colours still live in
- * `styles/tokens.scss` as CSS custom properties, because the accent switcher
- * needs to change them at runtime.
+ * spacing rhythm and measure are decided in one place. Colours stay in
+ * `styles/tokens.scss` as CSS custom properties so they are available to plain
+ * CSS as well as to Tailwind utilities.
  */
 
 /**
@@ -23,6 +23,7 @@ function fluid(minRem: number, maxRem: number) {
 type FontSizeEntry = [fontSize: string, config: { lineHeight: string; letterSpacing?: string }];
 
 export const fontSize: Record<string, FontSizeEntry> = {
+  "fluid-xs": [fluid(0.75, 0.8125), { lineHeight: "1.5" }],
   "fluid-sm": [fluid(0.8125, 0.875), { lineHeight: "1.5" }],
   "fluid-base": [fluid(1, 1.0625), { lineHeight: "1.65" }],
   "fluid-lg": [fluid(1.0625, 1.25), { lineHeight: "1.55" }],

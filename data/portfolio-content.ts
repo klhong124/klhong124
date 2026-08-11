@@ -17,8 +17,8 @@ const content = {
     location: "London, UK",
     currently: "BuiltByPixel",
     intro:
-      "I build and maintain the Parfetts websites at BuiltByPixel — a marketing site and a trade ordering platform, on Next.js, React and TypeScript. I care about design systems that stay consistent, data that is typed at the boundary, and motion that earns its place.",
-    email: "ryankwan.dev@gmail.com",
+      "I build fast, accessible interfaces for the web with Next.js, React and TypeScript. I care about design systems that stay consistent, data that is typed at the boundary, and motion that earns its place — and I like the unglamorous parts: the shared primitives, the edge cases, the second release.",
+    email: "hello@ryankwan.dev",
     links: [
       { label: "GitHub", href: "https://github.com/klhong124" },
       { label: "LinkedIn", href: "https://www.linkedin.com/in/ryankwandev/" },
@@ -209,10 +209,10 @@ const content = {
       title: "Immich — self-hosted image server",
       subtitle: "Private family photo platform on always-on home hardware",
       kind: "personal",
-      period: "2024 — Present",
+      period: "2026 — Present",
       status: "published",
       featured: true,
-      stack: ["Docker", "Immich", "cloudflared", "Cloudflare DNS", "Tailscale", "macOS (Mac mini)"],
+      stack: ["Docker", "Immich", "cloudflared", "Cloudflare DNS", "Tailscale", "macOS"],
       problem:
         "Family photos were spread across Google Photos and iCloud, with storage costs rising and no real control over where any of it lived. I wanted the convenience of a hosted gallery — apps, sharing, search — without handing the whole archive to a subscription I do not control.",
       approach:
@@ -321,7 +321,7 @@ const content = {
       title: "AI-assisted engineering loops",
       subtitle: "Using coding agents without losing the plot",
       kind: "personal",
-      period: "2024 — Present",
+      period: "2026 — Present",
       status: "published",
       featured: true,
       stack: ["Cursor", "Project rules", "Structured prompts", "Code review", "TypeScript"],

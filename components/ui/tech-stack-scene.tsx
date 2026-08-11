@@ -13,8 +13,8 @@ import { useAmbientEnabled } from "@/lib/motion/use-motion-enabled";
  *    `useGLTF.preload` at module scope, which fired 16 GLTF requests even
  *    though the <Canvas> itself was commented out. It is now only imported once
  *    this device has opted in.
- *  - The wrapper is absolutely positioned with fixed inset, so the fallback and
- *    the loaded scene occupy identical space and nothing shifts on arrival.
+ *  - TechStack absolutely positions itself over the hero, so the null fallback
+ *    and the loaded scene occupy identical space and nothing shifts on arrival.
  */
 const TechStack = dynamic(() => import("@/ui/tech-stack"), {
   ssr: false,
@@ -25,9 +25,7 @@ export function TechStackScene() {
   const ambientEnabled = useAmbientEnabled();
   if (!ambientEnabled) return null;
 
-  return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 opacity-40">
-      <TechStack />
-    </div>
-  );
+  // No wrapper styling here: TechStack positions and fades itself, exactly as
+  // the pre-refresh original did (hidden at rest, full opacity on hero hover).
+  return <TechStack />;
 }
