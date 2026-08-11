@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { caseStudies, getCaseStudy } from "@/data/portfolio-content";
+import { getCaseStudy, getPublishedCaseStudySlugs } from "@/data/portfolio-content";
 import type { CaseStudy } from "@/lib/content/schema";
 import { ExternalLinkList } from "@/components/ui/external-link-list";
 import { Pills } from "@/components/ui/pills";
@@ -15,8 +15,13 @@ const notes: Record<string, () => Promise<{ default: React.ComponentType }>> = {
   immich: () => import("@/content/notes/immich.mdx"),
 };
 
+/**
+ * Published slugs only. A draft is unfinished writing, and an unfinished case
+ * study reachable by URL is worse than no case study — `noindex` alone still
+ * leaves it one guessed URL away from a reader.
+ */
 export function generateStaticParams() {
-  return caseStudies.map((study) => ({ slug: study.slug }));
+  return getPublishedCaseStudySlugs().map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -26,13 +31,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const study = getCaseStudy(slug);
-  if (!study) return {};
+  if (!study || study.status === "draft") return {};
 
   return {
     title: study.title,
     description: study.subtitle,
     alternates: { canonical: `/work/${study.slug}` },
-    robots: study.status === "draft" ? { index: false, follow: true } : undefined,
     openGraph: {
       title: `${study.title} | Ryan Kwan`,
       description: study.subtitle,
@@ -51,7 +55,7 @@ const detailSections = [
 export default async function WorkDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const study = getCaseStudy(slug);
-  if (!study) notFound();
+  if (!study || study.status === "draft") notFound();
 
   const loadNotes = notes[study.slug];
   const Notes = loadNotes ? (await loadNotes()).default : null;
@@ -60,7 +64,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
     <article className="section-wrap py-16 md:py-24">
       <Link
         href="/#work"
-        className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-fg"
+        className="inline-flex min-h-11 items-center gap-2 text-fluid-sm text-muted transition-colors hover:text-fg"
       >
         <span aria-hidden="true">&larr;</span> Back to work
       </Link>
@@ -117,7 +121,10 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
       )}
 
       <footer className="mt-20 border-t border-white/10 pt-8">
-        <Link href="/#contact" className="text-fg underline decoration-accent/60 underline-offset-4">
+        <Link
+          href="/#contact"
+          className="inline-flex min-h-11 items-center text-fg underline decoration-accent/60 underline-offset-4"
+        >
           Get in touch about work like this
         </Link>
       </footer>

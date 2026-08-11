@@ -6,23 +6,14 @@ import { useRef, useState } from "react";
 import { cn } from "@/utils/cn";
 import { spring, duration } from "@/lib/motion/tokens";
 import { useMotionEnabled } from "@/lib/motion/use-motion-enabled";
-import { profile } from "@/data/portfolio-content";
 
-type DockItem = {
+export type DockItem = {
   /** Used for the icon filename, the tooltip and the accessible name. */
   title: string;
   href: string;
   /** Spelled out for assistive technology, e.g. "LinkedIn profile". */
   label: string;
 };
-
-const DEFAULT_ITEMS: DockItem[] = [
-  { title: "linkedin", href: "https://www.linkedin.com/in/ryankwandev/", label: "LinkedIn profile" },
-  { title: "github", href: "https://github.com/klhong124", label: "GitHub profile" },
-  { title: "x", href: "https://x.com/ryankwandev", label: "X profile" },
-  { title: "medium", href: "https://medium.com/@ryankwandev", label: "Medium articles" },
-  { title: "inbox", href: `mailto:${profile.email}`, label: `Email ${profile.email}` },
-];
 
 /**
  * macOS-style magnifying dock for social links.
@@ -31,8 +22,12 @@ const DEFAULT_ITEMS: DockItem[] = [
  * runs on the compositor instead of forcing layout on every pointer move. Each
  * link has a 44px hit area and an explicit accessible name — previously they
  * relied on the inner image's alt text, which read as "Linkedin" and "Whatsapp".
+ *
+ * Items are passed in rather than read from the content module. Importing that
+ * module here made this client component pull Zod and every case study into the
+ * browser bundle, for the sake of one email address.
  */
-const Dock = ({ items = DEFAULT_ITEMS, className }: { items?: DockItem[]; className?: string }) => {
+const Dock = ({ items, className }: { items: DockItem[]; className?: string }) => {
   const mouseX = useMotionValue(Number.POSITIVE_INFINITY);
   const motionEnabled = useMotionEnabled();
 

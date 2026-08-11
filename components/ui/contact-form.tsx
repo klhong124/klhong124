@@ -128,7 +128,7 @@ function Field({
     "aria-describedby": describedBy,
     "aria-invalid": error ? true : undefined,
     className: cn(
-      "w-full rounded-lg border bg-black/30 p-3 text-fg placeholder:text-muted/60",
+      "w-full rounded-lg border bg-black/30 p-3 text-fg",
       error ? "border-red-400/70" : "border-white/20",
     ),
   };

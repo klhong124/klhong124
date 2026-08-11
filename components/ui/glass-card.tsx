@@ -58,8 +58,12 @@ export const GlassCard = memo(function GlassCard({
       className={cn("relative", rounded, className)}
       style={{ padding: `${borderWidth}px` }}
       // Scale is a compositor-only transform, so the lift costs no layout.
+      //
+      // Deliberately no `whileTap`: Motion adds `tabindex="0"` to anything with a
+      // tap gesture, which put 22 empty tab stops on the homepage. The card is a
+      // presentational wrapper — where it needs to be activated, the caller wraps
+      // it in a real link or button.
       whileHover={motionEnabled ? { scale: 1.01 } : undefined}
-      whileTap={motionEnabled ? { scale: 0.99 } : undefined}
       transition={spring.settle}
     >
       <div
