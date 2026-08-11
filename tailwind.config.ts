@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
 import addVariablesForColors from "./utils/colors";
 import addBackgroundDotPattern from "./utils/background";
 import { fontSize, maxWidth, sectionSpacing } from "./lib/tokens";
@@ -50,7 +51,7 @@ const config: Config = {
   plugins: [
     addVariablesForColors,
     addBackgroundDotPattern,
-    require("tailwindcss-animate"),
+    tailwindcssAnimate,
   ],
 };
 
