@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 import addVariablesForColors from "./utils/colors";
 import addBackgroundDotPattern from "./utils/background";
+import { fontSize, maxWidth, sectionSpacing } from "./lib/tokens";
 
 const config: Config = {
   content: [
@@ -20,6 +21,13 @@ const config: Config = {
       },
       backdropBlur: {
         xs: '2px',
+      },
+      fontSize: { ...fontSize },
+      maxWidth: { ...maxWidth },
+      spacing: {
+        "section-tight": sectionSpacing.tight,
+        section: sectionSpacing.default,
+        "section-loose": sectionSpacing.loose,
       },
       fontFamily: {
         spaceGrotesk: ['space-grotesk', 'sans-serif'],
