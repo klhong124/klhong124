@@ -77,10 +77,9 @@ export async function sendContactMessage(
   try {
     const resend = new Resend(apiKey);
     const { error } = await resend.emails.send({
-      // Must be an address on a domain verified in Resend. `onboarding@resend.dev`
-      // works without verification but can only deliver to the account owner,
-      // which is fine for a personal contact form.
-      from: process.env.CONTACT_FROM_EMAIL ?? "Portfolio <onboarding@resend.dev>",
+      // Must be an address on a domain verified in Resend (ryankwan.dev is).
+      // The mailbox does not need to exist; replies go to the visitor via replyTo.
+      from: process.env.CONTACT_FROM_EMAIL ?? "Portfolio <inbox@ryankwan.dev>",
       to: [process.env.CONTACT_TO_EMAIL ?? profile.email],
       replyTo: parsed.data.email,
       subject: `Portfolio enquiry from ${parsed.data.name}`,
