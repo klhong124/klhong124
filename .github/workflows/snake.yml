@@ -1,0 +1,44 @@
+# Generates the contribution-grid snake animation used in the profile README.
+#
+# IMPORTANT: this workflow only makes sense in the *profile* repository
+# (klhong124/klhong124) — the README's <img> URLs point at that repo's
+# `output` branch. Copy this file there along with README.md.
+#
+# It runs once a day (and on demand from the Actions tab), renders the snake
+# from the owner's contribution graph, and publishes the SVGs to the `output`
+# branch, which the README hotlinks via raw.githubusercontent.com.
+name: generate snake animation
+
+on:
+  schedule:
+    # Once a day at 00:00 UTC — the graph only changes daily anyway.
+    - cron: "0 0 * * *"
+  # Lets you trigger the first run manually so the image exists immediately.
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Generate snake SVGs
+        # svg-only variant: faster than the full action when no gif is needed.
+        uses: Platane/snk/svg-only@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            dist/github-contribution-grid-snake.svg
+            dist/github-contribution-grid-snake-dark.svg?palette=github-dark
+
+      - name: Push SVGs to the output branch
+        uses: crazy-max/ghaction-github-pages@v4
+        with:
+          target_branch: output
+          build_dir: dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
