@@ -37,37 +37,22 @@ export const spring = {
 } as const;
 
 /**
- * Reveal presets. Transform and opacity only — never width, height, top or
- * left, which force layout and were the cause of the hero's layout shift.
+ * Enter/exit presets for content that mounts and unmounts on the client, such
+ * as tooltips and the pointer companion. Transform and opacity only — never
+ * width, height, top or left, which force layout.
+ *
+ * Note there is deliberately no scroll-triggered "reveal on enter viewport"
+ * preset. Doing that server-side means shipping HTML with `opacity: 0` inline,
+ * which delays the largest paint and strands the content invisible if
+ * JavaScript fails or the viewport observer never fires. Entrances are reserved
+ * for elements that only ever exist client-side.
  */
-export const reveal = {
-  hidden: { opacity: 0, y: 16 },
+export const fade = {
+  hidden: { opacity: 0, y: 8 },
   visible: { opacity: 1, y: 0 },
 } as const;
 
-export const revealTransition = {
-  duration: duration.slow,
+export const fadeTransition = {
+  duration: duration.base,
   ease: ease.out,
 } as const;
-
-/**
- * Staggered container. Deliberately short: the previous hero delayed its own
- * LCP text by well over a second, which read as slowness rather than polish.
- */
-export const stagger = {
-  container: {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.06, delayChildren: 0.04 } },
-  },
-  item: {
-    hidden: reveal.hidden,
-    visible: { ...reveal.visible, transition: revealTransition },
-  },
-} as const;
-
-/**
- * Cap on how many elements may animate at once on small screens. Used by
- * list-style reveals to stop long lists queueing dozens of simultaneous
- * transitions on a mid-range phone.
- */
-export const MAX_CONCURRENT_ANIMATIONS_MOBILE = 6;

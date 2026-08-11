@@ -3,9 +3,7 @@ import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { GlassCard } from "@/components/ui/glass-card";
 import { Pills } from "@/components/ui/pills";
-import { Reveal } from "@/components/ui/reveal";
 import { featuredCaseStudies } from "@/data/portfolio-content";
-import { MAX_CONCURRENT_ANIMATIONS_MOBILE } from "@/lib/motion/tokens";
 
 export function FeaturedWorkSection() {
   return (
@@ -17,14 +15,8 @@ export function FeaturedWorkSection() {
         description="Each case study leads with the problem, the approach and the outcome, so you can decide in a few seconds whether it is worth reading."
       />
       <ul className="grid gap-5 md:grid-cols-2">
-        {featuredCaseStudies.map((study, index) => (
-          <Reveal
-            as="li"
-            key={study.slug}
-            // Staggered only for the first few; beyond that everything arrives
-            // together rather than queueing a long tail of transitions.
-            delay={index < MAX_CONCURRENT_ANIMATIONS_MOBILE ? index * 0.05 : 0}
-          >
+        {featuredCaseStudies.map((study) => (
+          <li key={study.slug}>
             {/* The whole card is one link, so there is a single tab stop per project
                 and no nested interactive elements. */}
             <Link href={`/work/${study.slug}`} className="group block h-full">
@@ -62,7 +54,7 @@ export function FeaturedWorkSection() {
                 </p>
               </GlassCard>
             </Link>
-          </Reveal>
+          </li>
         ))}
       </ul>
     </Section>
