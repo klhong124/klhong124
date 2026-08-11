@@ -13,12 +13,13 @@ const nextConfig = {
         includePaths: [path.join(__dirname, 'styles')],
     },
     images: {
-        remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'ryankwan.netlify.app',
-            },
-        ],
+        formats: ['image/avif', 'image/webp'],
+    },
+    async redirects() {
+        return [
+            // Retired case study that search engines still have indexed.
+            { source: '/work/oasis-infinite', destination: '/work', permanent: true },
+        ];
     },
     async rewrites() {
         return [

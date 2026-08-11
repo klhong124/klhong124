@@ -1,12 +1,17 @@
 import type { MetadataRoute } from "next";
+import { getAllProjectSlugs } from "@/lib/mdx";
+
+export const SITE_URL = "https://ryankwan.dev";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://ryankwan.vercel.app";
+  const lastModified = new Date();
   return [
-    { url: `${base}/`, priority: 1 },
-    { url: `${base}/work/builtbypixel` },
-    { url: `${base}/work/oasis-infinite` },
-    { url: `${base}/work/three-d-experiments` },
-    { url: `${base}/work/ai-workflows` },
+    { url: `${SITE_URL}/`, priority: 1, lastModified },
+    { url: `${SITE_URL}/work`, priority: 0.8, lastModified },
+    ...getAllProjectSlugs().map((slug) => ({
+      url: `${SITE_URL}/work/${slug}`,
+      priority: 0.6,
+      lastModified,
+    })),
   ];
 }

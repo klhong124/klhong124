@@ -58,7 +58,6 @@ const jobs = [
     {
         name: "Goodest Lab Limited",
         title: "Analyst Programmer",
-        images: "https://ryankwan.netlify.app/img/car8.png",
         link: "https://www.car8.com/",
         year: 2020,
         desc: `While working at a start-up, I built Car8.com from scratch—an online marketplace for car buyers and sellers—leveraging Vue.js and Laravel.

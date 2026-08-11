@@ -9,10 +9,6 @@ import { GlassCard } from "@/components/shared/glass-card";
 
 const items = [
   ["builtbypixel", "BuiltByPixel client projects"],
-  ["kubrick", "Kubrick CMS & UI Library"],
-  ["gymism", "Gymism.club"],
-  ["car8", "Car8 Marketplace"],
-  ["oasis-infinite", "Oasis Infinite Web3 Comics"],
   ["three-d-experiments", "3D Portfolio Experiments"],
   ["ai-workflows", "AI-assisted frontend workflows"],
 ] as const;

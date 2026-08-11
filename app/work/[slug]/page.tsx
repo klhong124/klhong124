@@ -4,7 +4,6 @@ import Link from "next/link";
 
 const mdxMap: Record<string, () => Promise<{ default: React.ComponentType }>> = {
   builtbypixel: () => import("@/content/projects/builtbypixel.mdx"),
-  "oasis-infinite": () => import("@/content/projects/oasis-infinite.mdx"),
   "three-d-experiments": () => import("@/content/projects/three-d-experiments.mdx"),
   "ai-workflows": () => import("@/content/projects/ai-workflows.mdx"),
 };
