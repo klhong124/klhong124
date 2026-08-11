@@ -65,7 +65,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    creator: "@ryankwan.dev",
+    creator: "ryankwan",
     title: "Ryan Kwan — Frontend Engineer, London",
     description,
   },

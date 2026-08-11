@@ -15,7 +15,11 @@ import Image from "next/image";
 
 type DockLink = { title: string; href: string };
 
-const DEFAULT_ITEMS: DockLink[] = [
+/**
+ * Exported so the mobile hero can render the same links as a plain row —
+ * the magnifying dock is pointer-driven and doesn't translate to touch.
+ */
+export const DOCK_ITEMS: DockLink[] = [
     {
         title: "Linkedin",
         href: "https://www.linkedin.com/in/ryankwandev/",
@@ -33,17 +37,13 @@ const DEFAULT_ITEMS: DockLink[] = [
         href: "mailto:hello@ryankwan.dev",
     },
     {
-        title: "Medium",
-        href: "https://medium.com/@ryankwandev",
-    },
-    {
-        title: "Whatsapp",
-        href: "https://wa.me/447878154432",
+        title: "Wakatime",
+        href: "https://wakatime.com/@ryankwandev",
     },
 ];
 
 const Dock = ({
-    items = DEFAULT_ITEMS,
+    items = DOCK_ITEMS,
     className,
 }: {
     items?: DockLink[];

@@ -150,7 +150,7 @@ The glow gradient logic in `ui/glowing-card.tsx:117-143` and `components/shared/
 
 ### 3.1 The above-the-fold test fails
 
-The live hero (`components/heroSection.tsx`) shows, in order: "Say hello to", the `<h1>` `@ryankwandev`, and a "Click to Explore" prompt. The actual positioning copy is **hidden behind a click** (`heroSection.tsx:302-303`):
+The live hero (`components/heroSection.tsx`) shows, in order: "Say hello to", the `<h1>` `/ryankwan.dev`, and a "Click to Explore" prompt. The actual positioning copy is **hidden behind a click** (`heroSection.tsx:302-303`):
 
 > "My name is Ryan, a Front-end Developer with a passion for crafting visually engaging, animation-rich, and stunning applications. Specializing in design-focused projects using React/Next.js, and Typescript."
 

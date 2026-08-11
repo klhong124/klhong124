@@ -7,14 +7,15 @@ import WindowControl from "@/ui/windowControl";
 import GlowingCard from "@/ui/glowing-card";
 import IndicatorText from "@/ui/indicatorText";
 import Highlight from "@/ui/highlight";
-import Dock from "@/ui/dock";
+import Dock, { DOCK_ITEMS } from "@/ui/dock";
 import { TechStackScene } from "@/components/ui/tech-stack-scene";
 import { useMouse } from "@/hooks/useMouse";
-import { profile } from "@/data/portfolio-content";
+import Link from "next/link";
+import Image from "next/image";
 
 /**
  * The original hero, restored from the pre-refresh site: a card that greets
- * with "Say hello to @ryankwandev", expands on click to reveal the handwritten
+ * with "Say hello to /ryankwan.dev", expands on click to reveal the handwritten
  * Hello and the introduction, with the magnifying dock and the 3D tech stack
  * around it.
  *
@@ -22,7 +23,53 @@ import { profile } from "@/data/portfolio-content";
  * easing tuples typed as const, `useMouse` now exposes `setActive` instead of
  * a state setter, and the 3D scene mounts through the capability-gated
  * `TechStackScene` wrapper so reduced-motion and low-powered devices skip it.
+ *
+ * Below `md` the hover/click card doesn't translate to touch, so the section
+ * swaps to a static stacked layout (`MobileHero`) with the same content:
+ * greeting, handle, introduction and social links.
  */
+
+// Staggered entrance shared by the desktop card content and the mobile hero.
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            duration: 0.6,
+            staggerChildren: 0.2,
+            delayChildren: 0.3
+        }
+    },
+};
+
+// Opacity and transform only — the original also animated a 4px blur
+// filter on entrance, which forces a repaint of the whole card on every
+// frame. Dropping it keeps the entrance on the compositor.
+const itemVariants = {
+    hidden: {
+        opacity: 0,
+        y: 30,
+        scale: 0.9,
+    },
+    visible: {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        transition: {
+            duration: 0.6,
+            ease: [0.23, 1, 0.32, 1] as const
+        }
+    }
+};
+
+// One source for the intro copy so the expanded card (md+) and the mobile
+// layout can never drift apart.
+const IntroCopy = () => (
+    <>
+        My name is Ryan, a<Highlight>Front-end Developer</Highlight>
+        with a passion for crafting visually engaging, animation-rich, and stunning applications. Specializing in design-focused projects using React/Next.js, and Typescript.
+    </>
+);
 export const HeroSection = () => {
     return (
         <HeroContextProvider>
@@ -92,12 +139,86 @@ const Hero = () => {
                 perspective: "1000px",
             }}
         >
-            <GlowingCard className="bg-surface/80">
-                <HeroContent />
-                <WindowControl />
-            </GlowingCard>
-            <TechStackScene />
-            <Dock />
+            {/* iPad and up: the interactive card with the 3D backdrop and the
+                magnifying dock. `md:contents` makes the wrapper disappear from
+                layout so everything sits exactly as before, while `hidden`
+                removes the whole cluster (and its pointer-only interactions)
+                on phones. */}
+            <div className="hidden md:contents">
+                <GlowingCard className="bg-surface/80">
+                    <HeroContent />
+                    <WindowControl />
+                </GlowingCard>
+                <TechStackScene />
+                <Dock />
+            </div>
+            <MobileHero />
+        </motion.div>
+    );
+};
+
+/**
+ * Phone layout: everything the card reveals through hover and click —
+ * greeting, handle, introduction, social links — laid out as one static
+ * column, since touch has no hover and the fixed 500px card overflows
+ * small screens.
+ */
+const MobileHero = () => {
+    return (
+        <motion.div
+            className="flex w-full max-w-md flex-col items-center gap-6 px-6 py-24 text-center md:hidden"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+        >
+            <motion.div variants={itemVariants} className="flex items-center gap-3">
+                <span className="text-lg" aria-hidden="true">👋🏽</span>
+                <span className="text-fluid-sm uppercase tracking-[0.2em] text-accent">
+                    Say hello to
+                </span>
+            </motion.div>
+
+            <motion.h1
+                variants={itemVariants}
+                className="font-display text-fluid-3xl font-semibold tracking-wide text-fg"
+            >
+                ／ryankwan.dev
+            </motion.h1>
+
+            <motion.p
+                variants={itemVariants}
+                className="text-fluid-base leading-loose text-muted"
+            >
+                <IntroCopy />
+            </motion.p>
+
+            <motion.ul
+                variants={itemVariants}
+                aria-label="Social links"
+                className="mt-2 flex flex-wrap justify-center gap-3"
+            >
+                {DOCK_ITEMS.map((item) => (
+                    <li key={item.title}>
+                        <Link
+                            href={item.href}
+                            target={item.href.startsWith("http") ? "_blank" : undefined}
+                            aria-label={item.title}
+                            // size-11 = 44px, the minimum comfortable tap target.
+                            className="flex size-11 items-center justify-center rounded-xl bg-stone-700"
+                        >
+                            <Image
+                                src={`/svg/${item.title.toLowerCase()}.svg`}
+                                alt=""
+                                width={22}
+                                height={22}
+                                className="invert"
+                            />
+                        </Link>
+                    </li>
+                ))}
+            </motion.ul>
+
+            <IndicatorText className="mt-4">Scroll down for more details</IndicatorText>
         </motion.div>
     );
 };
@@ -110,40 +231,6 @@ const HeroContent = () => {
             ...prev,
             isClick: !prev.isClick
         }));
-    };
-
-    // Staggered animation variants
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                duration: 0.6,
-                staggerChildren: 0.2,
-                delayChildren: 0.3
-            }
-        },
-
-    };
-
-    // Opacity and transform only — the original also animated a 4px blur
-    // filter on entrance, which forces a repaint of the whole card on every
-    // frame. Dropping it keeps the entrance on the compositor.
-    const itemVariants = {
-        hidden: {
-            opacity: 0,
-            y: 30,
-            scale: 0.9,
-        },
-        visible: {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            transition: {
-                duration: 0.6,
-                ease: [0.23, 1, 0.32, 1] as const
-            }
-        }
     };
 
     return (
@@ -191,7 +278,7 @@ const HeroContent = () => {
                                     "font-display font-semibold tracking-wide relative"
                                 )}
                             >
-                                {"@ryankwandev".split("").map((char, index) => (
+                                {"／ryankwan.dev".split("").map((char, index) => (
                                     <motion.span
                                         key={index}
                                         initial={{
@@ -216,35 +303,6 @@ const HeroContent = () => {
                                 ))}
                             </motion.h1>
 
-                        </motion.div>
-
-                        {/* Sparkle effects around the text */}
-                        <motion.div
-                            className="absolute inset-0 pointer-events-none"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 2, duration: 1 }}
-                        >
-                            {[...Array(6)].map((_, i) => (
-                                <motion.div
-                                    key={i}
-                                    className="absolute w-1 h-1 bg-accent rounded-full"
-                                    style={{
-                                        left: `${20 + i * 15}%`,
-                                        top: `${30 + (i % 2) * 20}%`
-                                    }}
-                                    animate={{
-                                        scale: [0, 1, 0],
-                                        opacity: [0, 1, 0]
-                                    }}
-                                    transition={{
-                                        duration: 2,
-                                        repeat: Infinity,
-                                        delay: i * 0.3,
-                                        ease: "easeInOut"
-                                    }}
-                                />
-                            ))}
                         </motion.div>
                     </div>
 
@@ -289,9 +347,7 @@ const Introduction = () => {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 1.4 }}
             >
-
-                My name is Ryan, a<Highlight>Front-end Developer</Highlight>
-                with a passion for crafting visually engaging, animation-rich, and stunning applications. Specializing in design-focused projects using React/Next.js, and Typescript.
+                <IntroCopy />
             </motion.p>
             <IndicatorText className="mt-auto mb-4">Scroll down for more details</IndicatorText>
 
