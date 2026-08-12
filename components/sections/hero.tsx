@@ -83,7 +83,8 @@ const AnimatedHandle = ({ className }: { className?: string }) => (
             className,
         )}
     >
-        {"／ryankwan.dev".split("").map((char, index) => (
+        {"/ "}
+        {"ryankwan.dev".split("").map((char, index) => (
             <motion.span
                 key={index}
                 initial={{

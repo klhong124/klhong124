@@ -69,7 +69,7 @@ export function SiteHeader() {
             href="/"
             className="flex min-h-11 items-center font-display text-fluid-sm tracking-[0.2em] text-fg"
           >
-            ／ryankwan.dev
+          / ryankwan.dev
           </Link>
 
           {/* Anchors point at real sections. "Systems" previously linked to
