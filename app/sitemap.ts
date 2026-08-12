@@ -7,7 +7,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
   return [
     { url: `${SITE_URL}/`, priority: 1, lastModified },
-    { url: `${SITE_URL}/work`, priority: 0.8, lastModified },
     ...getPublishedCaseStudySlugs().map((slug) => ({
       url: `${SITE_URL}/work/${slug}`,
       priority: 0.6,

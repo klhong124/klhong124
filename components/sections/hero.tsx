@@ -69,8 +69,43 @@ const itemVariants = {
 const IntroCopy = () => (
     <>
         My name is Ryan, a <Highlight>{profile.role}</Highlight>
-        {" "}with frontend depth and full-stack range — React and Next.js at work, Laravel and Firebase on side projects, and the infra glue (Docker, tunnels, typed boundaries) that keeps it all maintainable.
+        {" "}with 6+ years building high-performance, visually engaging web apps — React, Next.js, TypeScript and GraphQL — where design, motion and engineering intersect.
     </>
+);
+
+// The handle with its per-character entrance, shared by the desktop card and
+// the mobile hero so both get the same signature animation.
+const AnimatedHandle = ({ className }: { className?: string }) => (
+    <motion.h1
+        className={cn(
+            "text-fg text-fluid-3xl text-center",
+            "font-display font-semibold tracking-wide relative",
+            className,
+        )}
+    >
+        {"／ryankwan.dev".split("").map((char, index) => (
+            <motion.span
+                key={index}
+                initial={{
+                    opacity: 0,
+                    y: 30,
+                }}
+                animate={{
+                    opacity: 1,
+                    y: 0,
+                }}
+                transition={{
+                    type: "spring",
+                    bounce: 0.5,
+                    duration: 0.8,
+                    delay: 0.4 + index * 0.05,
+                }}
+                className="inline-block"
+            >
+                {char}
+            </motion.span>
+        ))}
+    </motion.h1>
 );
 export const HeroSection = () => {
     return (
@@ -182,12 +217,9 @@ const MobileHero = () => {
                 </span>
             </motion.div>
 
-            <motion.h1
-                variants={itemVariants}
-                className="font-display text-fluid-3xl font-semibold tracking-wide text-fg"
-            >
-                ／ryankwan.dev
-            </motion.h1>
+            <motion.div variants={itemVariants}>
+                <AnimatedHandle />
+            </motion.div>
 
             <motion.p
                 variants={itemVariants}
@@ -277,37 +309,7 @@ const HeroContent = () => {
                             variants={itemVariants}
                             className="relative"
                         >
-                            <motion.h1
-                                className={cn(
-                                    "text-fg text-fluid-3xl text-center",
-                                    "font-display font-semibold tracking-wide relative"
-                                )}
-                            >
-                                {"／ryankwan.dev".split("").map((char, index) => (
-                                    <motion.span
-                                        key={index}
-                                        initial={{
-                                            opacity: 0,
-                                            y: 30,
-                                        }}
-                                        animate={{
-                                            opacity: 1,
-                                            y: 0,
-                                        }}
-                                        transition={{
-                                            type: "spring",
-                                            bounce: 0.5,
-                                            duration: 0.8,
-                                            delay: 0.4 + index * 0.05,
-                                        }}
-
-                                        className="inline-block"
-                                    >
-                                        {char}
-                                    </motion.span>
-                                ))}
-                            </motion.h1>
-
+                            <AnimatedHandle />
                         </motion.div>
                     </div>
 

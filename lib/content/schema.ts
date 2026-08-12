@@ -74,7 +74,10 @@ export const profileSchema = z.object({
   role: nonEmpty,
   location: nonEmpty,
   currently: nonEmpty,
+  /** Opening statement — the big scroll-reveal line in About Me, also the meta description. */
   intro: nonEmpty,
+  /** Supporting paragraphs rendered under the intro in About Me. */
+  introDetail: z.array(nonEmpty).default([]),
   email: z.email(),
   links: z.array(linkSchema).min(1),
 });

@@ -2,8 +2,7 @@ import { HeroSection } from "@/components/sections/hero";
 import { SiteHeader } from "@/components/layout/site-header";
 import { AboutMeSection } from "@/components/sections/about-me";
 import { AboutSection } from "@/components/sections/about";
-import { FeaturedWorkSection } from "@/components/sections/featured-work";
-import { ExperienceSection } from "@/components/sections/experience";
+import { WorkSection } from "@/components/sections/featured-work";
 import { TechStackSection } from "@/components/sections/tech-stack";
 import { ContactSection } from "@/components/sections/contact";
 
@@ -21,8 +20,7 @@ export default function Home() {
       <SiteHeader />
       <AboutMeSection />
       <AboutSection />
-      <FeaturedWorkSection />
-      <ExperienceSection />
+      <WorkSection />
       <TechStackSection />
       <ContactSection />
     </>

@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import { getCaseStudy, getPublishedCaseStudySlugs } from "@/data/portfolio-content";
 import type { CaseStudy } from "@/lib/content/schema";
+import { CoverImage } from "@/components/ui/cover-image";
 import { ExternalLinkList } from "@/components/ui/external-link-list";
 import { Pills } from "@/components/ui/pills";
+import { TechBackdrop } from "@/components/work/tech-backdrop";
 
 /**
  * Optional long-form prose, appended after the structured sections. Only a few
@@ -62,7 +63,8 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
   const Notes = loadNotes ? (await loadNotes()).default : null;
 
   return (
-    <article className="section-wrap py-16 md:py-24">
+    <article className="relative section-wrap py-16 md:py-24">
+      <TechBackdrop stack={study.stack} />
       <Link
         href="/#work"
         className="inline-flex min-h-11 items-center gap-2 text-fluid-sm text-muted transition-colors hover:text-fg"
@@ -83,14 +85,19 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
       </header>
 
       {study.coverImage && (
-        <div className="relative mt-10 aspect-[16/10] max-w-4xl overflow-hidden rounded-2xl border border-white/10">
-          <Image
+        <div className="group relative mt-12 md:w-2/3">
+          {/* Ambient accent wash behind the cover, so it sits in a pool of
+              light instead of floating on flat black. */}
+          <div
+            aria-hidden="true"
+            className="absolute -inset-x-8 -inset-y-10 -z-10 rounded-[3rem] bg-accent/10 blur-3xl"
+          />
+          <CoverImage
             src={study.coverImage}
-            alt=""
-            fill
+            sizes="(max-width: 1200px) 100vw, 1024px"
             priority
-            sizes="(max-width: 768px) 100vw, 896px"
-            className="object-cover object-top"
+            fit="contain"
+            className="aspect-[16/10] rounded-3xl shadow-glow"
           />
         </div>
       )}

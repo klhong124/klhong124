@@ -63,8 +63,8 @@ export default function Image() {
             maxWidth: 960,
           }}
         >
-          Next.js · React · TypeScript — design systems that stay consistent,
-          types at the boundary, motion that earns its place.
+          React · Next.js · TypeScript · GraphQL — immersive digital
+          experiences where design, motion and engineering intersect.
         </div>
         <div
           style={{

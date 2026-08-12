@@ -19,9 +19,18 @@ export function AboutMeSection() {
       </h2>
       <ScrollRevealText
         text={profile.intro}
-        highlights={["full-stack", "Next.js", "React", "TypeScript", "Laravel", "Firebase", "Maria"]}
+        highlights={["React", "Next.js", "TypeScript", "Tailwind CSS", "GraphQL", "Storybook"]}
         className="mt-6 max-w-measure-tight text-balance font-display text-fluid-2xl font-medium leading-snug text-fg"
       />
+      {profile.introDetail.length > 0 && (
+        <div className="mt-8 max-w-measure space-y-5">
+          {profile.introDetail.map((paragraph) => (
+            <p key={paragraph} className="text-pretty text-fluid-base leading-relaxed text-muted">
+              {paragraph}
+            </p>
+          ))}
+        </div>
+      )}
     </Section>
   );
 }

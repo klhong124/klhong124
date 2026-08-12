@@ -31,26 +31,29 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
 });
 
-const description = `${profile.role} in ${profile.location}. ${profile.intro}`;
+// The intro already opens with the role, so don't prefix it again.
+const description = `${profile.intro} Based in ${profile.location}, currently at ${profile.currently}.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     template: "%s | Ryan Kwan",
-    default: "Ryan Kwan — Full-stack Engineer, London",
+    default: "Ryan Kwan — Creative Frontend Engineer, London",
   },
   description,
   applicationName: "Ryan Kwan",
   referrer: "origin-when-cross-origin",
   keywords: [
     "Ryan Kwan",
-    "Full-stack Engineer",
+    "Creative Frontend Engineer",
     "Frontend Engineer",
     "London",
     "Next.js",
     "React",
     "TypeScript",
-    "Laravel",
+    "GraphQL",
+    "Tailwind CSS",
+    "Storybook",
     "Design systems",
   ],
   creator: profile.name,
@@ -61,14 +64,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_GB",
     siteName: "Ryan Kwan",
-    title: "Ryan Kwan — Full-stack Engineer, London",
+    title: "Ryan Kwan — Creative Frontend Engineer, London",
     description,
     url: SITE_URL,
   },
   twitter: {
     card: "summary_large_image",
     creator: "ryankwan",
-    title: "Ryan Kwan — Full-stack Engineer, London",
+    title: "Ryan Kwan — Creative Frontend Engineer, London",
     description,
   },
 };
@@ -96,7 +99,7 @@ export default function RootLayout({
             <SiteFooter />
             <CommandPalette email={profile.email} />
             <NoiseOverlay />
-            <Cursor />
+            {/* <Cursor /> */}
             <Background />
           </MouseContextProvider>
         </MotionProvider>

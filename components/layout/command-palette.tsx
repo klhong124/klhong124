@@ -6,10 +6,9 @@ import { useRouter } from "next/navigation";
 const DESTINATIONS = [
   { label: "Top", href: "/#hero" },
   { label: "Approach", href: "/#about" },
-  { label: "Selected work", href: "/#work" },
+  { label: "Work", href: "/#work" },
   { label: "Experience", href: "/#experience" },
   { label: "Contact", href: "/#contact" },
-  { label: "All case studies", href: "/work" },
 ] as const;
 
 /**

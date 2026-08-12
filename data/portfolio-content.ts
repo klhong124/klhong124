@@ -13,11 +13,15 @@ import { portfolioContentSchema, type PortfolioContent } from "@/lib/content/sch
 const content = {
   profile: {
     name: "Ryan Kwan",
-    role: "Full-stack Engineer",
+    role: "Creative Frontend Engineer",
     location: "London, UK",
     currently: "BuiltByPixel",
     intro:
-      "I build products end to end — from typed React and Next.js interfaces to Laravel APIs, Firebase backends, and the Docker and tunneling that keeps side projects running. Frontend is where I spend most of my day job at BuiltByPixel; full-stack is how I ship personal work, including a personal AI assistant (Maria) and a map-first mobile marketplace I am building in my own time with Expo, Firebase, and Stripe.",
+      "Creative frontend engineer with 6+ years of experience building high-performance, visually engaging web applications, with a strong focus on user experience, interaction and modern frontend architecture. Specialised in React, Next.js, TypeScript, Tailwind CSS, GraphQL, and component-driven development with Storybook.",
+    introDetail: [
+      "Experienced in delivering design-focused digital products from concept to production — animation-rich interfaces, scalable design systems, advanced search experiences, and performant ecommerce and CMS platforms. Strong eye for detail, with a proven ability to translate complex Figma designs into polished, responsive and accessible user interfaces.",
+      "Collaborative and product-minded, working across frontend, backend, design and client teams to deliver reliable, maintainable, customer-focused solutions. Passionate about immersive digital experiences where design, motion and engineering intersect.",
+    ],
     email: "hello@ryankwan.dev",
     links: [
       { label: "GitHub", href: "https://github.com/klhong124" },
@@ -52,6 +56,7 @@ const content = {
   timeline: [
     {
       id: "builtbypixel",
+      image: "/images/builtbypixel.png",
       period: "2025 — Present",
       startYear: 2025,
       company: "BuiltByPixel",
@@ -66,22 +71,20 @@ const content = {
         "Work across two public properties in parallel — a marketing site and a trade ordering platform — keeping them recognisably one brand while their jobs differ.",
         "Maintain a shared Chakra UI 3 design system driven by semantic tokens, so theming and spacing decisions are made once rather than per page.",
         "Consume the Parfetts REST API through a typed fetch client, with Zod validating responses at the boundary so bad payloads surface immediately instead of halfway down a component tree.",
-        "Build ordering and enquiry forms on react-hook-form with Zod schemas shared between client validation and API contracts.",
+        "Build ordering and enquiry forms with Zod schemas shared between client validation and API contracts.",
         "Integrate Algolia to make the product catalogue searchable on the routes that need it, keeping the index work off the pages that do not.",
-        "Instrument the platform with PostHog for product analytics and Pusher for real-time updates.",
+        "Instrument the platform with PostHog for product analytics .",
         "Keep the codebase enforceable rather than aspirational: Biome for lint and format, Vitest for unit tests, Storybook for component review, and Lefthook to run all of it before anything lands.",
       ],
       stack: [
-        "Next.js 16 (App Router, Turbopack)",
+        "Next.js",
         "React 19",
         "TypeScript",
         "Chakra UI 3",
         "Zod",
-        "react-hook-form",
         "Zustand",
         "Algolia",
         "PostHog",
-        "Pusher",
         "Motion",
         "Bun",
         "Biome",
@@ -129,23 +132,49 @@ const content = {
       stack: ["React", "Next.js", "Vue", "Storybook", "Apollo GraphQL", "GSAP", "Tailwind", "Figma"],
       links: [],
     },
+    // TODO(ryan): the periods on the two Hong Kong roles are inferred from the
+    // start years on the old site's jobs data — confirm the end dates.
     {
-      id: "gymism",
-      image: "/images/gymism.png",
-      period: "2021 — 2022",
-      startYear: 2021,
-      company: "Gymism Club",
-      role: "Full-stack Developer",
-      location: "Remote",
+      id: "goodest-lab",
+      image: "/images/car8.png",
+      period: "2020 — 2021",
+      startYear: 2020,
+      company: "Goodest Lab Limited",
+      role: "Analyst Programmer",
+      location: "Hong Kong",
       summary:
-        "A coach-matching platform built solo during COVID, connecting people with personal trainers across a range of sports.",
+        "Start-up role building Car8.com from scratch — an online marketplace for car buyers and sellers, and the job where I became a full-stack developer rather than a designer who codes.",
       achievements: [
-        "Designed, built and shipped the whole product alone — frontend, backend and deployment.",
-        "Built the frontend as a Nuxt.js PWA with Firebase and Apollo GraphQL behind it, deployed on Google Cloud Run.",
-        "Integrated Stripe for payments.",
+        "Built the marketplace end to end: Vue.js and Vuex on the front, Laravel and MySQL services behind it.",
+        "Aggregated marketplace data with Python web scraping and OCR so listings stayed populated without manual entry.",
+        "Integrated Stripe APIs for automated payment processing.",
+        "Used Google Analytics traffic data to steer UI decisions rather than guessing.",
       ],
-      stack: ["Nuxt", "Vue", "Firebase", "Apollo GraphQL", "Stripe", "Cloud Run", "PWA"],
-      links: [],
+      stack: ["Vue", "Vuex", "Laravel", "MySQL", "Stripe", "Python", "Google Analytics"],
+      links: [{ label: "car8.com", href: "https://www.car8.com/" }],
+    },
+    {
+      id: "memo-plus",
+      image: "/images/memoplus.jpg",
+      period: "2019 — 2020",
+      startYear: 2019,
+      company: "MEMO Plus Production",
+      role: "Graphic Designer",
+      location: "Hong Kong",
+      summary:
+        "An integrated public relations agency focused on marketing, profile-raising and brand management. My first professional role — where design work started turning into web work.",
+      achievements: [
+        "Designed and built client campaign websites in HTML and CSS with AOS scroll animations, including the IPCC Symposium 2019 site.",
+        "Provided design support and guidance across the agency's client work.",
+      ],
+      stack: ["HTML", "CSS", "AOS", "Graphic design"],
+      links: [
+        // { label: "memoplus.hk", href: "https://www.memoplus.hk/" },
+        // {
+        //   label: "IPCC Symposium 2019",
+        //   href: "https://www.ipcc.gov.hk/symposium2019/view/index.html",
+        // },
+      ],
     },
   ],
 
@@ -154,6 +183,7 @@ const content = {
       slug: "parfetts",
       title: "Parfetts",
       subtitle: "Cash & Carry digital platform for independent retailers",
+      coverImage: "/images/parfetts.png",
       kind: "client",
       period: "2025 — Present",
       status: "published",
@@ -167,7 +197,6 @@ const content = {
         "Zustand",
         "Algolia",
         "PostHog",
-        "Pusher",
         "Bun",
       ],
       problem:
@@ -183,7 +212,7 @@ const content = {
         "Zod DTOs validate API responses at the boundary, and the same schemas drive react-hook-form validation so client and server agree on shape.",
         "Zustand for the client state that genuinely needs to be shared across routes, rather than lifting everything into a global store.",
         "Algolia powers catalogue search, wired in per route so pages that do not search do not pay for it.",
-        "PostHog for product analytics and Pusher for real-time updates.",
+        "PostHog for product analytics.",
       ],
       performance: [
         "Turbopack for local development and builds, which keeps the feedback loop fast on a codebase this size.",
@@ -211,6 +240,7 @@ const content = {
       slug: "immich",
       title: "Immich — self-hosted image server",
       subtitle: "Private family photo platform on always-on home hardware",
+      coverImage: "/images/immich.png",
       kind: "personal",
       period: "2026 — Present",
       status: "published",
@@ -247,7 +277,8 @@ const content = {
     {
       slug: "maria",
       title: "Maria — personal AI assistant",
-      subtitle: "Obsidian vault memory, Slack conversations, and Cursor automations",
+      subtitle: "Obsidian vault memory, Slack conversations, and disciplined agent loops in Cursor",
+      coverImage: "/images/maria.png",
       kind: "personal",
       period: "2026 — Present",
       status: "published",
@@ -256,6 +287,7 @@ const content = {
         "Obsidian",
         "Markdown",
         "Cursor",
+        "Project rules",
         "Slack",
         "Google Calendar MCP",
         "Git",
@@ -263,35 +295,39 @@ const content = {
         "TypeScript",
       ],
       problem:
-        "Useful conversations disappear when a chat window closes. I wanted a personal assistant that could answer from durable memory, capture decisions and tasks without storing secrets, and stay under my control rather than living inside a vendor's cloud.",
+        "Useful conversations disappear when a chat window closes, and coding agents are fast at producing plausible work while staying indifferent to your conventions. I wanted a personal assistant that could answer from durable memory, capture decisions and tasks without storing secrets, and stay under my control — driven by an agent workflow disciplined enough that the output does not have to be redone.",
       approach:
-        "Maria is an Obsidian vault that acts as the source of truth, with Slack as the conversation interface and a Cursor Cloud runtime that reads vault context, answers questions, and writes concise captures back to Markdown. Project rules encode memory policy, permissions, and safety boundaries — including explicit confirmation before external actions and never storing passwords or tokens in Git.",
+        "Maria is an Obsidian vault that acts as the source of truth, with Slack as the conversation interface and a Cursor Cloud runtime that reads vault context, answers questions, and writes concise captures back to Markdown. The constraints live in the repository rather than in the prompt: committed project rules encode memory policy, permissions, and safety boundaries — including explicit confirmation before external actions and never storing passwords or tokens in Git — and work is scoped into an explicit research, plan, then change loop, so the expensive thinking happens before anything is written.",
       outcome:
-        "A working personal assistant I use daily: it remembers preferences and project state across sessions, routes captures into the right folders, commits vault updates to main, and integrates with Google Calendar through a self-hosted MCP server. It is also a full-stack side project in the boring sense — content schema, automation triggers, OAuth setup, and the discipline of keeping durable memory separate from chat.",
+        "A working personal assistant I use daily: it remembers preferences and project state across sessions, routes captures into the right folders, commits vault updates to main, and integrates with Google Calendar through a self-hosted MCP server. It is also my worked example of AI-assisted engineering — agents handle the mechanical work while architectural decisions stay with me — and a full-stack side project in the boring sense: content schema, automation triggers, OAuth setup, and the discipline of keeping durable memory separate from chat.",
       architecture: [
         "Obsidian vault structured by folders — inbox, profile, projects, areas, people, meetings, knowledge — with wikilinks instead of duplicate notes.",
         "Slack (or a Slack relay) as the chat surface; the vault as durable memory, not a transcript dump.",
         "Cursor automations triggered from Slack with scoped MCP tools for messaging and calendar.",
+        "Project rules committed alongside the content, so conventions travel with the repository instead of living in someone's prompt history.",
         "Google Calendar MCP (`@cocal/google-calendar-mcp`) with OAuth credentials kept outside Git.",
         "Memory policy: capture facts, decisions, and tasks; never passwords, API keys, or recovery codes.",
-        "Permissions model: read and suggest freely; confirm before sending messages, changing calendar events, or spending money.",
+        "Permissions model with explicit escalation points: read and suggest freely; ask rather than assume before sending messages, changing calendar events, or spending money.",
       ],
       performance: [
         "Concise captures instead of full chat logs keep the vault searchable and small.",
+        "Research and audit passes kept strictly read-only, separating diagnosis from change.",
         "Zod-validated content modules in other projects inspired the same boundary-validation pattern here.",
         "Git commits on main for routine memory updates — no PR overhead for a personal knowledge base.",
       ],
       impact: [
         "Turned recurring 'where did I write that down?' moments into a searchable vault.",
         "Gave me hands-on experience designing agent permissions, memory policy, and human-in-the-loop external actions.",
+        "Mechanical work gets faster without the review burden that usually comes with generated code — decisions that need a human stay with a human.",
         "Demonstrates full-stack product thinking beyond UI — schema, integrations, automation, and ops.",
       ],
       challenges: [
         "Drawing the line between durable memory and chat noise — most of a conversation should not become a note.",
         "Keeping secrets out of a system designed to remember things, which means strict categories and runtime enforcement.",
+        "Resisting plausible-looking agent output that is subtly wrong, particularly invented facts and confidently misremembered APIs.",
         "First-time OAuth for Calendar in a headless cloud environment, where interactive browser auth cannot complete without a manual step.",
       ],
-      links: [{ label: "Source on GitHub", href: "https://github.com/klhong124" }],
+      links: [],
     },
     {
       slug: "kubrick-cms",
@@ -328,12 +364,15 @@ const content = {
         "Retrofitting consistency into applications that already existed, which is mostly a negotiation exercise rather than a technical one.",
       ],
       links: [],
-      coverImage: "/images/kubrickgroup.png",
+      // The Consultant Development Portal itself — the product this case study
+      // is about — rather than the corporate homepage used on the timeline.
+      coverImage: "/images/CDP.png",
     },
     {
       slug: "experiments-lab",
       title: "Portfolio experiments lab",
       subtitle: "Where interaction ideas get tested before they reach client work",
+      coverImage: "/images/portfolio.png",
       kind: "personal",
       period: "2023 — Present",
       status: "published",
@@ -370,39 +409,38 @@ const content = {
       links: [{ label: "Source on GitHub", href: "https://github.com/klhong124" }],
     },
     {
-      slug: "ai-engineering-loops",
-      title: "AI-assisted engineering loops",
-      subtitle: "Using coding agents without losing the plot",
+      slug: "gymism-club",
+      title: "Gymism Club",
+      subtitle: "A coach-matching platform built solo during COVID",
+      coverImage: "/images/gymism.png",
       kind: "personal",
-      period: "2026 — Present",
+      period: "2021 — 2022",
       status: "published",
-      featured: true,
-      stack: ["Cursor", "Project rules", "Structured prompts", "Code review", "TypeScript"],
+      featured: false,
+      stack: ["Nuxt", "Vue", "Firebase", "Apollo GraphQL", "Stripe", "Cloud Run", "PWA"],
       problem:
-        "Coding agents are fast at producing plausible code and indifferent to whether it matches your conventions. Used carelessly they generate work that reviews badly and has to be redone, which is slower than not using them.",
+        "During COVID, gyms were closed and people who wanted to keep training had no easy way to find a personal trainer, while coaches across a range of sports had no easy way to find clients. There was no place that matched the two sides.",
       approach:
-        "Put the constraints in the repository rather than in the prompt. Committed project rules encode the conventions an agent must follow — how feature flags are named, where analytics properties live, when to ask a human instead of guessing. Work is scoped into an explicit research, plan, then change loop, so the expensive thinking happens before any code is written.",
+        "Design, build and ship the whole product alone — frontend, backend, payments and deployment. The frontend is a Nuxt.js PWA, so it installs and behaves like an app without app-store friction, with Firebase and Apollo GraphQL behind it and Stripe handling payments, all deployed on Google Cloud Run.",
       outcome:
-        "Agents do the mechanical work — audits, migrations, repetitive refactors — while architectural decisions stay with me. This refresh is a worked example: a read-only audit first, decisions confirmed with a human, then incremental commits against an agreed plan.",
+        "A working two-sided marketplace connecting people with personal trainers across a range of sports. It is also the project that taught me what owning every layer of a product actually costs — design, code, payments and ops, with one pair of hands.",
       architecture: [
-        "Project rules committed alongside the code, so conventions travel with the repository instead of living in someone's prompt history.",
-        "Research and audit passes kept strictly read-only, separating diagnosis from change.",
-        "Work sliced into reviewable commits rather than one large diff.",
-        "Explicit escalation points where the agent must ask rather than assume — dates, titles, metrics, anything unverifiable.",
+        "Nuxt.js PWA frontend, installable to a home screen with no app store between the product and its users.",
+        "Firebase for auth and data, with Apollo GraphQL as the API layer between client and backend.",
+        "Stripe integration for payments between clients and coaches.",
+        "Deployed on Google Cloud Run, so hosting scales down when a side project is quiet.",
       ],
       performance: [
-        "Parallel read-only exploration makes auditing a large codebase quick without risking changes to it.",
-        "Verification is automated — typecheck, lint and build after each slice — so regressions surface immediately.",
+        "PWA caching keeps repeat visits fast on the mid-range phones most users browsed with.",
+        "Serverless deployment meant no idle server to maintain or pay for.",
       ],
       impact: [
-        "Mechanical work gets faster without the review burden that usually comes with generated code.",
-        "Findings are written down, so an audit becomes a durable document rather than a chat log.",
-        "Decisions that need a human stay with a human, which is the whole point.",
+        "Shipped a complete two-sided marketplace as a one-person team — design, frontend, backend, payments, and deployment.",
+        "The project that proved I could carry a product end to end, not just the interface.",
       ],
       challenges: [
-        "Resisting plausible-looking output that is subtly wrong, particularly invented metrics and confidently misremembered APIs.",
-        "Keeping diffs small enough to review honestly when the tooling is happy to produce enormous ones.",
-        "Knowing when the loop is not worth it and writing the code directly.",
+        "Being the only person on design, code and deployment, which forces honest prioritisation over polish.",
+        "Building the trust-sensitive parts — profiles, matching, payments — with the resources of one person.",
       ],
       links: [],
     },
@@ -447,7 +485,7 @@ const content = {
   stackGroups: [
     {
       label: "Core",
-      items: ["Next.js", "React", "TypeScript", "App Router", "Expo"],
+      items: ["Next.js", "React", "TypeScript", "GraphQL", "App Router", "Expo"],
     },
     {
       label: "Styling & design systems",
@@ -455,11 +493,11 @@ const content = {
     },
     {
       label: "Data & state",
-      items: ["Typed REST clients", "Zod", "react-hook-form", "Zustand", "Apollo GraphQL"],
+      items: ["REST APIs", "Zod", "Zustand", "Apollo GraphQL"],
     },
     {
       label: "Backend & APIs",
-      items: ["Laravel", "MySQL", "Firebase", "Stripe", "GraphQL", "Docker"],
+      items: ["GraphQL", "Laravel", "MySQL", "Firebase", "Stripe", "Docker"],
     },
     {
       label: "Motion",
@@ -467,7 +505,7 @@ const content = {
     },
     {
       label: "Search & product analytics",
-      items: ["Algolia", "PostHog", "Pusher"],
+      items: ["Algolia", "PostHog"],
     },
     {
       label: "Tooling & quality",
@@ -475,7 +513,7 @@ const content = {
     },
     {
       label: "Infrastructure",
-      items: ["Vercel", "Docker", "Cloudflare Tunnel", "Firebase", "Cloud Run"],
+      items: ["Vercel", "Docker", "Cloudflare Tunnel", "Firebase", "Cloud Run", "Tailscale"],
     },
   ],
 } satisfies PortfolioContent;

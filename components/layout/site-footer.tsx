@@ -12,7 +12,7 @@ export function SiteFooter() {
           <ul className="flex flex-wrap items-center gap-x-6">
             <li>
               <Link
-                href="/work"
+                href="/#work"
                 className="flex min-h-11 items-center transition-colors hover:text-fg"
               >
                 Work
