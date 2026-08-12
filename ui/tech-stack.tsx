@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useMemo, useRef, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/utils/cn";
 import { motion, MotionValue, useMotionValue, useMotionValueEvent } from "motion/react";
 import { useMouse } from "@/hooks/useMouse";
@@ -275,16 +275,29 @@ function ToolIcon({ config }: { config: IconConfig }) {
   );
 }
 
+/**
+ * Mounts only after every `useGLTF` inside the Suspense boundary has resolved,
+ * so the parent can start the intro zoom once the icons are actually on screen.
+ */
+function SceneReady({ onReady }: { onReady: () => void }) {
+  useEffect(() => {
+    onReady();
+  }, [onReady]);
+  return null;
+}
+
 function Scene({
   mouseX,
   mouseY,
   targetZ,
   onContextLostChange,
+  onReady,
 }: {
   mouseX: MotionValue<number>;
   mouseY: MotionValue<number>;
   targetZ: number;
   onContextLostChange: (lost: boolean) => void;
+  onReady: () => void;
 }) {
   return (
     <Canvas
@@ -292,7 +305,9 @@ function Scene({
       dpr={[1, 2]}
       style={{ pointerEvents: "none" }}
       resize={{ scroll: false, offsetSize: true }}
-      camera={{ fov: 95, near: 0.1, far: 200, position: [0, 0, 4] }}
+      // Starts at z=2 so the post-load ease-out to the rest target reads as a
+      // zoom-out, rather than the camera first diving in from z=4.
+      camera={{ fov: 95, near: 0.1, far: 200, position: [0, 0, 2] }}
       onCreated={({ gl }) => {
         // A canvas whose WebGL context has been lost (GPU pressure, too many
         // live contexts, driver reset) is composited as an opaque block, so it
@@ -314,6 +329,7 @@ function Scene({
             <ToolIcon key={cfg.gltf} config={cfg} />
           ))}
         </group>
+        <SceneReady onReady={onReady} />
       </Suspense>
     </Canvas>
   );
@@ -322,10 +338,38 @@ function Scene({
 const TechStack = () => {
   const [ref, bounds] = useMeasure({ scroll: true });
   const { x, y } = useMouse();
-  const [{ isHover, isTap, isClick }] = useHero();
+  const [{ isHover, isTap, isClick }, setHero] = useHero();
   const [contextLost, setContextLost] = useState(false);
+  // Stays at the intro depth until the GLTFs are in; then CameraRig lerps out.
+  const [introDone, setIntroDone] = useState(false);
+  // Hidden until the scene is ready, then held visible through the zoom-out
+  // until isHover is seeded true.
+  const [introVisible, setIntroVisible] = useState(false);
+  const introStarted = useRef(false);
+  const settleTimer = useRef<number | null>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
+
+  useEffect(() => {
+    return () => {
+      if (settleTimer.current !== null) window.clearTimeout(settleTimer.current);
+    };
+  }, []);
+
+  const handleSceneReady = useCallback(() => {
+    // Suspense (and Strict Mode remounts) can call this more than once.
+    if (introStarted.current) return;
+    introStarted.current = true;
+
+    setIntroVisible(true);
+    // One frame at z=2 with the icons painted, then ease out to the live target.
+    requestAnimationFrame(() => setIntroDone(true));
+    // ~1.2s is enough for the 0.08 lerp to settle; then hand off to hover.
+    settleTimer.current = window.setTimeout(() => {
+      setHero((prev) => ({ ...prev, isHover: true }));
+      setIntroVisible(false);
+    }, 400);
+  }, [setHero]);
 
   // Track the shared pointer motion values directly. Doing this in an effect
   // keyed on x/y meant a re-render for every mouse move.
@@ -339,7 +383,8 @@ const TechStack = () => {
   // Hero context lives outside the Canvas. R3F children render in a separate
   // reconciler root that cannot see this component's contexts, so the camera
   // target crosses the boundary as a plain prop.
-  const targetZ = isHover? ( isClick ? 3.9 : isTap ? 5 : 4.5 ) : 5 ;
+  const liveZ = isHover ? (isClick ? 3.9 : isTap ? 5 : 4.5) : 5;
+  const targetZ = introDone ? liveZ : 2.5;
 
   /** Do not wrap `<Canvas>` in `motion.*` — R3F uses a separate reconciler and Motion breaks `ReactCurrentOwner`. */
   return (
@@ -354,7 +399,7 @@ const TechStack = () => {
         contextLost && "invisible",
       )}
       initial="rest"
-      animate={isHover ? "hover" : "rest"}
+      animate={isHover || introVisible ? "hover" : "rest"}
       variants={{
         rest: { opacity: 0, transition: { duration: 0.6 } },
         hover: { opacity: 1, transition: { duration: 0.4 } },
@@ -365,6 +410,7 @@ const TechStack = () => {
         mouseY={mouseY}
         targetZ={targetZ}
         onContextLostChange={setContextLost}
+        onReady={handleSceneReady}
       />
     </motion.div>
   );
