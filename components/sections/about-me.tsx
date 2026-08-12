@@ -19,7 +19,7 @@ export function AboutMeSection() {
       </h2>
       <ScrollRevealText
         text={profile.intro}
-        highlights={["fast", "accessible", "Next.js", "React", "TypeScript", "motion"]}
+        highlights={["full-stack", "Next.js", "React", "TypeScript", "Laravel", "Firebase", "Maria"]}
         className="mt-6 max-w-measure-tight text-balance font-display text-fluid-2xl font-medium leading-snug text-fg"
       />
     </Section>

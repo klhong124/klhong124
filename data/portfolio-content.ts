@@ -13,11 +13,11 @@ import { portfolioContentSchema, type PortfolioContent } from "@/lib/content/sch
 const content = {
   profile: {
     name: "Ryan Kwan",
-    role: "Frontend Engineer",
+    role: "Full-stack Engineer",
     location: "London, UK",
     currently: "BuiltByPixel",
     intro:
-      "I build fast, accessible interfaces for the web with Next.js, React and TypeScript. I care about design systems that stay consistent, data that is typed at the boundary, and motion that earns its place — and I like the unglamorous parts: the shared primitives, the edge cases, the second release.",
+      "I build products end to end — from typed React and Next.js interfaces to Laravel APIs, Firebase backends, and the Docker and tunneling that keeps side projects running. Frontend is where I spend most of my day job at BuiltByPixel; full-stack is how I ship personal work, including a personal AI assistant (Maria) and a map-first mobile marketplace I am building in my own time with Expo, Firebase, and Stripe.",
     email: "hello@ryankwan.dev",
     links: [
       { label: "GitHub", href: "https://github.com/klhong124" },
@@ -96,6 +96,7 @@ const content = {
     },
     {
       id: "executives-place",
+      image: "/images/executivesplace.png",
       period: "2024 — 2025",
       startYear: 2024,
       company: "Executives Place Limited",
@@ -112,6 +113,7 @@ const content = {
     },
     {
       id: "kubrick",
+      image: "/images/kubrickgroup.png",
       period: "2022 — 2024",
       startYear: 2022,
       company: "Kubrick Group Limited",
@@ -129,6 +131,7 @@ const content = {
     },
     {
       id: "gymism",
+      image: "/images/gymism.png",
       period: "2021 — 2022",
       startYear: 2021,
       company: "Gymism Club",
@@ -242,6 +245,55 @@ const content = {
       links: [{ label: "gallery.ryankwan.dev", href: "https://gallery.ryankwan.dev/" }],
     },
     {
+      slug: "maria",
+      title: "Maria — personal AI assistant",
+      subtitle: "Obsidian vault memory, Slack conversations, and Cursor automations",
+      kind: "personal",
+      period: "2026 — Present",
+      status: "published",
+      featured: true,
+      stack: [
+        "Obsidian",
+        "Markdown",
+        "Cursor",
+        "Slack",
+        "Google Calendar MCP",
+        "Git",
+        "Zod",
+        "TypeScript",
+      ],
+      problem:
+        "Useful conversations disappear when a chat window closes. I wanted a personal assistant that could answer from durable memory, capture decisions and tasks without storing secrets, and stay under my control rather than living inside a vendor's cloud.",
+      approach:
+        "Maria is an Obsidian vault that acts as the source of truth, with Slack as the conversation interface and a Cursor Cloud runtime that reads vault context, answers questions, and writes concise captures back to Markdown. Project rules encode memory policy, permissions, and safety boundaries — including explicit confirmation before external actions and never storing passwords or tokens in Git.",
+      outcome:
+        "A working personal assistant I use daily: it remembers preferences and project state across sessions, routes captures into the right folders, commits vault updates to main, and integrates with Google Calendar through a self-hosted MCP server. It is also a full-stack side project in the boring sense — content schema, automation triggers, OAuth setup, and the discipline of keeping durable memory separate from chat.",
+      architecture: [
+        "Obsidian vault structured by folders — inbox, profile, projects, areas, people, meetings, knowledge — with wikilinks instead of duplicate notes.",
+        "Slack (or a Slack relay) as the chat surface; the vault as durable memory, not a transcript dump.",
+        "Cursor automations triggered from Slack with scoped MCP tools for messaging and calendar.",
+        "Google Calendar MCP (`@cocal/google-calendar-mcp`) with OAuth credentials kept outside Git.",
+        "Memory policy: capture facts, decisions, and tasks; never passwords, API keys, or recovery codes.",
+        "Permissions model: read and suggest freely; confirm before sending messages, changing calendar events, or spending money.",
+      ],
+      performance: [
+        "Concise captures instead of full chat logs keep the vault searchable and small.",
+        "Zod-validated content modules in other projects inspired the same boundary-validation pattern here.",
+        "Git commits on main for routine memory updates — no PR overhead for a personal knowledge base.",
+      ],
+      impact: [
+        "Turned recurring 'where did I write that down?' moments into a searchable vault.",
+        "Gave me hands-on experience designing agent permissions, memory policy, and human-in-the-loop external actions.",
+        "Demonstrates full-stack product thinking beyond UI — schema, integrations, automation, and ops.",
+      ],
+      challenges: [
+        "Drawing the line between durable memory and chat noise — most of a conversation should not become a note.",
+        "Keeping secrets out of a system designed to remember things, which means strict categories and runtime enforcement.",
+        "First-time OAuth for Calendar in a headless cloud environment, where interactive browser auth cannot complete without a manual step.",
+      ],
+      links: [{ label: "Source on GitHub", href: "https://github.com/klhong124" }],
+    },
+    {
       slug: "kubrick-cms",
       title: "Kubrick CMS & component library",
       subtitle: "E-learning platform, internal CMS, and the Storybook library between them",
@@ -276,6 +328,7 @@ const content = {
         "Retrofitting consistency into applications that already existed, which is mostly a negotiation exercise rather than a technical one.",
       ],
       links: [],
+      coverImage: "/images/kubrickgroup.png",
     },
     {
       slug: "experiments-lab",
@@ -394,7 +447,7 @@ const content = {
   stackGroups: [
     {
       label: "Core",
-      items: ["Next.js", "React", "TypeScript", "App Router"],
+      items: ["Next.js", "React", "TypeScript", "App Router", "Expo"],
     },
     {
       label: "Styling & design systems",
@@ -403,6 +456,10 @@ const content = {
     {
       label: "Data & state",
       items: ["Typed REST clients", "Zod", "react-hook-form", "Zustand", "Apollo GraphQL"],
+    },
+    {
+      label: "Backend & APIs",
+      items: ["Laravel", "MySQL", "Firebase", "Stripe", "GraphQL", "Docker"],
     },
     {
       label: "Motion",

@@ -9,9 +9,11 @@ import IndicatorText from "@/ui/indicatorText";
 import Highlight from "@/ui/highlight";
 import Dock, { DOCK_ITEMS } from "@/ui/dock";
 import { TechStackScene } from "@/components/ui/tech-stack-scene";
+import { MobileTechStackScene } from "@/components/ui/mobile-tech-stack-scene";
 import { useMouse } from "@/hooks/useMouse";
 import Link from "next/link";
 import Image from "next/image";
+import { profile } from "@/data/portfolio-content";
 
 /**
  * The original hero, restored from the pre-refresh site: a card that greets
@@ -66,8 +68,8 @@ const itemVariants = {
 // layout can never drift apart.
 const IntroCopy = () => (
     <>
-        My name is Ryan, a<Highlight>Front-end Developer</Highlight>
-        with a passion for crafting visually engaging, animation-rich, and stunning applications. Specializing in design-focused projects using React/Next.js, and Typescript.
+        My name is Ryan, a <Highlight>{profile.role}</Highlight>
+        {" "}with frontend depth and full-stack range — React and Next.js at work, Laravel and Firebase on side projects, and the infra glue (Docker, tunnels, typed boundaries) that keeps it all maintainable.
     </>
 );
 export const HeroSection = () => {
@@ -165,8 +167,10 @@ const Hero = () => {
  */
 const MobileHero = () => {
     return (
-        <motion.div
-            className="flex w-full max-w-md flex-col items-center gap-6 px-6 py-24 text-center md:hidden"
+        <>
+            <MobileTechStackScene />
+            <motion.div
+            className="relative z-10 flex w-full max-w-md flex-col items-center gap-6 px-6 py-24 text-center md:hidden"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -220,6 +224,7 @@ const MobileHero = () => {
 
             <IndicatorText className="mt-4">Scroll down for more details</IndicatorText>
         </motion.div>
+        </>
     );
 };
 

@@ -28,6 +28,8 @@ export const timelineEntrySchema = z.object({
   achievements: z.array(nonEmpty).min(1),
   stack: z.array(nonEmpty).min(1),
   links: z.array(linkSchema).default([]),
+  /** Optional screenshot shown in the experience timeline. */
+  image: z.string().regex(/^\//, "image must be a site-relative path").optional(),
 });
 
 export type TimelineEntry = z.infer<typeof timelineEntrySchema>;
@@ -55,6 +57,8 @@ export const caseStudySchema = z.object({
   impact: z.array(nonEmpty).min(1),
   challenges: z.array(nonEmpty).min(1),
   links: z.array(linkSchema).default([]),
+  /** Optional cover image for cards and the case study header. */
+  coverImage: z.string().regex(/^\//, "coverImage must be a site-relative path").optional(),
 });
 
 export type CaseStudy = z.infer<typeof caseStudySchema>;

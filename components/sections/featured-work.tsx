@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -12,7 +13,7 @@ export function FeaturedWorkSection() {
         id="work-heading"
         eyebrow="Selected work"
         title="What I have built"
-        description="Each case study leads with the problem, the approach and the outcome, so you can decide in a few seconds whether it is worth reading."
+        description="Client platforms, personal infra, and side projects — each case study leads with the problem, approach, and outcome."
       />
       <ul className="grid gap-5 md:grid-cols-2">
         {featuredCaseStudies.map((study) => (
@@ -21,6 +22,17 @@ export function FeaturedWorkSection() {
                 and no nested interactive elements. */}
             <Link href={`/work/${study.slug}`} className="group block h-full">
               <GlassCard className="h-full" round="2xl" innerClassName="flex h-full flex-col p-6">
+                {study.coverImage && (
+                  <div className="relative -mx-6 -mt-6 mb-5 aspect-[16/10] overflow-hidden rounded-t-2xl border-b border-white/10">
+                    <Image
+                      src={study.coverImage}
+                      alt=""
+                      fill
+                      sizes="(max-width: 768px) 100vw, 560px"
+                      className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+                    />
+                  </div>
+                )}
                 <p className="text-fluid-sm uppercase tracking-[0.14em] text-muted">
                   {study.kind === "client" ? "Client work" : "Personal project"} · {study.period}
                 </p>
