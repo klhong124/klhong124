@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { getCaseStudy, getPublishedCaseStudySlugs } from "@/data/portfolio-content";
 import type { CaseStudy } from "@/lib/content/schema";
 import { ExternalLinkList } from "@/components/ui/external-link-list";
@@ -80,6 +81,19 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
           <ExternalLinkList className="mt-6" links={study.links} />
         )}
       </header>
+
+      {study.coverImage && (
+        <div className="relative mt-10 aspect-[16/10] max-w-4xl overflow-hidden rounded-2xl border border-white/10">
+          <Image
+            src={study.coverImage}
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, 896px"
+            className="object-cover object-top"
+          />
+        </div>
+      )}
 
       {/* Problem / approach / outcome sits above the detail so the whole story is
           readable without scrolling into the bullets. */}

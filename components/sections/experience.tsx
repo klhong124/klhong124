@@ -1,3 +1,5 @@
+import Link from "next/link";
+import Image from "next/image";
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -22,6 +24,17 @@ export function ExperienceSection() {
               className="absolute -left-[31px] top-7 size-3 rounded-full bg-accent md:-left-[39px]"
             />
             <GlassCard round="xl" innerClassName="p-6">
+              {item.image && (
+                <div className="relative mb-5 aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-surface">
+                  <Image
+                    src={item.image}
+                    alt={`Screenshot from work at ${item.company}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 720px"
+                    className="object-cover object-top"
+                  />
+                </div>
+              )}
               <p className="text-fluid-sm uppercase tracking-[0.2em] text-muted">{item.period}</p>
               <h3 className="mt-2 text-fluid-xl font-semibold text-fg">{item.company}</h3>
               <p className="text-fluid-base text-accent">
