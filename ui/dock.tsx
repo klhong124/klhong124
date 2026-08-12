@@ -29,6 +29,10 @@ export const DOCK_ITEMS: DockLink[] = [
         href: "https://github.com/klhong124",
     },
     {
+        title: "Cursor",
+        href: "https://cursor.com/@ryankwandev",
+    },
+    {
         title: "X",
         href: "https://x.com/ryankwandev",
     },
