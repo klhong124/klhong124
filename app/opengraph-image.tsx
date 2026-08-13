@@ -22,7 +22,7 @@ export const size = {
 export const contentType = "image/png";
 
 export default async function Image() {
-  const background = await readFile(join(process.cwd(), "public/images/portfolio.png"));
+  const background = await readFile(join(process.cwd(), "public/og-img-bg.png"));
   const backgroundSrc = `data:image/png;base64,${background.toString("base64")}`;
 
   return new ImageResponse(
