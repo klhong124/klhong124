@@ -14,6 +14,7 @@
   <a href="https://ryankwan.dev"><img src="https://img.shields.io/badge/Website-ryankwan.dev-8B5CF6?style=flat&logo=google-chrome&logoColor=white"/></a>
   <a href="mailto:hello@ryankwan.dev"><img src="https://img.shields.io/badge/Email-hello%40ryankwan.dev-D14836?style=flat&logo=gmail&logoColor=white"/></a>
   <a href="https://www.linkedin.com/in/ryankwandev/"><img src="https://img.shields.io/badge/LinkedIn-ryankwandev-0A66C2?style=flat&logo=linkedin&logoColor=white"/></a>
+  <a href="https://cursor.com/@ryankwandev"><img src="https://img.shields.io/badge/Cursor-ryankwandev-000000?style=flat&logo=cursor&logoColor=white" alt="Cursor"/></a>
   <a href="https://wakatime.com/@e5861fa7-60ad-4e2e-8d44-eefbc5ee063e"><img src="https://wakatime.com/badge/user/e5861fa7-60ad-4e2e-8d44-eefbc5ee063e.svg" alt="Total code time"/></a>
   <img src="https://komarev.com/ghpvc/?username=klhong124&label=Profile%20views&color=8b5cf6&style=flat" alt="Profile views"/>
 </p>
