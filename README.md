@@ -126,7 +126,7 @@
 <!--START_SECTION:waka-->
 
 ```txt
-From: 31 July 2026 - To: 30 August 2026
+From: 01 August 2026 - To: 31 August 2026
 
 TypeScript    24 hrs 1 min          ██████████████▒░░░░░░░░░░   57.52 %
 Bash          3 hrs 55 mins         ██▒░░░░░░░░░░░░░░░░░░░░░░   09.42 %
