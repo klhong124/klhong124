@@ -126,13 +126,13 @@
 <!--START_SECTION:waka-->
 
 ```txt
-From: 13 August 2026 - To: 12 September 2026
+From: 14 August 2026 - To: 13 September 2026
 
-TypeScript    19 hrs 39 mins        █████████████▓░░░░░░░░░░░   55.31 %
-Other         6 hrs 35 mins         ████▓░░░░░░░░░░░░░░░░░░░░   18.55 %
-Bash          2 hrs 25 mins         █▓░░░░░░░░░░░░░░░░░░░░░░░   06.82 %
-JavaScript    2 hrs 3 mins          █▒░░░░░░░░░░░░░░░░░░░░░░░   05.77 %
-Image (svg)   58 mins               ▓░░░░░░░░░░░░░░░░░░░░░░░░   02.76 %
+TypeScript    19 hrs 30 mins        ██████████████░░░░░░░░░░░   55.34 %
+Other         6 hrs 35 mins         ████▓░░░░░░░░░░░░░░░░░░░░   18.70 %
+Bash          2 hrs 25 mins         █▓░░░░░░░░░░░░░░░░░░░░░░░   06.88 %
+JavaScript    2 hrs 3 mins          █▒░░░░░░░░░░░░░░░░░░░░░░░   05.82 %
+Markdown      58 mins               ▓░░░░░░░░░░░░░░░░░░░░░░░░   02.75 %
 ```
 
 <!--END_SECTION:waka-->
