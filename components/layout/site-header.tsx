@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { cn } from "@/utils/cn";
+import { MagneticButton } from "@/components/ui/magnetic-button";
 
 const NAV_LINKS = [
   { href: "/#about", label: "Approach" },
@@ -89,37 +90,45 @@ export function SiteHeader() {
             </ul>
           </nav>
 
-          <button
-            type="button"
-            aria-expanded={menuOpen}
-            aria-controls="mobile-nav"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            onClick={() => setMenuOpen((open) => !open)}
-            className="flex size-11 items-center justify-center rounded-md text-fg md:hidden"
-          >
-            {/* Three bars that fold into a cross; only transform and opacity
-                animate, so the toggle stays on the compositor. */}
-            <span className="relative block h-4 w-5" aria-hidden="true">
-              <span
-                className={cn(
-                  "absolute left-0 top-[3px] h-0.5 w-full rounded-full bg-current transition-transform duration-300",
-                  menuOpen && "translate-y-[5px] rotate-45",
-                )}
-              />
-              <span
-                className={cn(
-                  "absolute left-0 top-[8px] h-0.5 w-full rounded-full bg-current transition-opacity duration-300",
-                  menuOpen && "opacity-0",
-                )}
-              />
-              <span
-                className={cn(
-                  "absolute left-0 top-[13px] h-0.5 w-full rounded-full bg-current transition-transform duration-300",
-                  menuOpen && "-translate-y-[5px] -rotate-45",
-                )}
-              />
-            </span>
-          </button>
+          {/* Pinned right at every breakpoint; on mobile it shares the corner
+              with the burger. */}
+          <div className="flex items-center gap-1">
+            <MagneticButton href="/showcase" className="px-4">
+              Showcase
+            </MagneticButton>
+
+            <button
+              type="button"
+              aria-expanded={menuOpen}
+              aria-controls="mobile-nav"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              onClick={() => setMenuOpen((open) => !open)}
+              className="flex size-11 items-center justify-center rounded-md text-fg md:hidden"
+            >
+              {/* Three bars that fold into a cross; only transform and opacity
+                  animate, so the toggle stays on the compositor. */}
+              <span className="relative block h-4 w-5" aria-hidden="true">
+                <span
+                  className={cn(
+                    "absolute left-0 top-[3px] h-0.5 w-full rounded-full bg-current transition-transform duration-300",
+                    menuOpen && "translate-y-[5px] rotate-45",
+                  )}
+                />
+                <span
+                  className={cn(
+                    "absolute left-0 top-[8px] h-0.5 w-full rounded-full bg-current transition-opacity duration-300",
+                    menuOpen && "opacity-0",
+                  )}
+                />
+                <span
+                  className={cn(
+                    "absolute left-0 top-[13px] h-0.5 w-full rounded-full bg-current transition-transform duration-300",
+                    menuOpen && "-translate-y-[5px] -rotate-45",
+                  )}
+                />
+              </span>
+            </button>
+          </div>
         </div>
 
         <AnimatePresence>

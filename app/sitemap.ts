@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getPublishedCaseStudySlugs } from "@/data/portfolio-content";
-
-export const SITE_URL = "https://ryankwan.dev";
+import { showcaseItems } from "@/data/showcase";
+import { SITE_URL } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
@@ -10,6 +10,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...getPublishedCaseStudySlugs().map((slug) => ({
       url: `${SITE_URL}/work/${slug}`,
       priority: 0.6,
+      lastModified,
+    })),
+    ...showcaseItems.map(({ slug }) => ({
+      url: `${SITE_URL}/showcase/${slug}`,
+      priority: 0.5,
       lastModified,
     })),
   ];
