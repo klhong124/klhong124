@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
+import { demos } from "@/components/showcase/demos";
 import { getShowcaseItem, showcaseItems } from "./showcase";
 
 const itemFile = (slug: string) => path.join(process.cwd(), "components/showcase/items", `${slug}.tsx`);
@@ -36,6 +37,17 @@ describe("showcase registry", () => {
   it("has a source file named after every slug", () => {
     for (const item of showcaseItems) {
       expect(existsSync(itemFile(item.slug)), `${item.slug}.tsx is missing`).toBe(true);
+    }
+  });
+
+  it("has a live demo for every item, and no orphan demos", () => {
+    expect(Object.keys(demos).sort()).toEqual(showcaseItems.map((item) => item.slug).sort());
+  });
+
+  it("gives every demo uniquely named controls", () => {
+    for (const [slug, demo] of Object.entries(demos)) {
+      const names = demo.controls.map((control) => control.name);
+      expect(new Set(names).size, slug).toBe(names.length);
     }
   });
 

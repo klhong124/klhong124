@@ -8,13 +8,20 @@ import { useMotionEnabled } from "@/lib/motion/use-motion-enabled";
 import { spring } from "@/lib/motion/tokens";
 import { GLOW_GRADIENT_DARK, GLOW_GRADIENT_LIGHT } from "@/lib/motion/glow-gradients";
 
-const ROUND_MAP = {
-  xl: "rounded-xl",
-  "2xl": "rounded-2xl",
-  "3xl": "rounded-3xl",
+/**
+ * Corner radius of the glass panel itself, in px (Tailwind's xl, 2xl and 3xl).
+ * The wrapper and the glow ring sit further out, so their radii grow by the
+ * border width at each step and all three curves share one centre. They all
+ * used to take the same class, which made the ring's corners tighter than the
+ * card's.
+ */
+const RADIUS = {
+  xl: 12,
+  "2xl": 16,
+  "3xl": 24,
 } as const;
 
-type RoundKey = keyof typeof ROUND_MAP;
+type RoundKey = keyof typeof RADIUS;
 
 type GlassCardProps = PropsWithChildren<{
   className?: string;
@@ -39,7 +46,7 @@ export const GlassCard = memo(function GlassCard({
   glowProximity = 72,
   round = "2xl",
 }: GlassCardProps) {
-  const rounded = ROUND_MAP[round];
+  const radius = RADIUS[round];
   const glowRef = useGlow({ proximity: glowProximity });
   const motionEnabled = useMotionEnabled();
 
@@ -55,8 +62,8 @@ export const GlassCard = memo(function GlassCard({
 
   return (
     <motion.div
-      className={cn("relative", rounded, className)}
-      style={{ padding: `${borderWidth}px` }}
+      className={cn("relative", className)}
+      style={{ padding: `${borderWidth}px`, borderRadius: radius + borderWidth }}
       // Scale is a compositor-only transform, so the lift costs no layout.
       //
       // Deliberately no `whileTap`: Motion adds `tabindex="0"` to anything with a
@@ -67,22 +74,18 @@ export const GlassCard = memo(function GlassCard({
       transition={spring.settle}
     >
       <div
-        className={cn(
-          "glass relative h-full min-h-0 overflow-hidden p-6",
-          rounded,
-          innerClassName,
-        )}
+        className={cn("glass relative h-full min-h-0 overflow-hidden p-6", innerClassName)}
+        style={{ borderRadius: radius }}
       >
         {children}
       </div>
       <div
         ref={glowRef}
         aria-hidden="true"
-        style={cssVars}
-        className={cn(
-          "glow-effect pointer-events-none absolute inset-0 transition-opacity duration-300",
-          rounded,
-        )}
+        // The ring is drawn borderWidth outside this box and inherits its
+        // radius, so this box's radius is the ring's outer radius.
+        style={{ ...cssVars, borderRadius: radius + 2 * borderWidth }}
+        className="glow-effect pointer-events-none absolute inset-0 transition-opacity duration-300"
       />
     </motion.div>
   );

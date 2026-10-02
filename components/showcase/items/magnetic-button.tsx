@@ -5,21 +5,30 @@ import type { PointerEvent, ReactNode } from "react";
 
 const SPRING = { stiffness: 170, damping: 15, mass: 0.5 };
 
+// Layout that always applies, and the look that `className` replaces. Kept
+// apart so an override never has to fight a built-in class.
+const BASE = "relative inline-flex min-h-11 items-center justify-center text-sm font-medium transition-colors";
+const LOOK =
+  "rounded-full border border-white/20 bg-white/5 px-7 py-3 text-white backdrop-blur hover:border-white/40 hover:bg-white/10";
+
 type MagneticButtonProps = {
   children: ReactNode;
   /** Renders an `<a>` when set, a `<button>` otherwise. */
   href?: string;
   /** How far the pill follows the cursor, as a fraction of the cursor's offset. */
   strength?: number;
+  /** How far beyond the button the pull starts, in pixels. Adds to the layout size. */
+  field?: number;
+  /** Replaces the default look (radius, border, background, padding, colour). */
   className?: string;
 };
 
 /**
  * A pill that leans toward the cursor on a spring. The label travels further
- * than the pill, which reads as depth. The magnetic field is a little larger
- * than the button, so the pull starts just before you reach it.
+ * than the pill, which reads as depth. The magnetic field reaches a little past
+ * the button, so the pull starts just before you arrive.
  */
-export function MagneticButton({ children, href, strength = 0.3, className = "" }: MagneticButtonProps) {
+export function MagneticButton({ children, href, strength = 0.3, field = 16, className }: MagneticButtonProps) {
   const reduced = useReducedMotion();
   const x = useSpring(0, SPRING);
   const y = useSpring(0, SPRING);
@@ -46,10 +55,7 @@ export function MagneticButton({ children, href, strength = 0.3, className = "" 
     labelY.set(0);
   };
 
-  const pill = {
-    style: { x, y },
-    className: `relative inline-flex min-h-11 items-center justify-center rounded-full border border-white/20 bg-white/5 px-7 py-3 text-sm font-medium text-white backdrop-blur transition-colors hover:border-white/40 hover:bg-white/10 ${className}`,
-  };
+  const pill = { style: { x, y }, className: `${BASE} ${className ?? LOOK}` };
   const label = (
     <motion.span className="pointer-events-none relative" style={{ x: labelX, y: labelY }}>
       {children}
@@ -57,7 +63,7 @@ export function MagneticButton({ children, href, strength = 0.3, className = "" 
   );
 
   return (
-    <span className="inline-block p-4" onPointerMove={pull} onPointerLeave={release}>
+    <span className="inline-block" style={{ padding: field }} onPointerMove={pull} onPointerLeave={release}>
       {href ? (
         <motion.a href={href} {...pill}>
           {label}

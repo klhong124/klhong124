@@ -371,24 +371,25 @@ const content = {
     {
       slug: "experiments-lab",
       title: "Portfolio experiments lab",
-      subtitle: "Where interaction ideas get tested before they reach client work",
+      subtitle: "Where interaction ideas get tested before they reach client work, and shared once they earn it",
       coverImage: "/images/portfolio.png",
       kind: "personal",
       period: "2023 — Present",
       status: "published",
       featured: true,
-      stack: ["Next.js", "React Three Fiber", "three.js", "Motion", "Canvas 2D", "TypeScript"],
+      stack: ["Next.js", "React Three Fiber", "three.js", "Motion", "Canvas 2D", "TypeScript", "Tailwind"],
       problem:
         "Interaction ideas are cheap to describe and expensive to discover halfway through a client build. I needed somewhere to find out what a technique actually costs — in frame budget, in bundle size, in accessibility debt — before proposing it to anyone paying for it.",
       approach:
-        "This site is the lab. A React Three Fiber scene with GLTF models, a full-viewport Canvas 2D glitch effect, pointer-tracked glow surfaces and scroll-linked timelines all exist here first, which is how I learned which of them survive contact with a mid-range phone and which do not.",
+        "This site is the lab. A React Three Fiber scene with GLTF models, a full-viewport Canvas 2D glitch effect, pointer-tracked glow surfaces and scroll-linked timelines all exist here first, which is how I learned which of them survive contact with a mid-range phone and which do not. The effects that earn their place graduate to the showcase, rebuilt as self-contained components with a live preview, a props panel, the source and a prompt an AI agent can rebuild them from.",
       outcome:
-        "A working set of judgements rather than opinions: which effects are worth their cost, which need capability gating, and which need to be switched off entirely when someone has asked for reduced motion. The refresh documented in docs/portfolio-refresh-audit.md is the result of turning that lens on my own code.",
+        "A working set of judgements rather than opinions: which effects are worth their cost, which need capability gating, and which need to be switched off entirely when someone has asked for reduced motion. The refresh documented in docs/portfolio-refresh-audit.md is the result of turning that lens on my own code. Those judgements are now public: anyone can open an effect in the showcase, tune it, and take it away as code or as a prompt.",
       architecture: [
         "React Three Fiber scenes loaded as lazy client islands via next/dynamic, kept out of the initial bundle.",
         "Motion tokens centralised in lib/motion so durations, easings and springs are shared values rather than magic numbers.",
         "Capability and reduced-motion gating handled at the provider level, so individual components do not each reimplement the check.",
         "Canvas effects driven by a single requestAnimationFrame loop rather than per-component intervals.",
+        "Showcase components are single files with no imports from the rest of the site. Each page reads its component's source at build time, so the Code tab is always the file that renders the preview, and a test fails if a file reaches into the app or lists the wrong dependencies.",
       ],
       performance: [
         "Heavy 3D and canvas work is dynamically imported, so the first paint does not wait for it.",
@@ -400,13 +401,17 @@ const content = {
         "Turned a portfolio into a test bed, which makes the technique choices in client work evidence-based.",
         "Produced the reusable motion and gating primitives this site now runs on.",
         "Gave me a documented audit of my own animation defects — including the ones I had shipped.",
+        "Made the lab shareable: a growing library of original effects that visitors can preview, tune and copy as code or as an AI prompt, several of which now run on this site.",
       ],
       challenges: [
         "Wanting a cinematic feel while keeping first paint fast, which is mostly a fight about what is allowed to block rendering.",
         "Making reduced motion a genuine alternative rather than the same animation played slowly.",
         "Accepting that some effects I liked were not worth their cost on a mid-range Android.",
       ],
-      links: [{ label: "Source on GitHub", href: "https://github.com/klhong124" }],
+      links: [
+        { label: "Browse the showcase", href: "https://ryankwan.dev/showcase" },
+        { label: "Source on GitHub", href: "https://github.com/klhong124" },
+      ],
     },
     {
       slug: "gymism-club",

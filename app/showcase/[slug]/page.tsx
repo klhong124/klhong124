@@ -3,8 +3,9 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { notFound } from "next/navigation";
 import { Pills } from "@/components/ui/pills";
-import { Playground } from "@/components/showcase/playground";
-import { getShowcaseItem, showcaseItems } from "@/data/showcase";
+import { CopyMenu, Playground } from "@/components/showcase/playground";
+import { ShowcaseDrawer } from "@/components/showcase/showcase-nav";
+import { getShowcaseItem, showcaseItems, showcaseLinks } from "@/data/showcase";
 
 export function generateStaticParams() {
   return showcaseItems.map(({ slug }) => ({ slug }));
@@ -48,20 +49,23 @@ export default async function ShowcaseItemPage({ params }: { params: Promise<{ s
   // heading clear of the sticky header.
   return (
     <article className="scroll-mt-24">
-      <header className="max-w-prose">
-        <h1 className="text-balance text-fluid-3xl font-semibold text-fg">{item.title}</h1>
-        <p className="mt-3 text-pretty text-fluid-lg text-muted">{item.summary}</p>
+      <header>
+        <div className="flex items-center gap-3">
+          <ShowcaseDrawer items={showcaseLinks} />
+          <h1 className="min-w-0 flex-1 text-balance text-fluid-3xl font-semibold text-fg">{item.title}</h1>
+          <CopyMenu prompt={item.prompt} source={source} />
+        </div>
+        <p className="mt-3 max-w-prose text-pretty text-fluid-lg text-muted">{item.summary}</p>
         <Pills className="mt-5" items={item.deps} label={`Dependencies for ${item.title}`} />
       </header>
 
       <Playground
         className="mt-8"
+        slug={item.slug}
         fileName={fileName}
         source={source}
         prompt={item.prompt}
-      >
-        {item.demo}
-      </Playground>
+      />
     </article>
   );
 }

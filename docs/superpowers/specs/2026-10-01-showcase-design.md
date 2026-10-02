@@ -133,3 +133,41 @@ Plus `typecheck`, `lint`, `build`, and a manual browser pass on desktop and mobi
 - Clipboard API needs a secure context (fine on https and localhost).
 - Source files become public on the site by design; only the four new item files
   are exposed.
+
+## Revision 2 (2026-10-02)
+
+Changes requested after the first round:
+
+- **Props panel per item.** Reverses "preview + copy only". Each item's controls,
+  preview render and usage line live in `components/showcase/demos.tsx` (client),
+  because the preview must re-render in the browser from the current values. The
+  registry (`data/showcase.ts`) is plain data again. Controls are native inputs
+  (range, color, text, toggle) with Reset and a copyable usage line. Every demo
+  ships with every item page; switch to per-slug `next/dynamic` when the library grows.
+- **Glyph Field** takes `path` + `pathViewBox` (rasterised with `Path2D`); the demo
+  hides the `/r` logo from `public/logo.svg`. Colours and radius are read from a ref
+  so sliders restyle the running field.
+- **Odometer** added: a fresh, Tailwind-only rewrite of a per-digit rolling number.
+- **Prop changes for colour pickers:** Glyph Field `noiseColor` is hex; Spotlight Card
+  `glow` became `glowOpacity` (mixed from `color`) and gained `size`.
+- **Magnetic Button:** `className` replaces the default look instead of appending;
+  new `field` prop for the magnetic padding.
+- **Copy:** one copy icon with a Prompt / Code menu, right of the item title.
+- **Mobile nav:** a menu button left of the title opens the list in a native modal
+  `<dialog>` drawer.
+- **Homepage reuse:** "How I work" uses `SpotlightCard` (now `h-full`, fixing uneven
+  card heights) and `InkText` numerals (now paintable; the old `-z-10` blocked pointer
+  events). The header groups the nav links with a purple, 12px-radius Showcase
+  `MagneticButton` on the right.
+- The `SITE_URL` move and the Tailwind `data/` glob were reverted: no longer needed
+  once the registry stopped importing client components.
+
+## Revision 3 (2026-10-02)
+
+- Mobile list button shows `<` and the drawer slides in and out (`.showcase-drawer`
+  in `styles/globals.scss`; the close animates where `display`/`overlay` can transition).
+- Glow rings are concentric with their cards. `GlassCard` panel radius R, wrapper
+  R + bw, ring R + bw to R + 2bw; the hero `GlowingCard` ring is 24px + bw. Previously
+  every layer took the same radius, so the ring's corners were tighter than the card's.
+- Odometer strip items carry the window's padding, so neighbouring digits sit just
+  outside the window at rest instead of peeking into the fade band.

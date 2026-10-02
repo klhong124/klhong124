@@ -1,0 +1,19 @@
+## From lab to showcase
+
+For a long time the experiments lived inside this site's own components, wired into its providers, motion tokens and helpers. That made them easy to run here and impossible to hand to anyone else. Sharing one meant explaining it.
+
+The [showcase](/showcase) changes that. Every effect that survives the lab is rebuilt as a single file using React and Tailwind, with Motion only where a spring genuinely helps. It imports nothing from the rest of the site, so copying it gives you something that runs.
+
+Each item comes with:
+
+- **A live preview and a props panel**, so you can tune it before you take it, with the matching JSX written out as you go.
+- **The source**, read at build time from the same file that renders the preview, so the code on the page can never drift from the demo.
+- **A prompt**, written by hand rather than generated, that an AI coding agent can rebuild it from in your own stack, React or not.
+
+## Built to the same rules
+
+The showcase is held to the standards the lab exists to test. Every effect honours reduced motion with a finished, static state rather than a slower animation. Canvas work pauses when it scrolls out of view. Nothing animates layout properties, and the card, the button and the glyph field track the pointer through CSS variables, motion values and refs, so moving the cursor never re-renders them.
+
+## Running here too
+
+Some of the pieces are back in use on this site. The principle cards under "How I work" are [Spotlight Cards](/showcase/spotlight-card) with [Ink Text](/showcase/ink-text) numerals you can paint, and the Showcase button in the header is the [Magnetic Button](/showcase/magnetic-button). A good place to start is [Glyph Field](/showcase/glyph-field), which hides this site's logo in a field of flickering glyphs.

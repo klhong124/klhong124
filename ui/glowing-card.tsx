@@ -178,10 +178,14 @@ const GlowingCard = memo(({
 
         >
             {children}
+            {/* The ring is drawn borderWidth outside this box and inherits its
+                radius, so the radius is the card's 24px (rounded-3xl) plus the
+                border width. Plain rounded-3xl made the ring's corners tighter
+                than the card's. */}
             <div
                 ref={containerRef}
-                style={cssVars}
-                className={cn("absolute inset-0 rounded-3xl pointer-events-none opacity-100 transition-opacity duration-300 before:content-[''] before:rounded-3xl before:absolute before:border-transparent before:bg-fixed before:transition-opacity before:duration-300 before:opacity-[var(--active)] glow-effect")}
+                style={{ ...cssVars, borderRadius: `calc(1.5rem + ${borderWidth}px)` }}
+                className={cn("absolute inset-0 pointer-events-none opacity-100 transition-opacity duration-300 before:content-[''] before:rounded-3xl before:absolute before:border-transparent before:bg-fixed before:transition-opacity before:duration-300 before:opacity-[var(--active)] glow-effect")}
             />
         </motion.div>
     );

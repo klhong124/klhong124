@@ -4,13 +4,17 @@ import { useEffect, useRef } from "react";
 
 const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&*+=<>?/";
 
-type Cell = { char: string; heat: number; inWord: boolean };
+type Cell = { char: string; heat: number; inShape: boolean };
 type Ring = { x: number; y: number; r: number };
 
 type GlyphFieldProps = {
   /** The word hidden in the field. Short words (3 to 6 letters) read best. */
   word?: string;
-  /** Colour of decoded glyphs inside the word. */
+  /** SVG path data to hide instead of a word, such as a logo. Wins over `word`. */
+  path?: string;
+  /** The path's viewBox ("minX minY width height"). Crop it tight to the shape. */
+  pathViewBox?: string;
+  /** Colour of decoded glyphs inside the shape. */
   color?: string;
   /** Colour of the background noise. */
   noiseColor?: string;
@@ -23,41 +27,65 @@ type GlyphFieldProps = {
 
 const randomGlyph = () => GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
 
-/** Rasterises the word at grid resolution: true where a cell sits inside a letter. */
-function wordMask(word: string, cols: number, rows: number): boolean[] {
+/**
+ * Rasterises the hidden shape at grid resolution, one pixel per cell: true
+ * where a cell sits inside the word or path.
+ */
+function shapeMask(cols: number, rows: number, word: string, path?: string, pathViewBox?: string) {
   const canvas = document.createElement("canvas");
   canvas.width = cols;
   canvas.height = rows;
   const ctx = canvas.getContext("2d");
-  if (!ctx || cols === 0 || rows === 0) return new Array(cols * rows).fill(false);
+  if (!ctx || cols === 0 || rows === 0) return new Array<boolean>(cols * rows).fill(false);
 
-  let size = rows * 0.75;
-  ctx.font = `900 ${size}px sans-serif`;
-  const width = ctx.measureText(word).width;
-  if (width > cols * 0.85) size *= (cols * 0.85) / width;
-  ctx.font = `900 ${size}px sans-serif`;
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.fillText(word, cols / 2, rows / 2);
+  if (path) {
+    const [minX, minY, width, height] = (pathViewBox ?? "0 0 100 100").split(/[\s,]+/).map(Number);
+    const scale = Math.min((cols * 0.85) / width, (rows * 0.8) / height);
+    ctx.translate(cols / 2, rows / 2);
+    ctx.scale(scale, scale);
+    ctx.translate(-(minX + width / 2), -(minY + height / 2));
+    ctx.fill(new Path2D(path));
+  } else {
+    let size = rows * 0.75;
+    ctx.font = `900 ${size}px sans-serif`;
+    const width = ctx.measureText(word).width;
+    if (width > cols * 0.85) size *= (cols * 0.85) / width;
+    ctx.font = `900 ${size}px sans-serif`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(word, cols / 2, rows / 2);
+  }
 
   const { data } = ctx.getImageData(0, 0, cols, rows);
   return Array.from({ length: cols * rows }, (_, i) => data[i * 4 + 3] > 128);
 }
 
 /**
- * A field of flickering glyphs hiding a word. Glyphs near the cursor decode and
- * the word surfaces out of the noise; a click sends a ripple that decodes
- * everything it crosses.
+ * A field of flickering glyphs hiding a word or a shape. Glyphs near the cursor
+ * decode and the shape surfaces out of the noise; a click sends a ripple that
+ * decodes everything it crosses.
  */
 export function GlyphField({
   word = "PIXEL",
+  path,
+  pathViewBox,
   color = "#a78bfa",
-  noiseColor = "rgba(255, 255, 255, 0.22)",
+  noiseColor = "#3a3a40",
   cellSize = 16,
   radius = 140,
   className = "",
 }: GlyphFieldProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  // Colours and radius are read live each frame, so changing them restyles the
+  // running field instead of rebuilding the grid and replaying the intro.
+  const live = useRef({ color, noiseColor, radius });
+  const redraw = useRef<(() => void) | null>(null);
+
+  useEffect(() => {
+    live.current = { color, noiseColor, radius };
+    // Under reduced motion there is no loop to pick the change up, so draw now.
+    redraw.current?.();
+  }, [color, noiseColor, radius]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -79,15 +107,16 @@ export function GlyphField({
     });
 
     const draw = () => {
+      const { color, noiseColor } = live.current;
       ctx.clearRect(0, 0, cols * cellSize, rows * cellSize);
       for (let i = 0; i < cells.length; i++) {
         const cell = cells[i];
         const { x, y } = centre(i);
-        // Noise dims as the field decodes, so the word stands out against it.
-        ctx.globalAlpha = cell.inWord ? 1 - cell.heat : 1 - cell.heat * 0.9;
+        // Noise dims as the field decodes, so the shape stands out against it.
+        ctx.globalAlpha = cell.inShape ? 1 - cell.heat : 1 - cell.heat * 0.9;
         ctx.fillStyle = noiseColor;
         ctx.fillText(cell.char, x, y);
-        if (cell.inWord && cell.heat > 0.01) {
+        if (cell.inShape && cell.heat > 0.01) {
           ctx.globalAlpha = cell.heat;
           ctx.fillStyle = color;
           ctx.fillText(cell.char, x, y);
@@ -108,11 +137,11 @@ export function GlyphField({
       ctx.textBaseline = "middle";
       cols = Math.ceil(width / cellSize);
       rows = Math.ceil(height / cellSize);
-      cells = wordMask(word, cols, rows).map((inWord) => ({
+      cells = shapeMask(cols, rows, word, path, pathViewBox).map((inShape) => ({
         char: randomGlyph(),
-        // Reduced motion gets the finished state: the word fully revealed.
-        heat: reduced && inWord ? 1 : 0,
-        inWord,
+        // Reduced motion gets the finished state: the shape fully revealed.
+        heat: reduced && inShape ? 1 : 0,
+        inShape,
       }));
       draw();
     };
@@ -121,6 +150,7 @@ export function GlyphField({
       frame = requestAnimationFrame(step);
       if (!visible) return;
 
+      const { radius } = live.current;
       const maxRadius = Math.hypot(cols, rows) * cellSize;
       for (const ring of rings) ring.r += 6;
       // Rings are created in order, so the oldest is always the largest.
@@ -154,7 +184,13 @@ export function GlyphField({
     resizeObserver.observe(canvas);
     resize();
 
-    if (reduced) return () => resizeObserver.disconnect();
+    if (reduced) {
+      redraw.current = draw;
+      return () => {
+        redraw.current = null;
+        resizeObserver.disconnect();
+      };
+    }
 
     // Pause the loop while the field is offscreen.
     const visibilityObserver = new IntersectionObserver(([entry]) => {
@@ -165,7 +201,7 @@ export function GlyphField({
     canvas.addEventListener("pointermove", onMove);
     canvas.addEventListener("pointerleave", onLeave);
     canvas.addEventListener("pointerdown", onDown);
-    // One ripple from the centre on mount, so the word is introduced once.
+    // One ripple from the centre on mount, so the shape is introduced once.
     rings.push({ x: (cols * cellSize) / 2, y: (rows * cellSize) / 2, r: 0 });
     frame = requestAnimationFrame(step);
 
@@ -177,13 +213,13 @@ export function GlyphField({
       canvas.removeEventListener("pointerleave", onLeave);
       canvas.removeEventListener("pointerdown", onDown);
     };
-  }, [word, color, noiseColor, cellSize, radius]);
+  }, [word, path, pathViewBox, cellSize]);
 
   return (
     <canvas
       ref={canvasRef}
       role="img"
-      aria-label={`A field of glyphs hiding the word ${word}`}
+      aria-label={path ? "A field of glyphs hiding a logo" : `A field of glyphs hiding the word ${word}`}
       className={`block h-full w-full ${className}`}
     />
   );

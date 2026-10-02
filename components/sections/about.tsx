@@ -1,7 +1,7 @@
 import { Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { GlassCard } from "@/components/ui/glass-card";
-import TextHoverEffect from "@/ui/textHoverEffect";
+import { InkText } from "@/components/showcase/items/ink-text";
+import { SpotlightCard } from "@/components/showcase/items/spotlight-card";
 import { principles } from "@/data/portfolio-content";
 
 export function AboutSection() {
@@ -18,20 +18,22 @@ export function AboutSection() {
           <div key={principle.title} className="relative pl-20">
             {/* Decorative outlined numeral in the gutter, as tall as the card
                 itself and nudged upward. Width follows from the aspect ratio,
-                so on tall cards it can tuck slightly behind the glass (-z-10)
-                while the gutter part stays exposed for the hover reveal. */}
+                so on tall cards it tucks behind the card (which sits at z-10)
+                while the gutter part stays exposed for painting. It used to be
+                -z-10, which put it behind this wrapper too, so the wrapper took
+                every pointer event and the hover effect never fired. */}
             <div
               aria-hidden="true"
-              className="absolute -top-12 left-0 -z-10 aspect-[4/5] h-full"
+              className="absolute -top-12 left-0 aspect-[4/5] h-full"
             >
-              <TextHoverEffect viewBox="0 0 80 100" textClassName="text-[88px]">
-                {`${index + 1}.`}
-              </TextHoverEffect>
+              <InkText text={`${index + 1}.`} viewBox="0 0 80 100" fontSize={88} className="h-full font-display" />
             </div>
-            <GlassCard round="xl" innerClassName="p-6">
+            {/* h-full so both cards in a row end on the same line; the grid
+                row stretches to the taller one. */}
+            <SpotlightCard className="z-10 h-full">
               <h3 className="text-fluid-lg font-semibold text-fg">{principle.title}</h3>
               <p className="mt-3 text-pretty text-muted">{principle.detail}</p>
-            </GlassCard>
+            </SpotlightCard>
           </div>
         ))}
       </div>

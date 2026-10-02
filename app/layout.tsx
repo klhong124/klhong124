@@ -11,7 +11,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { CommandPalette } from "@/components/layout/command-palette";
 import { NoiseOverlay } from "@/components/ui/noise-overlay";
 import { profile } from "@/data/portfolio-content";
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL } from "@/app/sitemap";
 
 const interTight = Inter_Tight({
   subsets: ["latin"],

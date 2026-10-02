@@ -14,6 +14,8 @@ type InkTextProps = {
   brush?: number;
   /** How long a stroke takes to fade, in milliseconds. */
   fade?: number;
+  /** Text size in viewBox units. */
+  fontSize?: number;
   /** Tune to the text: wider for long words. */
   viewBox?: string;
   className?: string;
@@ -45,6 +47,7 @@ export function InkText({
   outline = "rgba(255, 255, 255, 0.35)",
   brush = 16,
   fade = 1000,
+  fontSize = 72,
   viewBox = "0 0 300 100",
   className = "",
 }: InkTextProps) {
@@ -97,7 +100,7 @@ export function InkText({
     y: "50%",
     textAnchor: "middle",
     dominantBaseline: "middle",
-    fontSize: 72,
+    fontSize,
     fontWeight: 800,
   } as const;
 

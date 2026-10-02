@@ -15,6 +15,7 @@ import { TechBackdrop } from "@/components/work/tech-backdrop";
  */
 const notes: Record<string, () => Promise<{ default: React.ComponentType }>> = {
   immich: () => import("@/content/notes/immich.mdx"),
+  "experiments-lab": () => import("@/content/notes/experiments-lab.mdx"),
 };
 
 /**
@@ -136,7 +137,9 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
       </div>
 
       {Notes && (
-        <div className="prose prose-invert mt-16 max-w-prose prose-headings:text-fg prose-p:text-muted">
+        // Styled by mdx-components.tsx; the `prose` classes that used to sit here
+        // had no typography plugin behind them.
+        <div className="mt-16 max-w-prose">
           <Notes />
         </div>
       )}
