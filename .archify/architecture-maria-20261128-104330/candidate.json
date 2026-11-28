@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Maria",
+    "locale": "en",
+    "output": "public/diagrams/maria/system.html",
+    "quality_profile": "showcase",
+    "feedback_links": false,
+    "legend": {
+      "entries": {
+        "external": { "label": "Person" },
+        "frontend": { "label": "Chat layer" },
+        "backend": { "label": "Agent" },
+        "database": { "label": "Durable memory" },
+        "cloud": { "label": "Optional tool" }
+      }
+    }
+  },
+  "layout": { "mode": "auto" },
+  "components": [
+    {
+      "id": "ryan",
+      "type": "external",
+      "icon": "person",
+      "label": "Ryan",
+      "sublabel": "human"
+    },
+    {
+      "id": "slack",
+      "type": "frontend",
+      "label": "Slack",
+      "sublabel": "chat layer"
+    },
+    {
+      "id": "maria",
+      "type": "backend",
+      "emphasis": true,
+      "label": "Maria",
+      "sublabel": "Cursor agent · reads vault, replies",
+      "drilldowns": [
+        {
+          "href": "session.html?theme=dark",
+          "label": "Session flow",
+          "diagram_type": "workflow"
+        }
+      ]
+    },
+    {
+      "id": "vault",
+      "type": "database",
+      "label": "Obsidian vault",
+      "sublabel": "source of truth"
+    },
+    {
+      "id": "calendar",
+      "type": "cloud",
+      "icon": "calendar",
+      "label": "Google Calendar",
+      "sublabel": "MCP · optional"
+    },
+    {
+      "id": "git",
+      "type": "database",
+      "label": "Git → main",
+      "sublabel": "memory commits"
+    }
+  ],
+  "connections": [
+    {
+      "id": "ryan-messages",
+      "from": "ryan",
+      "to": "slack",
+      "label": "messages",
+      "variant": "emphasis"
+    },
+    {
+      "id": "slack-replies",
+      "from": "slack",
+      "to": "ryan",
+      "label": "replies"
+    },
+    {
+      "id": "slack-to-maria",
+      "from": "slack",
+      "to": "maria",
+      "label": "message",
+      "variant": "emphasis"
+    },
+    {
+      "id": "maria-replies",
+      "from": "maria",
+      "to": "slack",
+      "label": "reply"
+    },
+    {
+      "id": "maria-vault",
+      "from": "maria",
+      "to": "vault",
+      "label": "read & capture",
+      "variant": "dashed"
+    },
+    {
+      "id": "maria-calendar",
+      "from": "maria",
+      "to": "calendar",
+      "label": "changes need OK",
+      "variant": "security"
+    },
+    {
+      "id": "maria-git",
+      "from": "maria",
+      "to": "git",
+      "label": "commit to main",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "orange",
+      "title": "Obsidian vault",
+      "items": ["AGENTS.md", "Profile", "Projects", "Areas", "Notes"]
+    },
+    {
+      "dot": "amber",
+      "title": "Google Calendar MCP",
+      "items": ["Optional", "Changes need OK", "Create / update events"]
+    },
+    {
+      "dot": "violet",
+      "title": "Git → main",
+      "items": ["Capture to vault", "Commit to main", "No PRs for notes"]
+    },
+    {
+      "dot": "orange",
+      "title": "Principles",
+      "items": [
+        "Slack is the chat layer",
+        "Obsidian vault is durable memory",
+        "Maria is the reader, writer, and executor",
+        "Always ask before external actions"
+      ]
+    }
+  ]
+}

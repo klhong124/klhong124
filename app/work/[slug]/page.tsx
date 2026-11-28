@@ -6,6 +6,7 @@ import type { CaseStudy } from "@/lib/content/schema";
 import { CoverImage } from "@/components/ui/cover-image";
 import { ExternalLinkList } from "@/components/ui/external-link-list";
 import { Pills } from "@/components/ui/pills";
+import { MariaSystem } from "@/components/work/maria-system";
 import { TechBackdrop } from "@/components/work/tech-backdrop";
 
 /**
@@ -85,22 +86,26 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
         )}
       </header>
 
-      {study.coverImage && (
-        <div className="group relative mt-12 md:w-2/3">
-          {/* Ambient accent wash behind the cover, so it sits in a pool of
-              light instead of floating on flat black. */}
-          <div
-            aria-hidden="true"
-            className="absolute -inset-x-8 -inset-y-10 -z-10 rounded-[3rem] bg-accent/10 blur-3xl"
-          />
-          <CoverImage
-            src={study.coverImage}
-            sizes="(max-width: 1200px) 100vw, 1024px"
-            priority
-            fit="contain"
-            className="aspect-[16/10] rounded-3xl shadow-glow"
-          />
-        </div>
+      {study.slug === "maria" ? (
+        <MariaSystem />
+      ) : (
+        study.coverImage && (
+          <div className="group relative mt-12 md:w-2/3">
+            {/* Ambient accent wash behind the cover, so it sits in a pool of
+                light instead of floating on flat black. */}
+            <div
+              aria-hidden="true"
+              className="absolute -inset-x-8 -inset-y-10 -z-10 rounded-[3rem] bg-accent/10 blur-3xl"
+            />
+            <CoverImage
+              src={study.coverImage}
+              sizes="(max-width: 1200px) 100vw, 1024px"
+              priority
+              fit="contain"
+              className="aspect-[16/10] rounded-3xl shadow-glow"
+            />
+          </div>
+        )
       )}
 
       {/* Problem / approach / outcome sits above the detail so the whole story is
