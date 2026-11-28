@@ -1,0 +1,108 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Session flow",
+    "locale": "en",
+    "output": "public/diagrams/maria/session.html",
+    "quality_profile": "showcase",
+    "feedback_links": false,
+    "parentHref": "system.html?theme=dark",
+    "legend": {
+      "entries": {
+        "external": { "label": "Person" },
+        "backend": { "label": "Agent" },
+        "database": { "label": "Durable memory" },
+        "security": { "label": "Ask first" }
+      }
+    }
+  },
+  "lanes": [
+    { "id": "session", "label": "One session" }
+  ],
+  "groups": [
+    {
+      "id": "flow",
+      "label": "Session flow",
+      "lane": "session",
+      "fromCol": 0,
+      "toCol": 0,
+      "variant": "emphasis"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "message",
+      "lane": "session",
+      "col": 0,
+      "type": "external",
+      "icon": "person",
+      "label": "1 · Ryan messages",
+      "sublabel": "in Slack"
+    },
+    {
+      "id": "read",
+      "lane": "session",
+      "col": 0,
+      "type": "backend",
+      "label": "2 · Maria reads",
+      "sublabel": "AGENTS.md + relevant notes"
+    },
+    {
+      "id": "answer",
+      "lane": "session",
+      "col": 0,
+      "type": "backend",
+      "emphasis": true,
+      "label": "3 · Maria answers",
+      "sublabel": "concise, outcome-first"
+    },
+    {
+      "id": "capture",
+      "lane": "session",
+      "col": 0,
+      "type": "database",
+      "label": "4 · Capture to vault",
+      "sublabel": "then commit to main"
+    },
+    {
+      "id": "ask",
+      "lane": "session",
+      "col": 0,
+      "type": "security",
+      "emphasis": true,
+      "label": "5 · Ask Ryan first",
+      "sublabel": "send, calendar, spend, commit"
+    }
+  ],
+  "edges": [
+    { "id": "to-read", "from": "message", "to": "read" },
+    { "id": "to-answer", "from": "read", "to": "answer", "variant": "emphasis" },
+    {
+      "id": "to-capture",
+      "from": "answer",
+      "to": "capture",
+      "label": "if it should outlive the chat",
+      "variant": "dashed"
+    },
+    {
+      "id": "to-ask",
+      "from": "capture",
+      "to": "ask",
+      "label": "before external actions",
+      "variant": "security"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "orange",
+      "title": "Principles",
+      "items": [
+        "Slack is the chat layer",
+        "Obsidian vault is durable memory",
+        "Maria is the reader, writer, and executor",
+        "Always ask before external actions"
+      ]
+    }
+  ]
+}
